@@ -1,3 +1,4 @@
+import os
 from dash import Dash, html, dcc, Input, Output
 from basketballBrawlHome import get_home_layout
 from basketballBrawlTeamStats import get_team_layout, create_team_difference_chart, create_team_pie_chart, create_positional_pie_chart, plot_player_pie_chart
@@ -51,4 +52,5 @@ def update_team_name(selected_team):
     ])
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8050))  # Use Render's port or default to 8050 locally
+    app.run(host="0.0.0.0", port=port, debug=True)
