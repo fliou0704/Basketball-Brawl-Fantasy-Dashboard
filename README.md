@@ -12,7 +12,7 @@ The goal of this project was to:
 
 ## 🚀 Live Demo
 
-Check it out here: [Basketball Brawl Dashboard](https://your-render-url.onrender.com)
+Check it out here: [Basketball Brawl Dashboard](https://basketball-brawl-fantasy-dashboard.onrender.com/)
 
 ---
 
@@ -51,7 +51,7 @@ pip install -r requirements.txt
 python basketballBrawlApp.py
 ```
 
-Then go to http://localhost:8050 in your browser. Dash will also tell you the URL the project is being locally run.
+Then go to http://localhost:8050 in your browser. Dash will also tell you the URL the project is being locally run on.
 
 ---
 
