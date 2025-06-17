@@ -214,8 +214,8 @@ Year,Week,Type,Team Name,Team ID,Owner,Home/Away,Points For,Points Against,Win,L
 2023,22,Consolation,I Watch Basketbal,17,Luke,Away,1013.0,1119.0,0,1,Who Invited This Kid?,7,Jooahn,27134.0,29151.0,7,15,7,8
 2023,22,Consolation,Who Invited This Kid?,7,Jooahn,Home,1119.0,1013.0,1,0,I Watch Basketbal,17,Luke,29404.0,29909.0,10,12,6,7
 2023,22,Playoffs,The Bronx Orthodox Church,13,Arian,Away,1354.0,1459.0,0,1,Pooh Shaisty,12,Semanto,31579.0,29114.0,11,11,4,6
-2023,22,Playoffs,Fordham Rams,16,Allen,Away,1569.0,1413.0,1,0,Team Chigga,5,Johnson,32275.0,30675.0,11,11,1,5
-2023,22,Bye,Paulie Gee's,8,Jonathan,Bye,0.0,0.0,0,0,,,,27493.0,27547.0,13,8,9,4
+2023,22,Playoffs,Fordham Rams,16,Allen,Away,1569.0,1413.0,1,0,Team Chigga,5,Johnson,32275.0,30675.0,11,11,1,4
+2023,22,Bye,Paulie Gee's,8,Jonathan,Bye,0.0,0.0,0,0,,,,27493.0,27547.0,13,8,9,2
 2023,22,Playoffs,Pooh Shaisty,12,Semanto,Home,1459.0,1354.0,1,0,The Bronx Orthodox Church,13,Arian,31999.0,31190.0,13,9,2,3
 2023,22,Playoffs,Team Chigga,5,Johnson,Home,1413.0,1569.0,0,1,Fordham Rams,16,Allen,31701.0,29811.0,15,7,3,5
 2023,22,Bye,New Jersey Eren,2,Eren,Bye,0.0,0.0,0,0,,,,30828.0,27497.0,16,5,9,1
@@ -228,7 +228,7 @@ Year,Week,Type,Team Name,Team ID,Owner,Home/Away,Points For,Points Against,Win,L
 2023,23,Playoffs,Paulie Gee's,8,Jonathan,Home,1448.0,1760.0,0,1,Fordham Rams,16,Allen,28941.0,29307.0,13,9,3,3
 2023,23,Consolation,Team Chigga,5,Johnson,Home,1184.0,1364.0,0,1,The Bronx Orthodox Church,13,Arian,32885.0,31175.0,15,8,9,5
 2023,23,Playoffs,New Jersey Eren,2,Eren,Home,1560.0,1276.0,1,0,Pooh Shaisty,12,Semanto,32388.0,28773.0,17,5,2,1
-2023,23,Playoffs,Fordham Rams,16,Allen,Away,1760.0,1448.0,1,0,Paulie Gee's,8,Jonathan,34035.0,32123.0,12,11,1,5
+2023,23,Playoffs,Fordham Rams,16,Allen,Away,1760.0,1448.0,1,0,Paulie Gee's,8,Jonathan,34035.0,32123.0,12,11,1,2
 2023,24,Consolation,Keegan It Real,1,Frank,Away,795.0,1000.0,0,1,I Watch Basketbal,17,Luke,27194.0,31015.0,7,17,8,10
 2023,24,Playoffs,New Jersey Eren,2,Eren,Home,1244.0,1241.0,1,0,Fordham Rams,16,Allen,33632.0,30014.0,18,5,1,1
 2023,24,Consolation,Team Chigga,5,Johnson,Home,1033.0,814.0,1,0,The Bronx Orthodox Church,13,Arian,33918.0,31989.0,16,8,5,5
@@ -443,20 +443,20 @@ Year,Week,Type,Team Name,Team ID,Owner,Home/Away,Points For,Points Against,Win,L
 2024,21,Consolation,Paulie Gee's,8,Jonathan,Away,1237.0,1059.0,1,0,For All the bullDawgs,10,Shayan,22947.0,28007.0,4,17,3,10
 2024,21,Consolation,Who Invited This Kid?,7,Jooahn,Away,997.0,610.0,1,0,The Bronx Orthodox Church,13,Arian,26126.0,27507.0,6,15,6,8
 2024,21,Consolation,For All the bullDawgs,10,Shayan,Home,1059.0,1237.0,0,1,Paulie Gee's,8,Jonathan,20865.0,28535.0,4,17,5,9
-2024,21,Playoffs,NYC Chopp Cheese,16,Allen,Away,1641.0,790.0,1,0,New Jersey Eren,2,Eren,29900.0,27839.0,11,10,1,6
+2024,21,Playoffs,NYC Chopp Cheese,16,Allen,Away,1641.0,790.0,1,0,New Jersey Eren,2,Eren,29900.0,27839.0,11,10,1,4
 2024,21,Playoffs,New Jersey Eren,2,Eren,Home,790.0,1641.0,0,1,NYC Chopp Cheese,16,Allen,30611.0,29168.0,13,8,7,5
 2024,21,Playoffs,Pooh Shaisty,12,Semanto,Home,1105.0,1609.0,0,1,Team Chigga,5,Johnson,30326.0,29208.0,13,8,4,6
-2024,21,Playoffs,Team Chigga,5,Johnson,Away,1609.0,1105.0,1,0,Pooh Shaisty,12,Semanto,31108.0,28421.0,13,8,2,2
+2024,21,Playoffs,Team Chigga,5,Johnson,Away,1609.0,1105.0,1,0,Pooh Shaisty,12,Semanto,31108.0,28421.0,13,8,2,3
 2024,21,Bye,Keegan It Real,1,Frank,Bye,0.0,0.0,0,0,,,,33404.0,27720.0,17,3,9,1
-2024,21,Bye,I Watch Basketbal,17,Luke,Bye,0.0,0.0,0,0,,,,29840.0,27852.0,13,7,9,5
+2024,21,Bye,I Watch Basketbal,17,Luke,Bye,0.0,0.0,0,0,,,,29840.0,27852.0,13,7,9,2
 2024,22,Consolation,For All the bullDawgs,10,Shayan,Away,1078.0,804.0,1,0,The Bronx Orthodox Church,13,Arian,21943.0,29339.0,5,17,7,9
 2024,22,Consolation,Paulie Gee's,8,Jonathan,Away,1257.0,911.0,1,0,Who Invited This Kid?,7,Jooahn,24204.0,28918.0,5,17,5,10
 2024,22,Consolation,The Bronx Orthodox Church,13,Arian,Home,804.0,1078.0,0,1,For All the bullDawgs,10,Shayan,28931.0,30075.0,10,12,10,7
-2024,22,Playoffs,NYC Chopp Cheese,16,Allen,Away,1816.0,1813.0,1,0,I Watch Basketbal,17,Luke,31716.0,29652.0,12,10,3,6
+2024,22,Playoffs,NYC Chopp Cheese,16,Allen,Away,1816.0,1813.0,1,0,I Watch Basketbal,17,Luke,31716.0,29652.0,12,10,3,2
 2024,22,Consolation,Who Invited This Kid?,7,Jooahn,Home,911.0,1257.0,0,1,Paulie Gee's,8,Jonathan,27037.0,28764.0,6,16,9,8
 2024,22,Playoffs,I Watch Basketbal,17,Luke,Home,1813.0,1816.0,0,1,NYC Chopp Cheese,16,Allen,31653.0,29668.0,13,8,4,4
 2024,22,Consolation,New Jersey Eren,2,Eren,Home,1110.0,918.0,1,0,Pooh Shaisty,12,Semanto,31721.0,30086.0,14,8,6,5
-2024,22,Playoffs,Team Chigga,5,Johnson,Away,1839.0,1821.0,1,0,Keegan It Real,1,Frank,32947.0,30242.0,14,8,1,2
+2024,22,Playoffs,Team Chigga,5,Johnson,Away,1839.0,1821.0,1,0,Keegan It Real,1,Frank,32947.0,30242.0,14,8,1,1
 2024,22,Playoffs,Keegan It Real,1,Frank,Home,1821.0,1839.0,0,1,Team Chigga,5,Johnson,35225.0,29559.0,17,4,2,3
 2024,22,Consolation,Pooh Shaisty,12,Semanto,Away,918.0,1110.0,0,1,New Jersey Eren,2,Eren,31244.0,30318.0,13,9,8,6
 2024,23,Consolation,Paulie Gee's,8,Jonathan,Away,1404.0,910.0,1,0,For All the bullDawgs,10,Shayan,25608.0,29828.0,6,17,4,10
@@ -674,9 +674,9 @@ Year,Week,Type,Team Name,Team ID,Owner,Home/Away,Points For,Points Against,Win,L
 2025,21,Consolation,The Bronx Orthodox Church,13,Arian,Away,858.0,781.0,1,0,I Watch Basketbal,17,Luke,21046.0,26578.0,5,16,5,8
 2025,21,Consolation,For All the bullDawgs,10,Shayan,Away,706.0,585.0,1,0,Who Invited This Kid?,7,Jooahn,18204.0,26450.0,2,19,7,10
 2025,21,Playoffs,Team Chigga,5,Johnson,Away,1210.0,1629.0,0,1,New Jersey Eren,2,Eren,27710.0,27005.0,9,12,4,6
-2025,21,Bye,Pooh Shaisty,12,Semanto,Bye,0.0,0.0,0,0,,,,29334.0,25774.0,14,6,9,3
+2025,21,Bye,Pooh Shaisty,12,Semanto,Bye,0.0,0.0,0,0,,,,29334.0,25774.0,14,6,9,2
 2025,21,Playoffs,Jalen Inc.,16,Allen,Away,1283.0,1228.0,1,0,Paulie Gee's,8,Jonathan,31080.0,26240.0,13,8,2,4
-2025,21,Playoffs,New Jersey Eren,2,Eren,Home,1629.0,1210.0,1,0,Team Chigga,5,Johnson,31105.0,27100.0,17,4,1,2
+2025,21,Playoffs,New Jersey Eren,2,Eren,Home,1629.0,1210.0,1,0,Team Chigga,5,Johnson,31105.0,27100.0,17,4,1,3
 2025,21,Bye,Keegan It Real,1,Frank,Bye,0.0,0.0,0,0,,,,32436.0,24287.0,19,1,9,1
 2025,21,Playoffs,Paulie Gee's,8,Jonathan,Home,1228.0,1283.0,0,1,Jalen Inc.,16,Allen,29896.0,25421.0,13,8,3,5
 2025,22,Consolation,For All the bullDawgs,10,Shayan,Away,545.0,782.0,0,1,The Bronx Orthodox Church,13,Arian,18749.0,27232.0,2,20,10,10
@@ -685,7 +685,7 @@ Year,Week,Type,Team Name,Team ID,Owner,Home/Away,Points For,Points Against,Win,L
 2025,22,Consolation,Team Chigga,5,Johnson,Away,1300.0,1334.0,0,1,Paulie Gee's,8,Jonathan,29010.0,28339.0,9,13,5,6
 2025,22,Consolation,The Bronx Orthodox Church,13,Arian,Home,782.0,545.0,1,0,For All the bullDawgs,10,Shayan,21828.0,27123.0,6,16,8,8
 2025,22,Consolation,Paulie Gee's,8,Jonathan,Home,1334.0,1300.0,1,0,Team Chigga,5,Johnson,31230.0,26721.0,14,8,4,5
-2025,22,Playoffs,Pooh Shaisty,12,Semanto,Home,1571.0,1476.0,1,0,New Jersey Eren,2,Eren,30905.0,27250.0,15,6,2,3
+2025,22,Playoffs,Pooh Shaisty,12,Semanto,Home,1571.0,1476.0,1,0,New Jersey Eren,2,Eren,30905.0,27250.0,15,6,2,2
 2025,22,Playoffs,New Jersey Eren,2,Eren,Away,1476.0,1571.0,0,1,Pooh Shaisty,12,Semanto,32581.0,28671.0,17,5,3,3
 2025,22,Playoffs,Keegan It Real,1,Frank,Home,1751.0,1035.0,1,0,Jalen Inc.,16,Allen,34187.0,25322.0,20,1,1,1
 2025,22,Playoffs,Jalen Inc.,16,Allen,Away,1035.0,1751.0,0,1,Keegan It Real,1,Frank,32115.0,27991.0,13,9,6,4

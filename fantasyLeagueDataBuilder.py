@@ -185,27 +185,60 @@ for year in years:
                     if df.loc[row_mask_adjust, "Cumulative Losses"].iloc[0] > df.loc[row_mask_final, "Cumulative Losses"].iloc[0]:
                         # add teams that lost to a losers array to adjust rankings accordingly
                         losers.append(team)
+        winners = [team for team in teams if team not in eliminated and team not in losers and team not in firstRoundByes]
         if weekAdjusting != totalWeeks:
             row_mask_loser1 = (df['Team ID'] == losers[0]) & (df['Week'] == finalRegularWeek)
             row_mask_loser1_adjust = (df['Team ID'] == losers[0]) & (df['Week'] == weekAdjusting)
             row_mask_loser2 = (df['Team ID'] == losers[1]) & (df['Week'] == finalRegularWeek)
             row_mask_loser2_adjust = (df['Team ID'] == losers[1]) & (df['Week'] == weekAdjusting)
+            row_mask_winner1 = (df['Team ID'] == winners[0]) & (df['Week'] == finalRegularWeek)
+            row_mask_winner1_adjust = (df['Team ID'] == winners[0]) & (df['Week'] == weekAdjusting)
+            row_mask_winner2 = (df['Team ID'] == winners[1]) & (df['Week'] == finalRegularWeek)
+            row_mask_winner2_adjust = (df['Team ID'] == winners[1]) & (df['Week'] == weekAdjusting)
             # if it is the first week of the playoffs
             if weekAdjusting == totalWeeks - 2:
+                row_mask_frb1 = (df['Team ID'] == firstRoundByes[0]) & (df['Week'] == finalRegularWeek)
+                row_mask_frb1_adjust = (df['Team ID'] == firstRoundByes[0]) & (df['Week'] == weekAdjusting)
+                row_mask_frb2 = (df['Team ID'] == firstRoundByes[1]) & (df['Week'] == finalRegularWeek)
+                row_mask_frb2_adjust = (df['Team ID'] == firstRoundByes[1]) & (df['Week'] == weekAdjusting)
+                # update loser rankings
                 if df.loc[row_mask_loser1, "Rank"].iloc[0] > df.loc[row_mask_loser2, "Rank"].iloc[0]:
                     df.loc[row_mask_loser1_adjust, "Rank"] = 6
                     df.loc[row_mask_loser2_adjust, "Rank"] = 5
                 else:
                     df.loc[row_mask_loser1_adjust, "Rank"] = 5
                     df.loc[row_mask_loser2_adjust, "Rank"] = 6
+                # update winner rankings
+                if df.loc[row_mask_winner1, "Rank"].iloc[0] > df.loc[row_mask_winner2, "Rank"].iloc[0]:
+                    df.loc[row_mask_winner1_adjust, "Rank"] = 4
+                    df.loc[row_mask_winner2_adjust, "Rank"] = 3
+                else:
+                    df.loc[row_mask_winner1_adjust, "Rank"] = 3
+                    df.loc[row_mask_winner2_adjust, "Rank"] = 4
+                # update first round bye rankings
+                if df.loc[row_mask_frb1, "Rank"].iloc[0] > df.loc[row_mask_frb2, "Rank"].iloc[0]:
+                    df.loc[row_mask_frb1_adjust, "Rank"] = 2
+                    df.loc[row_mask_frb2_adjust, "Rank"] = 1
+                else:
+                    df.loc[row_mask_frb1_adjust, "Rank"] = 1
+                    df.loc[row_mask_frb2_adjust, "Rank"] = 2
+                firstRoundByes = []
             # if it is the second week of the playoffs
             else:
+                # update loser rankings
                 if df.loc[row_mask_loser1, "Rank"].iloc[0] > df.loc[row_mask_loser2, "Rank"].iloc[0]:
                     df.loc[row_mask_loser1_adjust, "Rank"] = 4
                     df.loc[row_mask_loser2_adjust, "Rank"] = 3
                 else:
                     df.loc[row_mask_loser1_adjust, "Rank"] = 3
                     df.loc[row_mask_loser2_adjust, "Rank"] = 4
+                # update winner rankings
+                if df.loc[row_mask_winner1, "Rank"].iloc[0] > df.loc[row_mask_winner2, "Rank"].iloc[0]:
+                    df.loc[row_mask_winner1_adjust, "Rank"] = 2
+                    df.loc[row_mask_winner2_adjust, "Rank"] = 1
+                else:
+                    df.loc[row_mask_winner1_adjust, "Rank"] = 1
+                    df.loc[row_mask_winner2_adjust, "Rank"] = 2
             for loser in losers:
                 eliminated.append(loser)
             losers = []
