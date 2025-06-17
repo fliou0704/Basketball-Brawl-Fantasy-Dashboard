@@ -1,5 +1,6 @@
 from espn_api.basketball import League
 import pandas as pd
+import numpy as np
 
 #import sys
 #print(sys.path)
@@ -10,7 +11,7 @@ espn_s2 = "AEAgnCeltBfv4nKLUgjlax5tsKzVho%2B6cA1L370VKGvF%2B8hlSX4dpV6Gv7kWYNR5t
 
 years = [2023, 2024, 2025]
 
-all_data = pd.DataFrame(columns=["Year", "Week", "Type", "Team Name", "Home/Away", "Points For", "Points Against", "Win", "Loss", "Opponent Team Name"])
+all_data = pd.DataFrame(columns=["Year", "Week", "Type", "Team Name", "Team ID", "Team Owner", "Home/Away", "Points For", "Points Against", "Win", "Loss", "Opponent Team Name"])
 
 for year in years:
 
@@ -24,19 +25,16 @@ for year in years:
     df = pd.DataFrame(columns=["Year", "Week", "Type", "Team Name", "Home/Away", "Points For", "Points Against", "Win", "Loss", "Opponent Team Name"])
 
     for team in league.teams:
-        # df_row = [year, week, team_name, home/away, points for, points against, win, loss, opponenet team_name]
+        # df_row = [year, week, team name, team id, team owner, home/away, points for, points against, win, loss, opponenet team name, opponent team id, opponent team owner]
         week = 0
-        firstRoundBye = False
-        if len(team.schedule) < 23:
-            firstRoundBye = True
+        scheduleLen = len(team.schedule)
         for matchup in team.schedule:
             week += 1
-            if week == 21 and firstRoundBye:
-                week += 1
-            type = 'Regular'
-            if week > 20:
+            if week > scheduleLen - 3:
                 type = 'Playoffs'
-            df_row = pd.DataFrame({"Year": [year], "Week": [week], "Type": [type], "Team Name": [team.team_name]})
+            else:
+                type = 'Regular'
+            df_row = pd.DataFrame({"Year": [year], "Week": [week], "Type": [type], "Team Name": [team.team_name], "Team ID": [team.team_id], "Owner": [team.owners[0]['firstName']]})
             place = ""
             result = ""
             #print(matchup.winner)
@@ -54,6 +52,8 @@ for year in years:
                     df_row["Win"] = [0]
                     df_row["Loss"] = [1]
                 df_row["Opponent Team Name"] = [matchup.away_team.team_name]
+                df_row["Opponent Team ID"] = [matchup.away_team.team_id]
+                df_row["Opponent Owner"] = [matchup.away_team.owners[0]['firstName']]
                 #print(matchup.home_team.team_name, matchup.home_final_score, matchup.away_team.team_name, matchup.away_final_score, place, result)
             else:
                 place = "AWAY"
@@ -69,14 +69,44 @@ for year in years:
                     df_row["Win"] = [0]
                     df_row["Loss"] = [1]
                 df_row["Opponent Team Name"] = [matchup.home_team.team_name]
+                df_row["Opponent Team ID"] = [matchup.home_team.team_id]
+                df_row["Opponent Owner"] = [matchup.home_team.owners[0]['firstName']]
                 #print(matchup.away_team.team_name, matchup.away_final_score, matchup.home_team.team_name, matchup.home_final_score, place, result)
-            df = pd.concat([df, df_row])
+            if df.empty:
+                df = df_row
+            else:
+                df = pd.concat([df, df_row])
         #print("\n")
 
     df["Points For"] = pd.to_numeric(df["Points For"])
     df["Points Against"] = pd.to_numeric(df["Points Against"])
     df["Win"] = pd.to_numeric(df["Win"])
     df["Loss"] = pd.to_numeric(df["Loss"])
+
+    ### Fixing first round bye playoff schedules
+    teamGP = df.groupby("Team ID").size().reset_index(name='Count')
+    teams = teamGP["Team ID"]
+    totalWeeks = teamGP["Count"].mode().iloc[0]
+    finalRegularWeek = totalWeeks - 3
+    firstRoundByes = []
+    teamCountDict = dict(zip(teamGP['Team ID'], teamGP['Count']))
+    while(len(firstRoundByes) < 2):
+        for id in teamGP["Team ID"]:
+            if teamCountDict.get(id) != totalWeeks:
+                firstRoundByes.append(id)
+
+    for team in firstRoundByes:
+        #Fix matchup type for last week of regular season
+        row_mask = (df['Team ID'] == team) & (df['Week'] == finalRegularWeek)
+        df.loc[row_mask, 'Type'] = "Regular"
+        weeksAdjusted = 0
+        weekAdjusting = totalWeeks - 1
+        while(weeksAdjusted < 2):
+            row_mask = (df['Team ID'] == team) & (df['Week'] == weekAdjusting)
+            df.loc[row_mask, 'Week'] = df.loc[row_mask]['Week'] + 1
+            weekAdjusting -= 1
+            weeksAdjusted += 1
+
 
     df["Cumulative Points For"] = df["Points For"].groupby(df["Team Name"]).cumsum()
     df["Cumulative Points Against"] = df["Points Against"].groupby(df["Team Name"]).cumsum()
@@ -91,22 +121,113 @@ for year in years:
     #                      .groupby(['Week']).cumcount(ascending=False)+1)
     #df['Rank'] = df.groupby('Week')['Cumulative Wins','Cumulative Points For'].rank(ascending=False, method='min').astype(int)
 
+    #df['Weekly Rank'] = df.groupby('Week')['Points For'].rank(ascending=False, method='min').astype(int)
+
+    for team in firstRoundByes:
+        bye_row_mask = row_mask_final = (df['Team ID'] == team) & (df['Week'] == finalRegularWeek)
+        bye_row = {
+            'Year': year,
+            'Week': finalRegularWeek + 1,
+            'Type': 'Bye',
+            'Team Name': df.loc[bye_row_mask, "Team Name"].iloc[0],
+            'Team ID': team,
+            'Owner': df.loc[bye_row_mask, "Owner"].iloc[0],
+            'Home/Away': 'Bye',
+            'Points For': 0,
+            'Points Against': 0,
+            'Win': 0,
+            'Loss': 0,
+            'Opponent Team Name': None,
+            'Opponent Team ID': None,
+            'Opponent Owner': None,
+            'Cumulative Points For': df.loc[bye_row_mask, "Cumulative Points For"].iloc[0],  # carry over from prior week
+            'Cumulative Points Against': df.loc[bye_row_mask, "Cumulative Points Against"].iloc[0],
+            'Cumulative Wins': df.loc[bye_row_mask, "Cumulative Wins"].iloc[0],
+            'Cumulative Losses': df.loc[bye_row_mask, "Cumulative Losses"].iloc[0],
+            'Weekly Rank': np.nan,
+            'Rank': np.nan
+        }
+        df = pd.concat([df, pd.DataFrame([bye_row])], ignore_index=True)
+
     df['Weekly Rank'] = df.groupby('Week')['Points For'].rank(ascending=False, method='min').astype(int)
 
+    # Sort data for rank regular season rank assignments
     df = df.sort_values(by=['Week', 'Cumulative Wins', 'Cumulative Points For'], ascending=[True, False, False])
-
-    # Step 3: Assign rank based on sorted order within each week
     df['Rank'] = df.groupby('Week').cumcount() + 1
 
-    ### Trying to fix end of season standings
-    latest_week = df['Week'].max()
-    for team in league.teams:
-        df.loc[(df['Team Name'] == team.team_name) & (df['Week'] == latest_week), 'Rank'] = team.final_standing
+    ### Fixing playoff rankings
+    finalRegularWeekdf = df[df["Week"] == finalRegularWeek]
+    finalRegularRankDict = dict(zip(finalRegularWeekdf['Team ID'], finalRegularWeekdf['Rank']))
+    eliminated = []
+    while(len(eliminated) < 4):
+        for id in finalRegularWeekdf["Team ID"]:
+            if finalRegularRankDict.get(id) > 6:
+                eliminated.append(id)
+
+    ## Fixing rankings throughout playoffs and adding the 'consolation' matchup type
+    ## Possibly add week 0 to reflect rankings from the previous season.
+    weekAdjusting = totalWeeks - 2
+    while(weekAdjusting <= totalWeeks):
+        losers = []
+        for team in teams:
+            if team in eliminated:
+                # row mask to get eliminated team's rank from previous week
+                row_mask_final = (df['Team ID'] == team) & (df['Week'] == weekAdjusting - 1)
+                # row mask to update eliminated team's rank for this week
+                row_mask_adjust = (df['Team ID'] == team) & (df['Week'] == weekAdjusting)
+                df.loc[row_mask_adjust, 'Rank'] = df.loc[row_mask_final, 'Rank'].iloc[0]
+                # Since this team is already eliminated from the playoffs, their match is a consolation match
+                df.loc[row_mask_adjust, 'Type'] = "Consolation"
+            else:
+                row_mask_final = (df['Team ID'] == team) & (df['Week'] == finalRegularWeek)
+                row_mask_adjust = (df['Team ID'] == team) & (df['Week'] == weekAdjusting)
+                if row_mask_adjust.any():
+                    if df.loc[row_mask_adjust, "Cumulative Losses"].iloc[0] > df.loc[row_mask_final, "Cumulative Losses"].iloc[0]:
+                        # add teams that lost to a losers array to adjust rankings accordingly
+                        losers.append(team)
+        if weekAdjusting != totalWeeks:
+            row_mask_loser1 = (df['Team ID'] == losers[0]) & (df['Week'] == finalRegularWeek)
+            row_mask_loser1_adjust = (df['Team ID'] == losers[0]) & (df['Week'] == weekAdjusting)
+            row_mask_loser2 = (df['Team ID'] == losers[1]) & (df['Week'] == finalRegularWeek)
+            row_mask_loser2_adjust = (df['Team ID'] == losers[1]) & (df['Week'] == weekAdjusting)
+            # if it is the first week of the playoffs
+            if weekAdjusting == totalWeeks - 2:
+                if df.loc[row_mask_loser1, "Rank"].iloc[0] > df.loc[row_mask_loser2, "Rank"].iloc[0]:
+                    df.loc[row_mask_loser1_adjust, "Rank"] = 6
+                    df.loc[row_mask_loser2_adjust, "Rank"] = 5
+                else:
+                    df.loc[row_mask_loser1_adjust, "Rank"] = 5
+                    df.loc[row_mask_loser2_adjust, "Rank"] = 6
+            # if it is the second week of the playoffs
+            else:
+                if df.loc[row_mask_loser1, "Rank"].iloc[0] > df.loc[row_mask_loser2, "Rank"].iloc[0]:
+                    df.loc[row_mask_loser1_adjust, "Rank"] = 4
+                    df.loc[row_mask_loser2_adjust, "Rank"] = 3
+                else:
+                    df.loc[row_mask_loser1_adjust, "Rank"] = 3
+                    df.loc[row_mask_loser2_adjust, "Rank"] = 4
+            for loser in losers:
+                eliminated.append(loser)
+            losers = []
+        # post-championship adjustments
+        else:
+            row_mask_runnerUp = (df['Team ID'] == losers[0]) & (df['Week'] == weekAdjusting)
+            eliminated.append(losers[0])
+            df.loc[row_mask_runnerUp, "Rank"] = 2
+
+            for team in teams:
+                if team not in eliminated:
+                    row_mask_champion = (df['Team ID'] == team) & (df['Week'] == weekAdjusting)
+                    df.loc[row_mask_champion, "Rank"] = 1
+        weekAdjusting += 1
 
     df = df.sort_values(by='Week').reset_index(drop=True)
 
     # Append to master dataframe
-    all_data = pd.concat([all_data, df], ignore_index=True)
+    if all_data.empty:
+        all_data = df
+    else:
+        all_data = pd.concat([all_data, df], ignore_index=True)
 
 all_data.to_csv('basketballBrawlLeagueData.csv', index=False)
 

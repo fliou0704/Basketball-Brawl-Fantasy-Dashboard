@@ -23,7 +23,7 @@ app.layout = html.Div([
 )
 def render_content(tab):
     if tab == "home":
-        return get_home_layout()
+        return get_home_layout(app)
     elif tab == "team":
         return get_team_layout()
 
@@ -53,4 +53,4 @@ def update_team_name(selected_team):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050))  # Use Render's port or default to 8050 locally
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False) # Set debug and use_reloader to False for deployment (Use Ctrl + C to shut down app locally)
