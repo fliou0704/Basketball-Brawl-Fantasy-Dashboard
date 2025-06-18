@@ -1,9 +1,14 @@
 import pandas as pd
 
 data = pd.read_csv("basketballBrawlLeagueData.csv")
-print((len(data[data["Year"] == 2024]) + 2) / 10)
-
-data = data[data["Year"] == 2024]
-week23 = data[data["Week"] == 23]
-print(data[data["Week"] == 23])
-print(week23["Team Name"])
+# Get latest team names for each team ID
+team1_id = 16
+team2_id = 17
+latest_year = data["Year"].max()
+latest_year_data = data[data["Year"] == latest_year]
+latest_week = latest_year_data["Week"].max()
+latest_week_data = latest_year_data[latest_year_data["Week"] == latest_week]
+team1_name = latest_week_data[latest_week_data["Team ID"] == team1_id]["Team Name"].iloc[0]
+team2_name = latest_week_data[latest_week_data["Team ID"] == team2_id]["Team Name"].iloc[0]
+print(team1_name)
+print(team2_name)

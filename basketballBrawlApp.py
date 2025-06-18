@@ -1,16 +1,24 @@
 import os
+import pandas as pd
 from dash import Dash, html, dcc, Input, Output
-from basketballBrawlHome import get_home_layout
+from basketballBrawlHome import get_home_layout, register_home_callbacks
 from basketballBrawlTeamStats import get_team_layout, create_team_difference_chart, create_team_pie_chart, create_positional_pie_chart, plot_player_pie_chart
+from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
 
 # Set suppress_callback_exceptions=True
 app = Dash(__name__, suppress_callback_exceptions=True)
+
+data = pd.read_csv("basketballBrawlLeagueData.csv")
+
+register_home_callbacks(app, data)
+register_h2h_callbacks(app, data)
 
 # Define the layout with tabs
 app.layout = html.Div([
     dcc.Tabs(id="tabs", value="home", children=[
         dcc.Tab(label="Home", value="home"),
         dcc.Tab(label="Team Stats", value="team"),
+        dcc.Tab(label="Historical H2H", value="h2h")  # Add this line
     ]),
     html.Div(id="content")  # This will hold the content of the selected tab
 ])
@@ -23,9 +31,11 @@ app.layout = html.Div([
 )
 def render_content(tab):
     if tab == "home":
-        return get_home_layout(app)
+        return get_home_layout(app, data)
     elif tab == "team":
         return get_team_layout()
+    elif tab == "h2h":
+        return get_h2h_layout(data) 
 
 # Callback to update team name based on selected team in the dropdown
 @app.callback(
