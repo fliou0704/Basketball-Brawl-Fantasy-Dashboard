@@ -1,5 +1,6 @@
 from dash import html, dcc, Input, Output
 import pandas as pd
+from dash.dash_table import DataTable
 from dataStore import data
 
 def get_h2h_layout():
@@ -80,11 +81,57 @@ def register_h2h_callbacks(app):
         playoff_wins = playoffs["Win"].sum()
         playoff_losses = len(playoffs) - playoff_wins
 
+        # Preparing data for h2h matchup table display
+        # Removing Consolation matches from h2h history
+        h2h_data = h2h_data[h2h_data["Type"] != "Consolation"]
+        # Create the "Result" column
+        h2h_data["Result"] = h2h_data["Win"].apply(lambda w: "W" if w == 1 else "L")
+        # Create the "Score" column using team and opponent scores
+        h2h_data["Score"] = h2h_data["Points For"].astype(int).astype(str) + " - " + h2h_data["Points Against"].astype(int).astype(str)
+        columns_to_display = ["Year", "Week", "Team Name", "Type", "Result", "Score", "Opponent Team Name", "Opponent Owner"]
+        table_data = h2h_data[columns_to_display].sort_values(by=["Year", "Week"], ascending=[False, False])
+
         return html.Div([
             html.H3(f"{team1_name} vs. {team2_name}"),
             html.P(f"Overall Record: {int(total_wins)} - {int(total_losses)}"),
             html.P(f"Regular Season: {int(regular_wins)} - {int(regular_losses)}"),
-            html.P(f"Playoffs: {int(playoff_wins)} - {int(playoff_losses)}")
+            html.P(f"Playoffs: {int(playoff_wins)} - {int(playoff_losses)}"),
+            html.Br(),
+            html.H4("Matchup History"),
+            dcc.Loading(
+                children=[
+                    DataTable(
+                        columns=[{"name": col, "id": col} for col in columns_to_display],
+                        data=table_data.to_dict("records"),
+                        style_table={"overflowX": "auto", "margin": "auto", "width": "80%"},
+                        style_cell={"textAlign": "center", "padding": "5px"},
+                        style_header={"backgroundColor": "rgb(30, 30, 30)", "color": "white"},
+                        style_data_conditional=[
+                            {
+                                'if': {
+                                    'filter_query': '{Type} = "Playoffs"'
+                                },
+                                'fontWeight': 'bold'
+                            },
+                            {
+                                'if': {
+                                    'column_id': 'Result',
+                                    'filter_query': '{Result} = "W"'
+                                },
+                                'color': 'green'
+                            },
+                            {
+                                'if': {
+                                    'column_id': 'Result',
+                                    'filter_query': '{Result} = "L"'
+                                },
+                                'color': 'red'
+                            }
+                        ]
+                    )
+                ],
+                type="default"
+            )
         ])
     # Callback to update dropdown options
     @app.callback(

@@ -17,6 +17,7 @@ latestYear = -1
 
 def get_home_layout(app):
     years = sorted(data['Year'].unique())
+    years.sort(reverse=True)
     latestYear = max(years)
     
     return html.Div([
