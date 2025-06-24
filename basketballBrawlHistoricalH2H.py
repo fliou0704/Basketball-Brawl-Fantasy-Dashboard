@@ -1,7 +1,8 @@
 from dash import html, dcc, Input, Output
 import pandas as pd
+from dataStore import data
 
-def get_h2h_layout(data):
+def get_h2h_layout():
     # Get latest team names for each team ID
     latest_year = data["Year"].max()
     latest_year_data = data[data["Year"] == latest_year]
@@ -40,7 +41,7 @@ def get_h2h_layout(data):
         html.Div(id="h2h-result")
     ])
 
-def register_h2h_callbacks(app, data):
+def register_h2h_callbacks(app):
     @app.callback(
         Output("h2h-result", "children"),
         Input("h2h-team1-dropdown", "value"),

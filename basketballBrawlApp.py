@@ -8,10 +8,8 @@ from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
 # Set suppress_callback_exceptions=True
 app = Dash(__name__, suppress_callback_exceptions=True)
 
-data = pd.read_csv("basketballBrawlLeagueData.csv")
-
-register_home_callbacks(app, data)
-register_h2h_callbacks(app, data)
+register_home_callbacks(app)
+register_h2h_callbacks(app)
 
 # Define the layout with tabs
 app.layout = html.Div([
@@ -31,11 +29,11 @@ app.layout = html.Div([
 )
 def render_content(tab):
     if tab == "home":
-        return get_home_layout(app, data)
+        return get_home_layout(app)
     elif tab == "team":
         return get_team_layout()
     elif tab == "h2h":
-        return get_h2h_layout(data) 
+        return get_h2h_layout() 
 
 # Callback to update team name based on selected team in the dropdown
 @app.callback(
@@ -63,4 +61,4 @@ def update_team_name(selected_team):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050))  # Use Render's port or default to 8050 locally
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False) # Set debug and use_reloader to False for deployment (Use Ctrl + C to shut down app locally)
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False) # Set debug and use_reloader to False for deployment (Use Ctrl + C to shut down app locally)

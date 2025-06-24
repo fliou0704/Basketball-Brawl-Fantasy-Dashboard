@@ -2,6 +2,7 @@ from dash import html, dcc, Input, Output, callback
 from dash.dash_table import DataTable
 import pandas as pd
 import plotly.express as px
+from dataStore import data
 
 ### TODO:
 ### - Make team colors on graph consistent throughout the years.
@@ -14,11 +15,9 @@ years = []
 #latestYear = max(years)
 latestYear = -1
 
-def get_home_layout(app, data):
+def get_home_layout(app):
     years = sorted(data['Year'].unique())
     latestYear = max(years)
-
-    register_home_callbacks(app, data)
     
     return html.Div([
         html.H1("Basketball Brawl Dashboard", style={'textAlign': 'center', 'margin': '20px 0'}),
@@ -36,7 +35,7 @@ def get_home_layout(app, data):
         html.Div(id="homepage-content")  # This gets populated by the callback
     ])
 
-def register_home_callbacks(app, data):
+def register_home_callbacks(app):
     @app.callback(
         Output("homepage-content", "children"),
         Input("year-dropdown", "value")
