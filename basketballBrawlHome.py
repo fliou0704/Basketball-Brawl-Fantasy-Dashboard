@@ -2,7 +2,7 @@ from dash import html, dcc, Input, Output, callback
 from dash.dash_table import DataTable
 import pandas as pd
 import plotly.express as px
-from dataStore import data
+from dataStore import data, get_logo_path
 
 ### TODO:
 ### - Make team colors on graph consistent throughout the years.
@@ -59,16 +59,71 @@ def register_home_callbacks(app):
 
         table_data = recentData[['Team Name', 'Record', 'Cumulative Points For', 'Cumulative Points Against']]
         table_data = table_data.merge(ranks, on='Team Name', how='left')
-        table_data = table_data[['Rank', 'Team Name', 'Record', 'Cumulative Points For', 'Cumulative Points Against']]
+
+        # table_data["Team"] = table_data.apply(
+        #     lambda row: f"![logo]({get_logo_path(row['Team Name'])}) &nbsp;&nbsp;{row['Team Name']}", axis=1
+        # )
+
+        table_data["Team"] = table_data.apply(
+            lambda row: f'<img src="{get_logo_path(row["Team Name"])}" style="height:20px; vertical-align:middle; margin-right:10px;">{row["Team Name"]}',
+            axis=1
+        )
+
+        #table_data = table_data[['Rank', 'Team', 'Record', 'Cumulative Points For', 'Cumulative Points Against']]
         table_data = table_data.sort_values(by='Rank')
 
-        table = DataTable(
-            columns=[{"name": col, "id": col} for col in table_data.columns],
-            data=table_data.to_dict('records'),
-            style_table={'width': '80%', 'margin': 'auto'},
-            style_header={'backgroundColor': 'rgb(30, 30, 30)', 'color': 'white'},
-            style_cell={'textAlign': 'center', 'padding': '10px'}
+        # Build html.Table rows
+        table_header = html.Tr([
+            html.Th("Rank"),
+            html.Th("Team"),
+            html.Th("Record"),
+            html.Th("Cumulative Points For"),
+            html.Th("Cumulative Points Against")
+        ])
+
+        table_rows = []
+        for _, row in table_data.iterrows():
+            logo_img = html.Img(
+                src=get_logo_path(row["Team Name"]),
+                style={"height": "25px", "verticalAlign": "middle", "marginRight": "10px"}
+            )
+            team_cell = html.Td([
+                logo_img,
+                html.Span(row["Team Name"], style={"verticalAlign": "middle", "fontWeight": "bold"})
+            ], style={"display": "flex", "alignItems": "center"})
+
+            table_rows.append(html.Tr([
+                html.Td(row["Rank"]),
+                team_cell,
+                html.Td(row["Record"]),
+                html.Td(row["Cumulative Points For"]),
+                html.Td(row["Cumulative Points Against"])
+            ]))
+
+        # Wrap in html.Table
+        custom_table = html.Table(
+            children=[table_header] + table_rows,
+            style={
+                "width": "80%",
+                "margin": "auto",
+                "borderCollapse": "collapse",
+                "textAlign": "center"
+            }
         )
+
+        # table = DataTable(
+        #     columns=[
+        #         {"name": "Rank", "id": "Rank"},
+        #         {"name": "Team", "id": "Team", "presentation": "markdown"},
+        #         {"name": "Record", "id": "Record"},
+        #         {"name": "Cumulative Points For", "id": "Cumulative Points For"},
+        #         {"name": "Cumulative Points Against", "id": "Cumulative Points Against"},
+        #     ],
+        #     data=table_data.to_dict('records'),
+        #     style_table={'width': '80%', 'margin': 'auto'},
+        #     style_header={'backgroundColor': 'rgb(30, 30, 30)', 'color': 'white'},
+        #     style_cell={'textAlign': 'center', 'padding': '10px'}
+        # )
 
         ### Rank Progression Graph
         fig_rank_progression = px.line(
@@ -121,7 +176,8 @@ def register_home_callbacks(app):
         fig_highest_scoring.update_traces(textposition='outside')
 
         return html.Div([
-            table,
+            custom_table,
+            #table,
             dcc.Graph(figure=fig_rank_progression),
             dcc.Graph(figure=fig_points_progression),
             dcc.Graph(figure=fig_highest_scoring)

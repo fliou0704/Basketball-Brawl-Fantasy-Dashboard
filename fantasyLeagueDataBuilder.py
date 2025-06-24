@@ -262,6 +262,6 @@ for year in years:
     else:
         all_data = pd.concat([all_data, df], ignore_index=True)
 
-all_data.to_csv('basketballBrawlLeagueData.csv', index=False)
+all_data.to_csv('data/basketballBrawlLeagueData.csv', index=False)
 
 #print(df)
