@@ -11,7 +11,7 @@ espn_s2 = "AEAgnCeltBfv4nKLUgjlax5tsKzVho%2B6cA1L370VKGvF%2B8hlSX4dpV6Gv7kWYNR5t
 
 years = [2023, 2024, 2025]
 
-all_data = pd.DataFrame(columns=["Year", "Week", "Type", "Team Name", "Team ID", "Team Owner", "Home/Away", "Points For", "Points Against", "Win", "Loss", "Opponent Team Name"])
+all_data = pd.DataFrame(columns=["Year", "Week", "Type", "Team Name", "Team Abbreviation", "Team ID", "Team Owner", "Home/Away", "Points For", "Points Against", "Win", "Loss", "Opponent Team Name", "Opponent Team ID", "Opponent Owner"])
 
 for year in years:
 
@@ -22,10 +22,10 @@ for year in years:
 
     league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
 
-    df = pd.DataFrame(columns=["Year", "Week", "Type", "Team Name", "Home/Away", "Points For", "Points Against", "Win", "Loss", "Opponent Team Name"])
+    df = pd.DataFrame(columns=["Year", "Week", "Type", "Team Name", "Team Abbreviation", "Team ID", "Team Owner", "Home/Away", "Points For", "Points Against", "Win", "Loss", "Opponent Team Name", "Opponent Team ID", "Opponent Owner"])
 
     for team in league.teams:
-        # df_row = [year, week, team name, team id, team owner, home/away, points for, points against, win, loss, opponenet team name, opponent team id, opponent team owner]
+        # df_row = [year, week, team name, team abbreviation, team id, team owner, home/away, points for, points against, win, loss, opponenet team name, opponent team id, opponent team owner]
         week = 0
         scheduleLen = len(team.schedule)
         for matchup in team.schedule:
@@ -34,7 +34,7 @@ for year in years:
                 type = 'Playoffs'
             else:
                 type = 'Regular'
-            df_row = pd.DataFrame({"Year": [year], "Week": [week], "Type": [type], "Team Name": [team.team_name], "Team ID": [team.team_id], "Owner": [team.owners[0]['firstName']]})
+            df_row = pd.DataFrame({"Year": [year], "Week": [week], "Type": [type], "Team Name": [team.team_name], "Team Abbreviation": [team.team_abbrev],"Team ID": [team.team_id], "Team Owner": [team.owners[0]['firstName']]})
             place = ""
             result = ""
             #print(matchup.winner)
@@ -54,7 +54,6 @@ for year in years:
                 df_row["Opponent Team Name"] = [matchup.away_team.team_name]
                 df_row["Opponent Team ID"] = [matchup.away_team.team_id]
                 df_row["Opponent Owner"] = [matchup.away_team.owners[0]['firstName']]
-                #print(matchup.home_team.team_name, matchup.home_final_score, matchup.away_team.team_name, matchup.away_final_score, place, result)
             else:
                 place = "AWAY"
                 df_row["Home/Away"] = ["Away"]
@@ -71,12 +70,10 @@ for year in years:
                 df_row["Opponent Team Name"] = [matchup.home_team.team_name]
                 df_row["Opponent Team ID"] = [matchup.home_team.team_id]
                 df_row["Opponent Owner"] = [matchup.home_team.owners[0]['firstName']]
-                #print(matchup.away_team.team_name, matchup.away_final_score, matchup.home_team.team_name, matchup.home_final_score, place, result)
             if df.empty:
                 df = df_row
             else:
                 df = pd.concat([df, df_row])
-        #print("\n")
 
     df["Points For"] = pd.to_numeric(df["Points For"])
     df["Points Against"] = pd.to_numeric(df["Points Against"])
@@ -114,14 +111,6 @@ for year in years:
     df["Cumulative Losses"] = df["Loss"].groupby(df["Team Name"]).cumsum()
 
     df = df.sort_values("Week")
-    #print(df)
-
-    #Add a rank column based on league logic
-    #df['Rank'] = (df.sort_values(['Cumulative Wins','Cumulative Points For'])
-    #                      .groupby(['Week']).cumcount(ascending=False)+1)
-    #df['Rank'] = df.groupby('Week')['Cumulative Wins','Cumulative Points For'].rank(ascending=False, method='min').astype(int)
-
-    #df['Weekly Rank'] = df.groupby('Week')['Points For'].rank(ascending=False, method='min').astype(int)
 
     for team in firstRoundByes:
         bye_row_mask = row_mask_final = (df['Team ID'] == team) & (df['Week'] == finalRegularWeek)
@@ -131,7 +120,7 @@ for year in years:
             'Type': 'Bye',
             'Team Name': df.loc[bye_row_mask, "Team Name"].iloc[0],
             'Team ID': team,
-            'Owner': df.loc[bye_row_mask, "Owner"].iloc[0],
+            'Team Owner': df.loc[bye_row_mask, "Team Owner"].iloc[0],
             'Home/Away': 'Bye',
             'Points For': 0,
             'Points Against': 0,
@@ -263,5 +252,3 @@ for year in years:
         all_data = pd.concat([all_data, df], ignore_index=True)
 
 all_data.to_csv('data/basketballBrawlLeagueData.csv', index=False)
-
-#print(df)

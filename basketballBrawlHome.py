@@ -2,17 +2,9 @@ from dash import html, dcc, Input, Output, callback
 from dash.dash_table import DataTable
 import pandas as pd
 import plotly.express as px
-from dataStore import data, get_logo_path
+from dataStore import data, get_logo_path, get_team_color
 
-### TODO:
-### - Make team colors on graph consistent throughout the years.
-### - Put team abbreviation above bars on highest scoring team each week graph instead of full team names.
-
-
-#data = pd.read_csv("basketballBrawlLeagueData.csv")
-#years = sorted(data['Year'].unique())
 years = []
-#latestYear = max(years)
 latestYear = -1
 
 def get_home_layout(app):
@@ -59,10 +51,6 @@ def register_home_callbacks(app):
 
         table_data = recentData[['Team Name', 'Record', 'Cumulative Points For', 'Cumulative Points Against']]
         table_data = table_data.merge(ranks, on='Team Name', how='left')
-
-        # table_data["Team"] = table_data.apply(
-        #     lambda row: f"![logo]({get_logo_path(row['Team Name'])}) &nbsp;&nbsp;{row['Team Name']}", axis=1
-        # )
 
         table_data["Team"] = table_data.apply(
             lambda row: f'<img src="{get_logo_path(row["Team Name"])}" style="height:20px; vertical-align:middle; margin-right:10px;">{row["Team Name"]}',
@@ -111,19 +99,19 @@ def register_home_callbacks(app):
             }
         )
 
-        # table = DataTable(
-        #     columns=[
-        #         {"name": "Rank", "id": "Rank"},
-        #         {"name": "Team", "id": "Team", "presentation": "markdown"},
-        #         {"name": "Record", "id": "Record"},
-        #         {"name": "Cumulative Points For", "id": "Cumulative Points For"},
-        #         {"name": "Cumulative Points Against", "id": "Cumulative Points Against"},
-        #     ],
-        #     data=table_data.to_dict('records'),
-        #     style_table={'width': '80%', 'margin': 'auto'},
-        #     style_header={'backgroundColor': 'rgb(30, 30, 30)', 'color': 'white'},
-        #     style_cell={'textAlign': 'center', 'padding': '10px'}
-        # )
+        # Build Team Name ➝ Team ID mapping (based on latest team IDs from data)
+        team_name_to_id = (
+            yearData
+            .drop_duplicates(subset="Team Name", keep="last")
+            .set_index("Team Name")["Team ID"]
+            .to_dict()
+        )
+
+        # Now build color map: Team Name ➝ Color
+        color_map = {
+            team_name: get_team_color(team_name_to_id.get(team_name))
+            for team_name in yearData["Team Name"].unique()
+        }
 
         ### Rank Progression Graph
         fig_rank_progression = px.line(
@@ -132,7 +120,8 @@ def register_home_callbacks(app):
             y='Rank',
             color='Team Name',
             title=f"Team Rank Progression - {selected_year}",
-            markers=True
+            markers=True,
+            color_discrete_map=color_map
         )
 
         ### Rank Progression y-axis adjustment
@@ -159,7 +148,9 @@ def register_home_callbacks(app):
             y='Cumulative Points For',
             color='Team Name',
             title=f"Cumulative Points For - {selected_year}",
-            markers=True
+            markers=True,
+            color_discrete_map=color_map
+
         )
         fig_points_progression.update_yaxes(title="Total Points For")
 
@@ -171,13 +162,13 @@ def register_home_callbacks(app):
             y='Points For',
             color='Team Name',
             title=f"Highest Scoring Team Each Week - {selected_year}",
-            text='Team Name'
+            text='Team Abbreviation',
+            color_discrete_map=color_map
         )
         fig_highest_scoring.update_traces(textposition='outside')
 
         return html.Div([
             custom_table,
-            #table,
             dcc.Graph(figure=fig_rank_progression),
             dcc.Graph(figure=fig_points_progression),
             dcc.Graph(figure=fig_highest_scoring)
