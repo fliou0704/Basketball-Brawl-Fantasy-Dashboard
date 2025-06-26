@@ -4,7 +4,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # Sample team data - Replace with your actual data
-players = pd.read_csv('basketballBrawl - Sheet2.csv')
+players = pd.read_csv('data/playerMatchupData.csv')
+players = players[players["Year"] == 2024]
 
 unique_teams = players["Team Name"].unique()
 

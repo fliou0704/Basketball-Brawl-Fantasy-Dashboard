@@ -1,19 +1,26 @@
+from espn_api.basketball import League
 import pandas as pd
 
-data = pd.read_csv("basketballBrawlLeagueData.csv")
-# Get latest team names for each team ID
-team1_id = 16
-team2_id = 17
-latest_year = data["Year"].max()
-latest_year_data = data[data["Year"] == latest_year]
-latest_week = latest_year_data["Week"].max()
-latest_week_data = latest_year_data[latest_year_data["Week"] == latest_week]
-team1_name = latest_week_data[latest_week_data["Team ID"] == team1_id]["Team Name"].iloc[0]
-team2_name = latest_week_data[latest_week_data["Team ID"] == team2_id]["Team Name"].iloc[0]
+league_id = 609694684
+swid = "{462737C8-F92F-4033-8AD6-1D877AC43C1D}"
+espn_s2 = "AEAgnCeltBfv4nKLUgjlax5tsKzVho%2B6cA1L370VKGvF%2B8hlSX4dpV6Gv7kWYNR5t3zCcNNNwmdXlDPD3HMHLCK%2B6EjbZSYRcIKDl32HUTlKJYweuLKQkzjVDaj89PrtCQ6Cv5zujpbZo7SZ50hqICxorzGB3w01Tds62R78b4wQctPA8rL%2ByshLkXQXs9BM8f9ULC5JywoL3i%2B98bHo%2F9JzYyqmCdUvC1ugiM%2F5%2BY63l49PvhdpoEkbn340BC6gShqus0164TuLh28VviKz6JwKssbPorWtoA%2Fx5RhSs%2FLarA%3D%3D"
+year = 2024
 
-# Filter for matchups between the two teams
-h2h_data = data[((data["Team ID"] == team1_id) & (data["Opponent Team ID"] == team2_id))]
+league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
 
-print(team1_name)
-print(team2_name)
-print(h2h_data)
+#print(league.settings.matchup_periods)
+mps = []
+for mp in league.settings.matchup_periods:
+    mps.append(mp)
+print(mps[-1])
+
+# df = pd.read_csv('data/basketballBrawlDailyPlayerData.csv')
+# print(df[df["FPTS"] < 0])
+# df = df[~df["Player Slot"].isin(["BE", "IR"])]
+
+
+# df2024 = df[df["Year"] == 2024]
+# print(df2024.groupby("Player Name")["FPTS"].sum().sort_values(ascending=False))
+
+# players = pd.read_csv('data/basketballBrawlPlayerData.csv')
+# print(players.groupby("Player Name")["FPTS"].sum().sort_values(ascending=False))

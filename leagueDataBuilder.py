@@ -2,8 +2,8 @@ from espn_api.basketball import League
 import pandas as pd
 import numpy as np
 
-#import sys
-#print(sys.path)
+### TODO:
+### Use print(league.settings.reg_season_count) to determine which matchups are regular season and playoff
 
 league_id = 609694684
 swid = "{462737C8-F92F-4033-8AD6-1D877AC43C1D}"
