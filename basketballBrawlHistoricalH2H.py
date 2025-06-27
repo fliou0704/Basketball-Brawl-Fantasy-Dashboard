@@ -1,7 +1,10 @@
-from dash import html, dcc, Input, Output
+from dash import html, dcc, Input, Output, ctx, ALL, callback_context, State
+import dash
+import dash_bootstrap_components as dbc
+import json
 import pandas as pd
 from dash.dash_table import DataTable
-from dataStore import data
+from dataStore import data, playerMatchup
 
 def get_h2h_layout():
     # Get latest team names for each team ID
@@ -39,7 +42,13 @@ def get_h2h_layout():
             ),
         ], style={'width': '45%', 'display': 'inline-block'}),
 
-        html.Div(id="h2h-result")
+        html.Div(id="h2h-result"),
+
+        html.Div(id="h2h-modal", style={"display": "none"}, children=[
+            # Hidden close button, starts invisible, but Dash knows it exists
+            html.Button("Close", id="close-h2h-modal", n_clicks=0, style={"display": "none"})
+        ]),
+        dcc.Store(id="selected-matchup", data={})
     ])
 
 def register_h2h_callbacks(app):
@@ -88,7 +97,17 @@ def register_h2h_callbacks(app):
         h2h_data["Result"] = h2h_data["Win"].apply(lambda w: "W" if w == 1 else "L")
         # Create the "Score" column using team and opponent scores
         h2h_data["Score"] = h2h_data["Points For"].astype(int).astype(str) + " - " + h2h_data["Points Against"].astype(int).astype(str)
+
+        # h2h_data["Score Button"] = h2h_data.apply(
+        #     lambda row: html.Button(
+        #         row["Score"],
+        #         id={"type": "matchup-score-button", "index": f"{row['Year']}_{row['Week']}_{row['Team Name']}"}, 
+        #         n_clicks=0
+        #     ), axis=1
+        # )
+
         columns_to_display = ["Year", "Week", "Team Name", "Type", "Result", "Score", "Opponent Team Name", "Opponent Owner"]
+        #columns_to_display = ["Year", "Week", "Team Name", "Type", "Result", "Score Button", "Opponent Team Name", "Opponent Owner"]
         table_data = h2h_data[columns_to_display].sort_values(by=["Year", "Week"], ascending=[False, False])
 
         return html.Div([
@@ -101,8 +120,10 @@ def register_h2h_callbacks(app):
             dcc.Loading(
                 children=[
                     DataTable(
+                        id="h2h-table",
                         columns=[{"name": col, "id": col} for col in columns_to_display],
                         data=table_data.to_dict("records"),
+                        active_cell=None,
                         style_table={"overflowX": "auto", "margin": "auto", "width": "80%"},
                         style_cell={"textAlign": "center", "padding": "5px"},
                         style_header={"backgroundColor": "rgb(30, 30, 30)", "color": "white"},
@@ -127,7 +148,7 @@ def register_h2h_callbacks(app):
                                 },
                                 'color': 'red'
                             }
-                        ]
+                        ],
                     )
                 ],
                 type="default"
@@ -156,3 +177,133 @@ def register_h2h_callbacks(app):
             if teamid != selected_team1
         ]
         return options1, options2
+    
+    @app.callback(
+        Output("selected-matchup", "data"),
+        Input("h2h-table", "active_cell"),
+        State("h2h-table", "data"),
+        prevent_initial_call=True
+    )
+    def handle_row_click(active_cell, table_data):
+        if active_cell is None:
+            return dash.no_update
+        row_data = table_data[active_cell["row"]]
+        return {
+            "Year": row_data["Year"],
+            "Week": row_data["Week"],
+            "Team1": row_data["Team Name"],
+            "Team2": row_data["Opponent Team Name"]
+        }
+
+    @app.callback(
+        Output("h2h-modal", "style"),
+        Output("h2h-modal", "children"),
+        Input("selected-matchup", "data"),
+        Input("h2h-team1-dropdown", "value"),
+        Input("h2h-team2-dropdown", "value"),
+        Input("close-h2h-modal", "n_clicks"),
+        prevent_initial_call=True,
+    )
+    def toggle_modal(selected, team1_id, team2_id, close_click):
+        ctx = dash.callback_context
+        triggered_id = ctx.triggered[0]["prop_id"].split(".")[0]
+
+        # Close modal if dropdowns changed or close button clicked
+        if triggered_id in ["h2h-team1-dropdown", "h2h-team2-dropdown", "close-h2h-modal"]:
+            return {"display": "none"}, None
+
+        if triggered_id == "selected-matchup" and selected:
+            year = selected["Year"]
+            week = selected["Week"]
+            team1 = selected["Team1"]
+            team2 = selected["Team2"]
+
+            # Filter and sort by FPTS descending
+            team1_players = playerMatchup[
+                (playerMatchup["Year"] == year) &
+                (playerMatchup["Week"] == week) &
+                (playerMatchup["Team Name"] == team1)
+            ][["Player Name", "FPTS"]].sort_values(by="FPTS", ascending=False).reset_index(drop=True)
+
+            team2_players = playerMatchup[
+                (playerMatchup["Year"] == year) &
+                (playerMatchup["Week"] == week) &
+                (playerMatchup["Team Name"] == team2)
+            ][["Player Name", "FPTS"]].sort_values(by="FPTS", ascending=False).reset_index(drop=True)
+
+            max_rows = max(len(team1_players), len(team2_players))
+
+            # Explicitly set dtypes to match expected types
+            empty_row_team1 = pd.DataFrame({
+                "Player Name": [""],
+                "FPTS": [None]
+            }).astype({"Player Name": str, "FPTS": float})
+
+            empty_row_team2 = pd.DataFrame({
+                "Player Name": [""],
+                "FPTS": [None]
+            }).astype({"Player Name": str, "FPTS": float})
+
+            # Add missing rows to match length
+            while len(team1_players) < max_rows:
+                team1_players = pd.concat([team1_players, empty_row_team1], ignore_index=True)
+
+            while len(team2_players) < max_rows:
+                team2_players = pd.concat([team2_players, empty_row_team2], ignore_index=True)
+
+            table_rows = []
+            for i in range(max_rows):
+                row = html.Tr([
+                    html.Td(team1_players.loc[i, "Player Name"]),
+                    html.Td(f"{team1_players.loc[i, 'FPTS']:.2f}" if pd.notna(team1_players.loc[i, "FPTS"]) else ""),
+                    html.Td(""),
+                    html.Td(f"{team2_players.loc[i, 'FPTS']:.2f}" if pd.notna(team2_players.loc[i, "FPTS"]) else ""),
+                    html.Td(team2_players.loc[i, "Player Name"]),
+                ])
+                table_rows.append(row)
+
+            return (
+                {"display": "block"},
+                html.Div([
+                    html.Div([
+                        html.Button("Close", id="close-h2h-modal", n_clicks=0),
+                        html.H4("Matchup Details"),
+                        html.P(f"Year: {year} | Week: {week}"),
+                        html.Br(),
+                        html.Table([
+                            html.Thead(html.Tr([
+                                html.Th(team1, style={"width": "25%"}),
+                                html.Th("FPTS", style={"width": "10%"}),
+                                html.Th("", style={"width": "5%"}),  # Spacer
+                                html.Th("FPTS", style={"width": "10%"}),
+                                html.Th(team2, style={"width": "25%"})
+                            ])),
+                            html.Tbody(table_rows)
+                        ], style={
+                            "width": "100%",
+                            "tableLayout": "fixed",
+                            "textAlign": "center",
+                            "margin": "auto",
+                            "borderCollapse": "collapse",
+                            "marginTop": "15px"
+                        })
+                    ], style={
+                        "backgroundColor": "white",
+                        "padding": "20px",
+                        "borderRadius": "8px",
+                        "width": "90%",
+                        "maxWidth": "700px",
+                        "margin": "auto",
+                        "boxShadow": "0px 4px 12px rgba(0, 0, 0, 0.1)"
+                    })
+                ])
+            )
+
+        elif triggered_id == "close-h2h-modal":
+            # Modal close: hide modal and keep the hidden button in children so it stays in DOM
+            return (
+                {"display": "none"},
+                html.Button("Close", id="close-h2h-modal", n_clicks=0, style={"display": "none"})
+            )
+
+        raise dash.exceptions.PreventUpdate
