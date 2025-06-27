@@ -5,6 +5,13 @@ from basketballBrawlHome import get_home_layout, register_home_callbacks
 from basketballBrawlTeamStats import get_team_layout, create_team_difference_chart, create_team_pie_chart, create_positional_pie_chart, plot_player_pie_chart
 from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
 
+### TODO:
+### - Add record book/awards tab
+### - Update team stats tab (add more years, rework)
+### - Team of the week?
+### - Add league activity data
+
+
 # Set suppress_callback_exceptions=True
 app = Dash(__name__, suppress_callback_exceptions=True)
 

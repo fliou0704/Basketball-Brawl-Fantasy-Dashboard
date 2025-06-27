@@ -1,10 +1,15 @@
-from dash import html, dcc, Input, Output, ctx, ALL, callback_context, State
+from dash import html, dcc, Input, Output, State
 import dash
-import dash_bootstrap_components as dbc
-import json
 import pandas as pd
 from dash.dash_table import DataTable
 from dataStore import data, playerMatchup
+
+### TODO:
+### - Make only score column clickable?
+### - Make it clearer than the columns are clickable
+### - Add a total under the player details table for both teams
+### - Add logos?
+
 
 def get_h2h_layout():
     # Get latest team names for each team ID
