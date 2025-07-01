@@ -1,0 +1,178 @@
+import pandas as pd
+from dash import html, dcc, dash_table, Output, Input
+from dataStore import playerMatchup, playerDaily, data
+
+# Most points in a single matchup (Team)
+top_team_game = data.sort_values("Points For", ascending=False).iloc[0]
+
+# Most points in a single matchup (Player)
+top_player_game = playerMatchup.sort_values("FPTS", ascending=False).iloc[0]
+
+# Most points in a single day by a player
+top_daily_game = playerDaily.sort_values("FPTS", ascending=False).iloc[0]
+
+# All 100+ point daily games
+hundred_point_games = playerDaily[playerDaily["FPTS"] >= 100].copy()
+hundred_point_games.sort_values("Date", ascending=False, inplace=True)
+
+# You can rename columns or format as needed
+hundred_point_games = hundred_point_games[["Date", "Player Name", "Team Name", "FPTS"]]
+hundred_point_games["Date"] = pd.to_datetime(hundred_point_games["Date"]).dt.strftime("%m/%d/%Y")
+
+def get_record_book_layout():
+    return html.Div([
+        html.H2("Record Book"),
+
+        html.Div([
+            html.Label("Select Year:"),
+            dcc.Dropdown(
+                id="award-year-dropdown",
+                options=[
+                    {"label": str(year), "value": str(year)}
+                    for year in sorted(playerMatchup["Year"].unique(), reverse=True)
+                ],
+                value=str(playerMatchup["Year"].max())  # Set to most recent year
+            )
+        ], style={"marginBottom": "20px"}),
+
+        html.Div(id="awards-display"),
+
+        html.H4("Most Points in a Single Matchup (Team)"),
+        html.P(f"{top_team_game['Team Name']} scored {top_team_game['Points For']} points in Week {top_team_game['Week']} of {top_team_game['Year']}"),
+
+        html.H4("Most Points in a Single Matchup (Player)"),
+        html.P(f"{top_player_game['Player Name']} scored {top_player_game['FPTS']} points in a matchup for {top_player_game['Team Name']}"),
+
+        html.H4("Most Points in a Single Day (Player)"),
+        html.P(f"{top_daily_game['Player Name']} scored {top_daily_game['FPTS']} points on {top_daily_game['Date']} for {top_daily_game['Team Name']}"),
+
+        html.H4("Players with 100+ Point Days"),
+        dash_table.DataTable(
+            columns=[
+                {"name": "Date", "id": "Date"},
+                {"name": "Player Name", "id": "Player Name"},
+                {"name": "Team Name", "id": "Team Name"},
+                {"name": "FPTS", "id": "FPTS"}
+            ],
+            data=hundred_point_games.to_dict("records"),
+            style_table={'overflowX': 'auto'},
+            style_cell={'textAlign': 'left'}
+        ),
+
+        html.H4("Players with Negative Point Days"),
+        dash_table.DataTable(
+            columns=[
+                {"name": "Date", "id": "Date"},
+                {"name": "Player Name", "id": "Player Name"},
+                {"name": "Team Name", "id": "Team Name"},
+                {"name": "FPTS", "id": "FPTS"}
+            ],
+            data=playerDaily[
+                (playerDaily["FPTS"] < 0) & 
+                (~playerDaily["Player Slot"].isin(["BE", "IR"]))
+            ]
+            .sort_values("Date", ascending=False)[["Date", "Player Name", "Team Name", "FPTS"]]
+            .assign(Date=lambda df: pd.to_datetime(df["Date"]).dt.strftime("%m/%d/%Y"))
+            .to_dict("records"),
+            style_table={'overflowX': 'auto'},
+            style_cell={'textAlign': 'left'}
+        )
+    ])
+
+
+def register_record_book_callbacks(app):
+    @app.callback(
+        Output("awards-display", "children"),
+        Input("award-year-dropdown", "value")
+    )
+    def update_awards_display(selected_year):
+        selected_year = int(selected_year)
+        year_df = playerMatchup[playerMatchup["Year"] == selected_year]
+
+        # === MVP ===
+        mvp_df = year_df.groupby("Player Name")["FPTS"].sum().reset_index()
+        mvp = mvp_df.sort_values("FPTS", ascending=False).iloc[0]
+
+        # === Expand positions ===
+        # Build a dataframe: each row is a player/position combo with total FPTS
+        position_rows = []
+        grouped = year_df.groupby("Player Name")
+        for player, group in grouped:
+            total_fpts = group["FPTS"].sum()
+            positions = set(group["Position"].dropna().unique()) | \
+                        set(group["Position2"].dropna().unique()) | \
+                        set(group["Position3"].dropna().unique())
+            for pos in positions:
+                position_rows.append({
+                    "Player Name": player,
+                    "Position": pos,
+                    "FPTS": total_fpts
+                })
+
+        pos_df = pd.DataFrame(position_rows)
+        pos_df = pos_df.sort_values("FPTS", ascending=False)
+
+        # === Select top players per position, ensuring uniqueness ===
+        def get_all_nba_team(pos_df, used_players):
+            team = []
+            for pos in ["G", "G", "F", "F", "C"]:
+                positions = []
+                if pos == "G":
+                    positions = ["PG", "SG"]
+                elif pos == "F":
+                    positions = ["SF", "PF"]
+                else:
+                    positions = ["C"]
+                eligible = pos_df[
+                    pos_df["Position"].isin(positions) &
+                    (~pos_df["Player Name"].isin(used_players))
+                ]
+                if not eligible.empty:
+                    player_row = eligible.iloc[0]
+                    player_name = player_row["Player Name"]
+
+                    # Find latest team for this player
+                    player_games = year_df[year_df["Player Name"] == player_name]
+                    latest_game = player_games.sort_values("Week", ascending=False).iloc[0]
+                    latest_team = latest_game["Team Name"]
+
+                    team.append({
+                        "Position": pos,
+                        "Player": player_name,
+                        "Team Name": latest_team,
+                        "FPTS": player_row["FPTS"]
+                    })
+                    used_players.add(player_row["Player Name"])
+            return team
+
+        used_players = set()
+        first_team = get_all_nba_team(pos_df, used_players)
+        second_team = get_all_nba_team(pos_df, used_players)
+        third_team = get_all_nba_team(pos_df, used_players)
+
+        # === Return display content ===
+        def make_team_table(team_data, label):
+            return html.Div([
+                html.H4(label),
+                dash_table.DataTable(
+                    columns=[
+                        {"name": "Position", "id": "Position"},
+                        {"name": "Player", "id": "Player"},
+                        {"name": "Team Name", "id": "Team Name"},
+                        {"name": "FPTS", "id": "FPTS"}
+                    ],
+                    data=team_data,
+                    style_cell={"textAlign": "left"},
+                )
+            ])
+
+        return html.Div([
+            html.H3(f"{selected_year} Awards"),
+
+            html.H4("🏆 MVP"),
+            html.P(f"{mvp['Player Name']} with {mvp['FPTS']} fantasy points"),
+
+            make_team_table(first_team, "All-NBA 1st Team"),
+            make_team_table(second_team, "All-NBA 2nd Team"),
+            make_team_table(third_team, "All-NBA 3rd Team"),
+        ])

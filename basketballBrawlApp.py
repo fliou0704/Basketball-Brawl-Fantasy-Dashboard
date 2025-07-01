@@ -4,6 +4,7 @@ from dash import Dash, html, dcc, Input, Output
 from basketballBrawlHome import get_home_layout, register_home_callbacks
 from basketballBrawlTeamStats import get_team_layout, create_team_difference_chart, create_team_pie_chart, create_positional_pie_chart, plot_player_pie_chart
 from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
+from basketballBrawlRecordBook import get_record_book_layout, register_record_book_callbacks
 
 ### TODO:
 ### - Add record book/awards tab
@@ -17,13 +18,15 @@ app = Dash(__name__, suppress_callback_exceptions=True)
 
 register_home_callbacks(app)
 register_h2h_callbacks(app)
+register_record_book_callbacks(app)
 
 # Define the layout with tabs
 app.layout = html.Div([
     dcc.Tabs(id="tabs", value="home", children=[
         dcc.Tab(label="Home", value="home"),
         dcc.Tab(label="Team Stats", value="team"),
-        dcc.Tab(label="Historical H2H", value="h2h")  # Add this line
+        dcc.Tab(label="Historical H2H", value="h2h"),
+        dcc.Tab(label="Record Book", value="recordbook")
     ]),
     html.Div(id="content")  # This will hold the content of the selected tab
 ])
@@ -40,7 +43,9 @@ def render_content(tab):
     elif tab == "team":
         return get_team_layout()
     elif tab == "h2h":
-        return get_h2h_layout() 
+        return get_h2h_layout()
+    elif tab == "recordbook":
+        return get_record_book_layout() 
 
 # Callback to update team name based on selected team in the dropdown
 @app.callback(

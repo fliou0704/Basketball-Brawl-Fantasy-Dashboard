@@ -6,7 +6,7 @@ from dataStore import data, playerMatchup
 
 ### TODO:
 ### - Make only score column clickable?
-### - Make it clearer than the columns are clickable
+### - Make it clearer that the columns are clickable
 ### - Add a total under the player details table for both teams
 ### - Add logos?
 
