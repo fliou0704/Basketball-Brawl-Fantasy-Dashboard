@@ -9,6 +9,9 @@ from dataStore import data, playerMatchup
 ### - Make it clearer that the columns are clickable
 ### - Add a total under the player details table for both teams
 ### - Add logos?
+### - Most-improved
+### - Best draft pick
+### - Best free agent
 
 
 def get_h2h_layout():

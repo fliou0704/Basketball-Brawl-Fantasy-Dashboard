@@ -3,6 +3,11 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 
+### TODO:
+### - Mariokart style stat rankings
+### - All-time team roster along with how each player was acquired/dropped
+### - All-time record and winning percentage with playoff splits
+
 # Sample team data - Replace with your actual data
 players = pd.read_csv('data/playerMatchupData.csv')
 players = players[players["Year"] == 2024]

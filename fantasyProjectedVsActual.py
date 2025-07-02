@@ -62,35 +62,3 @@ df = df.reset_index(drop = True) # Gets rid of indices
 
 df.to_csv('projectedVsActual.csv')
 
-# #Set up connection to Google Sheet
-# #Follow instructions in following article to generate the json keyfile name
-# #https://mljar.com/blog/authenticate-python-google-sheets-service-account-json-credentials/
-# scope = ['https://spreadsheets.google.com/feeds',
-#          'https://www.googleapis.com/auth/drive']
-# credentials = ServiceAccountCredentials.from_json_keyfile_name(
-#     'basketball-brawl-fant-48835f8bd41a.json', scope) #enter keyfile_name in quotes
-# gc = gspread.authorize(credentials)
-# spreadsheet_key = '1uuf5ZyqK4V8G6nNKaSKpWVYqhsk3zdW2wP1e7PTgPkY' #enter spreadsheet id in quotes
-# wks_name = 'basketballBrawl' #enter worksheet name in quotes
-
-
-# #Fill NaN values with blanks
-# df = df.fillna('')
-
-
-# #Put the dataframe values in a list
-# df_values = [df.columns.tolist()] + df.values.tolist() #with column names
-# #df_values = df.values.tolist() #without column names
-
-
-
-# #Open the Google Sheet
-# gs = gc.open_by_key(spreadsheet_key)
-
-
-# #Remove data from this year to overwrite
-# gs.values_clear("Sheet3!A1:U1000")  #Update sheet name and cells
-
-
-# #Append data to the Google Sheet
-# gs.values_append('Sheet3', {'valueInputOption': 'RAW'}, {'values': df_values}) #Update sheet name

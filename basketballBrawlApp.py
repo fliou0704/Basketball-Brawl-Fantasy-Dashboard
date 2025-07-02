@@ -7,10 +7,11 @@ from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
 from basketballBrawlRecordBook import get_record_book_layout, register_record_book_callbacks
 
 ### TODO:
-### - Add record book/awards tab
 ### - Update team stats tab (add more years, rework)
 ### - Team of the week?
 ### - Add league activity data
+### - Fix Shayan team for 2024 year (he doesn't control it until after the season)
+### - Update stats to int instead of float
 
 
 # Set suppress_callback_exceptions=True
