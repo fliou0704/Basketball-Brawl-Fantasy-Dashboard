@@ -20,6 +20,8 @@ league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
 
 
 
-for act in league.recent_activity(5000):
-    if act.actions != []:
-        print(act.actions)
+players = pd.read_csv("data/playerMatchupData.csv")
+players = players[players["Year"] == 2025]
+players = players[players["Week"] < 21]
+players = players[players["Team Name"] == "The Bronx Orthodox Church"]
+print(players["FPTS"].sum())
