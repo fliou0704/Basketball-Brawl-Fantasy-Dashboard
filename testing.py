@@ -20,8 +20,10 @@ league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
 
 
 
-players = pd.read_csv("data/playerMatchupData.csv")
-players = players[players["Year"] == 2025]
-players = players[players["Week"] < 21]
-players = players[players["Team Name"] == "The Bronx Orthodox Church"]
-print(players["FPTS"].sum())
+activity = pd.read_csv("data/activityData_with_not_kept.csv")
+activity.to_csv("data/activityData.csv")
+activity.to_csv("data/activityDataBackup.csv")
+# players = players[players["Year"] == 2025]
+# players = players[players["Week"] < 21]
+# players = players[players["Team Name"] == "The Bronx Orthodox Church"]
+# print(players["FPTS"].sum())

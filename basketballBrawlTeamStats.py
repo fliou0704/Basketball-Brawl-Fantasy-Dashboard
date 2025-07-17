@@ -2,13 +2,15 @@ from dash import html, dcc, Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from dataStore import playerMatchup, data
+from dataStore import playerMatchup, data, activityData
 
 ### TODO:
 ### - Mariokart style stat rankings
-### - Reflect team rankings to be only regular season
+### - Reflect team stat rankings to be only regular season
 ### - All-time team roster along with how each player was acquired/dropped
-### - All-time record and winning percentage with playoff splits
+### - Instead of pie chart for points by player, just show percentage contribution on yearly roster
+### - Add trade history for each team
+### - Fix activity data "not kept" logic, may need to add team IDs to activity data to keep teams consistent across years and teams
 
 # Sample team data - Replace with your actual data
 players = playerMatchup
@@ -25,10 +27,16 @@ players["TO"] = players["TO"] / -2
 years = sorted(players['Year'].unique())
 years.sort(reverse=True)
 
-unique_teams = players[players["Year"] == max(years)]["Team Name"].unique()
+# Get most recent year for each team
+latest_team_names = (
+    league_data.sort_values("Year", ascending=False)
+    .drop_duplicates("Team ID")[["Team ID", "Team Name"]]
+)
 
-# Dropdown options (list of dictionaries with 'label' and 'value')
-team_dropdown_options = [{"label": team, "value": team} for team in unique_teams]
+team_dropdown_options = [
+    {"label": row["Team Name"], "value": row["Team ID"]}
+    for _, row in latest_team_names.iterrows()
+]
 
 year_dropdown_options = [{"label": "Summary", "value": "Summary"}] + [
     {"label": str(yr), "value": yr} for yr in years
@@ -68,24 +76,61 @@ def register_team_callbacks(app):
         Output("team-stats-display", "children"),
         [Input("team-dropdown", "value"), Input("year-dropdown", "value")]
     )
-    def update_team_stats(team, selected_year):
-        if not team:
+    def update_team_stats(team_id, selected_year):
+        if not team_id:
             return html.Div("Please select a team")
+        
+        # Get most recent team name for display
+        team_name_row = league_data[league_data["Team ID"] == team_id].sort_values("Year", ascending=False).head(1)
+        team_name = team_name_row["Team Name"].values[0] if not team_name_row.empty else f"Team {team_id}"
 
         if selected_year == "Summary" or selected_year is None:
             # All-Time Roster
-            team_data = players[players["Team Name"] == team]
+            team_data = players[players["Team ID"] == team_id]
             roster_df = team_data.groupby("Player Name")["FPTS"].sum().reset_index()
             roster_df = roster_df.sort_values("FPTS", ascending=False)
 
+            activity = activityData.copy()
+            activity = activity[activity["Team ID"] == team_id]
+
+            # Convert to datetime for sorting
+            activity["Datetime"] = pd.to_datetime(activity["Date"] + " " + activity["Time"])
+            activity = activity.sort_values("Datetime", ascending=False)
+
+            # Drop duplicate players to keep most recent action
+            recent_activity = (
+                activity.drop_duplicates(subset=["Asset"])
+                .rename(columns={"Asset": "Player Name"})
+            )
+
+            recent_activity = recent_activity[["Player Name", "Action", "Date"]]
+
+            # Merge FPTS and recent activity
+            roster = pd.merge(roster_df, recent_activity, on="Player Name", how="left")
+            roster = roster.sort_values("FPTS", ascending=False)
+
+            # Build HTML table rows
+            table_rows = []
+            for _, row in roster.iterrows():
+                table_rows.append(html.Tr([
+                    html.Td(row["Player Name"]),
+                    html.Td(f"{row['FPTS']:.2f}"),
+                    html.Td(row["Action"] if pd.notna(row["Action"]) else "—"),
+                    html.Td(row["Date"] if pd.notna(row["Date"]) else "—")
+                ]))
+
             roster_table = html.Table([
-                html.Thead(html.Tr([html.Th("Player Name"), html.Th("Total FPTS")]))
-            ] + [
-                html.Tr([html.Td(row["Player Name"]), html.Td(f"{row['FPTS']:.2f}")]) for _, row in roster_df.iterrows()
+                html.Thead(html.Tr([
+                    html.Th("Player Name"),
+                    html.Th("Total FPTS"),
+                    html.Th("Last Action"),
+                    html.Th("Last Action Date")
+                ])),
+                html.Tbody(table_rows)
             ])
 
             # All-Time Records (excluding Consolation)
-            records = league_data[(league_data["Team Name"] == team) & (league_data["Type"] != "Consolation")]
+            records = league_data[(league_data["Team ID"] == team_id) & (league_data["Type"] != "Consolation")]
             total_wins = records["Win"].sum()
             total_losses = records["Loss"].sum()
 
@@ -98,7 +143,7 @@ def register_team_callbacks(app):
             po_losses = playoff["Loss"].sum()
 
             return html.Div([
-                html.H3(f"Summary for {team}"),
+                html.H3(f"Summary for {team_name}"),
                 html.Br(),
                 html.H4("All-Time Record"),
                 html.P(f"Overall Record: {total_wins} - {total_losses}"),
@@ -110,11 +155,11 @@ def register_team_callbacks(app):
             ])
         
         # Filter for selected year and team
-        year_data = players[(players["Year"] == int(selected_year)) & (players["Team Name"] == team)]
+        year_data = players[(players["Year"] == int(selected_year)) & (players["Team ID"] == team_id)]
 
         # If no data, return message
         if year_data.empty:
-            return html.Div(f"No data for {team} in {selected_year}")
+            return html.Div(f"No data for {team_name} in {selected_year}")
 
         # === Stat Rankings ===
         stat_cols = {
@@ -141,10 +186,10 @@ def register_team_callbacks(app):
 
             # Drop NaNs and rank
             all_stats = all_stats.dropna()
-            if team not in all_stats:
+            if team_name not in all_stats:
                 rank = "N/A"
             else:
-                rank = int(all_stats.rank(ascending=False, method="min").loc[team])
+                rank = int(all_stats.rank(ascending=False, method="min").loc[team_name])
 
             ranking_table.append(html.Tr([
                 html.Td(stat_label),
@@ -153,7 +198,7 @@ def register_team_callbacks(app):
             ]))
 
         return html.Div([
-            html.H3(f"{team} - {selected_year} Stat Rankings"),
+            html.H3(f"{team_name} - {selected_year} Stat Rankings"),
             html.Table([
                 html.Thead(html.Tr([html.Th("Stat"), html.Th("Rank"), html.Th("Value")])),
                 html.Tbody(ranking_table)

@@ -7,7 +7,7 @@ espn_s2 = "AEAgnCeltBfv4nKLUgjlax5tsKzVho%2B6cA1L370VKGvF%2B8hlSX4dpV6Gv7kWYNR5t
 
 years = [2023, 2024, 2025]
 
-all_data = pd.DataFrame(columns=["Year", "Week", "Team Name", "Player Name", "Player ID", "FPTS", "Position", "Position2", "Position3", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB", "TO", "FGM", "FGA", "FTM"])
+all_data = pd.DataFrame(columns=["Year", "Week", "Team Name", "Team ID", "Player Name", "Player ID", "FPTS", "Position", "Position2", "Position3", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB", "TO", "FGM", "FGA", "FTM"])
 
 for year in years:
 
@@ -18,7 +18,7 @@ for year in years:
 
     league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
 
-    df = pd.DataFrame(columns=["Year", "Week", "Team Name", "Player Name", "Player ID", "FPTS", "Position", "Position2", "Position3", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB", "TO", "FGM", "FGA", "FTM"])
+    df = pd.DataFrame(columns=["Year", "Week", "Team Name", "Team ID", "Player Name", "Player ID", "FPTS", "Position", "Position2", "Position3", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB", "TO", "FGM", "FGA", "FTM"])
 
     eligiblePositions = ['PG', 'SG', 'SF', 'PF', 'C']
 
@@ -30,7 +30,7 @@ for year in years:
     for week in range(1, totalWeeks + 1):
         for boxScore in league.box_scores(week):
             for player in boxScore.home_lineup:
-                df_row = pd.DataFrame({"Year": [year], "Week": [week], "Team Name": [boxScore.home_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "FPTS": player.points, "Position": None, "Position2": None, "Position3": None})
+                df_row = pd.DataFrame({"Year": [year], "Week": [week], "Team Name": [boxScore.home_team.team_name], "Team ID": [boxScore.home_team.team_id],  "Player Name": [player.name], "Player ID": [player.playerId], "FPTS": player.points, "Position": None, "Position2": None, "Position3": None})
                 positionPriority = 0
 
                 for position in player.eligibleSlots:
@@ -54,7 +54,7 @@ for year in years:
                     df = pd.concat([df, df_row])
 
             for player in boxScore.away_lineup:
-                df_row = pd.DataFrame({"Year": [year], "Week": [week], "Team Name": [boxScore.away_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "FPTS": player.points, "Position": None, "Position2": None, "Position3": None})
+                df_row = pd.DataFrame({"Year": [year], "Week": [week], "Team Name": [boxScore.away_team.team_name], "Team ID": [boxScore.away_team.team_id], "Player Name": [player.name], "Player ID": [player.playerId], "FPTS": player.points, "Position": None, "Position2": None, "Position3": None})
                 positionPriority = 0
 
                 for position in player.eligibleSlots:

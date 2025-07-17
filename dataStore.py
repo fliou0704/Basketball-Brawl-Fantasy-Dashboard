@@ -3,6 +3,7 @@ import pandas as pd
 data = pd.read_csv("data/basketballBrawlLeagueData.csv")
 playerMatchup = pd.read_csv("data/playerMatchupData.csv")
 playerDaily = pd.read_csv("data/playerDailyData.csv")
+activityData = pd.read_csv("data/activityData.csv")
 
 # Create a dictionary mapping team IDs to logo file paths
 team_logo_paths = {

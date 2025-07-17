@@ -5,6 +5,7 @@ from dataStore import playerMatchup, playerDaily, data
 ### TODO:
 ### - Show how many players for each team under all nba teams
 ### - Show how many times each player scored more than 100 points under 100 point table
+### - Reformat dropdown so that there is an "All-Time" option instead of always showing the all-time records
 
 # Most points in a single matchup (Team)
 top_team_game = data.sort_values("Points For", ascending=False).iloc[0]
