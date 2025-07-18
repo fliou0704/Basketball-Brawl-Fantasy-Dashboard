@@ -5,6 +5,7 @@ from basketballBrawlHome import get_home_layout, register_home_callbacks
 from basketballBrawlTeamStats import get_team_layout, register_team_callbacks #, create_team_difference_chart, create_team_pie_chart, create_positional_pie_chart, plot_player_pie_chart
 from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
 from basketballBrawlRecordBook import get_record_book_layout, register_record_book_callbacks
+from basketballBrawlPowerRankings import get_power_rankings_layout, register_power_rankings_callbacks
 
 ### TODO:
 ### - Add a tab for power rankings, either pdf images or likely, link workshop ideas with chat
@@ -23,6 +24,7 @@ register_home_callbacks(app)
 register_team_callbacks(app)
 register_h2h_callbacks(app)
 register_record_book_callbacks(app)
+register_power_rankings_callbacks(app)
 
 # Define the layout with tabs
 app.layout = html.Div([
@@ -30,7 +32,8 @@ app.layout = html.Div([
         dcc.Tab(label="Home", value="home"),
         dcc.Tab(label="Team Stats", value="team"),
         dcc.Tab(label="Historical H2H", value="h2h"),
-        dcc.Tab(label="Record Book", value="recordbook")
+        dcc.Tab(label="Record Book", value="recordbook"),
+        dcc.Tab(label="Power Rankings", value="powerrankings")
     ]),
     html.Div(id="content")  # This will hold the content of the selected tab
 ])
@@ -50,6 +53,8 @@ def render_content(tab):
         return get_h2h_layout()
     elif tab == "recordbook":
         return get_record_book_layout() 
+    elif tab == "powerrankings":
+        return get_power_rankings_layout()
 
 # # Callback to update team name based on selected team in the dropdown
 # @app.callback(
