@@ -1,6 +1,6 @@
 import pandas as pd
 from dash import html, dcc, dash_table, Output, Input
-from dataStore import playerMatchup, playerDaily, data
+from dataStore import playerMatchup, playerDaily, data, activityData
 
 ### TODO:
 ### - Show how many players for each team under all nba teams
@@ -24,6 +24,13 @@ hundred_point_games.sort_values("Date", ascending=False, inplace=True)
 hundred_point_games = hundred_point_games[["Date", "Player Name", "Team Name", "FPTS"]]
 hundred_point_games["Date"] = pd.to_datetime(hundred_point_games["Date"]).dt.strftime("%m/%d/%Y")
 
+dropdown_options = [
+    {"label": "All-Time", "value": "All-Time"}
+] + [
+    {"label": str(year), "value": str(year)}
+    for year in sorted(playerMatchup["Year"].unique(), reverse=True)
+]
+
 def get_record_book_layout():
     return html.Div([
         html.H2("Record Book"),
@@ -32,56 +39,12 @@ def get_record_book_layout():
             html.Label("Select Year:"),
             dcc.Dropdown(
                 id="award-year-dropdown",
-                options=[
-                    {"label": str(year), "value": str(year)}
-                    for year in sorted(playerMatchup["Year"].unique(), reverse=True)
-                ],
+                options=dropdown_options,
                 value=str(playerMatchup["Year"].max())  # Set to most recent year
             )
         ], style={"marginBottom": "20px"}),
 
-        html.Div(id="awards-display"),
-
-        html.H4("Most Points in a Single Matchup (Team)"),
-        html.P(f"{top_team_game['Team Name']} scored {top_team_game['Points For']} points in Week {top_team_game['Week']} of {top_team_game['Year']}"),
-
-        html.H4("Most Points in a Single Matchup (Player)"),
-        html.P(f"{top_player_game['Player Name']} scored {top_player_game['FPTS']} points in a matchup for {top_player_game['Team Name']}"),
-
-        html.H4("Most Points in a Single Day (Player)"),
-        html.P(f"{top_daily_game['Player Name']} scored {top_daily_game['FPTS']} points on {top_daily_game['Date']} for {top_daily_game['Team Name']}"),
-
-        html.H4("Players with 100+ Point Days"),
-        dash_table.DataTable(
-            columns=[
-                {"name": "Date", "id": "Date"},
-                {"name": "Player Name", "id": "Player Name"},
-                {"name": "Team Name", "id": "Team Name"},
-                {"name": "FPTS", "id": "FPTS"}
-            ],
-            data=hundred_point_games.to_dict("records"),
-            style_table={'overflowX': 'auto'},
-            style_cell={'textAlign': 'left'}
-        ),
-
-        html.H4("Players with Negative Point Days"),
-        dash_table.DataTable(
-            columns=[
-                {"name": "Date", "id": "Date"},
-                {"name": "Player Name", "id": "Player Name"},
-                {"name": "Team Name", "id": "Team Name"},
-                {"name": "FPTS", "id": "FPTS"}
-            ],
-            data=playerDaily[
-                (playerDaily["FPTS"] < 0) & 
-                (~playerDaily["Player Slot"].isin(["BE", "IR"]))
-            ]
-            .sort_values("Date", ascending=False)[["Date", "Player Name", "Team Name", "FPTS"]]
-            .assign(Date=lambda df: pd.to_datetime(df["Date"]).dt.strftime("%m/%d/%Y"))
-            .to_dict("records"),
-            style_table={'overflowX': 'auto'},
-            style_cell={'textAlign': 'left'}
-        )
+        html.Div(id="awards-display")
     ])
 
 
@@ -91,6 +54,73 @@ def register_record_book_callbacks(app):
         Input("award-year-dropdown", "value")
     )
     def update_awards_display(selected_year):
+        if selected_year == "All-Time":
+            transact_actions = ["WAIVER ADDED", "DROPPED", "DRAFTED", "TRADED"]
+            transact_df = activityData[activityData["Action"].isin(transact_actions)]
+
+            # Count total actions per player
+            transaction_counts = (
+                transact_df.groupby("Asset")["Action"]
+                .count()
+                .reset_index(name="Transaction Count")
+                .sort_values("Transaction Count", ascending=False)
+                .head(10)
+            )
+
+
+            return html.Div([
+                html.H4("Most Points in a Single Matchup (Team)"),
+                html.P(f"{top_team_game['Team Name']} scored {top_team_game['Points For']} points in Week {top_team_game['Week']} of {top_team_game['Year']}"),
+
+                html.H4("Most Points in a Single Matchup (Player)"),
+                html.P(f"{top_player_game['Player Name']} scored {top_player_game['FPTS']} points in Week {top_player_game['Week']} of {top_player_game['Year']} for {top_player_game['Team Name']}"),
+
+                html.H4("Most Points in a Single Day (Player)"),
+                html.P(f"{top_daily_game['Player Name']} scored {top_daily_game['FPTS']} points on {top_daily_game['Date']} for {top_daily_game['Team Name']}"),
+
+                html.H4("Players with 100+ Point Days"),
+                dash_table.DataTable(
+                    columns=[
+                        {"name": "Date", "id": "Date"},
+                        {"name": "Player Name", "id": "Player Name"},
+                        {"name": "Team Name", "id": "Team Name"},
+                        {"name": "FPTS", "id": "FPTS"}
+                    ],
+                    data=hundred_point_games.to_dict("records"),
+                    style_table={'overflowX': 'auto'},
+                    style_cell={'textAlign': 'left'}
+                ),
+
+                html.H4("Players with Negative Point Days"),
+                dash_table.DataTable(
+                    columns=[
+                        {"name": "Date", "id": "Date"},
+                        {"name": "Player Name", "id": "Player Name"},
+                        {"name": "Team Name", "id": "Team Name"},
+                        {"name": "FPTS", "id": "FPTS"}
+                    ],
+                    data=playerDaily[
+                        (playerDaily["FPTS"] < 0) & 
+                        (~playerDaily["Player Slot"].isin(["BE", "IR"]))
+                    ].sort_values("Date", ascending=False)[["Date", "Player Name", "Team Name", "FPTS"]]
+                    .assign(Date=lambda df: pd.to_datetime(df["Date"]).dt.strftime("%m/%d/%Y"))
+                    .to_dict("records"),
+                    style_table={'overflowX': 'auto'},
+                    style_cell={'textAlign': 'left'}
+                ),
+
+                html.H5("Top 10 Most Active Players (Total Transactions)"),
+                dash_table.DataTable(
+                    columns=[
+                        {"name": "Player Name", "id": "Asset"},
+                        {"name": "Transaction Count", "id": "Transaction Count"},
+                    ],
+                    data=transaction_counts.to_dict("records"),
+                    style_table={'overflowX': 'auto'},
+                    style_cell={'textAlign': 'left'}
+                )
+            ])
+        
         selected_year = int(selected_year)
         year_df = playerMatchup[playerMatchup["Year"] == selected_year]
 
@@ -171,13 +201,60 @@ def register_record_book_callbacks(app):
                 )
             ])
 
+        # === League Slut ===
+        activity_year = activityData[activityData["Year"] == selected_year]
+        slut_counts = activity_year.groupby("Asset")["Team ID"].nunique().reset_index()
+        slut_counts.columns = ["Player Name", "Unique Teams"]
+        max_teams = slut_counts["Unique Teams"].max()
+        sluts = slut_counts[slut_counts["Unique Teams"] == max_teams]
+
+        # Best Waiver Add per Year
+        yearActivity = activityData[activityData["Year"] == selected_year]
+        waiver_adds = yearActivity[yearActivity["Action"] == "WAIVER ADDED"].copy()
+
+        waiver_adds.rename(columns={"Asset": "Player Name"}, inplace=True)
+
+        # Remove duplicate adds by same team/player in a year
+        waiver_adds = waiver_adds.drop_duplicates(subset=["Player Name", "Team Name"])
+
+        year_totals = (
+            year_df.groupby(["Player Name", "Team Name"])["FPTS"]
+            .sum()
+            .reset_index()
+        )
+
+        # Merge with player scores
+        waiver_stats = waiver_adds.merge(
+            year_totals, on=["Player Name", "Team Name"], how="left"
+        )
+
+        # Group by (Year, Player, Team) and sum points
+        # waiver_points = waiver_stats.groupby(
+        #     ["Player Name", "Team Name"]
+        # )["FPTS"].sum().reset_index()
+
+        #print(type(waiver_points))
+
+        waiver_stats = waiver_stats.sort_values("FPTS", ascending=False).reset_index()
+
+        # For each year, get player with max points
+        best_waiver_add = waiver_stats.iloc[0]
+
         return html.Div([
             html.H3(f"{selected_year} Awards"),
-
-            html.H4("🏆 MVP"),
+            html.H4("\U0001F3C6 MVP"),
             html.P(f"{mvp['Player Name']} with {mvp['FPTS']} fantasy points"),
-
             make_team_table(first_team, "All-NBA 1st Team"),
             make_team_table(second_team, "All-NBA 2nd Team"),
             make_team_table(third_team, "All-NBA 3rd Team"),
+            html.H4("Best Waiver Add"),
+            html.P(
+                f"{best_waiver_add['Player Name']} on {best_waiver_add['Team Name']} scored {best_waiver_add['FPTS']} points"
+            ),
+            html.H4("League Slut (Most Unique Teams in a Season)"),
+            dash_table.DataTable(
+                columns=[{"name": col, "id": col} for col in sluts.columns],
+                data=sluts.to_dict("records"),
+                style_cell={"textAlign": "left"},
+            )
         ])
