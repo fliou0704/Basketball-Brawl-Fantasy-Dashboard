@@ -1,6 +1,9 @@
 from dash import html, dcc, Output, Input, State, callback
 import dash
 
+### TODO:
+### - Connect to google folder to update automatically?
+
 # List of power rankings articles with embedded Google Docs preview links
 power_rankings_articles = [
     {
@@ -8,7 +11,7 @@ power_rankings_articles = [
         "title": "2024 Fantasy Pre-Season Power Rankings",
         "author": "Jon Min Htut",
         "date": "October 27, 2023",
-        "doc_url": "https://docs.google.com/document/d/1NlHkwKrMi3HoQE8INIshSshelg_7mDNCxgRohnp4VS8/edit?tab=t.0"
+        "doc_url": "https://docs.google.com/document/d/1NlHkwKrMi3HoQE8INIshSshelg_7mDNCxgRohnp4VS8/preview"
     },
     {
         "id": "week11_2023",

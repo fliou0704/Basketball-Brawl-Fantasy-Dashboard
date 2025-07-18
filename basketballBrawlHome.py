@@ -21,7 +21,8 @@ def get_home_layout(app):
                 id="year-dropdown",
                 options=[{"label": str(year), "value": year} for year in years],
                 value=latestYear,
-                clearable=False
+                clearable=False,
+                searchable=False
             ),
         ], style={'width': '30%', 'margin': 'auto'}),
 

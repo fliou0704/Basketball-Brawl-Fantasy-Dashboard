@@ -32,7 +32,8 @@ def get_h2h_layout():
                 options=team_options,
                 placeholder="Select Team 1",
                 value=None,
-                clearable=True
+                clearable=True,
+                searchable=False
             ),
         ], style={'width': '45%', 'display': 'inline-block', 'marginRight': '5%'}),
 
@@ -43,7 +44,8 @@ def get_h2h_layout():
                 options=team_options,
                 placeholder="Select Team 2",
                 value=None,
-                clearable=True
+                clearable=True,
+                searchable=False
             ),
         ], style={'width': '45%', 'display': 'inline-block'}),
 

@@ -50,7 +50,8 @@ def get_team_layout():
                 id="team-dropdown",
                 options=team_dropdown_options,
                 placeholder="Select a team",
-                style={"width": "50%", "margin-bottom": "20px"}
+                style={"width": "50%", "margin-bottom": "20px"},
+                searchable=False
             )
         ]),
         html.Div([
@@ -58,7 +59,8 @@ def get_team_layout():
                 id="year-dropdown",
                 options=year_dropdown_options,
                 value="Summary",
-                style={"width": "50%"}
+                style={"width": "50%"},
+                searchable=False
             )
         ], id="year-dropdown-container", style={"display": "none"}),
         html.Div(id="team-stats-display")

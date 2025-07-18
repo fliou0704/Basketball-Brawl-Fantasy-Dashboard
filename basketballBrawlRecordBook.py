@@ -43,7 +43,9 @@ def get_record_book_layout():
             dcc.Dropdown(
                 id="award-year-dropdown",
                 options=dropdown_options,
-                value=str(playerMatchup["Year"].max())  # Set to most recent year
+                value=str(playerMatchup["Year"].max()),  # Set to most recent year
+                searchable=False,
+                clearable=False
             )
         ], style={"marginBottom": "20px"}),
 
