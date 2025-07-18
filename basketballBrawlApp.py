@@ -7,9 +7,13 @@ from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
 from basketballBrawlRecordBook import get_record_book_layout, register_record_book_callbacks
 
 ### TODO:
+### - Add a tab for power rankings, either pdf images or likely, link workshop ideas with chat
+### - Add weekly matchups tab so people can look at each week and see the scores, ranked teams by points scored that week, "ideal" lineup for that week
 ### - Team of the week?
+### - Add ages/height of players?
 ### - Fix Shayan team for 2024 year (he doesn't control it until after the season)
 ### - Update stats to int instead of float
+### - Work on making data easily updatable for next year
 
 
 # Set suppress_callback_exceptions=True

@@ -5,12 +5,12 @@ import plotly.graph_objects as go
 from dataStore import playerMatchup, data, activityData
 
 ### TODO:
-### - Mariokart style stat rankings
 ### - Reflect team stat rankings to be only regular season
-### - All-time team roster along with how each player was acquired/dropped
+### - Fix all-time roster to skip showing when a player was kept, maybe higlight the "active" players
+### - Add yearly roster, similar to all-time roster with acquisition status and percentage mentioned below
 ### - Instead of pie chart for points by player, just show percentage contribution on yearly roster
+### - Add projected points vs. actual graphic (maybe)
 ### - Add trade history for each team
-### - Fix activity data "not kept" logic, may need to add team IDs to activity data to keep teams consistent across years and teams
 
 # Sample team data - Replace with your actual data
 players = playerMatchup
@@ -174,34 +174,71 @@ def register_team_callbacks(app):
             "FPTS": lambda df: df["FPTS"].sum()
         }
 
-        ranking_table = []
+        # Style dictionary for table cells
+        cell_style = {
+            "textAlign": "center",
+            "padding": "10px"  # Adjust as needed for spacing
+        }
+
+        ranking_labels = []
+        ranking_images = []
+        ranking_values = []
+
+        rank_to_image = {
+            1: "first.png",
+            2: "second.png",
+            3: "third.png",
+            4: "fourth.png",
+            5: "fifth.png",
+            6: "sixth.png",
+            7: "seventh.png",
+            8: "eighth.png",
+            9: "ninth.png",
+            10: "tenth.png"
+        }
+
         year_df = players[players["Year"] == int(selected_year)]
 
         for stat_label, func in stat_cols.items():
-            # Compute team value
             team_stat = func(year_data)
+            all_stats = year_df.groupby("Team Name").apply(func).dropna()
 
-            # Compute all team values
-            all_stats = year_df.groupby("Team Name").apply(func)
-
-            # Drop NaNs and rank
-            all_stats = all_stats.dropna()
             if team_name not in all_stats:
                 rank = "N/A"
             else:
                 rank = int(all_stats.rank(ascending=False, method="min").loc[team_name])
 
-            ranking_table.append(html.Tr([
-                html.Td(stat_label),
-                html.Td(rank),
-                html.Td(f"{team_stat:.2f}" if pd.notna(team_stat) else "N/A")
-            ]))
+            # Row 1: Stat labels
+            ranking_labels.append(html.Td(stat_label, style=cell_style))
+
+            # Row 2: Rank images or N/A
+            if isinstance(rank, int):
+                rank_img = rank_to_image.get(rank)
+                if rank_img:
+                    rank_display = html.Img(
+                        src=f"/assets/placements/{rank_img}",
+                        height="30px",
+                        style={"display": "block", "margin": "0 auto"}  # Center image
+                    )
+                else:
+                    rank_display = str(rank)
+            else:
+                rank_display = "N/A"
+
+            ranking_images.append(html.Td(rank_display, style=cell_style))
+
+            # Row 3: Stat values
+            value_display = f"{team_stat:.2f}" if pd.notna(team_stat) else "N/A"
+            ranking_values.append(html.Td(value_display, style=cell_style))
 
         return html.Div([
             html.H3(f"{team_name} - {selected_year} Stat Rankings"),
             html.Table([
-                html.Thead(html.Tr([html.Th("Stat"), html.Th("Rank"), html.Th("Value")])),
-                html.Tbody(ranking_table)
+                html.Tbody([
+                    html.Tr(ranking_labels),
+                    html.Tr(ranking_images),
+                    html.Tr(ranking_values),
+                ])
             ])
         ])
 
