@@ -3,6 +3,7 @@ import dash
 
 ### TODO:
 ### - Connect to google folder to update automatically?
+### - Add clickable link for users to go to full article on google docs?
 
 # List of power rankings articles with embedded Google Docs preview links
 power_rankings_articles = [

@@ -38,7 +38,9 @@ for year in years:
                     if date_played:
                         date_played = date_played.date()
 
-                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.home_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points})
+                    minutes = player.stats[str(sp)]["total"].get("MIN", None)
+
+                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.home_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points, "MIN": [minutes]})
 
                     for key, value in player.points_breakdown.items():
                         df_row[key] = [value]
@@ -61,7 +63,9 @@ for year in years:
                     if date_played:
                         date_played = date_played.date()
 
-                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.away_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points})
+                    minutes = player.stats[str(sp)]["total"].get("MIN", None)
+
+                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.away_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points, "MIN": [minutes]})
 
                     for key, value in player.points_breakdown.items():
                         df_row[key] = [value]

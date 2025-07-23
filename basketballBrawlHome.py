@@ -4,6 +4,9 @@ import pandas as pd
 import plotly.express as px
 from dataStore import data, get_logo_path, get_team_color
 
+### TODO
+### - Highest scoring player per week?
+
 years = []
 latestYear = -1
 
@@ -34,10 +37,6 @@ def register_home_callbacks(app):
         Output("homepage-content", "children"),
         Input("year-dropdown", "value")
     )
-    # @callback(
-    #     Output("homepage-content", "children"),
-    #     Input("year-dropdown", "value")
-    # )
     def update_homepage_content(selected_year):
         yearData = data[data["Year"] == selected_year]
 
@@ -143,18 +142,6 @@ def register_home_callbacks(app):
             range=[0.5, latest_week + 0.5]
         )
 
-        fig_points_progression = px.line(
-            regularData,
-            x='Week',
-            y='Cumulative Points For',
-            color='Team Name',
-            title=f"Cumulative Points For - {selected_year}",
-            markers=True,
-            color_discrete_map=color_map
-
-        )
-        fig_points_progression.update_yaxes(title="Total Points For")
-
         highest_scoring_teams = regularData.loc[regularData.groupby('Week')['Points For'].idxmax()]
 
         fig_highest_scoring = px.bar(
@@ -171,6 +158,5 @@ def register_home_callbacks(app):
         return html.Div([
             custom_table,
             dcc.Graph(figure=fig_rank_progression),
-            dcc.Graph(figure=fig_points_progression),
             dcc.Graph(figure=fig_highest_scoring)
         ])

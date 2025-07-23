@@ -8,10 +8,11 @@ from basketballBrawlRecordBook import get_record_book_layout, register_record_bo
 from basketballBrawlPowerRankings import get_power_rankings_layout, register_power_rankings_callbacks
 
 ### TODO:
-### - Add a tab for power rankings, either pdf images or likely, link workshop ideas with chat
 ### - Add weekly matchups tab so people can look at each week and see the scores, ranked teams by points scored that week, "ideal" lineup for that week
 ### - Team of the week?
 ### - Add ages/height of players?
+### - Add PPM (Points per minute) stat
+### - Figure out a way to see number of starts for each team each week? PPS (Points per start) stat?
 ### - Fix Shayan team for 2024 year (he doesn't control it until after the season)
 ### - Update stats to int instead of float
 ### - Work on making data easily updatable for next year
@@ -82,4 +83,4 @@ def render_content(tab):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050))  # Use Render's port or default to 8050 locally
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False) # Set debug and use_reloader to False for deployment (Use Ctrl + C to shut down app locally)
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False) # Set debug and use_reloader to False for deployment (Use Ctrl + C to shut down app locally)

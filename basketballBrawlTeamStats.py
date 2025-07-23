@@ -6,9 +6,6 @@ from dataStore import playerMatchup, data, activityData
 
 ### TODO:
 ### - Reflect team stat rankings to be only regular season
-### - Fix all-time roster to skip showing when a player was kept, maybe higlight the "active" players
-### - Add yearly roster, similar to all-time roster with acquisition status and percentage mentioned below
-### - Instead of pie chart for points by player, just show percentage contribution on yearly roster
 ### - Add projected points vs. actual graphic (maybe)
 ### - Add trade history for each team
 
@@ -132,15 +129,22 @@ def register_team_callbacks(app):
             roster = roster_df.merge(recent_activity, on="Player ID", how="left")
             roster = roster.sort_values("FPTS", ascending=False)
 
+            inactive_actions = ["DROPPED", "TRADED", "NOT KEPT"]
+
             # Build HTML table rows
             table_rows = []
             for _, row in roster.iterrows():
+                is_inactive = row["Action"] in inactive_actions
+                row_style = {
+                    "background-color": "#f8d7da" if is_inactive else "#d4edda"  # light red for inactive, light green for active
+                }
+
                 table_rows.append(html.Tr([
                     html.Td(row["Player Name"]),
-                    html.Td(f"{row['FPTS']:.2f}"),
+                    html.Td(f"{int(row['FPTS'])}"),
                     html.Td(row["Action"] if pd.notna(row["Action"]) else "—"),
                     html.Td(row["Date"] if pd.notna(row["Date"]) else "—")
-                ]))
+                ], style=row_style))
 
             roster_table = html.Table([
                 html.Thead(html.Tr([
@@ -165,13 +169,18 @@ def register_team_callbacks(app):
             po_wins = playoff["Win"].sum()
             po_losses = playoff["Loss"].sum()
 
+            # Avoid division by zero
+            def win_pct(wins, losses):
+                total_games = wins + losses
+                return f"({wins / total_games:.3f})" if total_games > 0 else ""
+
             return html.Div([
                 html.H3(f"Summary for {team_name}"),
                 html.Br(),
                 html.H4("All-Time Record"),
-                html.P(f"Overall Record: {total_wins} - {total_losses}"),
-                html.P(f"Regular Season: {reg_wins} - {reg_losses}"),
-                html.P(f"Playoffs: {po_wins} - {po_losses}"),
+                html.P(f"Overall Record: {total_wins} - {total_losses} {win_pct(total_wins, total_losses)}"),
+                html.P(f"Regular Season: {reg_wins} - {reg_losses} {win_pct(reg_wins, reg_losses)}"),
+                html.P(f"Playoffs: {po_wins} - {po_losses} {win_pct(po_wins, po_losses)}"),
                 html.Br(),
                 html.H4("All-Time Roster"),
                 roster_table
@@ -224,12 +233,12 @@ def register_team_callbacks(app):
 
         for stat_label, func in stat_cols.items():
             team_stat = func(year_data)
-            all_stats = year_df.groupby("Team Name").apply(func).dropna()
+            all_stats = year_df.groupby("Team ID").apply(func).dropna()
 
-            if team_name not in all_stats:
+            if team_id not in all_stats:
                 rank = "N/A"
             else:
-                rank = int(all_stats.rank(ascending=False, method="min").loc[team_name])
+                rank = int(all_stats.rank(ascending=False, method="min").loc[team_id])
 
             # Row 1: Stat labels
             ranking_labels.append(html.Td(stat_label, style=cell_style))
@@ -254,6 +263,49 @@ def register_team_callbacks(app):
             value_display = f"{team_stat:.2f}" if pd.notna(team_stat) else "N/A"
             ranking_values.append(html.Td(value_display, style=cell_style))
 
+        # === Year-Specific Roster ===
+        year_roster = year_data.groupby(["Player Name", "Player ID"])["FPTS"].sum().reset_index()
+        year_roster = year_roster.sort_values("FPTS", ascending=False)
+
+        # Add original acquisition from activity log
+        activity = activityData.copy()
+        activity = activity[activity["Team ID"] == team_id]
+        activity = activity[activity["Year"] == selected_year]
+
+        # Ensure datetime and asset matching
+        activity["Datetime"] = pd.to_datetime(activity["Date"] + " " + activity["Time"])
+        activity = activity.sort_values("Datetime", ascending=False)
+
+        # Match on Player ID if available, fallback to Player Name
+        merged = pd.merge(year_roster, activity, how="left", left_on="Player ID", right_on="Player ID")
+
+        # Keep only the latest action per player
+        merged = merged.sort_values("Datetime", ascending=False).drop_duplicates("Player ID")
+
+        # Fallback to KEEPER or blank if no activity
+        merged["Action"] = merged["Action"].fillna("KEEPER")
+        merged["Date"] = merged["Date"].fillna("—")
+
+        # Calculate Contribution %
+        team_total_fpts = year_roster["FPTS"].sum()
+        merged["Contribution"] = (merged["FPTS"] / team_total_fpts * 100).round(2)
+
+        # Reorder and clean up final display
+        merged = merged.sort_values("FPTS", ascending=False)
+        merged = merged[["Player Name", "FPTS", "Action", "Date", "Contribution"]]
+
+        # Build table rows
+        year_table_rows = []
+        for _, row in merged.iterrows():
+            year_table_rows.append(html.Tr([
+                html.Td(row["Player Name"]),
+                html.Td(f"{int(row['FPTS'])}"),
+                html.Td(row["Action"]),
+                html.Td(row["Date"]),
+                html.Td(f"{row['Contribution']:.2f}%")
+            ]))
+
+        # Combine with existing return
         return html.Div([
             html.H3(f"{team_name} - {selected_year} Stat Rankings"),
             html.Table([
@@ -262,6 +314,18 @@ def register_team_callbacks(app):
                     html.Tr(ranking_images),
                     html.Tr(ranking_values),
                 ])
+            ]),
+            html.Hr(),
+            html.H3(f"{team_name} - {selected_year} Roster"),
+            html.Table([
+                html.Thead(html.Tr([
+                    html.Th("Player Name"),
+                    html.Th("FPTS"),
+                    html.Th("Action"),
+                    html.Th("Date"),
+                    html.Th("Contribution")
+                ])),
+                html.Tbody(year_table_rows)
             ])
         ])
 

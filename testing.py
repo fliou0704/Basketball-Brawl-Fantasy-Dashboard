@@ -18,8 +18,28 @@ year = 2024
 
 league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
 
-activityData = pd.read_csv("data/activityData.csv")
-activityData.to_csv("data/activityDataBackup.csv")
+scoringPeriods = int(league.scoringPeriodId)
+
+df = pd.DataFrame(columns=["Year", "Scoring Period", "Date", "Team Name", "Player Name", "Player ID", "Player Slot", "FPTS"])
+
+for sp in range(1, scoringPeriods + 1):
+    for boxScore in league.box_scores(scoring_period=sp, matchup_total=False):
+
+        for player in boxScore.home_lineup:
+
+            played = False
+            if bool(player.stats):
+                day_stats = player.stats.get(str(sp))
+                if day_stats and "total" in day_stats:
+                    played = True
+
+            if played:
+                date_played = player.stats[str(sp)]["date"]
+                if date_played:
+                    date_played = date_played.date()
+                print(player.name)
+                minutes = player.stats[str(sp)]["total"].get("MIN", None)
+                print(minutes)
 
 # players = players[players["Year"] == 2025]
 # players = players[players["Week"] < 21]
