@@ -299,3 +299,25 @@ years = [2026]
 
 # # Optional: save to a new CSV
 # df.to_csv("data/activityData.csv", index=False)
+
+
+
+### 
+### Code for Adding Player IDs to activityData from playerMatchupData
+###
+# activityData = pd.read_csv("data/activityData.csv")
+# playerMatchup_df = pd.read_csv("data/playerMatchupData.csv")
+
+# # Example: from playerMatchup df or other reliable source
+# player_ids = playerMatchup_df[["Player Name", "Player ID"]].drop_duplicates()
+
+# activityData["Player Name"] = activityData["Asset"]
+
+# activityData = pd.merge(activityData, player_ids, on="Player Name", how="left")
+
+# unmatched = activityData[activityData["Player ID"].isna()]
+# print(unmatched["Player Name"].unique())
+
+# activityData = activityData.drop('Player Name', axis=1)
+
+# activityData.to_csv("data/activityData.csv", index=False)

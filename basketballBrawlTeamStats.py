@@ -60,7 +60,8 @@ def get_team_layout():
                 options=year_dropdown_options,
                 value="Summary",
                 style={"width": "50%"},
-                searchable=False
+                searchable=False,
+                clearable=False
             )
         ], id="year-dropdown-container", style={"display": "none"}),
         html.Div(id="team-stats-display")
@@ -87,28 +88,48 @@ def register_team_callbacks(app):
         team_name = team_name_row["Team Name"].values[0] if not team_name_row.empty else f"Team {team_id}"
 
         if selected_year == "Summary" or selected_year is None:
-            # All-Time Roster
+            # Filter team data
             team_data = players[players["Team ID"] == team_id]
-            roster_df = team_data.groupby("Player Name")["FPTS"].sum().reset_index()
+
+            # Group by Player ID instead of name to avoid name mismatches
+            roster_df = team_data.groupby("Player ID")["FPTS"].sum().reset_index()
             roster_df = roster_df.sort_values("FPTS", ascending=False)
 
+            # Bring in player names (latest one available)
+            latest_names = (
+                team_data.sort_values("Year", ascending=False)
+                .drop_duplicates(subset="Player ID")[["Player ID", "Player Name"]]
+            )
+            roster_df = roster_df.merge(latest_names, on="Player ID", how="left")
+
+            # Filter activity data
             activity = activityData.copy()
             activity = activity[activity["Team ID"] == team_id]
-
-            # Convert to datetime for sorting
             activity["Datetime"] = pd.to_datetime(activity["Date"] + " " + activity["Time"])
             activity = activity.sort_values("Datetime", ascending=False)
 
-            # Drop duplicate players to keep most recent action
-            recent_activity = (
-                activity.drop_duplicates(subset=["Asset"])
-                .rename(columns={"Asset": "Player Name"})
-            )
+            # Function to find original (non-KEEPER) acquisition action
+            def find_original_action(player_id, df):
+                player_history = df[df["Player ID"] == player_id]
+                for _, row in player_history.iterrows():
+                    if row["Action"] != "KEEPER":
+                        return row["Action"], row["Date"]
+                return "KEEPER", None
 
-            recent_activity = recent_activity[["Player Name", "Action", "Date"]]
+            # Build acquisition history based on Player ID
+            original_actions = []
+            for player_id in roster_df["Player ID"].unique():
+                player_history = activity[activity["Player ID"] == player_id]
+                if not player_history.empty:
+                    action, date = find_original_action(player_id, player_history)
+                else:
+                    action, date = "—", "—"
+                original_actions.append({"Player ID": player_id, "Action": action, "Date": date})
 
-            # Merge FPTS and recent activity
-            roster = pd.merge(roster_df, recent_activity, on="Player Name", how="left")
+            recent_activity = pd.DataFrame(original_actions)
+
+            # Merge with roster
+            roster = roster_df.merge(recent_activity, on="Player ID", how="left")
             roster = roster.sort_values("FPTS", ascending=False)
 
             # Build HTML table rows

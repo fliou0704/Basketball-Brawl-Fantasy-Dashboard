@@ -18,7 +18,8 @@ year = 2024
 
 league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
 
-
+activityData = pd.read_csv("data/activityData.csv")
+activityData.to_csv("data/activityDataBackup.csv")
 
 # players = players[players["Year"] == 2025]
 # players = players[players["Week"] < 21]
