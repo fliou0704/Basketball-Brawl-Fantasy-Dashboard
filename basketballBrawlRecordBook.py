@@ -9,6 +9,7 @@ from dataStore import playerMatchup, playerDaily, data, activityData
 ### - Real NBA statlines for 100 point games and negative games?
 ### - Add best draft pick
 ### - Add most improved award?
+### - Make 100 point performances and negative performances clickable/expandable so it doesn't clutter 
 
 # Most points in a single matchup (Team)
 top_team_game = data.sort_values("Points For", ascending=False).iloc[0]
@@ -83,6 +84,17 @@ def register_record_book_callbacks(app):
                 html.H4("Most Points in a Single Day (Player)"),
                 html.P(f"{top_daily_game['Player Name']} scored {top_daily_game['FPTS']} points on {top_daily_game['Date']} for {top_daily_game['Team Name']}"),
 
+                html.H4("Top 10 Most Active Players (Total Transactions)"),
+                dash_table.DataTable(
+                    columns=[
+                        {"name": "Player Name", "id": "Asset"},
+                        {"name": "Transaction Count", "id": "Transaction Count"},
+                    ],
+                    data=transaction_counts.to_dict("records"),
+                    style_table={'overflowX': 'auto'},
+                    style_cell={'textAlign': 'left'}
+                ),
+
                 html.H4("Players with 100+ Point Days"),
                 dash_table.DataTable(
                     columns=[
@@ -110,17 +122,6 @@ def register_record_book_callbacks(app):
                     ].sort_values("Date", ascending=False)[["Date", "Player Name", "Team Name", "FPTS"]]
                     .assign(Date=lambda df: pd.to_datetime(df["Date"]).dt.strftime("%m/%d/%Y"))
                     .to_dict("records"),
-                    style_table={'overflowX': 'auto'},
-                    style_cell={'textAlign': 'left'}
-                ),
-
-                html.H5("Top 10 Most Active Players (Total Transactions)"),
-                dash_table.DataTable(
-                    columns=[
-                        {"name": "Player Name", "id": "Asset"},
-                        {"name": "Transaction Count", "id": "Transaction Count"},
-                    ],
-                    data=transaction_counts.to_dict("records"),
                     style_table={'overflowX': 'auto'},
                     style_cell={'textAlign': 'left'}
                 )

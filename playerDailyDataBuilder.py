@@ -7,7 +7,7 @@ espn_s2 = "AEAgnCeltBfv4nKLUgjlax5tsKzVho%2B6cA1L370VKGvF%2B8hlSX4dpV6Gv7kWYNR5t
 
 years = [2023, 2024, 2025]
 
-all_data = pd.DataFrame(columns=["Year", "Scoring Period", "Date", "Team Name", "Player Name", "Player ID", "Player Slot", "FPTS"])
+all_data = pd.DataFrame(columns=["Year", "Scoring Period", "Date", "Team Name", "Team ID", "Player Name", "Player ID", "Player Slot", "FPTS"])
 
 for year in years:
 
@@ -20,7 +20,7 @@ for year in years:
 
     scoringPeriods = int(league.scoringPeriodId)
 
-    df = pd.DataFrame(columns=["Year", "Scoring Period", "Date", "Team Name", "Player Name", "Player ID", "Player Slot", "FPTS"])
+    df = pd.DataFrame(columns=["Year", "Scoring Period", "Date", "Team Name", "Team ID", "Player Name", "Player ID", "Player Slot", "FPTS"])
 
     for sp in range(1, scoringPeriods + 1):
         for boxScore in league.box_scores(scoring_period=sp, matchup_total=False):
@@ -40,7 +40,7 @@ for year in years:
 
                     minutes = player.stats[str(sp)]["total"].get("MIN", None)
 
-                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.home_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points, "MIN": [minutes]})
+                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.home_team.team_name], "Team ID": [boxScore.home_team.team_id], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points, "MIN": [minutes]})
 
                     for key, value in player.points_breakdown.items():
                         df_row[key] = [value]
@@ -65,7 +65,7 @@ for year in years:
 
                     minutes = player.stats[str(sp)]["total"].get("MIN", None)
 
-                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.away_team.team_name], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points, "MIN": [minutes]})
+                    df_row = pd.DataFrame({"Year": [year], "Scoring Period": [sp], "Date":[date_played], "Team Name": [boxScore.away_team.team_name], "Team ID": [boxScore.away_team.team_id], "Player Name": [player.name], "Player ID": [player.playerId], "Player Slot": [player.slot_position], "FPTS": player.points, "MIN": [minutes]})
 
                     for key, value in player.points_breakdown.items():
                         df_row[key] = [value]
