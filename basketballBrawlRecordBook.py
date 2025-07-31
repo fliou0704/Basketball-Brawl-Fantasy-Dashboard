@@ -1,10 +1,9 @@
 import pandas as pd
 from dash import html, dcc, dash_table, Output, Input
-from dataStore import playerMatchup, playerDaily, data, activityData
+from dataStore import playerMatchup, playerDaily, data, activityData, team_logo_paths
 
 ### TODO:
 ### - Show how many players for each team under all nba teams
-### - Show how many times each player scored more than 100 points under 100 point table
 ### - Clickable link to google search of 100 point games?
 ### - Real NBA statlines for 100 point games and negative games?
 ### - Add best draft pick
@@ -27,6 +26,46 @@ hundred_point_games.sort_values("Date", ascending=False, inplace=True)
 # You can rename columns or format as needed
 hundred_point_games = hundred_point_games[["Date", "Player Name", "Team Name", "FPTS"]]
 hundred_point_games["Date"] = pd.to_datetime(hundred_point_games["Date"]).dt.strftime("%m/%d/%Y")
+
+# Count appearances per player
+hundred_point_counts = (
+    hundred_point_games["Player Name"]
+    .value_counts()
+    .rename("Count")
+    .reset_index()
+    .rename(columns={"index": "Player Name"})
+)
+
+# Ensure Date is datetime
+playerDaily["Date"] = pd.to_datetime(playerDaily["Date"])
+
+# Filter for negative point games (starter players only)
+negative_df = playerDaily[
+    (playerDaily["FPTS"] < 0) &
+    (~playerDaily["Player Slot"].isin(["BE", "IR"]))
+].copy()
+
+# Sort by date so latest name appears first
+negative_df.sort_values("Date", ascending=False, inplace=True)
+
+# Drop duplicates to get latest team name per team ID
+latest_names = negative_df.drop_duplicates("Team ID")[["Team ID", "Team Name"]]
+team_id_to_latest_name = dict(zip(latest_names["Team ID"], latest_names["Team Name"]))
+
+negative_point_team_counts = (
+    playerDaily[
+        (playerDaily["FPTS"] < 0) & 
+        (~playerDaily["Player Slot"].isin(["BE", "IR"]))
+    ]
+    .groupby("Team ID")
+    .size()
+    .reset_index(name="Count")
+)
+
+negative_point_team_counts["Team Name"] = negative_point_team_counts["Team ID"].map(team_id_to_latest_name)
+
+
+negative_point_team_counts["Logo Path"] = negative_point_team_counts["Team Name"].map(team_logo_paths)
 
 dropdown_options = [
     {"label": "All-Time", "value": "All-Time"}
@@ -108,6 +147,10 @@ def register_record_book_callbacks(app):
                     style_cell={'textAlign': 'left'}
                 ),
 
+                html.Div([
+                    html.P(", ".join(f"{row['Player Name']}: {row['Count']}" for _, row in hundred_point_counts.iterrows()))
+                ]),
+
                 html.H4("Players with Negative Point Days"),
                 dash_table.DataTable(
                     columns=[
@@ -124,6 +167,16 @@ def register_record_book_callbacks(app):
                     .to_dict("records"),
                     style_table={'overflowX': 'auto'},
                     style_cell={'textAlign': 'left'}
+                ),
+
+                html.Div(
+                    [
+                        html.Div([
+                            html.Img(src=logo_path, style={"height": "25px", "verticalAlign": "middle", "marginRight": "5px"}),
+                            html.Span(f": {count}", style={"verticalAlign": "middle"})
+                        ], style={"display": "inline-block", "margin": "5px", "textAlign": "center"})
+                        for logo_path, count in negative_point_team_counts[["Logo Path", "Count"]].dropna().sort_values("Count", ascending=False).itertuples(index=False, name=None)
+                    ]
                 )
             ])
         
