@@ -2,7 +2,7 @@ from dash import html, dcc, Input, Output
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from dataStore import playerMatchup, data, activityData
+from dataStore import playerMatchup, data, activityData, playerDaily
 
 ### TODO:
 ### - Reflect team stat rankings to be only regular season
@@ -192,6 +192,16 @@ def register_team_callbacks(app):
         # If no data, return message
         if year_data.empty:
             return html.Div(f"No data for {team_name} in {selected_year}")
+        
+        # --- Calculate PPM for all teams in the selected year ---
+        team_ppm_df = (
+            playerDaily[playerDaily["Year"] == int(selected_year)]
+            .groupby("Team ID")
+            .agg({"FPTS": "sum", "MIN": "sum"})
+            .reset_index()
+        )
+        team_ppm_df["PPM"] = team_ppm_df["FPTS"] / team_ppm_df["MIN"].replace(0, pd.NA)
+        team_id_to_ppm = dict(zip(team_ppm_df["Team ID"], team_ppm_df["PPM"]))
 
         # === Stat Rankings ===
         stat_cols = {
@@ -203,7 +213,8 @@ def register_team_callbacks(app):
             "STL": lambda df: df["STL"].sum(),
             "BLK": lambda df: df["BLK"].sum(),
             "PTS": lambda df: df["PTS"].sum(),
-            "FPTS": lambda df: df["FPTS"].sum()
+            "FPTS": lambda df: df["FPTS"].sum(),
+            "PPM": lambda df: team_id_to_ppm.get(df["Team ID"].iloc[0])
         }
 
         # Style dictionary for table cells
@@ -259,13 +270,35 @@ def register_team_callbacks(app):
 
             ranking_images.append(html.Td(rank_display, style=cell_style))
 
-            # Row 3: Stat values
-            value_display = f"{team_stat:.2f}" if pd.notna(team_stat) else "N/A"
+            # Row 3: Stat values — 3 decimals for PPM, 2 decimals for others
+            if pd.notna(team_stat):
+                if stat_label == "PPM":
+                    value_display = f"{team_stat:.3f}"
+                elif stat_label in ["FG%", "FT%", "AST/TO"]:
+                    value_display = f"{team_stat:.2f}"
+                else:
+                    value_display = f"{team_stat:.0f}"
+            else:
+                value_display = "N/A"
+
             ranking_values.append(html.Td(value_display, style=cell_style))
 
         # === Year-Specific Roster ===
         year_roster = year_data.groupby(["Player Name", "Player ID"])["FPTS"].sum().reset_index()
         year_roster = year_roster.sort_values("FPTS", ascending=False)
+
+        # --- Calculate Points Per Minute (PPM) ---
+        ppm_df = (
+            playerDaily.copy()[
+                (playerDaily["Year"] == int(selected_year)) &
+                (playerDaily["Team ID"] == team_id)
+            ]
+            .groupby(["Player Name", "Player ID"])
+            .agg({"FPTS": "sum", "MIN": "sum"})
+            .reset_index()
+        )
+
+        ppm_df["PPM"] = (ppm_df["FPTS"] / ppm_df["MIN"]).round(3)  # Rounded to 3 decimals
 
         # Add original acquisition from activity log
         activity = activityData.copy()
@@ -282,6 +315,10 @@ def register_team_callbacks(app):
         # Keep only the latest action per player
         merged = merged.sort_values("Datetime", ascending=False).drop_duplicates("Player ID")
 
+
+        # Merge in the PPM values
+        merged = pd.merge(merged, ppm_df[["Player Name", "PPM"]], on="Player Name", how="left")
+
         # Fallback to KEEPER or blank if no activity
         merged["Action"] = merged["Action"].fillna("KEEPER")
         merged["Date"] = merged["Date"].fillna("—")
@@ -292,7 +329,7 @@ def register_team_callbacks(app):
 
         # Reorder and clean up final display
         merged = merged.sort_values("FPTS", ascending=False)
-        merged = merged[["Player Name", "FPTS", "Action", "Date", "Contribution"]]
+        merged = merged[["Player Name", "FPTS", "PPM", "Action", "Date", "Contribution"]]
 
         # Build table rows
         year_table_rows = []
@@ -300,6 +337,7 @@ def register_team_callbacks(app):
             year_table_rows.append(html.Tr([
                 html.Td(row["Player Name"]),
                 html.Td(f"{int(row['FPTS'])}"),
+                html.Td(f"{row['PPM']:.3f}" if pd.notna(row["PPM"]) else "N/A"),
                 html.Td(row["Action"]),
                 html.Td(row["Date"]),
                 html.Td(f"{row['Contribution']:.2f}%")
@@ -321,6 +359,7 @@ def register_team_callbacks(app):
                 html.Thead(html.Tr([
                     html.Th("Player Name"),
                     html.Th("FPTS"),
+                    html.Th("PPM"),
                     html.Th("Action"),
                     html.Th("Date"),
                     html.Th("Contribution")
