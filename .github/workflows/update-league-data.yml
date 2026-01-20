@@ -1,0 +1,38 @@
+name: Weekly League Data Update
+
+on:
+  schedule:
+    - cron: "0 13 * * 3"   # Wednesdays 9am ET
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          pip install pandas espn-api
+
+      - name: Run league data updater
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+        run: |
+          python leagueDataUpdater.py
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add data/*.csv
+          git commit -m "Weekly league data update" || echo "No changes to commit"
+          git push

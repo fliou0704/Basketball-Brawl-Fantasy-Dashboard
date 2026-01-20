@@ -280,4 +280,5 @@ def update_league_data():
     all_data.to_csv('data/basketballBrawlLeagueData.csv', index=False)
 
 
-#update_league_data()
+if __name__ == "__main__":
+    update_league_data()
