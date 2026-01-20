@@ -2,4 +2,3 @@ dash
 pandas
 plotly
 gunicorn
-espn-api
