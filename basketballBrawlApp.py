@@ -6,6 +6,7 @@ from basketballBrawlTeamStats import get_team_layout, register_team_callbacks #,
 from basketballBrawlHistoricalH2H import get_h2h_layout, register_h2h_callbacks
 from basketballBrawlRecordBook import get_record_book_layout, register_record_book_callbacks
 from basketballBrawlPowerRankings import get_power_rankings_layout, register_power_rankings_callbacks
+from leagueDataUpdater import update_league_data
 
 ### TODO:
 ### - Add weekly matchups tab so people can look at each week and see the scores, ranked teams by points scored that week, "ideal" lineup for that week
@@ -16,6 +17,9 @@ from basketballBrawlPowerRankings import get_power_rankings_layout, register_pow
 ### - Fix Shayan team for 2024 year (he doesn't control it until after the season)
 ### - Update stats to int instead of float
 ### - Work on making data easily updatable for next year
+
+if os.environ.get("RENDER"):
+    update_league_data()
 
 
 # Set suppress_callback_exceptions=True
