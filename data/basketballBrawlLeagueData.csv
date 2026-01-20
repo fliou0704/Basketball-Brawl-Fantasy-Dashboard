@@ -1,701 +1,831 @@
 Year,Week,Type,Team Name,Team Abbreviation,Team ID,Team Owner,Home/Away,Points For,Points Against,Win,Loss,Opponent Team Name,Opponent Team ID,Opponent Owner,Cumulative Points For,Cumulative Points Against,Cumulative Wins,Cumulative Losses,Weekly Rank,Rank
-2023,1,Regular,New Jersey Eren,TURK,2,Eren,Home,1409.0,986.0,1,0,Who Invited This Kid?,7,Jooahn,1409.0,986.0,1,0,1,1
-2023,1,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1288.0,1216.0,1,0,Fordham Rams,16,Allen,1288.0,1216.0,1,0,2,2
-2023,1,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1261.0,1121.0,1,0,I Watch Basketbal,17,Luke,1261.0,1121.0,1,0,3,3
-2023,1,Regular,Team Chigga,WONG,5,Johnson,Away,1242.0,1118.0,1,0,Keegan It Real,1,Frank,1242.0,1118.0,1,0,4,4
-2023,1,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1226.0,1098.0,1,0,Pooh Shaisty,12,Semanto,1226.0,1098.0,1,0,5,5
-2023,1,Regular,Fordham Rams,ALL,16,Allen,Away,1216.0,1288.0,0,1,NY L-Eat Gang,10,Ibteda,1216.0,1288.0,0,1,6,6
-2023,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,1121.0,1261.0,0,1,The Bronx Orthodox Church,13,Arian,1121.0,1261.0,0,1,7,7
-2023,1,Regular,Keegan It Real,REAL,1,Frank,Home,1118.0,1242.0,0,1,Team Chigga,5,Johnson,1118.0,1242.0,0,1,8,8
-2023,1,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1098.0,1226.0,0,1,Paulie Gee's,8,Jonathan,1098.0,1226.0,0,1,9,9
-2023,1,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,986.0,1409.0,0,1,New Jersey Eren,2,Eren,986.0,1409.0,0,1,10,10
-2023,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1321.0,1492.0,0,1,Paulie Gee's,8,Jonathan,2307.0,2901.0,0,2,9,10
-2023,2,Regular,Keegan It Real,REAL,1,Frank,Home,1315.0,1456.0,0,1,New Jersey Eren,2,Eren,2433.0,2698.0,0,2,10,9
-2023,2,Regular,I Watch Basketbal,SEE,17,Luke,Away,1411.0,1411.0,0,1,Fordham Rams,16,Allen,2532.0,2672.0,0,2,7,8
-2023,2,Regular,Fordham Rams,ALL,16,Allen,Home,1411.0,1411.0,0,1,I Watch Basketbal,17,Luke,2627.0,2699.0,0,2,7,7
-2023,2,Regular,Team Chigga,WONG,5,Johnson,Home,1497.0,1624.0,0,1,The Bronx Orthodox Church,13,Arian,2739.0,2742.0,1,1,4,6
-2023,2,Regular,New Jersey Eren,TURK,2,Eren,Away,1456.0,1315.0,1,0,Keegan It Real,1,Frank,2865.0,2301.0,2,0,6,2
-2023,2,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1502.0,1653.0,0,1,Pooh Shaisty,12,Semanto,2790.0,2869.0,1,1,3,4
-2023,2,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1492.0,1321.0,1,0,Who Invited This Kid?,7,Jooahn,2718.0,2419.0,2,0,5,3
-2023,2,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1624.0,1497.0,1,0,Team Chigga,5,Johnson,2885.0,2618.0,2,0,2,1
-2023,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1653.0,1502.0,1,0,NY L-Eat Gang,10,Ibteda,2751.0,2728.0,1,1,1,5
-2023,3,Regular,Fordham Rams,ALL,16,Allen,Away,1416.0,1599.0,0,1,Team Chigga,5,Johnson,4043.0,4298.0,0,3,3,8
-2023,3,Regular,Keegan It Real,REAL,1,Frank,Away,1150.0,1164.0,0,1,Who Invited This Kid?,7,Jooahn,3583.0,3862.0,0,3,9,10
-2023,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,1253.0,1476.0,0,1,Pooh Shaisty,12,Semanto,3785.0,4148.0,0,3,6,9
-2023,3,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1089.0,1386.0,0,1,Paulie Gee's,8,Jonathan,3879.0,4255.0,1,2,10,6
-2023,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1164.0,1150.0,1,0,Keegan It Real,1,Frank,3471.0,4051.0,1,2,8,7
-2023,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1476.0,1253.0,1,0,I Watch Basketbal,17,Luke,4227.0,3981.0,2,1,2,4
-2023,3,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1218.0,1334.0,0,1,New Jersey Eren,2,Eren,4103.0,3952.0,2,1,7,5
-2023,3,Regular,Team Chigga,WONG,5,Johnson,Home,1599.0,1416.0,1,0,Fordham Rams,16,Allen,4338.0,4158.0,2,1,1,3
-2023,3,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1386.0,1089.0,1,0,NY L-Eat Gang,10,Ibteda,4104.0,3508.0,3,0,4,2
-2023,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1334.0,1218.0,1,0,The Bronx Orthodox Church,13,Arian,4199.0,3519.0,3,0,5,1
-2023,4,Regular,Fordham Rams,ALL,16,Allen,Away,1320.0,1528.0,0,1,Pooh Shaisty,12,Semanto,5363.0,5826.0,0,4,7,9
-2023,4,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1055.0,1604.0,0,1,The Bronx Orthodox Church,13,Arian,4526.0,5655.0,1,3,10,8
-2023,4,Regular,Keegan It Real,REAL,1,Frank,Home,1475.0,1287.0,1,0,NY L-Eat Gang,10,Ibteda,5058.0,5149.0,1,3,4,7
-2023,4,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1287.0,1475.0,0,1,Keegan It Real,1,Frank,5166.0,5730.0,1,3,8,6
-2023,4,Regular,I Watch Basketbal,SEE,17,Luke,Home,1265.0,1596.0,0,1,Paulie Gee's,8,Jonathan,5050.0,5744.0,0,4,9,10
-2023,4,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1604.0,1055.0,1,0,Who Invited This Kid?,7,Jooahn,5707.0,5007.0,3,1,1,4
-2023,4,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1528.0,1320.0,1,0,Fordham Rams,16,Allen,5755.0,5301.0,3,1,3,3
-2023,4,Regular,Team Chigga,WONG,5,Johnson,Away,1468.0,1405.0,1,0,New Jersey Eren,2,Eren,5806.0,5563.0,3,1,5,2
-2023,4,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1596.0,1265.0,1,0,I Watch Basketbal,17,Luke,5700.0,4773.0,4,0,2,1
-2023,4,Regular,New Jersey Eren,TURK,2,Eren,Home,1405.0,1468.0,0,1,Team Chigga,5,Johnson,5604.0,4987.0,3,1,6,5
-2023,5,Regular,Fordham Rams,ALL,16,Allen,Home,1257.0,1305.0,0,1,Paulie Gee's,8,Jonathan,6620.0,7131.0,0,5,6,10
-2023,5,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,810.0,1312.0,0,1,Team Chigga,5,Johnson,5336.0,6967.0,1,4,10,9
-2023,5,Regular,I Watch Basketbal,SEE,17,Luke,Away,1422.0,1377.0,1,0,NY L-Eat Gang,10,Ibteda,6472.0,7121.0,1,4,1,8
-2023,5,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1377.0,1422.0,0,1,I Watch Basketbal,17,Luke,6543.0,7152.0,1,4,2,7
-2023,5,Regular,Keegan It Real,REAL,1,Frank,Home,1243.0,1225.0,1,0,The Bronx Orthodox Church,13,Arian,6301.0,6374.0,2,3,7,6
-2023,5,Regular,New Jersey Eren,TURK,2,Eren,Home,1143.0,1276.0,0,1,Pooh Shaisty,12,Semanto,6747.0,6263.0,3,2,9,5
-2023,5,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1276.0,1143.0,1,0,New Jersey Eren,2,Eren,7031.0,6444.0,4,1,5,3
-2023,5,Regular,Team Chigga,WONG,5,Johnson,Home,1312.0,810.0,1,0,Who Invited This Kid?,7,Jooahn,7118.0,6373.0,4,1,3,2
-2023,5,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1305.0,1257.0,1,0,Fordham Rams,16,Allen,7005.0,6030.0,5,0,4,1
-2023,5,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1225.0,1243.0,0,1,Keegan It Real,1,Frank,6932.0,6250.0,3,2,8,4
-2023,6,Regular,Fordham Rams,ALL,16,Allen,Home,1557.0,1269.0,1,0,Keegan It Real,1,Frank,8177.0,8400.0,1,5,2,8
-2023,6,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1017.0,1139.0,0,1,I Watch Basketbal,17,Luke,6353.0,8106.0,1,5,10,10
-2023,6,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1041.0,1355.0,0,1,New Jersey Eren,2,Eren,7584.0,8507.0,1,5,9,9
-2023,6,Regular,I Watch Basketbal,SEE,17,Luke,Home,1139.0,1017.0,1,0,Who Invited This Kid?,7,Jooahn,7611.0,8138.0,2,4,8,6
-2023,6,Regular,Keegan It Real,REAL,1,Frank,Away,1269.0,1557.0,0,1,Fordham Rams,16,Allen,7570.0,7931.0,2,4,6,7
-2023,6,Regular,New Jersey Eren,TURK,2,Eren,Away,1355.0,1041.0,1,0,NY L-Eat Gang,10,Ibteda,8102.0,7304.0,4,2,4,4
-2023,6,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1333.0,1239.0,1,0,Team Chigga,5,Johnson,8338.0,7269.0,6,0,5,1
-2023,6,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1802.0,1440.0,1,0,The Bronx Orthodox Church,13,Arian,8833.0,7884.0,5,1,1,2
-2023,6,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1440.0,1802.0,0,1,Pooh Shaisty,12,Semanto,8372.0,8052.0,3,3,3,5
-2023,6,Regular,Team Chigga,WONG,5,Johnson,Away,1239.0,1333.0,0,1,Paulie Gee's,8,Jonathan,8357.0,7706.0,4,2,7,3
-2023,7,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,978.0,1743.0,0,1,The Bronx Orthodox Church,13,Arian,8562.0,10250.0,1,6,10,10
-2023,7,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1612.0,1424.0,1,0,Keegan It Real,1,Frank,9950.0,8693.0,7,0,2,1
-2023,7,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1324.0,1464.0,0,1,Who Invited This Kid?,7,Jooahn,10157.0,9348.0,5,2,9,2
-2023,7,Regular,Team Chigga,WONG,5,Johnson,Home,1430.0,1345.0,1,0,I Watch Basketbal,17,Luke,9787.0,9051.0,5,2,5,3
-2023,7,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1743.0,978.0,1,0,NY L-Eat Gang,10,Ibteda,10115.0,9030.0,4,3,1,4
-2023,7,Regular,New Jersey Eren,TURK,2,Eren,Home,1424.0,1492.0,0,1,Fordham Rams,16,Allen,9526.0,8796.0,4,3,6,5
-2023,7,Regular,Fordham Rams,ALL,16,Allen,Away,1492.0,1424.0,1,0,New Jersey Eren,2,Eren,9669.0,9824.0,2,5,3,6
-2023,7,Regular,Keegan It Real,REAL,1,Frank,Home,1424.0,1612.0,0,1,Paulie Gee's,8,Jonathan,8994.0,9543.0,2,5,6,7
-2023,7,Regular,I Watch Basketbal,SEE,17,Luke,Away,1345.0,1430.0,0,1,Team Chigga,5,Johnson,8956.0,9568.0,2,5,8,8
-2023,7,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1464.0,1324.0,1,0,Pooh Shaisty,12,Semanto,7817.0,9430.0,2,5,4,9
-2023,8,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1322.0,1434.0,0,1,NY L-Eat Gang,10,Ibteda,9139.0,10864.0,2,6,7,10
-2023,8,Regular,Keegan It Real,REAL,1,Frank,Away,942.0,1390.0,0,1,I Watch Basketbal,17,Luke,9936.0,10933.0,2,6,10,9
-2023,8,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1434.0,1322.0,1,0,Who Invited This Kid?,7,Jooahn,9996.0,11572.0,2,6,3,8
-2023,8,Regular,I Watch Basketbal,SEE,17,Luke,Home,1390.0,942.0,1,0,Keegan It Real,1,Frank,10346.0,10510.0,3,5,6,7
-2023,8,Regular,Fordham Rams,ALL,16,Allen,Home,1485.0,1403.0,1,0,The Bronx Orthodox Church,13,Arian,11154.0,11227.0,3,5,2,6
-2023,8,Regular,Team Chigga,WONG,5,Johnson,Away,1538.0,1430.0,1,0,Pooh Shaisty,12,Semanto,11325.0,10481.0,6,2,1,2
-2023,8,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1403.0,1485.0,0,1,Fordham Rams,16,Allen,11518.0,10515.0,4,4,5,4
-2023,8,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1430.0,1538.0,0,1,Team Chigga,5,Johnson,11587.0,10886.0,5,3,4,3
-2023,8,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1210.0,1185.0,1,0,New Jersey Eren,2,Eren,11160.0,9878.0,8,0,8,1
-2023,8,Regular,New Jersey Eren,TURK,2,Eren,Away,1185.0,1210.0,0,1,Paulie Gee's,8,Jonathan,10711.0,10006.0,4,4,9,5
-2023,9,Regular,Fordham Rams,ALL,16,Allen,Home,1424.0,1513.0,0,1,NY L-Eat Gang,10,Ibteda,12578.0,12740.0,3,6,3,6
-2023,9,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1394.0,1283.0,1,0,Team Chigga,5,Johnson,10533.0,12147.0,3,6,4,9
-2023,9,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1513.0,1424.0,1,0,Fordham Rams,16,Allen,11509.0,12996.0,3,6,1,8
-2023,9,Regular,I Watch Basketbal,SEE,17,Luke,Away,1179.0,1350.0,0,1,New Jersey Eren,2,Eren,11525.0,11860.0,3,6,9,7
-2023,9,Regular,Keegan It Real,REAL,1,Frank,Away,1107.0,1481.0,0,1,The Bronx Orthodox Church,13,Arian,11043.0,12414.0,2,7,10,10
-2023,9,Regular,New Jersey Eren,TURK,2,Eren,Home,1350.0,1179.0,1,0,I Watch Basketbal,17,Luke,12061.0,11185.0,5,4,5,5
-2023,9,Regular,Team Chigga,WONG,5,Johnson,Away,1283.0,1394.0,0,1,Who Invited This Kid?,7,Jooahn,12608.0,11875.0,6,3,6,3
-2023,9,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1233.0,1202.0,1,0,Paulie Gee's,8,Jonathan,12820.0,12088.0,6,3,7,2
-2023,9,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1202.0,1233.0,0,1,Pooh Shaisty,12,Semanto,12362.0,11111.0,8,1,8,1
-2023,9,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1481.0,1107.0,1,0,Keegan It Real,1,Frank,12999.0,11622.0,5,4,2,4
-2023,10,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1430.0,1505.0,0,1,New Jersey Eren,2,Eren,11963.0,13652.0,3,7,2,9
-2023,10,Regular,I Watch Basketbal,SEE,17,Luke,Home,1066.0,1156.0,0,1,Fordham Rams,16,Allen,12591.0,13016.0,3,7,9,8
-2023,10,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1211.0,1380.0,0,1,Pooh Shaisty,12,Semanto,12720.0,14376.0,3,7,5,7
-2023,10,Regular,Fordham Rams,ALL,16,Allen,Away,1156.0,1066.0,1,0,I Watch Basketbal,17,Luke,13734.0,13806.0,4,6,7,6
-2023,10,Regular,Keegan It Real,REAL,1,Frank,Away,940.0,1195.0,0,1,Team Chigga,5,Johnson,11983.0,13609.0,2,8,10,10
-2023,10,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1248.0,1116.0,1,0,Paulie Gee's,8,Jonathan,14247.0,12738.0,6,4,4,4
-2023,10,Regular,Team Chigga,WONG,5,Johnson,Home,1195.0,940.0,1,0,Keegan It Real,1,Frank,13803.0,12815.0,7,3,6,3
-2023,10,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1380.0,1211.0,1,0,NY L-Eat Gang,10,Ibteda,14200.0,13299.0,7,3,3,2
-2023,10,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1116.0,1248.0,0,1,The Bronx Orthodox Church,13,Arian,13478.0,12359.0,8,2,8,1
-2023,10,Regular,New Jersey Eren,TURK,2,Eren,Away,1505.0,1430.0,1,0,Who Invited This Kid?,7,Jooahn,13566.0,12615.0,6,4,1,5
-2023,11,Regular,Keegan It Real,REAL,1,Frank,Away,1159.0,1396.0,0,1,New Jersey Eren,2,Eren,13142.0,15005.0,2,9,10,10
-2023,11,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1492.0,1594.0,0,1,Fordham Rams,16,Allen,13455.0,15246.0,3,8,6,9
-2023,11,Regular,I Watch Basketbal,SEE,17,Luke,Away,1264.0,1500.0,0,1,Pooh Shaisty,12,Semanto,13855.0,14516.0,3,8,9,8
-2023,11,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1422.0,1612.0,0,1,Paulie Gee's,8,Jonathan,14142.0,15988.0,3,8,7,7
-2023,11,Regular,Fordham Rams,ALL,16,Allen,Away,1594.0,1492.0,1,0,Who Invited This Kid?,7,Jooahn,15328.0,15298.0,5,6,3,6
-2023,11,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1591.0,1766.0,0,1,Team Chigga,5,Johnson,15838.0,14504.0,6,5,4,5
-2023,11,Regular,Team Chigga,WONG,5,Johnson,Away,1766.0,1591.0,1,0,The Bronx Orthodox Church,13,Arian,15569.0,14406.0,8,3,1,3
-2023,11,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1500.0,1264.0,1,0,I Watch Basketbal,17,Luke,15700.0,14563.0,8,3,5,2
-2023,11,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1612.0,1422.0,1,0,NY L-Eat Gang,10,Ibteda,15090.0,13781.0,9,2,2,1
-2023,11,Regular,New Jersey Eren,TURK,2,Eren,Home,1396.0,1159.0,1,0,Keegan It Real,1,Frank,14962.0,13774.0,7,4,8,4
-2023,12,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1722.0,1127.0,1,0,Keegan It Real,1,Frank,15177.0,16373.0,4,8,3,7
-2023,12,Regular,I Watch Basketbal,SEE,17,Luke,Away,1305.0,1492.0,0,1,Paulie Gee's,8,Jonathan,15160.0,16008.0,3,9,8,9
-2023,12,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1170.0,1511.0,0,1,Team Chigga,5,Johnson,15312.0,17499.0,3,9,9,8
-2023,12,Regular,Fordham Rams,ALL,16,Allen,Home,1750.0,1755.0,0,1,Pooh Shaisty,12,Semanto,17078.0,17053.0,5,7,2,6
-2023,12,Regular,Keegan It Real,REAL,1,Frank,Home,1127.0,1722.0,0,1,Who Invited This Kid?,7,Jooahn,14269.0,16727.0,2,10,10,10
-2023,12,Regular,New Jersey Eren,TURK,2,Eren,Home,1458.0,1349.0,1,0,The Bronx Orthodox Church,13,Arian,16420.0,15123.0,8,4,6,4
-2023,12,Regular,Team Chigga,WONG,5,Johnson,Home,1511.0,1170.0,1,0,NY L-Eat Gang,10,Ibteda,17080.0,15576.0,9,3,4,3
-2023,12,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1755.0,1750.0,1,0,Fordham Rams,16,Allen,17455.0,16313.0,9,3,1,2
-2023,12,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1492.0,1305.0,1,0,I Watch Basketbal,17,Luke,16582.0,15086.0,10,2,5,1
-2023,12,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1349.0,1458.0,0,1,New Jersey Eren,2,Eren,17187.0,15962.0,6,6,7,5
-2023,13,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1052.0,1277.0,0,1,I Watch Basketbal,17,Luke,16364.0,18776.0,3,10,9,9
-2023,13,Regular,I Watch Basketbal,SEE,17,Luke,Home,1277.0,1052.0,1,0,NY L-Eat Gang,10,Ibteda,16437.0,17060.0,4,9,6,8
-2023,13,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1894.0,1563.0,1,0,The Bronx Orthodox Church,13,Arian,17071.0,17936.0,5,8,1,7
-2023,13,Regular,Fordham Rams,ALL,16,Allen,Away,1405.0,707.0,1,0,Paulie Gee's,8,Jonathan,18483.0,17760.0,6,7,5,6
-2023,13,Regular,Keegan It Real,REAL,1,Frank,Home,1484.0,1117.0,1,0,Pooh Shaisty,12,Semanto,15753.0,17844.0,3,10,4,10
-2023,13,Regular,New Jersey Eren,TURK,2,Eren,Away,1201.0,1557.0,0,1,Team Chigga,5,Johnson,17621.0,16680.0,8,5,7,4
-2023,13,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1117.0,1484.0,0,1,Keegan It Real,1,Frank,18572.0,17797.0,9,4,8,3
-2023,13,Regular,Paulie Gee's,JMH,8,Jonathan,Home,707.0,1405.0,0,1,Fordham Rams,16,Allen,17289.0,16491.0,10,3,10,2
-2023,13,Regular,Team Chigga,WONG,5,Johnson,Home,1557.0,1201.0,1,0,New Jersey Eren,2,Eren,18637.0,16777.0,10,3,3,1
-2023,13,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1563.0,1894.0,0,1,Who Invited This Kid?,7,Jooahn,18750.0,17856.0,6,7,2,5
-2023,14,Regular,Keegan It Real,REAL,1,Frank,Away,0.0,1134.0,0,1,NY L-Eat Gang,10,Ibteda,15753.0,18978.0,3,11,10,10
-2023,14,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1134.0,0.0,1,0,Keegan It Real,1,Frank,17498.0,18776.0,4,10,9,9
-2023,14,Regular,I Watch Basketbal,SEE,17,Luke,Home,1425.0,1423.0,1,0,The Bronx Orthodox Church,13,Arian,17862.0,18483.0,5,9,5,8
-2023,14,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1300.0,1587.0,0,1,Paulie Gee's,8,Jonathan,18371.0,19523.0,5,9,7,7
-2023,14,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1423.0,1425.0,0,1,I Watch Basketbal,17,Luke,20173.0,19281.0,6,8,6,6
-2023,14,Regular,Fordham Rams,ALL,16,Allen,Home,1430.0,1300.0,1,0,Team Chigga,5,Johnson,19913.0,19060.0,7,7,4,5
-2023,14,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1444.0,1656.0,0,1,New Jersey Eren,2,Eren,20016.0,19453.0,9,5,3,3
-2023,14,Regular,Team Chigga,WONG,5,Johnson,Away,1300.0,1430.0,0,1,Fordham Rams,16,Allen,19937.0,18207.0,10,4,7,2
-2023,14,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1587.0,1300.0,1,0,Who Invited This Kid?,7,Jooahn,18876.0,17791.0,11,3,2,1
-2023,14,Regular,New Jersey Eren,TURK,2,Eren,Away,1656.0,1444.0,1,0,Pooh Shaisty,12,Semanto,19277.0,18124.0,9,5,1,4
-2023,15,Regular,I Watch Basketbal,SEE,17,Luke,Away,1532.0,1151.0,1,0,Who Invited This Kid?,7,Jooahn,19394.0,19634.0,6,9,3,7
-2023,15,Regular,Keegan It Real,REAL,1,Frank,Home,1219.0,1598.0,0,1,Fordham Rams,16,Allen,16972.0,20576.0,3,12,7,10
-2023,15,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1108.0,1627.0,0,1,New Jersey Eren,2,Eren,18606.0,20403.0,4,11,10,9
-2023,15,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1151.0,1532.0,0,1,I Watch Basketbal,17,Luke,19522.0,21055.0,5,10,9,8
-2023,15,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1197.0,1458.0,0,1,Pooh Shaisty,12,Semanto,21370.0,20739.0,6,9,8,6
-2023,15,Regular,Fordham Rams,ALL,16,Allen,Away,1598.0,1219.0,1,0,Keegan It Real,1,Frank,21511.0,20279.0,8,7,2,5
-2023,15,Regular,New Jersey Eren,TURK,2,Eren,Home,1627.0,1108.0,1,0,NY L-Eat Gang,10,Ibteda,20904.0,19232.0,10,5,1,4
-2023,15,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1458.0,1197.0,1,0,The Bronx Orthodox Church,13,Arian,21474.0,20650.0,10,5,4,3
-2023,15,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1436.0,1441.0,0,1,Team Chigga,5,Johnson,20312.0,19232.0,11,4,6,2
-2023,15,Regular,Team Chigga,WONG,5,Johnson,Home,1441.0,1436.0,1,0,Paulie Gee's,8,Jonathan,21378.0,19643.0,11,4,5,1
-2023,16,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1681.0,1530.0,1,0,The Bronx Orthodox Church,13,Arian,20287.0,21933.0,5,11,1,9
-2023,16,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1419.0,1401.0,1,0,Pooh Shaisty,12,Semanto,20941.0,22456.0,6,10,7,8
-2023,16,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1530.0,1681.0,0,1,NY L-Eat Gang,10,Ibteda,22900.0,22420.0,6,10,4,7
-2023,16,Regular,I Watch Basketbal,SEE,17,Luke,Home,1486.0,1278.0,1,0,Team Chigga,5,Johnson,20880.0,20912.0,7,9,5,6
-2023,16,Regular,Keegan It Real,REAL,1,Frank,Away,1450.0,712.0,1,0,Paulie Gee's,8,Jonathan,18422.0,21288.0,4,12,6,10
-2023,16,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1401.0,1419.0,0,1,Who Invited This Kid?,7,Jooahn,22875.0,22069.0,10,6,8,4
-2023,16,Regular,Paulie Gee's,JMH,8,Jonathan,Home,712.0,1450.0,0,1,Keegan It Real,1,Frank,21024.0,20682.0,11,5,10,3
-2023,16,Regular,New Jersey Eren,TURK,2,Eren,Away,1640.0,1531.0,1,0,Fordham Rams,16,Allen,22544.0,20763.0,11,5,2,2
-2023,16,Regular,Team Chigga,WONG,5,Johnson,Away,1278.0,1486.0,0,1,I Watch Basketbal,17,Luke,22656.0,21129.0,11,5,9,1
-2023,16,Regular,Fordham Rams,ALL,16,Allen,Home,1531.0,1640.0,0,1,New Jersey Eren,2,Eren,23042.0,21919.0,8,8,3,5
-2023,17,Regular,Keegan It Real,REAL,1,Frank,Home,1348.0,1127.0,1,0,I Watch Basketbal,17,Luke,19770.0,22415.0,5,12,5,10
-2023,17,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1337.0,1346.0,0,1,Who Invited This Kid?,7,Jooahn,21624.0,23279.0,5,12,7,9
-2023,17,Regular,I Watch Basketbal,SEE,17,Luke,Away,1127.0,1348.0,0,1,Keegan It Real,1,Frank,22007.0,22260.0,7,10,10,8
-2023,17,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1346.0,1337.0,1,0,NY L-Eat Gang,10,Ibteda,22287.0,23793.0,7,10,6,7
-2023,17,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1268.0,1232.0,1,0,Fordham Rams,16,Allen,24168.0,23652.0,7,10,8,6
-2023,17,Regular,Fordham Rams,ALL,16,Allen,Away,1232.0,1268.0,0,1,The Bronx Orthodox Church,13,Arian,24274.0,23187.0,8,9,9,5
-2023,17,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1419.0,1530.0,0,1,New Jersey Eren,2,Eren,22443.0,22212.0,11,6,4,3
-2023,17,Regular,New Jersey Eren,TURK,2,Eren,Home,1530.0,1419.0,1,0,Paulie Gee's,8,Jonathan,24074.0,22182.0,12,5,2,2
-2023,17,Regular,Team Chigga,WONG,5,Johnson,Home,1598.0,1451.0,1,0,Pooh Shaisty,12,Semanto,24254.0,22580.0,12,5,1,1
-2023,17,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1451.0,1598.0,0,1,Team Chigga,5,Johnson,24326.0,23667.0,10,7,3,4
-2023,18,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1948.0,1442.0,1,0,Fordham Rams,16,Allen,24235.0,25235.0,8,10,1,7
-2023,18,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1280.0,1901.0,0,1,Team Chigga,5,Johnson,22904.0,25180.0,5,13,9,9
-2023,18,Regular,Keegan It Real,REAL,1,Frank,Away,1371.0,1940.0,0,1,Pooh Shaisty,12,Semanto,21141.0,24355.0,5,13,8,10
-2023,18,Regular,Fordham Rams,ALL,16,Allen,Home,1442.0,1948.0,0,1,Who Invited This Kid?,7,Jooahn,25716.0,25135.0,8,10,6,6
-2023,18,Regular,I Watch Basketbal,SEE,17,Luke,Home,1408.0,1606.0,0,1,New Jersey Eren,2,Eren,23415.0,23866.0,7,11,7,8
-2023,18,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1265.0,1916.0,0,1,The Bronx Orthodox Church,13,Arian,23708.0,24128.0,11,7,10,4
-2023,18,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1940.0,1371.0,1,0,Keegan It Real,1,Frank,26266.0,25038.0,11,7,2,3
-2023,18,Regular,New Jersey Eren,TURK,2,Eren,Away,1606.0,1408.0,1,0,I Watch Basketbal,17,Luke,25680.0,23590.0,13,5,5,2
-2023,18,Regular,Team Chigga,WONG,5,Johnson,Away,1901.0,1280.0,1,0,NY L-Eat Gang,10,Ibteda,26155.0,23860.0,13,5,4,1
-2023,18,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1916.0,1265.0,1,0,Paulie Gee's,8,Jonathan,26084.0,24917.0,8,10,3,5
-2023,19,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1301.0,998.0,1,0,Keegan It Real,1,Frank,24205.0,26178.0,6,13,7,9
-2023,19,Regular,I Watch Basketbal,SEE,17,Luke,Away,709.0,1411.0,0,1,The Bronx Orthodox Church,13,Arian,24124.0,25277.0,7,12,10,8
-2023,19,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1256.0,1445.0,0,1,Paulie Gee's,8,Jonathan,25491.0,26680.0,8,11,8,7
-2023,19,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1411.0,709.0,1,0,I Watch Basketbal,17,Luke,27495.0,25626.0,9,10,4,6
-2023,19,Regular,Keegan It Real,REAL,1,Frank,Home,998.0,1301.0,0,1,NY L-Eat Gang,10,Ibteda,22139.0,25656.0,5,14,9,10
-2023,19,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1365.0,1838.0,0,1,New Jersey Eren,2,Eren,27631.0,26876.0,11,8,6,4
-2023,19,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1445.0,1256.0,1,0,Who Invited This Kid?,7,Jooahn,25153.0,25384.0,12,7,3,3
-2023,19,Regular,Team Chigga,WONG,5,Johnson,Home,1408.0,1824.0,0,1,Fordham Rams,16,Allen,27563.0,25684.0,13,6,5,2
-2023,19,Regular,New Jersey Eren,TURK,2,Eren,Home,1838.0,1365.0,1,0,Pooh Shaisty,12,Semanto,27518.0,24955.0,14,5,1,1
-2023,19,Regular,Fordham Rams,ALL,16,Allen,Away,1824.0,1408.0,1,0,Team Chigga,5,Johnson,27540.0,26543.0,9,10,2,5
-2023,20,Regular,Keegan It Real,REAL,1,Frank,Away,917.0,1492.0,0,1,Fordham Rams,16,Allen,23056.0,27148.0,5,15,8,10
-2023,20,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,868.0,1508.0,0,1,New Jersey Eren,2,Eren,25073.0,27686.0,6,14,9,9
-2023,20,Regular,I Watch Basketbal,SEE,17,Luke,Home,648.0,1337.0,0,1,Who Invited This Kid?,7,Jooahn,24772.0,26614.0,7,13,10,8
-2023,20,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1337.0,648.0,1,0,I Watch Basketbal,17,Luke,26828.0,27328.0,9,11,5,7
-2023,20,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1503.0,1341.0,1,0,Pooh Shaisty,12,Semanto,28998.0,26967.0,10,10,2,6
-2023,20,Regular,Fordham Rams,ALL,16,Allen,Home,1492.0,917.0,1,0,Keegan It Real,1,Frank,29032.0,27460.0,10,10,3,5
-2023,20,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1209.0,1307.0,0,1,Team Chigga,5,Johnson,26362.0,26691.0,12,8,7,3
-2023,20,Regular,Team Chigga,WONG,5,Johnson,Away,1307.0,1209.0,1,0,Paulie Gee's,8,Jonathan,28870.0,26893.0,14,6,6,2
-2023,20,Regular,New Jersey Eren,TURK,2,Eren,Away,1508.0,868.0,1,0,NY L-Eat Gang,10,Ibteda,29026.0,25823.0,15,5,1,1
-2023,20,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1341.0,1503.0,0,1,The Bronx Orthodox Church,13,Arian,28972.0,28379.0,11,9,4,4
-2023,21,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1457.0,1568.0,0,1,Pooh Shaisty,12,Semanto,28285.0,28896.0,9,12,4,7
-2023,21,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,688.0,1227.0,0,1,The Bronx Orthodox Church,13,Arian,25761.0,28913.0,6,15,10,9
-2023,21,Regular,Keegan It Real,REAL,1,Frank,Home,856.0,1131.0,0,1,Paulie Gee's,8,Jonathan,23912.0,28279.0,5,16,9,10
-2023,21,Regular,Fordham Rams,ALL,16,Allen,Away,1674.0,1802.0,0,1,New Jersey Eren,2,Eren,30706.0,29262.0,10,11,2,6
-2023,21,Regular,I Watch Basketbal,SEE,17,Luke,Away,1349.0,1418.0,0,1,Team Chigga,5,Johnson,26121.0,28032.0,7,14,6,8
-2023,21,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1568.0,1457.0,1,0,Who Invited This Kid?,7,Jooahn,30540.0,29836.0,12,9,3,4
-2023,21,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1131.0,856.0,1,0,Keegan It Real,1,Frank,27493.0,27547.0,13,8,8,3
-2023,21,Regular,Team Chigga,WONG,5,Johnson,Home,1418.0,1349.0,1,0,I Watch Basketbal,17,Luke,30288.0,28242.0,15,6,5,2
-2023,21,Regular,New Jersey Eren,TURK,2,Eren,Home,1802.0,1674.0,1,0,Fordham Rams,16,Allen,30828.0,27497.0,16,5,1,1
-2023,21,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1227.0,688.0,1,0,NY L-Eat Gang,10,Ibteda,30225.0,27655.0,11,10,7,5
-2023,22,Consolation,Keegan It Real,REAL,1,Frank,Away,1173.0,477.0,1,0,NY L-Eat Gang,10,Ibteda,25085.0,28756.0,6,16,5,10
-2023,22,Consolation,NY L-Eat Gang,LEAT,10,Ibteda,Home,477.0,1173.0,0,1,Keegan It Real,1,Frank,26238.0,30086.0,6,16,8,9
-2023,22,Consolation,I Watch Basketbal,SEE,17,Luke,Away,1013.0,1119.0,0,1,Who Invited This Kid?,7,Jooahn,27134.0,29151.0,7,15,7,8
-2023,22,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,1119.0,1013.0,1,0,I Watch Basketbal,17,Luke,29404.0,29909.0,10,12,6,7
-2023,22,Playoffs,The Bronx Orthodox Church,666,13,Arian,Away,1354.0,1459.0,0,1,Pooh Shaisty,12,Semanto,31579.0,29114.0,11,11,4,6
-2023,22,Playoffs,Fordham Rams,ALL,16,Allen,Away,1569.0,1413.0,1,0,Team Chigga,5,Johnson,32275.0,30675.0,11,11,1,4
+2023,1,Regular,New Jersey Eren,TURK,2,Eren,Home,1409.0,986.0,1,0,Who Invited This Kid?,7.0,Jooahn,1409.0,986.0,1,0,1,1
+2023,1,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1288.0,1216.0,1,0,Fordham Rams,16.0,Allen,1288.0,1216.0,1,0,2,2
+2023,1,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1261.0,1121.0,1,0,I Watch Basketbal,17.0,Luke,1261.0,1121.0,1,0,3,3
+2023,1,Regular,Team Chigga,WONG,5,Johnson,Away,1242.0,1118.0,1,0,Keegan It Real,1.0,Frank,1242.0,1118.0,1,0,4,4
+2023,1,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1226.0,1098.0,1,0,Pooh Shaisty,12.0,Semanto,1226.0,1098.0,1,0,5,5
+2023,1,Regular,Fordham Rams,ALL,16,Allen,Away,1216.0,1288.0,0,1,NY L-Eat Gang,10.0,Ibteda,1216.0,1288.0,0,1,6,6
+2023,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,1121.0,1261.0,0,1,The Bronx Orthodox Church,13.0,Arian,1121.0,1261.0,0,1,7,7
+2023,1,Regular,Keegan It Real,REAL,1,Frank,Home,1118.0,1242.0,0,1,Team Chigga,5.0,Johnson,1118.0,1242.0,0,1,8,8
+2023,1,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1098.0,1226.0,0,1,Paulie Gee's,8.0,Jonathan,1098.0,1226.0,0,1,9,9
+2023,1,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,986.0,1409.0,0,1,New Jersey Eren,2.0,Eren,986.0,1409.0,0,1,10,10
+2023,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1321.0,1492.0,0,1,Paulie Gee's,8.0,Jonathan,2307.0,2901.0,0,2,9,10
+2023,2,Regular,Keegan It Real,REAL,1,Frank,Home,1315.0,1456.0,0,1,New Jersey Eren,2.0,Eren,2433.0,2698.0,0,2,10,9
+2023,2,Regular,I Watch Basketbal,SEE,17,Luke,Away,1411.0,1411.0,0,1,Fordham Rams,16.0,Allen,2532.0,2672.0,0,2,7,8
+2023,2,Regular,Fordham Rams,ALL,16,Allen,Home,1411.0,1411.0,0,1,I Watch Basketbal,17.0,Luke,2627.0,2699.0,0,2,7,7
+2023,2,Regular,Team Chigga,WONG,5,Johnson,Home,1497.0,1624.0,0,1,The Bronx Orthodox Church,13.0,Arian,2739.0,2742.0,1,1,4,6
+2023,2,Regular,New Jersey Eren,TURK,2,Eren,Away,1456.0,1315.0,1,0,Keegan It Real,1.0,Frank,2865.0,2301.0,2,0,6,2
+2023,2,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1502.0,1653.0,0,1,Pooh Shaisty,12.0,Semanto,2790.0,2869.0,1,1,3,4
+2023,2,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1492.0,1321.0,1,0,Who Invited This Kid?,7.0,Jooahn,2718.0,2419.0,2,0,5,3
+2023,2,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1624.0,1497.0,1,0,Team Chigga,5.0,Johnson,2885.0,2618.0,2,0,2,1
+2023,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1653.0,1502.0,1,0,NY L-Eat Gang,10.0,Ibteda,2751.0,2728.0,1,1,1,5
+2023,3,Regular,Fordham Rams,ALL,16,Allen,Away,1416.0,1599.0,0,1,Team Chigga,5.0,Johnson,4043.0,4298.0,0,3,3,8
+2023,3,Regular,Keegan It Real,REAL,1,Frank,Away,1150.0,1164.0,0,1,Who Invited This Kid?,7.0,Jooahn,3583.0,3862.0,0,3,9,10
+2023,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,1253.0,1476.0,0,1,Pooh Shaisty,12.0,Semanto,3785.0,4148.0,0,3,6,9
+2023,3,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1089.0,1386.0,0,1,Paulie Gee's,8.0,Jonathan,3879.0,4255.0,1,2,10,6
+2023,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1164.0,1150.0,1,0,Keegan It Real,1.0,Frank,3471.0,4051.0,1,2,8,7
+2023,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1476.0,1253.0,1,0,I Watch Basketbal,17.0,Luke,4227.0,3981.0,2,1,2,4
+2023,3,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1218.0,1334.0,0,1,New Jersey Eren,2.0,Eren,4103.0,3952.0,2,1,7,5
+2023,3,Regular,Team Chigga,WONG,5,Johnson,Home,1599.0,1416.0,1,0,Fordham Rams,16.0,Allen,4338.0,4158.0,2,1,1,3
+2023,3,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1386.0,1089.0,1,0,NY L-Eat Gang,10.0,Ibteda,4104.0,3508.0,3,0,4,2
+2023,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1334.0,1218.0,1,0,The Bronx Orthodox Church,13.0,Arian,4199.0,3519.0,3,0,5,1
+2023,4,Regular,Fordham Rams,ALL,16,Allen,Away,1320.0,1528.0,0,1,Pooh Shaisty,12.0,Semanto,5363.0,5826.0,0,4,7,9
+2023,4,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1055.0,1604.0,0,1,The Bronx Orthodox Church,13.0,Arian,4526.0,5655.0,1,3,10,8
+2023,4,Regular,Keegan It Real,REAL,1,Frank,Home,1475.0,1287.0,1,0,NY L-Eat Gang,10.0,Ibteda,5058.0,5149.0,1,3,4,7
+2023,4,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1287.0,1475.0,0,1,Keegan It Real,1.0,Frank,5166.0,5730.0,1,3,8,6
+2023,4,Regular,I Watch Basketbal,SEE,17,Luke,Home,1265.0,1596.0,0,1,Paulie Gee's,8.0,Jonathan,5050.0,5744.0,0,4,9,10
+2023,4,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1604.0,1055.0,1,0,Who Invited This Kid?,7.0,Jooahn,5707.0,5007.0,3,1,1,4
+2023,4,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1528.0,1320.0,1,0,Fordham Rams,16.0,Allen,5755.0,5301.0,3,1,3,3
+2023,4,Regular,Team Chigga,WONG,5,Johnson,Away,1468.0,1405.0,1,0,New Jersey Eren,2.0,Eren,5806.0,5563.0,3,1,5,2
+2023,4,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1596.0,1265.0,1,0,I Watch Basketbal,17.0,Luke,5700.0,4773.0,4,0,2,1
+2023,4,Regular,New Jersey Eren,TURK,2,Eren,Home,1405.0,1468.0,0,1,Team Chigga,5.0,Johnson,5604.0,4987.0,3,1,6,5
+2023,5,Regular,Fordham Rams,ALL,16,Allen,Home,1257.0,1305.0,0,1,Paulie Gee's,8.0,Jonathan,6620.0,7131.0,0,5,6,10
+2023,5,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,810.0,1312.0,0,1,Team Chigga,5.0,Johnson,5336.0,6967.0,1,4,10,9
+2023,5,Regular,I Watch Basketbal,SEE,17,Luke,Away,1422.0,1377.0,1,0,NY L-Eat Gang,10.0,Ibteda,6472.0,7121.0,1,4,1,8
+2023,5,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1377.0,1422.0,0,1,I Watch Basketbal,17.0,Luke,6543.0,7152.0,1,4,2,7
+2023,5,Regular,Keegan It Real,REAL,1,Frank,Home,1243.0,1225.0,1,0,The Bronx Orthodox Church,13.0,Arian,6301.0,6374.0,2,3,7,6
+2023,5,Regular,New Jersey Eren,TURK,2,Eren,Home,1143.0,1276.0,0,1,Pooh Shaisty,12.0,Semanto,6747.0,6263.0,3,2,9,5
+2023,5,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1276.0,1143.0,1,0,New Jersey Eren,2.0,Eren,7031.0,6444.0,4,1,5,3
+2023,5,Regular,Team Chigga,WONG,5,Johnson,Home,1312.0,810.0,1,0,Who Invited This Kid?,7.0,Jooahn,7118.0,6373.0,4,1,3,2
+2023,5,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1305.0,1257.0,1,0,Fordham Rams,16.0,Allen,7005.0,6030.0,5,0,4,1
+2023,5,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1225.0,1243.0,0,1,Keegan It Real,1.0,Frank,6932.0,6250.0,3,2,8,4
+2023,6,Regular,Fordham Rams,ALL,16,Allen,Home,1557.0,1269.0,1,0,Keegan It Real,1.0,Frank,8177.0,8400.0,1,5,2,8
+2023,6,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1017.0,1139.0,0,1,I Watch Basketbal,17.0,Luke,6353.0,8106.0,1,5,10,10
+2023,6,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1041.0,1355.0,0,1,New Jersey Eren,2.0,Eren,7584.0,8507.0,1,5,9,9
+2023,6,Regular,I Watch Basketbal,SEE,17,Luke,Home,1139.0,1017.0,1,0,Who Invited This Kid?,7.0,Jooahn,7611.0,8138.0,2,4,8,6
+2023,6,Regular,Keegan It Real,REAL,1,Frank,Away,1269.0,1557.0,0,1,Fordham Rams,16.0,Allen,7570.0,7931.0,2,4,6,7
+2023,6,Regular,New Jersey Eren,TURK,2,Eren,Away,1355.0,1041.0,1,0,NY L-Eat Gang,10.0,Ibteda,8102.0,7304.0,4,2,4,4
+2023,6,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1333.0,1239.0,1,0,Team Chigga,5.0,Johnson,8338.0,7269.0,6,0,5,1
+2023,6,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1802.0,1440.0,1,0,The Bronx Orthodox Church,13.0,Arian,8833.0,7884.0,5,1,1,2
+2023,6,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1440.0,1802.0,0,1,Pooh Shaisty,12.0,Semanto,8372.0,8052.0,3,3,3,5
+2023,6,Regular,Team Chigga,WONG,5,Johnson,Away,1239.0,1333.0,0,1,Paulie Gee's,8.0,Jonathan,8357.0,7706.0,4,2,7,3
+2023,7,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,978.0,1743.0,0,1,The Bronx Orthodox Church,13.0,Arian,8562.0,10250.0,1,6,10,10
+2023,7,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1612.0,1424.0,1,0,Keegan It Real,1.0,Frank,9950.0,8693.0,7,0,2,1
+2023,7,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1324.0,1464.0,0,1,Who Invited This Kid?,7.0,Jooahn,10157.0,9348.0,5,2,9,2
+2023,7,Regular,Team Chigga,WONG,5,Johnson,Home,1430.0,1345.0,1,0,I Watch Basketbal,17.0,Luke,9787.0,9051.0,5,2,5,3
+2023,7,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1743.0,978.0,1,0,NY L-Eat Gang,10.0,Ibteda,10115.0,9030.0,4,3,1,4
+2023,7,Regular,New Jersey Eren,TURK,2,Eren,Home,1424.0,1492.0,0,1,Fordham Rams,16.0,Allen,9526.0,8796.0,4,3,6,5
+2023,7,Regular,Fordham Rams,ALL,16,Allen,Away,1492.0,1424.0,1,0,New Jersey Eren,2.0,Eren,9669.0,9824.0,2,5,3,6
+2023,7,Regular,Keegan It Real,REAL,1,Frank,Home,1424.0,1612.0,0,1,Paulie Gee's,8.0,Jonathan,8994.0,9543.0,2,5,6,7
+2023,7,Regular,I Watch Basketbal,SEE,17,Luke,Away,1345.0,1430.0,0,1,Team Chigga,5.0,Johnson,8956.0,9568.0,2,5,8,8
+2023,7,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1464.0,1324.0,1,0,Pooh Shaisty,12.0,Semanto,7817.0,9430.0,2,5,4,9
+2023,8,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1322.0,1434.0,0,1,NY L-Eat Gang,10.0,Ibteda,9139.0,10864.0,2,6,7,10
+2023,8,Regular,Keegan It Real,REAL,1,Frank,Away,942.0,1390.0,0,1,I Watch Basketbal,17.0,Luke,9936.0,10933.0,2,6,10,9
+2023,8,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1434.0,1322.0,1,0,Who Invited This Kid?,7.0,Jooahn,9996.0,11572.0,2,6,3,8
+2023,8,Regular,I Watch Basketbal,SEE,17,Luke,Home,1390.0,942.0,1,0,Keegan It Real,1.0,Frank,10346.0,10510.0,3,5,6,7
+2023,8,Regular,Fordham Rams,ALL,16,Allen,Home,1485.0,1403.0,1,0,The Bronx Orthodox Church,13.0,Arian,11154.0,11227.0,3,5,2,6
+2023,8,Regular,Team Chigga,WONG,5,Johnson,Away,1538.0,1430.0,1,0,Pooh Shaisty,12.0,Semanto,11325.0,10481.0,6,2,1,2
+2023,8,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1403.0,1485.0,0,1,Fordham Rams,16.0,Allen,11518.0,10515.0,4,4,5,4
+2023,8,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1430.0,1538.0,0,1,Team Chigga,5.0,Johnson,11587.0,10886.0,5,3,4,3
+2023,8,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1210.0,1185.0,1,0,New Jersey Eren,2.0,Eren,11160.0,9878.0,8,0,8,1
+2023,8,Regular,New Jersey Eren,TURK,2,Eren,Away,1185.0,1210.0,0,1,Paulie Gee's,8.0,Jonathan,10711.0,10006.0,4,4,9,5
+2023,9,Regular,Fordham Rams,ALL,16,Allen,Home,1424.0,1513.0,0,1,NY L-Eat Gang,10.0,Ibteda,12578.0,12740.0,3,6,3,6
+2023,9,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1394.0,1283.0,1,0,Team Chigga,5.0,Johnson,10533.0,12147.0,3,6,4,9
+2023,9,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1513.0,1424.0,1,0,Fordham Rams,16.0,Allen,11509.0,12996.0,3,6,1,8
+2023,9,Regular,I Watch Basketbal,SEE,17,Luke,Away,1179.0,1350.0,0,1,New Jersey Eren,2.0,Eren,11525.0,11860.0,3,6,9,7
+2023,9,Regular,Keegan It Real,REAL,1,Frank,Away,1107.0,1481.0,0,1,The Bronx Orthodox Church,13.0,Arian,11043.0,12414.0,2,7,10,10
+2023,9,Regular,New Jersey Eren,TURK,2,Eren,Home,1350.0,1179.0,1,0,I Watch Basketbal,17.0,Luke,12061.0,11185.0,5,4,5,5
+2023,9,Regular,Team Chigga,WONG,5,Johnson,Away,1283.0,1394.0,0,1,Who Invited This Kid?,7.0,Jooahn,12608.0,11875.0,6,3,6,3
+2023,9,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1233.0,1202.0,1,0,Paulie Gee's,8.0,Jonathan,12820.0,12088.0,6,3,7,2
+2023,9,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1202.0,1233.0,0,1,Pooh Shaisty,12.0,Semanto,12362.0,11111.0,8,1,8,1
+2023,9,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1481.0,1107.0,1,0,Keegan It Real,1.0,Frank,12999.0,11622.0,5,4,2,4
+2023,10,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1430.0,1505.0,0,1,New Jersey Eren,2.0,Eren,11963.0,13652.0,3,7,2,9
+2023,10,Regular,I Watch Basketbal,SEE,17,Luke,Home,1066.0,1156.0,0,1,Fordham Rams,16.0,Allen,12591.0,13016.0,3,7,9,8
+2023,10,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1211.0,1380.0,0,1,Pooh Shaisty,12.0,Semanto,12720.0,14376.0,3,7,5,7
+2023,10,Regular,Fordham Rams,ALL,16,Allen,Away,1156.0,1066.0,1,0,I Watch Basketbal,17.0,Luke,13734.0,13806.0,4,6,7,6
+2023,10,Regular,Keegan It Real,REAL,1,Frank,Away,940.0,1195.0,0,1,Team Chigga,5.0,Johnson,11983.0,13609.0,2,8,10,10
+2023,10,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1248.0,1116.0,1,0,Paulie Gee's,8.0,Jonathan,14247.0,12738.0,6,4,4,4
+2023,10,Regular,Team Chigga,WONG,5,Johnson,Home,1195.0,940.0,1,0,Keegan It Real,1.0,Frank,13803.0,12815.0,7,3,6,3
+2023,10,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1380.0,1211.0,1,0,NY L-Eat Gang,10.0,Ibteda,14200.0,13299.0,7,3,3,2
+2023,10,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1116.0,1248.0,0,1,The Bronx Orthodox Church,13.0,Arian,13478.0,12359.0,8,2,8,1
+2023,10,Regular,New Jersey Eren,TURK,2,Eren,Away,1505.0,1430.0,1,0,Who Invited This Kid?,7.0,Jooahn,13566.0,12615.0,6,4,1,5
+2023,11,Regular,Keegan It Real,REAL,1,Frank,Away,1159.0,1396.0,0,1,New Jersey Eren,2.0,Eren,13142.0,15005.0,2,9,10,10
+2023,11,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1492.0,1594.0,0,1,Fordham Rams,16.0,Allen,13455.0,15246.0,3,8,6,9
+2023,11,Regular,I Watch Basketbal,SEE,17,Luke,Away,1264.0,1500.0,0,1,Pooh Shaisty,12.0,Semanto,13855.0,14516.0,3,8,9,8
+2023,11,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1422.0,1612.0,0,1,Paulie Gee's,8.0,Jonathan,14142.0,15988.0,3,8,7,7
+2023,11,Regular,Fordham Rams,ALL,16,Allen,Away,1594.0,1492.0,1,0,Who Invited This Kid?,7.0,Jooahn,15328.0,15298.0,5,6,3,6
+2023,11,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1591.0,1766.0,0,1,Team Chigga,5.0,Johnson,15838.0,14504.0,6,5,4,5
+2023,11,Regular,Team Chigga,WONG,5,Johnson,Away,1766.0,1591.0,1,0,The Bronx Orthodox Church,13.0,Arian,15569.0,14406.0,8,3,1,3
+2023,11,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1500.0,1264.0,1,0,I Watch Basketbal,17.0,Luke,15700.0,14563.0,8,3,5,2
+2023,11,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1612.0,1422.0,1,0,NY L-Eat Gang,10.0,Ibteda,15090.0,13781.0,9,2,2,1
+2023,11,Regular,New Jersey Eren,TURK,2,Eren,Home,1396.0,1159.0,1,0,Keegan It Real,1.0,Frank,14962.0,13774.0,7,4,8,4
+2023,12,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1722.0,1127.0,1,0,Keegan It Real,1.0,Frank,15177.0,16373.0,4,8,3,7
+2023,12,Regular,I Watch Basketbal,SEE,17,Luke,Away,1305.0,1492.0,0,1,Paulie Gee's,8.0,Jonathan,15160.0,16008.0,3,9,8,9
+2023,12,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1170.0,1511.0,0,1,Team Chigga,5.0,Johnson,15312.0,17499.0,3,9,9,8
+2023,12,Regular,Fordham Rams,ALL,16,Allen,Home,1750.0,1755.0,0,1,Pooh Shaisty,12.0,Semanto,17078.0,17053.0,5,7,2,6
+2023,12,Regular,Keegan It Real,REAL,1,Frank,Home,1127.0,1722.0,0,1,Who Invited This Kid?,7.0,Jooahn,14269.0,16727.0,2,10,10,10
+2023,12,Regular,New Jersey Eren,TURK,2,Eren,Home,1458.0,1349.0,1,0,The Bronx Orthodox Church,13.0,Arian,16420.0,15123.0,8,4,6,4
+2023,12,Regular,Team Chigga,WONG,5,Johnson,Home,1511.0,1170.0,1,0,NY L-Eat Gang,10.0,Ibteda,17080.0,15576.0,9,3,4,3
+2023,12,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1755.0,1750.0,1,0,Fordham Rams,16.0,Allen,17455.0,16313.0,9,3,1,2
+2023,12,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1492.0,1305.0,1,0,I Watch Basketbal,17.0,Luke,16582.0,15086.0,10,2,5,1
+2023,12,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1349.0,1458.0,0,1,New Jersey Eren,2.0,Eren,17187.0,15962.0,6,6,7,5
+2023,13,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1052.0,1277.0,0,1,I Watch Basketbal,17.0,Luke,16364.0,18776.0,3,10,9,9
+2023,13,Regular,I Watch Basketbal,SEE,17,Luke,Home,1277.0,1052.0,1,0,NY L-Eat Gang,10.0,Ibteda,16437.0,17060.0,4,9,6,8
+2023,13,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1894.0,1563.0,1,0,The Bronx Orthodox Church,13.0,Arian,17071.0,17936.0,5,8,1,7
+2023,13,Regular,Fordham Rams,ALL,16,Allen,Away,1405.0,707.0,1,0,Paulie Gee's,8.0,Jonathan,18483.0,17760.0,6,7,5,6
+2023,13,Regular,Keegan It Real,REAL,1,Frank,Home,1484.0,1117.0,1,0,Pooh Shaisty,12.0,Semanto,15753.0,17844.0,3,10,4,10
+2023,13,Regular,New Jersey Eren,TURK,2,Eren,Away,1201.0,1557.0,0,1,Team Chigga,5.0,Johnson,17621.0,16680.0,8,5,7,4
+2023,13,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1117.0,1484.0,0,1,Keegan It Real,1.0,Frank,18572.0,17797.0,9,4,8,3
+2023,13,Regular,Paulie Gee's,JMH,8,Jonathan,Home,707.0,1405.0,0,1,Fordham Rams,16.0,Allen,17289.0,16491.0,10,3,10,2
+2023,13,Regular,Team Chigga,WONG,5,Johnson,Home,1557.0,1201.0,1,0,New Jersey Eren,2.0,Eren,18637.0,16777.0,10,3,3,1
+2023,13,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1563.0,1894.0,0,1,Who Invited This Kid?,7.0,Jooahn,18750.0,17856.0,6,7,2,5
+2023,14,Regular,Keegan It Real,REAL,1,Frank,Away,0.0,1134.0,0,1,NY L-Eat Gang,10.0,Ibteda,15753.0,18978.0,3,11,10,10
+2023,14,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1134.0,0.0,1,0,Keegan It Real,1.0,Frank,17498.0,18776.0,4,10,9,9
+2023,14,Regular,I Watch Basketbal,SEE,17,Luke,Home,1425.0,1423.0,1,0,The Bronx Orthodox Church,13.0,Arian,17862.0,18483.0,5,9,5,8
+2023,14,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1300.0,1587.0,0,1,Paulie Gee's,8.0,Jonathan,18371.0,19523.0,5,9,7,7
+2023,14,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1423.0,1425.0,0,1,I Watch Basketbal,17.0,Luke,20173.0,19281.0,6,8,6,6
+2023,14,Regular,Fordham Rams,ALL,16,Allen,Home,1430.0,1300.0,1,0,Team Chigga,5.0,Johnson,19913.0,19060.0,7,7,4,5
+2023,14,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1444.0,1656.0,0,1,New Jersey Eren,2.0,Eren,20016.0,19453.0,9,5,3,3
+2023,14,Regular,Team Chigga,WONG,5,Johnson,Away,1300.0,1430.0,0,1,Fordham Rams,16.0,Allen,19937.0,18207.0,10,4,7,2
+2023,14,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1587.0,1300.0,1,0,Who Invited This Kid?,7.0,Jooahn,18876.0,17791.0,11,3,2,1
+2023,14,Regular,New Jersey Eren,TURK,2,Eren,Away,1656.0,1444.0,1,0,Pooh Shaisty,12.0,Semanto,19277.0,18124.0,9,5,1,4
+2023,15,Regular,I Watch Basketbal,SEE,17,Luke,Away,1532.0,1151.0,1,0,Who Invited This Kid?,7.0,Jooahn,19394.0,19634.0,6,9,3,7
+2023,15,Regular,Keegan It Real,REAL,1,Frank,Home,1219.0,1598.0,0,1,Fordham Rams,16.0,Allen,16972.0,20576.0,3,12,7,10
+2023,15,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1108.0,1627.0,0,1,New Jersey Eren,2.0,Eren,18606.0,20403.0,4,11,10,9
+2023,15,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1151.0,1532.0,0,1,I Watch Basketbal,17.0,Luke,19522.0,21055.0,5,10,9,8
+2023,15,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1197.0,1458.0,0,1,Pooh Shaisty,12.0,Semanto,21370.0,20739.0,6,9,8,6
+2023,15,Regular,Fordham Rams,ALL,16,Allen,Away,1598.0,1219.0,1,0,Keegan It Real,1.0,Frank,21511.0,20279.0,8,7,2,5
+2023,15,Regular,New Jersey Eren,TURK,2,Eren,Home,1627.0,1108.0,1,0,NY L-Eat Gang,10.0,Ibteda,20904.0,19232.0,10,5,1,4
+2023,15,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1458.0,1197.0,1,0,The Bronx Orthodox Church,13.0,Arian,21474.0,20650.0,10,5,4,3
+2023,15,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1436.0,1441.0,0,1,Team Chigga,5.0,Johnson,20312.0,19232.0,11,4,6,2
+2023,15,Regular,Team Chigga,WONG,5,Johnson,Home,1441.0,1436.0,1,0,Paulie Gee's,8.0,Jonathan,21378.0,19643.0,11,4,5,1
+2023,16,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1681.0,1530.0,1,0,The Bronx Orthodox Church,13.0,Arian,20287.0,21933.0,5,11,1,9
+2023,16,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1419.0,1401.0,1,0,Pooh Shaisty,12.0,Semanto,20941.0,22456.0,6,10,7,8
+2023,16,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1530.0,1681.0,0,1,NY L-Eat Gang,10.0,Ibteda,22900.0,22420.0,6,10,4,7
+2023,16,Regular,I Watch Basketbal,SEE,17,Luke,Home,1486.0,1278.0,1,0,Team Chigga,5.0,Johnson,20880.0,20912.0,7,9,5,6
+2023,16,Regular,Keegan It Real,REAL,1,Frank,Away,1450.0,712.0,1,0,Paulie Gee's,8.0,Jonathan,18422.0,21288.0,4,12,6,10
+2023,16,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1401.0,1419.0,0,1,Who Invited This Kid?,7.0,Jooahn,22875.0,22069.0,10,6,8,4
+2023,16,Regular,Paulie Gee's,JMH,8,Jonathan,Home,712.0,1450.0,0,1,Keegan It Real,1.0,Frank,21024.0,20682.0,11,5,10,3
+2023,16,Regular,New Jersey Eren,TURK,2,Eren,Away,1640.0,1531.0,1,0,Fordham Rams,16.0,Allen,22544.0,20763.0,11,5,2,2
+2023,16,Regular,Team Chigga,WONG,5,Johnson,Away,1278.0,1486.0,0,1,I Watch Basketbal,17.0,Luke,22656.0,21129.0,11,5,9,1
+2023,16,Regular,Fordham Rams,ALL,16,Allen,Home,1531.0,1640.0,0,1,New Jersey Eren,2.0,Eren,23042.0,21919.0,8,8,3,5
+2023,17,Regular,Keegan It Real,REAL,1,Frank,Home,1348.0,1127.0,1,0,I Watch Basketbal,17.0,Luke,19770.0,22415.0,5,12,5,10
+2023,17,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1337.0,1346.0,0,1,Who Invited This Kid?,7.0,Jooahn,21624.0,23279.0,5,12,7,9
+2023,17,Regular,I Watch Basketbal,SEE,17,Luke,Away,1127.0,1348.0,0,1,Keegan It Real,1.0,Frank,22007.0,22260.0,7,10,10,8
+2023,17,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1346.0,1337.0,1,0,NY L-Eat Gang,10.0,Ibteda,22287.0,23793.0,7,10,6,7
+2023,17,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1268.0,1232.0,1,0,Fordham Rams,16.0,Allen,24168.0,23652.0,7,10,8,6
+2023,17,Regular,Fordham Rams,ALL,16,Allen,Away,1232.0,1268.0,0,1,The Bronx Orthodox Church,13.0,Arian,24274.0,23187.0,8,9,9,5
+2023,17,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1419.0,1530.0,0,1,New Jersey Eren,2.0,Eren,22443.0,22212.0,11,6,4,3
+2023,17,Regular,New Jersey Eren,TURK,2,Eren,Home,1530.0,1419.0,1,0,Paulie Gee's,8.0,Jonathan,24074.0,22182.0,12,5,2,2
+2023,17,Regular,Team Chigga,WONG,5,Johnson,Home,1598.0,1451.0,1,0,Pooh Shaisty,12.0,Semanto,24254.0,22580.0,12,5,1,1
+2023,17,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1451.0,1598.0,0,1,Team Chigga,5.0,Johnson,24326.0,23667.0,10,7,3,4
+2023,18,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1948.0,1442.0,1,0,Fordham Rams,16.0,Allen,24235.0,25235.0,8,10,1,7
+2023,18,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,1280.0,1901.0,0,1,Team Chigga,5.0,Johnson,22904.0,25180.0,5,13,9,9
+2023,18,Regular,Keegan It Real,REAL,1,Frank,Away,1371.0,1940.0,0,1,Pooh Shaisty,12.0,Semanto,21141.0,24355.0,5,13,8,10
+2023,18,Regular,Fordham Rams,ALL,16,Allen,Home,1442.0,1948.0,0,1,Who Invited This Kid?,7.0,Jooahn,25716.0,25135.0,8,10,6,6
+2023,18,Regular,I Watch Basketbal,SEE,17,Luke,Home,1408.0,1606.0,0,1,New Jersey Eren,2.0,Eren,23415.0,23866.0,7,11,7,8
+2023,18,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1265.0,1916.0,0,1,The Bronx Orthodox Church,13.0,Arian,23708.0,24128.0,11,7,10,4
+2023,18,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1940.0,1371.0,1,0,Keegan It Real,1.0,Frank,26266.0,25038.0,11,7,2,3
+2023,18,Regular,New Jersey Eren,TURK,2,Eren,Away,1606.0,1408.0,1,0,I Watch Basketbal,17.0,Luke,25680.0,23590.0,13,5,5,2
+2023,18,Regular,Team Chigga,WONG,5,Johnson,Away,1901.0,1280.0,1,0,NY L-Eat Gang,10.0,Ibteda,26155.0,23860.0,13,5,4,1
+2023,18,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1916.0,1265.0,1,0,Paulie Gee's,8.0,Jonathan,26084.0,24917.0,8,10,3,5
+2023,19,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,1301.0,998.0,1,0,Keegan It Real,1.0,Frank,24205.0,26178.0,6,13,7,9
+2023,19,Regular,I Watch Basketbal,SEE,17,Luke,Away,709.0,1411.0,0,1,The Bronx Orthodox Church,13.0,Arian,24124.0,25277.0,7,12,10,8
+2023,19,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1256.0,1445.0,0,1,Paulie Gee's,8.0,Jonathan,25491.0,26680.0,8,11,8,7
+2023,19,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1411.0,709.0,1,0,I Watch Basketbal,17.0,Luke,27495.0,25626.0,9,10,4,6
+2023,19,Regular,Keegan It Real,REAL,1,Frank,Home,998.0,1301.0,0,1,NY L-Eat Gang,10.0,Ibteda,22139.0,25656.0,5,14,9,10
+2023,19,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1365.0,1838.0,0,1,New Jersey Eren,2.0,Eren,27631.0,26876.0,11,8,6,4
+2023,19,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1445.0,1256.0,1,0,Who Invited This Kid?,7.0,Jooahn,25153.0,25384.0,12,7,3,3
+2023,19,Regular,Team Chigga,WONG,5,Johnson,Home,1408.0,1824.0,0,1,Fordham Rams,16.0,Allen,27563.0,25684.0,13,6,5,2
+2023,19,Regular,New Jersey Eren,TURK,2,Eren,Home,1838.0,1365.0,1,0,Pooh Shaisty,12.0,Semanto,27518.0,24955.0,14,5,1,1
+2023,19,Regular,Fordham Rams,ALL,16,Allen,Away,1824.0,1408.0,1,0,Team Chigga,5.0,Johnson,27540.0,26543.0,9,10,2,5
+2023,20,Regular,Keegan It Real,REAL,1,Frank,Away,917.0,1492.0,0,1,Fordham Rams,16.0,Allen,23056.0,27148.0,5,15,8,10
+2023,20,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Home,868.0,1508.0,0,1,New Jersey Eren,2.0,Eren,25073.0,27686.0,6,14,9,9
+2023,20,Regular,I Watch Basketbal,SEE,17,Luke,Home,648.0,1337.0,0,1,Who Invited This Kid?,7.0,Jooahn,24772.0,26614.0,7,13,10,8
+2023,20,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1337.0,648.0,1,0,I Watch Basketbal,17.0,Luke,26828.0,27328.0,9,11,5,7
+2023,20,Regular,The Bronx Orthodox Church,666,13,Arian,Away,1503.0,1341.0,1,0,Pooh Shaisty,12.0,Semanto,28998.0,26967.0,10,10,2,6
+2023,20,Regular,Fordham Rams,ALL,16,Allen,Home,1492.0,917.0,1,0,Keegan It Real,1.0,Frank,29032.0,27460.0,10,10,3,5
+2023,20,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1209.0,1307.0,0,1,Team Chigga,5.0,Johnson,26362.0,26691.0,12,8,7,3
+2023,20,Regular,Team Chigga,WONG,5,Johnson,Away,1307.0,1209.0,1,0,Paulie Gee's,8.0,Jonathan,28870.0,26893.0,14,6,6,2
+2023,20,Regular,New Jersey Eren,TURK,2,Eren,Away,1508.0,868.0,1,0,NY L-Eat Gang,10.0,Ibteda,29026.0,25823.0,15,5,1,1
+2023,20,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1341.0,1503.0,0,1,The Bronx Orthodox Church,13.0,Arian,28972.0,28379.0,11,9,4,4
+2023,21,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1457.0,1568.0,0,1,Pooh Shaisty,12.0,Semanto,28285.0,28896.0,9,12,4,7
+2023,21,Regular,NY L-Eat Gang,LEAT,10,Ibteda,Away,688.0,1227.0,0,1,The Bronx Orthodox Church,13.0,Arian,25761.0,28913.0,6,15,10,9
+2023,21,Regular,Keegan It Real,REAL,1,Frank,Home,856.0,1131.0,0,1,Paulie Gee's,8.0,Jonathan,23912.0,28279.0,5,16,9,10
+2023,21,Regular,Fordham Rams,ALL,16,Allen,Away,1674.0,1802.0,0,1,New Jersey Eren,2.0,Eren,30706.0,29262.0,10,11,2,6
+2023,21,Regular,I Watch Basketbal,SEE,17,Luke,Away,1349.0,1418.0,0,1,Team Chigga,5.0,Johnson,26121.0,28032.0,7,14,6,8
+2023,21,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1568.0,1457.0,1,0,Who Invited This Kid?,7.0,Jooahn,30540.0,29836.0,12,9,3,4
+2023,21,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1131.0,856.0,1,0,Keegan It Real,1.0,Frank,27493.0,27547.0,13,8,8,3
+2023,21,Regular,Team Chigga,WONG,5,Johnson,Home,1418.0,1349.0,1,0,I Watch Basketbal,17.0,Luke,30288.0,28242.0,15,6,5,2
+2023,21,Regular,New Jersey Eren,TURK,2,Eren,Home,1802.0,1674.0,1,0,Fordham Rams,16.0,Allen,30828.0,27497.0,16,5,1,1
+2023,21,Regular,The Bronx Orthodox Church,666,13,Arian,Home,1227.0,688.0,1,0,NY L-Eat Gang,10.0,Ibteda,30225.0,27655.0,11,10,7,5
+2023,22,Consolation,Keegan It Real,REAL,1,Frank,Away,1173.0,477.0,1,0,NY L-Eat Gang,10.0,Ibteda,25085.0,28756.0,6,16,5,10
+2023,22,Consolation,NY L-Eat Gang,LEAT,10,Ibteda,Home,477.0,1173.0,0,1,Keegan It Real,1.0,Frank,26238.0,30086.0,6,16,8,9
+2023,22,Consolation,I Watch Basketbal,SEE,17,Luke,Away,1013.0,1119.0,0,1,Who Invited This Kid?,7.0,Jooahn,27134.0,29151.0,7,15,7,8
+2023,22,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,1119.0,1013.0,1,0,I Watch Basketbal,17.0,Luke,29404.0,29909.0,10,12,6,7
+2023,22,Playoffs,The Bronx Orthodox Church,666,13,Arian,Away,1354.0,1459.0,0,1,Pooh Shaisty,12.0,Semanto,31579.0,29114.0,11,11,4,6
+2023,22,Playoffs,Fordham Rams,ALL,16,Allen,Away,1569.0,1413.0,1,0,Team Chigga,5.0,Johnson,32275.0,30675.0,11,11,1,4
 2023,22,Bye,Paulie Gee's,,8,Jonathan,Bye,0.0,0.0,0,0,,,,27493.0,27547.0,13,8,9,2
-2023,22,Playoffs,Pooh Shaisty,SMN,12,Semanto,Home,1459.0,1354.0,1,0,The Bronx Orthodox Church,13,Arian,31999.0,31190.0,13,9,2,3
-2023,22,Playoffs,Team Chigga,WONG,5,Johnson,Home,1413.0,1569.0,0,1,Fordham Rams,16,Allen,31701.0,29811.0,15,7,3,5
+2023,22,Playoffs,Pooh Shaisty,SMN,12,Semanto,Home,1459.0,1354.0,1,0,The Bronx Orthodox Church,13.0,Arian,31999.0,31190.0,13,9,2,3
+2023,22,Playoffs,Team Chigga,WONG,5,Johnson,Home,1413.0,1569.0,0,1,Fordham Rams,16.0,Allen,31701.0,29811.0,15,7,3,5
 2023,22,Bye,New Jersey Eren,,2,Eren,Bye,0.0,0.0,0,0,,,,30828.0,27497.0,16,5,9,1
-2023,23,Consolation,Keegan It Real,REAL,1,Frank,Away,1314.0,1259.0,1,0,Who Invited This Kid?,7,Jooahn,26399.0,30015.0,7,16,5,10
-2023,23,Consolation,I Watch Basketbal,SEE,17,Luke,Home,1286.0,340.0,1,0,NY L-Eat Gang,10,Ibteda,28420.0,29491.0,8,15,6,8
-2023,23,Consolation,NY L-Eat Gang,LEAT,10,Ibteda,Away,340.0,1286.0,0,1,I Watch Basketbal,17,Luke,26578.0,31372.0,6,17,10,9
-2023,23,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,1259.0,1314.0,0,1,Keegan It Real,1,Frank,30663.0,31223.0,10,13,8,7
-2023,23,Consolation,The Bronx Orthodox Church,666,13,Arian,Away,1364.0,1184.0,1,0,Team Chigga,5,Johnson,32943.0,30298.0,12,11,4,6
-2023,23,Playoffs,Pooh Shaisty,SMN,12,Semanto,Away,1276.0,1560.0,0,1,New Jersey Eren,2,Eren,33275.0,32750.0,13,10,7,4
-2023,23,Playoffs,Paulie Gee's,JMH,8,Jonathan,Home,1448.0,1760.0,0,1,Fordham Rams,16,Allen,28941.0,29307.0,13,9,3,3
-2023,23,Consolation,Team Chigga,WONG,5,Johnson,Home,1184.0,1364.0,0,1,The Bronx Orthodox Church,13,Arian,32885.0,31175.0,15,8,9,5
-2023,23,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1560.0,1276.0,1,0,Pooh Shaisty,12,Semanto,32388.0,28773.0,17,5,2,1
-2023,23,Playoffs,Fordham Rams,ALL,16,Allen,Away,1760.0,1448.0,1,0,Paulie Gee's,8,Jonathan,34035.0,32123.0,12,11,1,2
-2023,24,Consolation,Keegan It Real,REAL,1,Frank,Away,795.0,1000.0,0,1,I Watch Basketbal,17,Luke,27194.0,31015.0,7,17,8,10
-2023,24,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1244.0,1241.0,1,0,Fordham Rams,16,Allen,33632.0,30014.0,18,5,1,1
-2023,24,Consolation,Team Chigga,WONG,5,Johnson,Home,1033.0,814.0,1,0,The Bronx Orthodox Church,13,Arian,33918.0,31989.0,16,8,5,5
-2023,24,Consolation,Pooh Shaisty,SMN,12,Semanto,Away,1125.0,752.0,1,0,Paulie Gee's,8,Jonathan,34400.0,33502.0,14,10,3,4
-2023,24,Consolation,Paulie Gee's,JMH,8,Jonathan,Home,752.0,1125.0,0,1,Pooh Shaisty,12,Semanto,29693.0,30432.0,13,10,9,3
-2023,24,Playoffs,Fordham Rams,ALL,16,Allen,Away,1241.0,1244.0,0,1,New Jersey Eren,2,Eren,35276.0,33367.0,12,12,2,2
-2023,24,Consolation,The Bronx Orthodox Church,666,13,Arian,Away,814.0,1033.0,0,1,Team Chigga,5,Johnson,33757.0,31331.0,12,12,7,6
-2023,24,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,1048.0,236.0,1,0,NY L-Eat Gang,10,Ibteda,31711.0,31459.0,11,13,4,7
-2023,24,Consolation,I Watch Basketbal,SEE,17,Luke,Home,1000.0,795.0,1,0,Keegan It Real,1,Frank,29420.0,30286.0,9,15,6,8
-2023,24,Consolation,NY L-Eat Gang,LEAT,10,Ibteda,Away,236.0,1048.0,0,1,Who Invited This Kid?,7,Jooahn,26814.0,32420.0,6,18,10,9
-2024,1,Regular,New Jersey Eren,TURK,2,Eren,Home,1333.0,888.0,1,0,Who Invited This Kid?,7,Jooahn,1333.0,888.0,1,0,1,1
-2024,1,Regular,Keegan It Real,REAL,1,Frank,Home,1276.0,1227.0,1,0,Team Chigga,5,Johnson,1276.0,1227.0,1,0,2,2
-2024,1,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1276.0,1090.0,1,0,Paulie Gee's,8,Jonathan,1276.0,1090.0,1,0,2,3
-2024,1,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1117.0,1111.0,1,0,I Watch Basketbal,17,Luke,1117.0,1111.0,1,0,5,4
-2024,1,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,951.0,478.0,1,0,For All the bullDawgs,10,Shayan,951.0,478.0,1,0,8,5
-2024,1,Regular,Team Chigga,WONG,5,Johnson,Away,1227.0,1276.0,0,1,Keegan It Real,1,Frank,1227.0,1276.0,0,1,4,6
-2024,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,1111.0,1117.0,0,1,The Bronx Orthodox Church,13,Arian,1111.0,1117.0,0,1,6,7
-2024,1,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1090.0,1276.0,0,1,Pooh Shaisty,12,Semanto,1090.0,1276.0,0,1,7,8
-2024,1,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,888.0,1333.0,0,1,New Jersey Eren,2,Eren,888.0,1333.0,0,1,9,9
-2024,1,Regular,For All the bullDawgs,FAD,10,Shayan,Home,478.0,951.0,0,1,NYC Chopp Cheese,16,Allen,478.0,951.0,0,1,10,10
-2024,2,Regular,For All the bullDawgs,FAD,10,Shayan,Home,941.0,1595.0,0,1,Pooh Shaisty,12,Semanto,1419.0,2546.0,0,2,10,10
-2024,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,984.0,1070.0,0,1,Paulie Gee's,8,Jonathan,1872.0,2403.0,0,2,9,9
-2024,2,Regular,I Watch Basketbal,SEE,17,Luke,Away,1388.0,1540.0,0,1,NYC Chopp Cheese,16,Allen,2499.0,2657.0,0,2,7,8
-2024,2,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1070.0,984.0,1,0,Who Invited This Kid?,7,Jooahn,2160.0,2260.0,1,1,8,7
-2024,2,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1411.0,1454.0,0,1,Team Chigga,5,Johnson,2528.0,2565.0,1,1,6,6
-2024,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1595.0,941.0,1,0,For All the bullDawgs,10,Shayan,2871.0,2031.0,2,0,3,2
-2024,2,Regular,New Jersey Eren,TURK,2,Eren,Away,1600.0,1805.0,0,1,Keegan It Real,1,Frank,2933.0,2693.0,1,1,2,4
-2024,2,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1540.0,1388.0,1,0,I Watch Basketbal,17,Luke,2491.0,1866.0,2,0,4,3
-2024,2,Regular,Keegan It Real,REAL,1,Frank,Home,1805.0,1600.0,1,0,New Jersey Eren,2,Eren,3081.0,2827.0,2,0,1,1
-2024,2,Regular,Team Chigga,WONG,5,Johnson,Home,1454.0,1411.0,1,0,The Bronx Orthodox Church,13,Arian,2681.0,2687.0,1,1,5,5
-2024,3,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1190.0,1180.0,1,0,Paulie Gee's,8,Jonathan,2609.0,3726.0,1,2,9,8
-2024,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1232.0,1517.0,0,1,Keegan It Real,1,Frank,3104.0,3920.0,0,3,8,10
-2024,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,1300.0,1369.0,0,1,Pooh Shaisty,12,Semanto,3799.0,4026.0,0,3,7,9
-2024,3,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1402.0,1530.0,0,1,New Jersey Eren,2,Eren,3930.0,4095.0,1,2,3,6
-2024,3,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1180.0,1190.0,0,1,For All the bullDawgs,10,Shayan,3340.0,3450.0,1,2,10,7
-2024,3,Regular,Team Chigga,WONG,5,Johnson,Home,1386.0,1336.0,1,0,NYC Chopp Cheese,16,Allen,4067.0,4023.0,2,1,4,4
-2024,3,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1336.0,1386.0,0,1,Team Chigga,5,Johnson,3827.0,3252.0,2,1,6,5
-2024,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1530.0,1402.0,1,0,The Bronx Orthodox Church,13,Arian,4463.0,4095.0,2,1,1,3
-2024,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1369.0,1300.0,1,0,I Watch Basketbal,17,Luke,4240.0,3331.0,3,0,5,2
-2024,3,Regular,Keegan It Real,REAL,1,Frank,Away,1517.0,1232.0,1,0,Who Invited This Kid?,7,Jooahn,4598.0,4059.0,3,0,2,1
-2024,4,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1462.0,1867.0,0,1,Keegan It Real,1,Frank,4071.0,5593.0,1,3,4,9
-2024,4,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1128.0,1174.0,0,1,I Watch Basketbal,17,Luke,4468.0,4624.0,1,3,10,8
-2024,4,Regular,I Watch Basketbal,SEE,17,Luke,Home,1174.0,1128.0,1,0,Paulie Gee's,8,Jonathan,4973.0,5154.0,1,3,9,7
-2024,4,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1280.0,1594.0,0,1,Pooh Shaisty,12,Semanto,5107.0,4846.0,2,2,6,6
-2024,4,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1271.0,1420.0,0,1,The Bronx Orthodox Church,13,Arian,4375.0,5340.0,0,4,7,10
-2024,4,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1420.0,1271.0,1,0,Who Invited This Kid?,7,Jooahn,5350.0,5366.0,2,2,5,4
-2024,4,Regular,New Jersey Eren,TURK,2,Eren,Home,1604.0,1230.0,1,0,Team Chigga,5,Johnson,6067.0,5325.0,3,1,2,3
-2024,4,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1594.0,1280.0,1,0,NYC Chopp Cheese,16,Allen,5834.0,4611.0,4,0,3,2
-2024,4,Regular,Keegan It Real,REAL,1,Frank,Home,1867.0,1462.0,1,0,For All the bullDawgs,10,Shayan,6465.0,5521.0,4,0,1,1
-2024,4,Regular,Team Chigga,WONG,5,Johnson,Away,1230.0,1604.0,0,1,New Jersey Eren,2,Eren,5297.0,5627.0,2,2,8,5
-2024,5,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1389.0,1623.0,0,1,Team Chigga,5,Johnson,5764.0,6963.0,0,5,6,10
-2024,5,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1118.0,1247.0,0,1,I Watch Basketbal,17,Luke,5189.0,6840.0,1,4,10,9
-2024,5,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1202.0,1257.0,0,1,NYC Chopp Cheese,16,Allen,5670.0,5881.0,1,4,9,8
-2024,5,Regular,I Watch Basketbal,SEE,17,Luke,Away,1247.0,1118.0,1,0,For All the bullDawgs,10,Shayan,6220.0,6272.0,2,3,8,7
-2024,5,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1434.0,1637.0,0,1,Keegan It Real,1,Frank,6784.0,7003.0,2,3,5,6
-2024,5,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1257.0,1202.0,1,0,Paulie Gee's,8,Jonathan,6364.0,6048.0,3,2,7,5
-2024,5,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1484.0,1699.0,0,1,New Jersey Eren,2,Eren,7318.0,6310.0,4,1,4,3
-2024,5,Regular,New Jersey Eren,TURK,2,Eren,Home,1699.0,1484.0,1,0,Pooh Shaisty,12,Semanto,7766.0,6809.0,4,1,1,2
-2024,5,Regular,Keegan It Real,REAL,1,Frank,Home,1637.0,1434.0,1,0,The Bronx Orthodox Church,13,Arian,8102.0,6955.0,5,0,2,1
-2024,5,Regular,Team Chigga,WONG,5,Johnson,Home,1623.0,1389.0,1,0,Who Invited This Kid?,7,Jooahn,6920.0,7016.0,3,2,3,4
-2024,6,Regular,I Watch Basketbal,SEE,17,Luke,Home,1510.0,968.0,1,0,Who Invited This Kid?,7,Jooahn,7730.0,7240.0,3,3,2,7
-2024,6,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,968.0,1510.0,0,1,I Watch Basketbal,17,Luke,6732.0,8473.0,0,6,9,10
-2024,6,Regular,For All the bullDawgs,FAD,10,Shayan,Home,819.0,1489.0,0,1,New Jersey Eren,2,Eren,6008.0,8329.0,1,5,10,9
-2024,6,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1420.0,1664.0,0,1,Keegan It Real,1,Frank,7784.0,7712.0,3,3,6,6
-2024,6,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1068.0,1293.0,0,1,Team Chigga,5,Johnson,6738.0,7174.0,1,5,8,8
-2024,6,Regular,Team Chigga,WONG,5,Johnson,Away,1293.0,1068.0,1,0,Paulie Gee's,8,Jonathan,8213.0,8084.0,4,2,7,4
-2024,6,Regular,Keegan It Real,REAL,1,Frank,Away,1664.0,1420.0,1,0,NYC Chopp Cheese,16,Allen,9766.0,8375.0,6,0,1,1
-2024,6,Regular,New Jersey Eren,TURK,2,Eren,Away,1489.0,819.0,1,0,For All the bullDawgs,10,Shayan,9255.0,7628.0,5,1,3,2
-2024,6,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1484.0,1482.0,1,0,Pooh Shaisty,12,Semanto,8268.0,8485.0,3,3,4,5
-2024,6,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1482.0,1484.0,0,1,The Bronx Orthodox Church,13,Arian,8800.0,7794.0,4,2,5,3
-2024,7,Regular,For All the bullDawgs,FAD,10,Shayan,Away,594.0,723.0,0,1,The Bronx Orthodox Church,13,Arian,6602.0,9052.0,1,6,10,9
-2024,7,Regular,Paulie Gee's,JMH,8,Jonathan,Away,825.0,736.0,1,0,Keegan It Real,1,Frank,7563.0,7910.0,2,5,5,8
-2024,7,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,901.0,971.0,0,1,New Jersey Eren,2,Eren,8685.0,8683.0,3,4,4,7
-2024,7,Regular,I Watch Basketbal,SEE,17,Luke,Away,1015.0,925.0,1,0,Team Chigga,5,Johnson,8745.0,8165.0,4,3,1,6
-2024,7,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,752.0,758.0,0,1,Pooh Shaisty,12,Semanto,7484.0,9231.0,0,7,7,10
-2024,7,Regular,Team Chigga,WONG,5,Johnson,Home,925.0,1015.0,0,1,I Watch Basketbal,17,Luke,9138.0,9099.0,4,3,3,4
-2024,7,Regular,Pooh Shaisty,SMN,12,Semanto,Away,758.0,752.0,1,0,Who Invited This Kid?,7,Jooahn,9558.0,8546.0,5,2,6,3
-2024,7,Regular,New Jersey Eren,TURK,2,Eren,Home,971.0,901.0,1,0,NYC Chopp Cheese,16,Allen,10226.0,8529.0,6,1,2,2
-2024,7,Regular,Keegan It Real,REAL,1,Frank,Home,736.0,825.0,0,1,Paulie Gee's,8,Jonathan,10502.0,9200.0,6,1,8,1
-2024,7,Regular,The Bronx Orthodox Church,13,13,Arian,Home,723.0,594.0,1,0,For All the bullDawgs,10,Shayan,8991.0,9079.0,4,3,9,5
-2024,8,Regular,For All the bullDawgs,FAD,10,Shayan,Home,938.0,1010.0,0,1,Who Invited This Kid?,7,Jooahn,7540.0,10062.0,1,7,10,10
-2024,8,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1010.0,938.0,1,0,For All the bullDawgs,10,Shayan,8494.0,10169.0,1,7,9,9
-2024,8,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1418.0,1950.0,0,1,New Jersey Eren,2,Eren,8981.0,9860.0,2,6,7,8
-2024,8,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1615.0,1365.0,1,0,The Bronx Orthodox Church,13,Arian,10300.0,10048.0,4,4,6,7
-2024,8,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1365.0,1615.0,0,1,NYC Chopp Cheese,16,Allen,10356.0,10694.0,4,4,8,6
-2024,8,Regular,I Watch Basketbal,SEE,17,Luke,Home,1787.0,1811.0,0,1,Keegan It Real,1,Frank,10532.0,9976.0,4,4,5,5
-2024,8,Regular,Pooh Shaisty,SMN,12,Semanto,Home,2011.0,1826.0,1,0,Team Chigga,5,Johnson,11569.0,10372.0,6,2,1,3
-2024,8,Regular,Keegan It Real,REAL,1,Frank,Away,1811.0,1787.0,1,0,I Watch Basketbal,17,Luke,12313.0,10987.0,7,1,4,1
-2024,8,Regular,Team Chigga,WONG,5,Johnson,Away,1826.0,2011.0,0,1,Pooh Shaisty,12,Semanto,10964.0,11110.0,4,4,3,4
-2024,8,Regular,New Jersey Eren,TURK,2,Eren,Away,1950.0,1418.0,1,0,Paulie Gee's,8,Jonathan,12176.0,9947.0,7,1,2,2
-2024,9,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1034.0,1421.0,0,1,NYC Chopp Cheese,16,Allen,8574.0,11483.0,1,8,9,10
-2024,9,Regular,I Watch Basketbal,SEE,17,Luke,Away,1508.0,1713.0,0,1,New Jersey Eren,2,Eren,12040.0,11689.0,4,5,4,6
-2024,9,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1198.0,1482.0,0,1,Team Chigga,5,Johnson,9692.0,11651.0,1,8,8,9
-2024,9,Regular,Paulie Gee's,JMH,8,Jonathan,Home,916.0,1652.0,0,1,Pooh Shaisty,12,Semanto,9897.0,11512.0,2,7,10,8
-2024,9,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1342.0,1719.0,0,1,Keegan It Real,1,Frank,11698.0,12413.0,4,5,7,7
-2024,9,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1421.0,1034.0,1,0,For All the bullDawgs,10,Shayan,11721.0,11082.0,5,4,6,5
-2024,9,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1652.0,916.0,1,0,Paulie Gee's,8,Jonathan,13221.0,11288.0,7,2,3,3
-2024,9,Regular,New Jersey Eren,TURK,2,Eren,Home,1713.0,1508.0,1,0,I Watch Basketbal,17,Luke,13889.0,11455.0,8,1,2,2
-2024,9,Regular,Keegan It Real,REAL,1,Frank,Away,1719.0,1342.0,1,0,The Bronx Orthodox Church,13,Arian,14032.0,12329.0,8,1,1,1
-2024,9,Regular,Team Chigga,WONG,5,Johnson,Away,1482.0,1198.0,1,0,Who Invited This Kid?,7,Jooahn,12446.0,12308.0,5,4,5,4
-2024,10,Regular,For All the bullDawgs,FAD,10,Shayan,Away,622.0,1707.0,0,1,Pooh Shaisty,12,Semanto,9196.0,13190.0,1,9,10,10
-2024,10,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1402.0,1518.0,0,1,New Jersey Eren,2,Eren,11094.0,13169.0,1,9,7,9
-2024,10,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1046.0,1531.0,0,1,The Bronx Orthodox Church,13,Arian,10943.0,13043.0,2,8,9,8
-2024,10,Regular,I Watch Basketbal,SEE,17,Luke,Home,1697.0,1758.0,0,1,NYC Chopp Cheese,16,Allen,13737.0,13447.0,4,6,4,7
-2024,10,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1531.0,1046.0,1,0,Paulie Gee's,8,Jonathan,13229.0,13459.0,5,5,5,6
-2024,10,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1758.0,1697.0,1,0,I Watch Basketbal,17,Luke,13479.0,12779.0,6,4,1,4
-2024,10,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1707.0,622.0,1,0,For All the bullDawgs,10,Shayan,14928.0,11910.0,8,2,3,3
-2024,10,Regular,New Jersey Eren,TURK,2,Eren,Away,1518.0,1402.0,1,0,Who Invited This Kid?,7,Jooahn,15407.0,12857.0,9,1,6,2
-2024,10,Regular,Keegan It Real,REAL,1,Frank,Away,1725.0,1384.0,1,0,Team Chigga,5,Johnson,15757.0,13713.0,9,1,2,1
-2024,10,Regular,Team Chigga,WONG,5,Johnson,Home,1384.0,1725.0,0,1,Keegan It Real,1,Frank,13830.0,14033.0,5,5,8,5
-2024,11,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1305.0,1573.0,0,1,Team Chigga,5,Johnson,14534.0,15032.0,5,6,8,7
-2024,11,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1087.0,872.0,1,0,Paulie Gee's,8,Jonathan,10283.0,14062.0,2,9,9,10
-2024,11,Regular,Paulie Gee's,JMH,8,Jonathan,Away,872.0,1087.0,0,1,For All the bullDawgs,10,Shayan,11815.0,14130.0,2,9,10,9
-2024,11,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1453.0,1411.0,1,0,NYC Chopp Cheese,16,Allen,12547.0,14580.0,2,9,5,8
-2024,11,Regular,I Watch Basketbal,SEE,17,Luke,Away,1531.0,1320.0,1,0,Pooh Shaisty,12,Semanto,15268.0,14767.0,5,6,4,6
-2024,11,Regular,New Jersey Eren,TURK,2,Eren,Home,1796.0,1720.0,1,0,Keegan It Real,1,Frank,17203.0,14577.0,10,1,1,1
-2024,11,Regular,Team Chigga,WONG,5,Johnson,Away,1573.0,1305.0,1,0,The Bronx Orthodox Church,13,Arian,15403.0,15338.0,6,5,3,4
-2024,11,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1320.0,1531.0,0,1,I Watch Basketbal,17,Luke,16248.0,13441.0,8,3,7,3
-2024,11,Regular,Keegan It Real,REAL,1,Frank,Away,1720.0,1796.0,0,1,New Jersey Eren,2,Eren,17477.0,15509.0,9,2,2,2
-2024,11,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1411.0,1453.0,0,1,Who Invited This Kid?,7,Jooahn,14890.0,14232.0,6,5,6,5
-2024,12,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1511.0,1467.0,1,0,New Jersey Eren,2,Eren,16045.0,16499.0,6,6,2,7
-2024,12,Regular,For All the bullDawgs,FAD,10,Shayan,Away,767.0,1428.0,0,1,Team Chigga,5,Johnson,11050.0,15490.0,2,10,10,10
-2024,12,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1139.0,1197.0,0,1,I Watch Basketbal,17,Luke,12954.0,15327.0,2,10,9,9
-2024,12,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1354.0,1619.0,0,1,Keegan It Real,1,Frank,13901.0,16199.0,2,10,7,8
-2024,12,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1397.0,1511.0,0,1,Pooh Shaisty,12,Semanto,16287.0,15743.0,6,6,6,6
-2024,12,Regular,I Watch Basketbal,SEE,17,Luke,Away,1197.0,1139.0,1,0,Paulie Gee's,8,Jonathan,16465.0,15906.0,6,6,8,5
-2024,12,Regular,Team Chigga,WONG,5,Johnson,Home,1428.0,767.0,1,0,For All the bullDawgs,10,Shayan,16831.0,16105.0,7,5,5,4
-2024,12,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1511.0,1397.0,1,0,NYC Chopp Cheese,16,Allen,17759.0,14838.0,9,3,2,3
-2024,12,Regular,New Jersey Eren,TURK,2,Eren,Home,1467.0,1511.0,0,1,The Bronx Orthodox Church,13,Arian,18670.0,16088.0,10,2,4,2
-2024,12,Regular,Keegan It Real,REAL,1,Frank,Home,1619.0,1354.0,1,0,Who Invited This Kid?,7,Jooahn,19096.0,16863.0,10,2,1,1
-2024,13,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1030.0,1492.0,0,1,NYC Chopp Cheese,16,Allen,13984.0,16819.0,2,11,8,9
-2024,13,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1388.0,1657.0,0,1,The Bronx Orthodox Church,13,Arian,15289.0,17856.0,2,11,6,8
-2024,13,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1657.0,1388.0,1,0,Who Invited This Kid?,7,Jooahn,17702.0,17887.0,7,6,2,7
-2024,13,Regular,I Watch Basketbal,SEE,17,Luke,Home,1311.0,814.0,1,0,For All the bullDawgs,10,Shayan,17776.0,16720.0,7,6,7,6
-2024,13,Regular,For All the bullDawgs,FAD,10,Shayan,Away,814.0,1311.0,0,1,I Watch Basketbal,17,Luke,11864.0,16801.0,2,11,10,10
-2024,13,Regular,Team Chigga,WONG,5,Johnson,Home,1441.0,1546.0,0,1,New Jersey Eren,2,Eren,18272.0,17651.0,7,6,5,4
-2024,13,Regular,Pooh Shaisty,SMN,12,Semanto,Away,896.0,1751.0,0,1,Keegan It Real,1,Frank,18655.0,16589.0,9,4,9,3
-2024,13,Regular,New Jersey Eren,TURK,2,Eren,Away,1546.0,1441.0,1,0,Team Chigga,5,Johnson,20216.0,17529.0,11,2,3,2
-2024,13,Regular,Keegan It Real,REAL,1,Frank,Home,1751.0,896.0,1,0,Pooh Shaisty,12,Semanto,20847.0,17759.0,11,2,1,1
-2024,13,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1492.0,1030.0,1,0,Paulie Gee's,8,Jonathan,17779.0,16773.0,7,6,4,5
-2024,14,Regular,For All the bullDawgs,FAD,10,Shayan,Home,869.0,1830.0,0,1,Keegan It Real,1,Frank,12733.0,18631.0,2,12,10,10
-2024,14,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1172.0,1386.0,0,1,Who Invited This Kid?,7,Jooahn,15156.0,18205.0,2,12,9,9
-2024,14,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1386.0,1172.0,1,0,Paulie Gee's,8,Jonathan,16675.0,19028.0,3,11,6,8
-2024,14,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1349.0,1636.0,0,1,I Watch Basketbal,17,Luke,19051.0,19523.0,7,7,7,7
-2024,14,Regular,Team Chigga,WONG,5,Johnson,Away,1243.0,1456.0,0,1,NYC Chopp Cheese,16,Allen,19515.0,19107.0,7,7,8,6
-2024,14,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1456.0,1243.0,1,0,Team Chigga,5,Johnson,19235.0,18016.0,8,6,4,5
-2024,14,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1435.0,1670.0,0,1,New Jersey Eren,2,Eren,20090.0,18259.0,9,5,5,3
-2024,14,Regular,New Jersey Eren,TURK,2,Eren,Away,1670.0,1435.0,1,0,Pooh Shaisty,12,Semanto,21886.0,18964.0,12,2,2,2
-2024,14,Regular,Keegan It Real,REAL,1,Frank,Away,1830.0,869.0,1,0,For All the bullDawgs,10,Shayan,22677.0,18628.0,12,2,1,1
-2024,14,Regular,I Watch Basketbal,SEE,17,Luke,Home,1636.0,1349.0,1,0,The Bronx Orthodox Church,13,Arian,19412.0,18069.0,8,6,3,4
-2024,15,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1424.0,1626.0,0,1,I Watch Basketbal,17,Luke,18099.0,20654.0,3,12,8,8
-2024,15,Regular,For All the bullDawgs,FAD,10,Shayan,Away,970.0,1670.0,0,1,New Jersey Eren,2,Eren,13703.0,20301.0,2,13,9,10
-2024,15,Regular,Paulie Gee's,JMH,8,Jonathan,Away,858.0,1741.0,0,1,Team Chigga,5,Johnson,16014.0,19946.0,2,13,10,9
-2024,15,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1562.0,1731.0,0,1,Pooh Shaisty,12,Semanto,20613.0,21254.0,7,8,7,7
-2024,15,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1881.0,1890.0,0,1,Keegan It Real,1,Frank,21116.0,19906.0,8,7,2,6
-2024,15,Regular,I Watch Basketbal,SEE,17,Luke,Away,1626.0,1424.0,1,0,Who Invited This Kid?,7,Jooahn,21038.0,19493.0,9,6,6,4
-2024,15,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1731.0,1562.0,1,0,The Bronx Orthodox Church,13,Arian,21821.0,19821.0,10,5,4,3
-2024,15,Regular,New Jersey Eren,TURK,2,Eren,Home,1670.0,970.0,1,0,For All the bullDawgs,10,Shayan,23556.0,19934.0,13,2,5,2
-2024,15,Regular,Keegan It Real,REAL,1,Frank,Home,1890.0,1881.0,1,0,NYC Chopp Cheese,16,Allen,24567.0,20509.0,13,2,1,1
-2024,15,Regular,Team Chigga,WONG,5,Johnson,Home,1741.0,858.0,1,0,Paulie Gee's,8,Jonathan,21256.0,19965.0,8,7,3,5
-2024,16,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1017.0,1026.0,0,1,The Bronx Orthodox Church,13,Arian,14720.0,21327.0,2,14,9,10
-2024,16,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1049.0,1453.0,0,1,Keegan It Real,1,Frank,17063.0,21399.0,2,14,7,9
-2024,16,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1026.0,1017.0,1,0,For All the bullDawgs,10,Shayan,21639.0,22271.0,8,8,8,7
-2024,16,Regular,Team Chigga,WONG,5,Johnson,Away,1508.0,1824.0,0,1,I Watch Basketbal,17,Luke,22764.0,21789.0,8,8,4,6
-2024,16,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1491.0,1532.0,0,1,Pooh Shaisty,12,Semanto,19590.0,22186.0,3,13,5,8
-2024,16,Regular,I Watch Basketbal,SEE,17,Luke,Home,1824.0,1508.0,1,0,Team Chigga,5,Johnson,22862.0,21001.0,10,6,1,4
-2024,16,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1532.0,1491.0,1,0,Who Invited This Kid?,7,Jooahn,23353.0,21312.0,11,5,3,3
-2024,16,Regular,New Jersey Eren,TURK,2,Eren,Away,922.0,1636.0,0,1,NYC Chopp Cheese,16,Allen,24478.0,21570.0,13,3,10,2
-2024,16,Regular,Keegan It Real,REAL,1,Frank,Away,1453.0,1049.0,1,0,Paulie Gee's,8,Jonathan,26020.0,21558.0,14,2,6,1
-2024,16,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1636.0,922.0,1,0,New Jersey Eren,2,Eren,22752.0,20828.0,9,7,2,5
-2024,17,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1226.0,2011.0,0,1,Who Invited This Kid?,7,Jooahn,15946.0,23338.0,2,15,10,10
-2024,17,Regular,Keegan It Real,REAL,1,Frank,Home,2499.0,2124.0,1,0,I Watch Basketbal,17,Luke,28519.0,23682.0,15,2,1,1
-2024,17,Regular,New Jersey Eren,TURK,2,Eren,Home,1371.0,1543.0,0,1,Paulie Gee's,8,Jonathan,25849.0,23113.0,13,4,9,2
-2024,17,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1756.0,1841.0,0,1,Team Chigga,5,Johnson,25109.0,23153.0,11,6,6,3
-2024,17,Regular,I Watch Basketbal,SEE,17,Luke,Away,2124.0,2499.0,0,1,Keegan It Real,1,Frank,24986.0,23500.0,10,7,2,4
-2024,17,Regular,Team Chigga,WONG,5,Johnson,Home,1841.0,1756.0,1,0,Pooh Shaisty,12,Semanto,24605.0,23545.0,9,8,5,5
-2024,17,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1748.0,1871.0,0,1,The Bronx Orthodox Church,13,Arian,24500.0,22699.0,9,8,7,6
-2024,17,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1871.0,1748.0,1,0,NYC Chopp Cheese,16,Allen,23510.0,24019.0,9,8,4,7
-2024,17,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,2011.0,1226.0,1,0,For All the bullDawgs,10,Shayan,21601.0,23412.0,4,13,3,8
-2024,17,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1543.0,1371.0,1,0,New Jersey Eren,2,Eren,18606.0,22770.0,3,14,8,9
-2024,18,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1053.0,1276.0,0,1,NYC Chopp Cheese,16,Allen,22654.0,24688.0,4,14,9,8
-2024,18,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1221.0,962.0,1,0,Paulie Gee's,8,Jonathan,24731.0,24981.0,10,8,6,7
-2024,18,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1108.0,1468.0,0,1,Team Chigga,5,Johnson,17054.0,24806.0,2,16,8,10
-2024,18,Regular,Paulie Gee's,JMH,8,Jonathan,Home,962.0,1221.0,0,1,The Bronx Orthodox Church,13,Arian,19568.0,23991.0,3,15,10,9
-2024,18,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1276.0,1053.0,1,0,Who Invited This Kid?,7,Jooahn,25776.0,23752.0,10,8,5,6
-2024,18,Regular,I Watch Basketbal,SEE,17,Luke,Home,1550.0,1466.0,1,0,New Jersey Eren,2,Eren,26536.0,24966.0,11,7,2,3
-2024,18,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1213.0,1738.0,0,1,Keegan It Real,1,Frank,26322.0,24891.0,11,7,7,4
-2024,18,Regular,Team Chigga,WONG,5,Johnson,Away,1468.0,1108.0,1,0,For All the bullDawgs,10,Shayan,26073.0,24653.0,10,8,3,5
-2024,18,Regular,New Jersey Eren,TURK,2,Eren,Away,1466.0,1550.0,0,1,I Watch Basketbal,17,Luke,27315.0,24663.0,13,5,4,2
-2024,18,Regular,Keegan It Real,REAL,1,Frank,Away,1738.0,1213.0,1,0,Pooh Shaisty,12,Semanto,30257.0,24895.0,16,2,1,1
-2024,19,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1553.0,1528.0,1,0,Keegan It Real,1,Frank,18607.0,26334.0,3,16,5,10
-2024,19,Regular,Paulie Gee's,JMH,8,Jonathan,Away,690.0,1209.0,0,1,Who Invited This Kid?,7,Jooahn,20258.0,25200.0,3,16,10,9
-2024,19,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1209.0,690.0,1,0,Paulie Gee's,8,Jonathan,23863.0,25378.0,5,14,9,8
-2024,19,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1620.0,1785.0,0,1,I Watch Basketbal,17,Luke,26351.0,26766.0,10,9,4,7
-2024,19,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1211.0,1678.0,0,1,Team Chigga,5,Johnson,26987.0,25430.0,10,9,8,6
-2024,19,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1665.0,1542.0,1,0,New Jersey Eren,2,Eren,27987.0,26433.0,12,7,3,4
-2024,19,Regular,I Watch Basketbal,SEE,17,Luke,Away,1785.0,1620.0,1,0,The Bronx Orthodox Church,13,Arian,28321.0,26586.0,12,7,1,3
-2024,19,Regular,New Jersey Eren,TURK,2,Eren,Home,1542.0,1665.0,0,1,Pooh Shaisty,12,Semanto,28857.0,26328.0,13,6,6,2
-2024,19,Regular,Keegan It Real,REAL,1,Frank,Home,1528.0,1553.0,0,1,For All the bullDawgs,10,Shayan,31785.0,26448.0,16,3,7,1
-2024,19,Regular,Team Chigga,WONG,5,Johnson,Home,1678.0,1211.0,1,0,NYC Chopp Cheese,16,Allen,27751.0,25864.0,11,8,2,5
-2024,20,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1166.0,1234.0,0,1,Pooh Shaisty,12,Semanto,27517.0,28000.0,10,10,9,7
-2024,20,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1452.0,1748.0,0,1,Team Chigga,5,Johnson,21710.0,26948.0,3,17,4,10
-2024,20,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1199.0,964.0,1,0,New Jersey Eren,2,Eren,19806.0,27298.0,4,16,8,9
-2024,20,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1266.0,1519.0,0,1,I Watch Basketbal,17,Luke,25129.0,26897.0,5,15,6,8
-2024,20,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1272.0,1619.0,0,1,Keegan It Real,1,Frank,28259.0,27049.0,10,10,5,6
-2024,20,Regular,Keegan It Real,REAL,1,Frank,Away,1619.0,1272.0,1,0,NYC Chopp Cheese,16,Allen,33404.0,27720.0,17,3,2,1
-2024,20,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1234.0,1166.0,1,0,The Bronx Orthodox Church,13,Arian,29221.0,27599.0,13,7,7,4
-2024,20,Regular,New Jersey Eren,TURK,2,Eren,Away,964.0,1199.0,0,1,For All the bullDawgs,10,Shayan,29821.0,27527.0,13,7,10,3
-2024,20,Regular,I Watch Basketbal,SEE,17,Luke,Home,1519.0,1266.0,1,0,Who Invited This Kid?,7,Jooahn,29840.0,27852.0,13,7,3,2
-2024,20,Regular,Team Chigga,WONG,5,Johnson,Away,1748.0,1452.0,1,0,Paulie Gee's,8,Jonathan,29499.0,27316.0,12,8,1,5
-2024,21,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,610.0,997.0,0,1,Who Invited This Kid?,7,Jooahn,28127.0,28997.0,10,11,8,7
-2024,21,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,1237.0,1059.0,1,0,For All the bullDawgs,10,Shayan,22947.0,28007.0,4,17,3,10
-2024,21,Consolation,Who Invited This Kid?,JS,7,Jooahn,Away,997.0,610.0,1,0,The Bronx Orthodox Church,13,Arian,26126.0,27507.0,6,15,6,8
-2024,21,Consolation,For All the bullDawgs,FAD,10,Shayan,Home,1059.0,1237.0,0,1,Paulie Gee's,8,Jonathan,20865.0,28535.0,4,17,5,9
-2024,21,Playoffs,NYC Chopp Cheese,ALL,16,Allen,Away,1641.0,790.0,1,0,New Jersey Eren,2,Eren,29900.0,27839.0,11,10,1,4
-2024,21,Playoffs,New Jersey Eren,TURK,2,Eren,Home,790.0,1641.0,0,1,NYC Chopp Cheese,16,Allen,30611.0,29168.0,13,8,7,5
-2024,21,Playoffs,Pooh Shaisty,SMN,12,Semanto,Home,1105.0,1609.0,0,1,Team Chigga,5,Johnson,30326.0,29208.0,13,8,4,6
-2024,21,Playoffs,Team Chigga,WONG,5,Johnson,Away,1609.0,1105.0,1,0,Pooh Shaisty,12,Semanto,31108.0,28421.0,13,8,2,3
+2023,23,Consolation,Keegan It Real,REAL,1,Frank,Away,1314.0,1259.0,1,0,Who Invited This Kid?,7.0,Jooahn,26399.0,30015.0,7,16,5,10
+2023,23,Consolation,I Watch Basketbal,SEE,17,Luke,Home,1286.0,340.0,1,0,NY L-Eat Gang,10.0,Ibteda,28420.0,29491.0,8,15,6,8
+2023,23,Consolation,NY L-Eat Gang,LEAT,10,Ibteda,Away,340.0,1286.0,0,1,I Watch Basketbal,17.0,Luke,26578.0,31372.0,6,17,10,9
+2023,23,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,1259.0,1314.0,0,1,Keegan It Real,1.0,Frank,30663.0,31223.0,10,13,8,7
+2023,23,Consolation,The Bronx Orthodox Church,666,13,Arian,Away,1364.0,1184.0,1,0,Team Chigga,5.0,Johnson,32943.0,30298.0,12,11,4,6
+2023,23,Playoffs,Pooh Shaisty,SMN,12,Semanto,Away,1276.0,1560.0,0,1,New Jersey Eren,2.0,Eren,33275.0,32750.0,13,10,7,4
+2023,23,Playoffs,Paulie Gee's,JMH,8,Jonathan,Home,1448.0,1760.0,0,1,Fordham Rams,16.0,Allen,28941.0,29307.0,13,9,3,3
+2023,23,Consolation,Team Chigga,WONG,5,Johnson,Home,1184.0,1364.0,0,1,The Bronx Orthodox Church,13.0,Arian,32885.0,31175.0,15,8,9,5
+2023,23,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1560.0,1276.0,1,0,Pooh Shaisty,12.0,Semanto,32388.0,28773.0,17,5,2,1
+2023,23,Playoffs,Fordham Rams,ALL,16,Allen,Away,1760.0,1448.0,1,0,Paulie Gee's,8.0,Jonathan,34035.0,32123.0,12,11,1,2
+2023,24,Consolation,Keegan It Real,REAL,1,Frank,Away,795.0,1000.0,0,1,I Watch Basketbal,17.0,Luke,27194.0,31015.0,7,17,8,10
+2023,24,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1244.0,1241.0,1,0,Fordham Rams,16.0,Allen,33632.0,30014.0,18,5,1,1
+2023,24,Consolation,Team Chigga,WONG,5,Johnson,Home,1033.0,814.0,1,0,The Bronx Orthodox Church,13.0,Arian,33918.0,31989.0,16,8,5,5
+2023,24,Consolation,Pooh Shaisty,SMN,12,Semanto,Away,1125.0,752.0,1,0,Paulie Gee's,8.0,Jonathan,34400.0,33502.0,14,10,3,4
+2023,24,Consolation,Paulie Gee's,JMH,8,Jonathan,Home,752.0,1125.0,0,1,Pooh Shaisty,12.0,Semanto,29693.0,30432.0,13,10,9,3
+2023,24,Playoffs,Fordham Rams,ALL,16,Allen,Away,1241.0,1244.0,0,1,New Jersey Eren,2.0,Eren,35276.0,33367.0,12,12,2,2
+2023,24,Consolation,The Bronx Orthodox Church,666,13,Arian,Away,814.0,1033.0,0,1,Team Chigga,5.0,Johnson,33757.0,31331.0,12,12,7,6
+2023,24,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,1048.0,236.0,1,0,NY L-Eat Gang,10.0,Ibteda,31711.0,31459.0,11,13,4,7
+2023,24,Consolation,I Watch Basketbal,SEE,17,Luke,Home,1000.0,795.0,1,0,Keegan It Real,1.0,Frank,29420.0,30286.0,9,15,6,8
+2023,24,Consolation,NY L-Eat Gang,LEAT,10,Ibteda,Away,236.0,1048.0,0,1,Who Invited This Kid?,7.0,Jooahn,26814.0,32420.0,6,18,10,9
+2024,1,Regular,New Jersey Eren,TURK,2,Eren,Home,1333.0,888.0,1,0,Who Invited This Kid?,7.0,Jooahn,1333.0,888.0,1,0,1,1
+2024,1,Regular,Keegan It Real,REAL,1,Frank,Home,1276.0,1227.0,1,0,Team Chigga,5.0,Johnson,1276.0,1227.0,1,0,2,2
+2024,1,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1276.0,1090.0,1,0,Paulie Gee's,8.0,Jonathan,1276.0,1090.0,1,0,2,3
+2024,1,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1117.0,1111.0,1,0,I Watch Basketbal,17.0,Luke,1117.0,1111.0,1,0,5,4
+2024,1,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,951.0,478.0,1,0,For All the bullDawgs,10.0,Shayan,951.0,478.0,1,0,8,5
+2024,1,Regular,Team Chigga,WONG,5,Johnson,Away,1227.0,1276.0,0,1,Keegan It Real,1.0,Frank,1227.0,1276.0,0,1,4,6
+2024,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,1111.0,1117.0,0,1,The Bronx Orthodox Church,13.0,Arian,1111.0,1117.0,0,1,6,7
+2024,1,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1090.0,1276.0,0,1,Pooh Shaisty,12.0,Semanto,1090.0,1276.0,0,1,7,8
+2024,1,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,888.0,1333.0,0,1,New Jersey Eren,2.0,Eren,888.0,1333.0,0,1,9,9
+2024,1,Regular,For All the bullDawgs,FAD,10,Shayan,Home,478.0,951.0,0,1,NYC Chopp Cheese,16.0,Allen,478.0,951.0,0,1,10,10
+2024,2,Regular,For All the bullDawgs,FAD,10,Shayan,Home,941.0,1595.0,0,1,Pooh Shaisty,12.0,Semanto,1419.0,2546.0,0,2,10,10
+2024,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,984.0,1070.0,0,1,Paulie Gee's,8.0,Jonathan,1872.0,2403.0,0,2,9,9
+2024,2,Regular,I Watch Basketbal,SEE,17,Luke,Away,1388.0,1540.0,0,1,NYC Chopp Cheese,16.0,Allen,2499.0,2657.0,0,2,7,8
+2024,2,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1070.0,984.0,1,0,Who Invited This Kid?,7.0,Jooahn,2160.0,2260.0,1,1,8,7
+2024,2,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1411.0,1454.0,0,1,Team Chigga,5.0,Johnson,2528.0,2565.0,1,1,6,6
+2024,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1595.0,941.0,1,0,For All the bullDawgs,10.0,Shayan,2871.0,2031.0,2,0,3,2
+2024,2,Regular,New Jersey Eren,TURK,2,Eren,Away,1600.0,1805.0,0,1,Keegan It Real,1.0,Frank,2933.0,2693.0,1,1,2,4
+2024,2,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1540.0,1388.0,1,0,I Watch Basketbal,17.0,Luke,2491.0,1866.0,2,0,4,3
+2024,2,Regular,Keegan It Real,REAL,1,Frank,Home,1805.0,1600.0,1,0,New Jersey Eren,2.0,Eren,3081.0,2827.0,2,0,1,1
+2024,2,Regular,Team Chigga,WONG,5,Johnson,Home,1454.0,1411.0,1,0,The Bronx Orthodox Church,13.0,Arian,2681.0,2687.0,1,1,5,5
+2024,3,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1190.0,1180.0,1,0,Paulie Gee's,8.0,Jonathan,2609.0,3726.0,1,2,9,8
+2024,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1232.0,1517.0,0,1,Keegan It Real,1.0,Frank,3104.0,3920.0,0,3,8,10
+2024,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,1300.0,1369.0,0,1,Pooh Shaisty,12.0,Semanto,3799.0,4026.0,0,3,7,9
+2024,3,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1402.0,1530.0,0,1,New Jersey Eren,2.0,Eren,3930.0,4095.0,1,2,3,6
+2024,3,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1180.0,1190.0,0,1,For All the bullDawgs,10.0,Shayan,3340.0,3450.0,1,2,10,7
+2024,3,Regular,Team Chigga,WONG,5,Johnson,Home,1386.0,1336.0,1,0,NYC Chopp Cheese,16.0,Allen,4067.0,4023.0,2,1,4,4
+2024,3,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1336.0,1386.0,0,1,Team Chigga,5.0,Johnson,3827.0,3252.0,2,1,6,5
+2024,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1530.0,1402.0,1,0,The Bronx Orthodox Church,13.0,Arian,4463.0,4095.0,2,1,1,3
+2024,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1369.0,1300.0,1,0,I Watch Basketbal,17.0,Luke,4240.0,3331.0,3,0,5,2
+2024,3,Regular,Keegan It Real,REAL,1,Frank,Away,1517.0,1232.0,1,0,Who Invited This Kid?,7.0,Jooahn,4598.0,4059.0,3,0,2,1
+2024,4,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1462.0,1867.0,0,1,Keegan It Real,1.0,Frank,4071.0,5593.0,1,3,4,9
+2024,4,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1128.0,1174.0,0,1,I Watch Basketbal,17.0,Luke,4468.0,4624.0,1,3,10,8
+2024,4,Regular,I Watch Basketbal,SEE,17,Luke,Home,1174.0,1128.0,1,0,Paulie Gee's,8.0,Jonathan,4973.0,5154.0,1,3,9,7
+2024,4,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1280.0,1594.0,0,1,Pooh Shaisty,12.0,Semanto,5107.0,4846.0,2,2,6,6
+2024,4,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1271.0,1420.0,0,1,The Bronx Orthodox Church,13.0,Arian,4375.0,5340.0,0,4,7,10
+2024,4,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1420.0,1271.0,1,0,Who Invited This Kid?,7.0,Jooahn,5350.0,5366.0,2,2,5,4
+2024,4,Regular,New Jersey Eren,TURK,2,Eren,Home,1604.0,1230.0,1,0,Team Chigga,5.0,Johnson,6067.0,5325.0,3,1,2,3
+2024,4,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1594.0,1280.0,1,0,NYC Chopp Cheese,16.0,Allen,5834.0,4611.0,4,0,3,2
+2024,4,Regular,Keegan It Real,REAL,1,Frank,Home,1867.0,1462.0,1,0,For All the bullDawgs,10.0,Shayan,6465.0,5521.0,4,0,1,1
+2024,4,Regular,Team Chigga,WONG,5,Johnson,Away,1230.0,1604.0,0,1,New Jersey Eren,2.0,Eren,5297.0,5627.0,2,2,8,5
+2024,5,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1389.0,1623.0,0,1,Team Chigga,5.0,Johnson,5764.0,6963.0,0,5,6,10
+2024,5,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1118.0,1247.0,0,1,I Watch Basketbal,17.0,Luke,5189.0,6840.0,1,4,10,9
+2024,5,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1202.0,1257.0,0,1,NYC Chopp Cheese,16.0,Allen,5670.0,5881.0,1,4,9,8
+2024,5,Regular,I Watch Basketbal,SEE,17,Luke,Away,1247.0,1118.0,1,0,For All the bullDawgs,10.0,Shayan,6220.0,6272.0,2,3,8,7
+2024,5,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1434.0,1637.0,0,1,Keegan It Real,1.0,Frank,6784.0,7003.0,2,3,5,6
+2024,5,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1257.0,1202.0,1,0,Paulie Gee's,8.0,Jonathan,6364.0,6048.0,3,2,7,5
+2024,5,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1484.0,1699.0,0,1,New Jersey Eren,2.0,Eren,7318.0,6310.0,4,1,4,3
+2024,5,Regular,New Jersey Eren,TURK,2,Eren,Home,1699.0,1484.0,1,0,Pooh Shaisty,12.0,Semanto,7766.0,6809.0,4,1,1,2
+2024,5,Regular,Keegan It Real,REAL,1,Frank,Home,1637.0,1434.0,1,0,The Bronx Orthodox Church,13.0,Arian,8102.0,6955.0,5,0,2,1
+2024,5,Regular,Team Chigga,WONG,5,Johnson,Home,1623.0,1389.0,1,0,Who Invited This Kid?,7.0,Jooahn,6920.0,7016.0,3,2,3,4
+2024,6,Regular,I Watch Basketbal,SEE,17,Luke,Home,1510.0,968.0,1,0,Who Invited This Kid?,7.0,Jooahn,7730.0,7240.0,3,3,2,7
+2024,6,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,968.0,1510.0,0,1,I Watch Basketbal,17.0,Luke,6732.0,8473.0,0,6,9,10
+2024,6,Regular,For All the bullDawgs,FAD,10,Shayan,Home,819.0,1489.0,0,1,New Jersey Eren,2.0,Eren,6008.0,8329.0,1,5,10,9
+2024,6,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1420.0,1664.0,0,1,Keegan It Real,1.0,Frank,7784.0,7712.0,3,3,6,6
+2024,6,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1068.0,1293.0,0,1,Team Chigga,5.0,Johnson,6738.0,7174.0,1,5,8,8
+2024,6,Regular,Team Chigga,WONG,5,Johnson,Away,1293.0,1068.0,1,0,Paulie Gee's,8.0,Jonathan,8213.0,8084.0,4,2,7,4
+2024,6,Regular,Keegan It Real,REAL,1,Frank,Away,1664.0,1420.0,1,0,NYC Chopp Cheese,16.0,Allen,9766.0,8375.0,6,0,1,1
+2024,6,Regular,New Jersey Eren,TURK,2,Eren,Away,1489.0,819.0,1,0,For All the bullDawgs,10.0,Shayan,9255.0,7628.0,5,1,3,2
+2024,6,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1484.0,1482.0,1,0,Pooh Shaisty,12.0,Semanto,8268.0,8485.0,3,3,4,5
+2024,6,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1482.0,1484.0,0,1,The Bronx Orthodox Church,13.0,Arian,8800.0,7794.0,4,2,5,3
+2024,7,Regular,For All the bullDawgs,FAD,10,Shayan,Away,594.0,723.0,0,1,The Bronx Orthodox Church,13.0,Arian,6602.0,9052.0,1,6,10,9
+2024,7,Regular,Paulie Gee's,JMH,8,Jonathan,Away,825.0,736.0,1,0,Keegan It Real,1.0,Frank,7563.0,7910.0,2,5,5,8
+2024,7,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,901.0,971.0,0,1,New Jersey Eren,2.0,Eren,8685.0,8683.0,3,4,4,7
+2024,7,Regular,I Watch Basketbal,SEE,17,Luke,Away,1015.0,925.0,1,0,Team Chigga,5.0,Johnson,8745.0,8165.0,4,3,1,6
+2024,7,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,752.0,758.0,0,1,Pooh Shaisty,12.0,Semanto,7484.0,9231.0,0,7,7,10
+2024,7,Regular,Team Chigga,WONG,5,Johnson,Home,925.0,1015.0,0,1,I Watch Basketbal,17.0,Luke,9138.0,9099.0,4,3,3,4
+2024,7,Regular,Pooh Shaisty,SMN,12,Semanto,Away,758.0,752.0,1,0,Who Invited This Kid?,7.0,Jooahn,9558.0,8546.0,5,2,6,3
+2024,7,Regular,New Jersey Eren,TURK,2,Eren,Home,971.0,901.0,1,0,NYC Chopp Cheese,16.0,Allen,10226.0,8529.0,6,1,2,2
+2024,7,Regular,Keegan It Real,REAL,1,Frank,Home,736.0,825.0,0,1,Paulie Gee's,8.0,Jonathan,10502.0,9200.0,6,1,8,1
+2024,7,Regular,The Bronx Orthodox Church,13,13,Arian,Home,723.0,594.0,1,0,For All the bullDawgs,10.0,Shayan,8991.0,9079.0,4,3,9,5
+2024,8,Regular,For All the bullDawgs,FAD,10,Shayan,Home,938.0,1010.0,0,1,Who Invited This Kid?,7.0,Jooahn,7540.0,10062.0,1,7,10,10
+2024,8,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1010.0,938.0,1,0,For All the bullDawgs,10.0,Shayan,8494.0,10169.0,1,7,9,9
+2024,8,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1418.0,1950.0,0,1,New Jersey Eren,2.0,Eren,8981.0,9860.0,2,6,7,8
+2024,8,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1615.0,1365.0,1,0,The Bronx Orthodox Church,13.0,Arian,10300.0,10048.0,4,4,6,7
+2024,8,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1365.0,1615.0,0,1,NYC Chopp Cheese,16.0,Allen,10356.0,10694.0,4,4,8,6
+2024,8,Regular,I Watch Basketbal,SEE,17,Luke,Home,1787.0,1811.0,0,1,Keegan It Real,1.0,Frank,10532.0,9976.0,4,4,5,5
+2024,8,Regular,Pooh Shaisty,SMN,12,Semanto,Home,2011.0,1826.0,1,0,Team Chigga,5.0,Johnson,11569.0,10372.0,6,2,1,3
+2024,8,Regular,Keegan It Real,REAL,1,Frank,Away,1811.0,1787.0,1,0,I Watch Basketbal,17.0,Luke,12313.0,10987.0,7,1,4,1
+2024,8,Regular,Team Chigga,WONG,5,Johnson,Away,1826.0,2011.0,0,1,Pooh Shaisty,12.0,Semanto,10964.0,11110.0,4,4,3,4
+2024,8,Regular,New Jersey Eren,TURK,2,Eren,Away,1950.0,1418.0,1,0,Paulie Gee's,8.0,Jonathan,12176.0,9947.0,7,1,2,2
+2024,9,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1034.0,1421.0,0,1,NYC Chopp Cheese,16.0,Allen,8574.0,11483.0,1,8,9,10
+2024,9,Regular,I Watch Basketbal,SEE,17,Luke,Away,1508.0,1713.0,0,1,New Jersey Eren,2.0,Eren,12040.0,11689.0,4,5,4,6
+2024,9,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1198.0,1482.0,0,1,Team Chigga,5.0,Johnson,9692.0,11651.0,1,8,8,9
+2024,9,Regular,Paulie Gee's,JMH,8,Jonathan,Home,916.0,1652.0,0,1,Pooh Shaisty,12.0,Semanto,9897.0,11512.0,2,7,10,8
+2024,9,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1342.0,1719.0,0,1,Keegan It Real,1.0,Frank,11698.0,12413.0,4,5,7,7
+2024,9,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1421.0,1034.0,1,0,For All the bullDawgs,10.0,Shayan,11721.0,11082.0,5,4,6,5
+2024,9,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1652.0,916.0,1,0,Paulie Gee's,8.0,Jonathan,13221.0,11288.0,7,2,3,3
+2024,9,Regular,New Jersey Eren,TURK,2,Eren,Home,1713.0,1508.0,1,0,I Watch Basketbal,17.0,Luke,13889.0,11455.0,8,1,2,2
+2024,9,Regular,Keegan It Real,REAL,1,Frank,Away,1719.0,1342.0,1,0,The Bronx Orthodox Church,13.0,Arian,14032.0,12329.0,8,1,1,1
+2024,9,Regular,Team Chigga,WONG,5,Johnson,Away,1482.0,1198.0,1,0,Who Invited This Kid?,7.0,Jooahn,12446.0,12308.0,5,4,5,4
+2024,10,Regular,For All the bullDawgs,FAD,10,Shayan,Away,622.0,1707.0,0,1,Pooh Shaisty,12.0,Semanto,9196.0,13190.0,1,9,10,10
+2024,10,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1402.0,1518.0,0,1,New Jersey Eren,2.0,Eren,11094.0,13169.0,1,9,7,9
+2024,10,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1046.0,1531.0,0,1,The Bronx Orthodox Church,13.0,Arian,10943.0,13043.0,2,8,9,8
+2024,10,Regular,I Watch Basketbal,SEE,17,Luke,Home,1697.0,1758.0,0,1,NYC Chopp Cheese,16.0,Allen,13737.0,13447.0,4,6,4,7
+2024,10,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1531.0,1046.0,1,0,Paulie Gee's,8.0,Jonathan,13229.0,13459.0,5,5,5,6
+2024,10,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1758.0,1697.0,1,0,I Watch Basketbal,17.0,Luke,13479.0,12779.0,6,4,1,4
+2024,10,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1707.0,622.0,1,0,For All the bullDawgs,10.0,Shayan,14928.0,11910.0,8,2,3,3
+2024,10,Regular,New Jersey Eren,TURK,2,Eren,Away,1518.0,1402.0,1,0,Who Invited This Kid?,7.0,Jooahn,15407.0,12857.0,9,1,6,2
+2024,10,Regular,Keegan It Real,REAL,1,Frank,Away,1725.0,1384.0,1,0,Team Chigga,5.0,Johnson,15757.0,13713.0,9,1,2,1
+2024,10,Regular,Team Chigga,WONG,5,Johnson,Home,1384.0,1725.0,0,1,Keegan It Real,1.0,Frank,13830.0,14033.0,5,5,8,5
+2024,11,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1305.0,1573.0,0,1,Team Chigga,5.0,Johnson,14534.0,15032.0,5,6,8,7
+2024,11,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1087.0,872.0,1,0,Paulie Gee's,8.0,Jonathan,10283.0,14062.0,2,9,9,10
+2024,11,Regular,Paulie Gee's,JMH,8,Jonathan,Away,872.0,1087.0,0,1,For All the bullDawgs,10.0,Shayan,11815.0,14130.0,2,9,10,9
+2024,11,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1453.0,1411.0,1,0,NYC Chopp Cheese,16.0,Allen,12547.0,14580.0,2,9,5,8
+2024,11,Regular,I Watch Basketbal,SEE,17,Luke,Away,1531.0,1320.0,1,0,Pooh Shaisty,12.0,Semanto,15268.0,14767.0,5,6,4,6
+2024,11,Regular,New Jersey Eren,TURK,2,Eren,Home,1796.0,1720.0,1,0,Keegan It Real,1.0,Frank,17203.0,14577.0,10,1,1,1
+2024,11,Regular,Team Chigga,WONG,5,Johnson,Away,1573.0,1305.0,1,0,The Bronx Orthodox Church,13.0,Arian,15403.0,15338.0,6,5,3,4
+2024,11,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1320.0,1531.0,0,1,I Watch Basketbal,17.0,Luke,16248.0,13441.0,8,3,7,3
+2024,11,Regular,Keegan It Real,REAL,1,Frank,Away,1720.0,1796.0,0,1,New Jersey Eren,2.0,Eren,17477.0,15509.0,9,2,2,2
+2024,11,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1411.0,1453.0,0,1,Who Invited This Kid?,7.0,Jooahn,14890.0,14232.0,6,5,6,5
+2024,12,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1511.0,1467.0,1,0,New Jersey Eren,2.0,Eren,16045.0,16499.0,6,6,2,7
+2024,12,Regular,For All the bullDawgs,FAD,10,Shayan,Away,767.0,1428.0,0,1,Team Chigga,5.0,Johnson,11050.0,15490.0,2,10,10,10
+2024,12,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1139.0,1197.0,0,1,I Watch Basketbal,17.0,Luke,12954.0,15327.0,2,10,9,9
+2024,12,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1354.0,1619.0,0,1,Keegan It Real,1.0,Frank,13901.0,16199.0,2,10,7,8
+2024,12,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1397.0,1511.0,0,1,Pooh Shaisty,12.0,Semanto,16287.0,15743.0,6,6,6,6
+2024,12,Regular,I Watch Basketbal,SEE,17,Luke,Away,1197.0,1139.0,1,0,Paulie Gee's,8.0,Jonathan,16465.0,15906.0,6,6,8,5
+2024,12,Regular,Team Chigga,WONG,5,Johnson,Home,1428.0,767.0,1,0,For All the bullDawgs,10.0,Shayan,16831.0,16105.0,7,5,5,4
+2024,12,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1511.0,1397.0,1,0,NYC Chopp Cheese,16.0,Allen,17759.0,14838.0,9,3,2,3
+2024,12,Regular,New Jersey Eren,TURK,2,Eren,Home,1467.0,1511.0,0,1,The Bronx Orthodox Church,13.0,Arian,18670.0,16088.0,10,2,4,2
+2024,12,Regular,Keegan It Real,REAL,1,Frank,Home,1619.0,1354.0,1,0,Who Invited This Kid?,7.0,Jooahn,19096.0,16863.0,10,2,1,1
+2024,13,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1030.0,1492.0,0,1,NYC Chopp Cheese,16.0,Allen,13984.0,16819.0,2,11,8,9
+2024,13,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1388.0,1657.0,0,1,The Bronx Orthodox Church,13.0,Arian,15289.0,17856.0,2,11,6,8
+2024,13,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1657.0,1388.0,1,0,Who Invited This Kid?,7.0,Jooahn,17702.0,17887.0,7,6,2,7
+2024,13,Regular,I Watch Basketbal,SEE,17,Luke,Home,1311.0,814.0,1,0,For All the bullDawgs,10.0,Shayan,17776.0,16720.0,7,6,7,6
+2024,13,Regular,For All the bullDawgs,FAD,10,Shayan,Away,814.0,1311.0,0,1,I Watch Basketbal,17.0,Luke,11864.0,16801.0,2,11,10,10
+2024,13,Regular,Team Chigga,WONG,5,Johnson,Home,1441.0,1546.0,0,1,New Jersey Eren,2.0,Eren,18272.0,17651.0,7,6,5,4
+2024,13,Regular,Pooh Shaisty,SMN,12,Semanto,Away,896.0,1751.0,0,1,Keegan It Real,1.0,Frank,18655.0,16589.0,9,4,9,3
+2024,13,Regular,New Jersey Eren,TURK,2,Eren,Away,1546.0,1441.0,1,0,Team Chigga,5.0,Johnson,20216.0,17529.0,11,2,3,2
+2024,13,Regular,Keegan It Real,REAL,1,Frank,Home,1751.0,896.0,1,0,Pooh Shaisty,12.0,Semanto,20847.0,17759.0,11,2,1,1
+2024,13,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1492.0,1030.0,1,0,Paulie Gee's,8.0,Jonathan,17779.0,16773.0,7,6,4,5
+2024,14,Regular,For All the bullDawgs,FAD,10,Shayan,Home,869.0,1830.0,0,1,Keegan It Real,1.0,Frank,12733.0,18631.0,2,12,10,10
+2024,14,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1172.0,1386.0,0,1,Who Invited This Kid?,7.0,Jooahn,15156.0,18205.0,2,12,9,9
+2024,14,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1386.0,1172.0,1,0,Paulie Gee's,8.0,Jonathan,16675.0,19028.0,3,11,6,8
+2024,14,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1349.0,1636.0,0,1,I Watch Basketbal,17.0,Luke,19051.0,19523.0,7,7,7,7
+2024,14,Regular,Team Chigga,WONG,5,Johnson,Away,1243.0,1456.0,0,1,NYC Chopp Cheese,16.0,Allen,19515.0,19107.0,7,7,8,6
+2024,14,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1456.0,1243.0,1,0,Team Chigga,5.0,Johnson,19235.0,18016.0,8,6,4,5
+2024,14,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1435.0,1670.0,0,1,New Jersey Eren,2.0,Eren,20090.0,18259.0,9,5,5,3
+2024,14,Regular,New Jersey Eren,TURK,2,Eren,Away,1670.0,1435.0,1,0,Pooh Shaisty,12.0,Semanto,21886.0,18964.0,12,2,2,2
+2024,14,Regular,Keegan It Real,REAL,1,Frank,Away,1830.0,869.0,1,0,For All the bullDawgs,10.0,Shayan,22677.0,18628.0,12,2,1,1
+2024,14,Regular,I Watch Basketbal,SEE,17,Luke,Home,1636.0,1349.0,1,0,The Bronx Orthodox Church,13.0,Arian,19412.0,18069.0,8,6,3,4
+2024,15,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1424.0,1626.0,0,1,I Watch Basketbal,17.0,Luke,18099.0,20654.0,3,12,8,8
+2024,15,Regular,For All the bullDawgs,FAD,10,Shayan,Away,970.0,1670.0,0,1,New Jersey Eren,2.0,Eren,13703.0,20301.0,2,13,9,10
+2024,15,Regular,Paulie Gee's,JMH,8,Jonathan,Away,858.0,1741.0,0,1,Team Chigga,5.0,Johnson,16014.0,19946.0,2,13,10,9
+2024,15,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1562.0,1731.0,0,1,Pooh Shaisty,12.0,Semanto,20613.0,21254.0,7,8,7,7
+2024,15,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1881.0,1890.0,0,1,Keegan It Real,1.0,Frank,21116.0,19906.0,8,7,2,6
+2024,15,Regular,I Watch Basketbal,SEE,17,Luke,Away,1626.0,1424.0,1,0,Who Invited This Kid?,7.0,Jooahn,21038.0,19493.0,9,6,6,4
+2024,15,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1731.0,1562.0,1,0,The Bronx Orthodox Church,13.0,Arian,21821.0,19821.0,10,5,4,3
+2024,15,Regular,New Jersey Eren,TURK,2,Eren,Home,1670.0,970.0,1,0,For All the bullDawgs,10.0,Shayan,23556.0,19934.0,13,2,5,2
+2024,15,Regular,Keegan It Real,REAL,1,Frank,Home,1890.0,1881.0,1,0,NYC Chopp Cheese,16.0,Allen,24567.0,20509.0,13,2,1,1
+2024,15,Regular,Team Chigga,WONG,5,Johnson,Home,1741.0,858.0,1,0,Paulie Gee's,8.0,Jonathan,21256.0,19965.0,8,7,3,5
+2024,16,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1017.0,1026.0,0,1,The Bronx Orthodox Church,13.0,Arian,14720.0,21327.0,2,14,9,10
+2024,16,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1049.0,1453.0,0,1,Keegan It Real,1.0,Frank,17063.0,21399.0,2,14,7,9
+2024,16,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1026.0,1017.0,1,0,For All the bullDawgs,10.0,Shayan,21639.0,22271.0,8,8,8,7
+2024,16,Regular,Team Chigga,WONG,5,Johnson,Away,1508.0,1824.0,0,1,I Watch Basketbal,17.0,Luke,22764.0,21789.0,8,8,4,6
+2024,16,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1491.0,1532.0,0,1,Pooh Shaisty,12.0,Semanto,19590.0,22186.0,3,13,5,8
+2024,16,Regular,I Watch Basketbal,SEE,17,Luke,Home,1824.0,1508.0,1,0,Team Chigga,5.0,Johnson,22862.0,21001.0,10,6,1,4
+2024,16,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1532.0,1491.0,1,0,Who Invited This Kid?,7.0,Jooahn,23353.0,21312.0,11,5,3,3
+2024,16,Regular,New Jersey Eren,TURK,2,Eren,Away,922.0,1636.0,0,1,NYC Chopp Cheese,16.0,Allen,24478.0,21570.0,13,3,10,2
+2024,16,Regular,Keegan It Real,REAL,1,Frank,Away,1453.0,1049.0,1,0,Paulie Gee's,8.0,Jonathan,26020.0,21558.0,14,2,6,1
+2024,16,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1636.0,922.0,1,0,New Jersey Eren,2.0,Eren,22752.0,20828.0,9,7,2,5
+2024,17,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1226.0,2011.0,0,1,Who Invited This Kid?,7.0,Jooahn,15946.0,23338.0,2,15,10,10
+2024,17,Regular,Keegan It Real,REAL,1,Frank,Home,2499.0,2124.0,1,0,I Watch Basketbal,17.0,Luke,28519.0,23682.0,15,2,1,1
+2024,17,Regular,New Jersey Eren,TURK,2,Eren,Home,1371.0,1543.0,0,1,Paulie Gee's,8.0,Jonathan,25849.0,23113.0,13,4,9,2
+2024,17,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1756.0,1841.0,0,1,Team Chigga,5.0,Johnson,25109.0,23153.0,11,6,6,3
+2024,17,Regular,I Watch Basketbal,SEE,17,Luke,Away,2124.0,2499.0,0,1,Keegan It Real,1.0,Frank,24986.0,23500.0,10,7,2,4
+2024,17,Regular,Team Chigga,WONG,5,Johnson,Home,1841.0,1756.0,1,0,Pooh Shaisty,12.0,Semanto,24605.0,23545.0,9,8,5,5
+2024,17,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1748.0,1871.0,0,1,The Bronx Orthodox Church,13.0,Arian,24500.0,22699.0,9,8,7,6
+2024,17,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1871.0,1748.0,1,0,NYC Chopp Cheese,16.0,Allen,23510.0,24019.0,9,8,4,7
+2024,17,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,2011.0,1226.0,1,0,For All the bullDawgs,10.0,Shayan,21601.0,23412.0,4,13,3,8
+2024,17,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1543.0,1371.0,1,0,New Jersey Eren,2.0,Eren,18606.0,22770.0,3,14,8,9
+2024,18,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1053.0,1276.0,0,1,NYC Chopp Cheese,16.0,Allen,22654.0,24688.0,4,14,9,8
+2024,18,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1221.0,962.0,1,0,Paulie Gee's,8.0,Jonathan,24731.0,24981.0,10,8,6,7
+2024,18,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1108.0,1468.0,0,1,Team Chigga,5.0,Johnson,17054.0,24806.0,2,16,8,10
+2024,18,Regular,Paulie Gee's,JMH,8,Jonathan,Home,962.0,1221.0,0,1,The Bronx Orthodox Church,13.0,Arian,19568.0,23991.0,3,15,10,9
+2024,18,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1276.0,1053.0,1,0,Who Invited This Kid?,7.0,Jooahn,25776.0,23752.0,10,8,5,6
+2024,18,Regular,I Watch Basketbal,SEE,17,Luke,Home,1550.0,1466.0,1,0,New Jersey Eren,2.0,Eren,26536.0,24966.0,11,7,2,3
+2024,18,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1213.0,1738.0,0,1,Keegan It Real,1.0,Frank,26322.0,24891.0,11,7,7,4
+2024,18,Regular,Team Chigga,WONG,5,Johnson,Away,1468.0,1108.0,1,0,For All the bullDawgs,10.0,Shayan,26073.0,24653.0,10,8,3,5
+2024,18,Regular,New Jersey Eren,TURK,2,Eren,Away,1466.0,1550.0,0,1,I Watch Basketbal,17.0,Luke,27315.0,24663.0,13,5,4,2
+2024,18,Regular,Keegan It Real,REAL,1,Frank,Away,1738.0,1213.0,1,0,Pooh Shaisty,12.0,Semanto,30257.0,24895.0,16,2,1,1
+2024,19,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1553.0,1528.0,1,0,Keegan It Real,1.0,Frank,18607.0,26334.0,3,16,5,10
+2024,19,Regular,Paulie Gee's,JMH,8,Jonathan,Away,690.0,1209.0,0,1,Who Invited This Kid?,7.0,Jooahn,20258.0,25200.0,3,16,10,9
+2024,19,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1209.0,690.0,1,0,Paulie Gee's,8.0,Jonathan,23863.0,25378.0,5,14,9,8
+2024,19,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1620.0,1785.0,0,1,I Watch Basketbal,17.0,Luke,26351.0,26766.0,10,9,4,7
+2024,19,Regular,NYC Chopp Cheese,ALL,16,Allen,Away,1211.0,1678.0,0,1,Team Chigga,5.0,Johnson,26987.0,25430.0,10,9,8,6
+2024,19,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1665.0,1542.0,1,0,New Jersey Eren,2.0,Eren,27987.0,26433.0,12,7,3,4
+2024,19,Regular,I Watch Basketbal,SEE,17,Luke,Away,1785.0,1620.0,1,0,The Bronx Orthodox Church,13.0,Arian,28321.0,26586.0,12,7,1,3
+2024,19,Regular,New Jersey Eren,TURK,2,Eren,Home,1542.0,1665.0,0,1,Pooh Shaisty,12.0,Semanto,28857.0,26328.0,13,6,6,2
+2024,19,Regular,Keegan It Real,REAL,1,Frank,Home,1528.0,1553.0,0,1,For All the bullDawgs,10.0,Shayan,31785.0,26448.0,16,3,7,1
+2024,19,Regular,Team Chigga,WONG,5,Johnson,Home,1678.0,1211.0,1,0,NYC Chopp Cheese,16.0,Allen,27751.0,25864.0,11,8,2,5
+2024,20,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1166.0,1234.0,0,1,Pooh Shaisty,12.0,Semanto,27517.0,28000.0,10,10,9,7
+2024,20,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1452.0,1748.0,0,1,Team Chigga,5.0,Johnson,21710.0,26948.0,3,17,4,10
+2024,20,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1199.0,964.0,1,0,New Jersey Eren,2.0,Eren,19806.0,27298.0,4,16,8,9
+2024,20,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1266.0,1519.0,0,1,I Watch Basketbal,17.0,Luke,25129.0,26897.0,5,15,6,8
+2024,20,Regular,NYC Chopp Cheese,ALL,16,Allen,Home,1272.0,1619.0,0,1,Keegan It Real,1.0,Frank,28259.0,27049.0,10,10,5,6
+2024,20,Regular,Keegan It Real,REAL,1,Frank,Away,1619.0,1272.0,1,0,NYC Chopp Cheese,16.0,Allen,33404.0,27720.0,17,3,2,1
+2024,20,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1234.0,1166.0,1,0,The Bronx Orthodox Church,13.0,Arian,29221.0,27599.0,13,7,7,4
+2024,20,Regular,New Jersey Eren,TURK,2,Eren,Away,964.0,1199.0,0,1,For All the bullDawgs,10.0,Shayan,29821.0,27527.0,13,7,10,3
+2024,20,Regular,I Watch Basketbal,SEE,17,Luke,Home,1519.0,1266.0,1,0,Who Invited This Kid?,7.0,Jooahn,29840.0,27852.0,13,7,3,2
+2024,20,Regular,Team Chigga,WONG,5,Johnson,Away,1748.0,1452.0,1,0,Paulie Gee's,8.0,Jonathan,29499.0,27316.0,12,8,1,5
+2024,21,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,610.0,997.0,0,1,Who Invited This Kid?,7.0,Jooahn,28127.0,28997.0,10,11,8,7
+2024,21,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,1237.0,1059.0,1,0,For All the bullDawgs,10.0,Shayan,22947.0,28007.0,4,17,3,10
+2024,21,Consolation,Who Invited This Kid?,JS,7,Jooahn,Away,997.0,610.0,1,0,The Bronx Orthodox Church,13.0,Arian,26126.0,27507.0,6,15,6,8
+2024,21,Consolation,For All the bullDawgs,FAD,10,Shayan,Home,1059.0,1237.0,0,1,Paulie Gee's,8.0,Jonathan,20865.0,28535.0,4,17,5,9
+2024,21,Playoffs,NYC Chopp Cheese,ALL,16,Allen,Away,1641.0,790.0,1,0,New Jersey Eren,2.0,Eren,29900.0,27839.0,11,10,1,4
+2024,21,Playoffs,New Jersey Eren,TURK,2,Eren,Home,790.0,1641.0,0,1,NYC Chopp Cheese,16.0,Allen,30611.0,29168.0,13,8,7,5
+2024,21,Playoffs,Pooh Shaisty,SMN,12,Semanto,Home,1105.0,1609.0,0,1,Team Chigga,5.0,Johnson,30326.0,29208.0,13,8,4,6
+2024,21,Playoffs,Team Chigga,WONG,5,Johnson,Away,1609.0,1105.0,1,0,Pooh Shaisty,12.0,Semanto,31108.0,28421.0,13,8,2,3
 2024,21,Bye,Keegan It Real,,1,Frank,Bye,0.0,0.0,0,0,,,,33404.0,27720.0,17,3,9,1
 2024,21,Bye,I Watch Basketbal,,17,Luke,Bye,0.0,0.0,0,0,,,,29840.0,27852.0,13,7,9,2
-2024,22,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,1078.0,804.0,1,0,The Bronx Orthodox Church,13,Arian,21943.0,29339.0,5,17,7,9
-2024,22,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,1257.0,911.0,1,0,Who Invited This Kid?,7,Jooahn,24204.0,28918.0,5,17,5,10
-2024,22,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,804.0,1078.0,0,1,For All the bullDawgs,10,Shayan,28931.0,30075.0,10,12,10,7
-2024,22,Playoffs,NYC Chopp Cheese,ALL,16,Allen,Away,1816.0,1813.0,1,0,I Watch Basketbal,17,Luke,31716.0,29652.0,12,10,3,2
-2024,22,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,911.0,1257.0,0,1,Paulie Gee's,8,Jonathan,27037.0,28764.0,6,16,9,8
-2024,22,Playoffs,I Watch Basketbal,SEE,17,Luke,Home,1813.0,1816.0,0,1,NYC Chopp Cheese,16,Allen,31653.0,29668.0,13,8,4,4
-2024,22,Consolation,New Jersey Eren,TURK,2,Eren,Home,1110.0,918.0,1,0,Pooh Shaisty,12,Semanto,31721.0,30086.0,14,8,6,5
-2024,22,Playoffs,Team Chigga,WONG,5,Johnson,Away,1839.0,1821.0,1,0,Keegan It Real,1,Frank,32947.0,30242.0,14,8,1,1
-2024,22,Playoffs,Keegan It Real,REAL,1,Frank,Home,1821.0,1839.0,0,1,Team Chigga,5,Johnson,35225.0,29559.0,17,4,2,3
-2024,22,Consolation,Pooh Shaisty,SMN,12,Semanto,Away,918.0,1110.0,0,1,New Jersey Eren,2,Eren,31244.0,30318.0,13,9,8,6
-2024,23,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,1404.0,910.0,1,0,For All the bullDawgs,10,Shayan,25608.0,29828.0,6,17,4,10
-2024,23,Consolation,Keegan It Real,REAL,1,Frank,Home,1567.0,1276.0,1,0,I Watch Basketbal,17,Luke,36792.0,30835.0,18,4,2,3
-2024,23,Playoffs,Team Chigga,WONG,5,Johnson,Home,1701.0,1491.0,1,0,NYC Chopp Cheese,16,Allen,34648.0,31733.0,15,8,1,1
-2024,23,Consolation,New Jersey Eren,TURK,2,Eren,Home,1019.0,1138.0,0,1,Pooh Shaisty,12,Semanto,32740.0,31224.0,14,9,8,5
-2024,23,Consolation,Pooh Shaisty,SMN,12,Semanto,Away,1138.0,1019.0,1,0,New Jersey Eren,2,Eren,32382.0,31337.0,14,9,7,6
-2024,23,Consolation,I Watch Basketbal,SEE,17,Luke,Away,1276.0,1567.0,0,1,Keegan It Real,1,Frank,32929.0,31235.0,13,9,6,4
-2024,23,Playoffs,NYC Chopp Cheese,ALL,16,Allen,Away,1491.0,1701.0,0,1,Team Chigga,5,Johnson,33207.0,31353.0,12,11,3,2
-2024,23,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,843.0,1357.0,0,1,Who Invited This Kid?,7,Jooahn,29774.0,31432.0,10,13,10,7
-2024,23,Consolation,Who Invited This Kid?,JS,7,Jooahn,Away,1357.0,843.0,1,0,The Bronx Orthodox Church,13,Arian,28394.0,29607.0,7,16,5,8
-2024,23,Consolation,For All the bullDawgs,FAD,10,Shayan,Home,910.0,1404.0,0,1,Paulie Gee's,8,Jonathan,22853.0,30743.0,5,18,9,9
-2025,1,Regular,New Jersey Eren,TURK,2,Eren,Home,1257.0,1198.0,1,0,Who Invited This Kid?,7,Jooahn,1257.0,1198.0,1,0,1,1
-2025,1,Regular,Keegan It Real,REAL,1,Frank,Home,1226.0,961.0,1,0,Team Chigga,5,Johnson,1226.0,961.0,1,0,2,2
-2025,1,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1183.0,1180.0,1,0,Paulie Gee's,8,Jonathan,1183.0,1180.0,1,0,4,3
-2025,1,Regular,Jalen Inc.,ALL,16,Allen,Away,1182.0,997.0,1,0,For All the bullDawgs,10,Shayan,1182.0,997.0,1,0,5,4
-2025,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,1176.0,1052.0,1,0,The Bronx Orthodox Church,13,Arian,1176.0,1052.0,1,0,7,5
-2025,1,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1198.0,1257.0,0,1,New Jersey Eren,2,Eren,1198.0,1257.0,0,1,3,6
-2025,1,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1180.0,1183.0,0,1,Pooh Shaisty,12,Semanto,1180.0,1183.0,0,1,6,7
-2025,1,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1052.0,1176.0,0,1,I Watch Basketbal,17,Luke,1052.0,1176.0,0,1,8,8
-2025,1,Regular,For All the bullDawgs,FAD,10,Shayan,Home,997.0,1182.0,0,1,Jalen Inc.,16,Allen,997.0,1182.0,0,1,9,9
-2025,1,Regular,Team Chigga,WONG,5,Johnson,Away,961.0,1226.0,0,1,Keegan It Real,1,Frank,961.0,1226.0,0,1,10,10
-2025,2,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1046.0,1594.0,0,1,Pooh Shaisty,12,Semanto,2043.0,2776.0,0,2,10,10
-2025,2,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1159.0,1435.0,0,1,Team Chigga,5,Johnson,2211.0,2611.0,0,2,9,9
-2025,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1251.0,1587.0,0,1,Paulie Gee's,8,Jonathan,2449.0,2844.0,0,2,7,8
-2025,2,Regular,Team Chigga,WONG,5,Johnson,Home,1435.0,1159.0,1,0,The Bronx Orthodox Church,13,Arian,2396.0,2385.0,1,1,6,7
-2025,2,Regular,New Jersey Eren,TURK,2,Eren,Away,1194.0,1786.0,0,1,Keegan It Real,1,Frank,2451.0,2984.0,1,1,8,6
-2025,2,Regular,Jalen Inc.,ALL,16,Allen,Home,1649.0,1467.0,1,0,I Watch Basketbal,17,Luke,2831.0,2464.0,2,0,2,2
-2025,2,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1587.0,1251.0,1,0,Who Invited This Kid?,7,Jooahn,2767.0,2434.0,1,1,4,4
-2025,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1594.0,1046.0,1,0,For All the bullDawgs,10,Shayan,2777.0,2226.0,2,0,3,3
-2025,2,Regular,Keegan It Real,REAL,1,Frank,Home,1786.0,1194.0,1,0,New Jersey Eren,2,Eren,3012.0,2155.0,2,0,1,1
-2025,2,Regular,I Watch Basketbal,SEE,17,Luke,Away,1467.0,1649.0,0,1,Jalen Inc.,16,Allen,2643.0,2701.0,1,1,5,5
-2025,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1391.0,1843.0,0,1,Keegan It Real,1,Frank,3840.0,4687.0,0,3,8,8
-2025,3,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1190.0,1428.0,0,1,Paulie Gee's,8,Jonathan,3233.0,4204.0,0,3,9,10
-2025,3,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1076.0,1596.0,0,1,New Jersey Eren,2,Eren,3287.0,4207.0,0,3,10,9
-2025,3,Regular,Team Chigga,WONG,5,Johnson,Home,1645.0,1479.0,1,0,Jalen Inc.,16,Allen,4041.0,3864.0,2,1,2,6
-2025,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,1425.0,1544.0,0,1,Pooh Shaisty,12,Semanto,4068.0,4245.0,1,2,7,7
-2025,3,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1428.0,1190.0,1,0,For All the bullDawgs,10,Shayan,4195.0,3624.0,2,1,6,4
-2025,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1596.0,1076.0,1,0,The Bronx Orthodox Church,13,Arian,4047.0,4060.0,2,1,3,5
-2025,3,Regular,Jalen Inc.,ALL,16,Allen,Away,1479.0,1645.0,0,1,Team Chigga,5,Johnson,4310.0,4109.0,2,1,5,3
-2025,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1544.0,1425.0,1,0,I Watch Basketbal,17,Luke,4321.0,3651.0,3,0,4,2
-2025,3,Regular,Keegan It Real,REAL,1,Frank,Away,1843.0,1391.0,1,0,Who Invited This Kid?,7,Jooahn,4855.0,3546.0,3,0,1,1
-2025,4,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1125.0,1532.0,0,1,Keegan It Real,1,Frank,4358.0,5736.0,0,4,9,9
-2025,4,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1530.0,971.0,1,0,The Bronx Orthodox Church,13,Arian,5370.0,5658.0,1,3,4,8
-2025,4,Regular,Team Chigga,WONG,5,Johnson,Away,1469.0,1658.0,0,1,New Jersey Eren,2,Eren,5510.0,5522.0,2,2,5,7
-2025,4,Regular,I Watch Basketbal,SEE,17,Luke,Home,1467.0,1424.0,1,0,Paulie Gee's,8,Jonathan,5535.0,5669.0,2,2,6,6
-2025,4,Regular,The Bronx Orthodox Church,13,13,Arian,Home,971.0,1530.0,0,1,Who Invited This Kid?,7,Jooahn,4258.0,5737.0,0,4,10,10
-2025,4,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1183.0,1759.0,0,1,Jalen Inc.,16,Allen,5504.0,5410.0,3,1,8,4
-2025,4,Regular,New Jersey Eren,TURK,2,Eren,Home,1658.0,1469.0,1,0,Team Chigga,5,Johnson,5705.0,5529.0,3,1,2,3
-2025,4,Regular,Jalen Inc.,ALL,16,Allen,Away,1759.0,1183.0,1,0,Pooh Shaisty,12,Semanto,6069.0,5292.0,3,1,1,2
-2025,4,Regular,Keegan It Real,REAL,1,Frank,Home,1532.0,1125.0,1,0,For All the bullDawgs,10,Shayan,6387.0,4671.0,4,0,3,1
-2025,4,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1424.0,1467.0,0,1,I Watch Basketbal,17,Luke,5619.0,5091.0,2,2,7,5
-2025,5,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1072.0,1332.0,0,1,Keegan It Real,1,Frank,5330.0,7069.0,0,5,9,10
-2025,5,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1180.0,1296.0,0,1,I Watch Basketbal,17,Luke,5538.0,7032.0,0,5,8,9
-2025,5,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,809.0,1287.0,0,1,Team Chigga,5,Johnson,6179.0,6945.0,1,4,10,8
-2025,5,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1256.0,1256.0,0,1,Jalen Inc.,16,Allen,6875.0,6347.0,2,3,6,7
-2025,5,Regular,Team Chigga,WONG,5,Johnson,Home,1287.0,809.0,1,0,Who Invited This Kid?,7,Jooahn,6797.0,6331.0,3,2,5,6
-2025,5,Regular,I Watch Basketbal,SEE,17,Luke,Away,1296.0,1180.0,1,0,For All the bullDawgs,10,Shayan,6831.0,6849.0,3,2,4,5
-2025,5,Regular,Jalen Inc.,ALL,16,Allen,Home,1256.0,1256.0,0,1,Paulie Gee's,8,Jonathan,7325.0,6548.0,3,2,6,3
-2025,5,Regular,New Jersey Eren,TURK,2,Eren,Home,1679.0,1335.0,1,0,Pooh Shaisty,12,Semanto,7384.0,6864.0,4,1,1,2
-2025,5,Regular,Keegan It Real,REAL,1,Frank,Home,1332.0,1072.0,1,0,The Bronx Orthodox Church,13,Arian,7719.0,5743.0,5,0,3,1
-2025,5,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1335.0,1679.0,0,1,New Jersey Eren,2,Eren,6839.0,7089.0,3,2,2,4
-2025,6,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1383.0,1492.0,0,1,The Bronx Orthodox Church,13,Arian,8222.0,8581.0,3,3,6,7
-2025,6,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1287.0,1312.0,0,1,New Jersey Eren,2,Eren,6825.0,8344.0,0,6,9,10
-2025,6,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1492.0,1383.0,1,0,Pooh Shaisty,12,Semanto,6822.0,8452.0,1,5,3,9
-2025,6,Regular,Team Chigga,WONG,5,Johnson,Away,1426.0,1460.0,0,1,Paulie Gee's,8,Jonathan,8223.0,7791.0,3,3,5,6
-2025,6,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,907.0,1362.0,0,1,I Watch Basketbal,17,Luke,7086.0,8307.0,1,5,10,8
-2025,6,Regular,Jalen Inc.,ALL,16,Allen,Home,1556.0,1670.0,0,1,Keegan It Real,1,Frank,8881.0,8218.0,3,3,2,4
-2025,6,Regular,Keegan It Real,REAL,1,Frank,Away,1670.0,1556.0,1,0,Jalen Inc.,16,Allen,9389.0,7299.0,6,0,1,1
-2025,6,Regular,New Jersey Eren,TURK,2,Eren,Away,1312.0,1287.0,1,0,For All the bullDawgs,10,Shayan,8696.0,8151.0,5,1,8,2
-2025,6,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1460.0,1426.0,1,0,Team Chigga,5,Johnson,8335.0,7773.0,3,3,4,5
-2025,6,Regular,I Watch Basketbal,SEE,17,Luke,Home,1362.0,907.0,1,0,Who Invited This Kid?,7,Jooahn,8193.0,7756.0,4,2,7,3
-2025,7,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1008.0,1630.0,0,1,Pooh Shaisty,12,Semanto,8094.0,9937.0,1,6,9,9
-2025,7,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1166.0,552.0,1,0,For All the bullDawgs,10,Shayan,7988.0,9004.0,2,5,8,8
-2025,7,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1490.0,1742.0,0,1,Keegan It Real,1,Frank,9825.0,9515.0,3,4,5,7
-2025,7,Regular,I Watch Basketbal,SEE,17,Luke,Away,1256.0,1675.0,0,1,Team Chigga,5,Johnson,9449.0,9431.0,4,3,7,6
-2025,7,Regular,For All the bullDawgs,FAD,10,Shayan,Away,552.0,1166.0,0,1,The Bronx Orthodox Church,13,Arian,7377.0,9510.0,0,7,10,10
-2025,7,Regular,Team Chigga,WONG,5,Johnson,Home,1675.0,1256.0,1,0,I Watch Basketbal,17,Luke,9898.0,9047.0,4,3,3,4
-2025,7,Regular,Jalen Inc.,ALL,16,Allen,Away,1901.0,1285.0,1,0,New Jersey Eren,2,Eren,10782.0,9503.0,4,3,1,3
-2025,7,Regular,New Jersey Eren,TURK,2,Eren,Home,1285.0,1901.0,0,1,Jalen Inc.,16,Allen,9981.0,10052.0,5,2,6,2
-2025,7,Regular,Keegan It Real,REAL,1,Frank,Home,1742.0,1490.0,1,0,Paulie Gee's,8,Jonathan,11131.0,8789.0,7,0,2,1
-2025,7,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1630.0,1008.0,1,0,Who Invited This Kid?,7,Jooahn,9852.0,9589.0,4,3,4,5
-2025,8,Regular,For All the bullDawgs,FAD,10,Shayan,Home,279.0,380.0,0,1,Who Invited This Kid?,7,Jooahn,7656.0,9890.0,0,8,10,10
-2025,8,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,380.0,279.0,1,0,For All the bullDawgs,10,Shayan,8474.0,10216.0,2,6,9,9
-2025,8,Regular,The Bronx Orthodox Church,13,13,Arian,Away,582.0,816.0,0,1,Jalen Inc.,16,Allen,8570.0,9820.0,2,6,8,8
-2025,8,Regular,Paulie Gee's,JMH,8,Jonathan,Home,663.0,1054.0,0,1,New Jersey Eren,2,Eren,10488.0,10569.0,3,5,5,7
-2025,8,Regular,I Watch Basketbal,SEE,17,Luke,Home,585.0,691.0,0,1,Keegan It Real,1,Frank,10034.0,10122.0,4,4,7,6
-2025,8,Regular,Team Chigga,WONG,5,Johnson,Away,661.0,873.0,0,1,Pooh Shaisty,12,Semanto,10559.0,9920.0,4,4,6,5
-2025,8,Regular,Jalen Inc.,ALL,16,Allen,Home,816.0,582.0,1,0,The Bronx Orthodox Church,13,Arian,11598.0,10085.0,5,3,3,3
-2025,8,Regular,Keegan It Real,REAL,1,Frank,Away,691.0,585.0,1,0,I Watch Basketbal,17,Luke,11822.0,9374.0,8,0,4,1
-2025,8,Regular,Pooh Shaisty,SMN,12,Semanto,Home,873.0,661.0,1,0,Team Chigga,5,Johnson,10725.0,10250.0,5,3,2,4
-2025,8,Regular,New Jersey Eren,TURK,2,Eren,Away,1054.0,663.0,1,0,Paulie Gee's,8,Jonathan,11035.0,10715.0,6,2,1,2
-2025,9,Regular,For All the bullDawgs,FAD,10,Shayan,Away,497.0,1164.0,0,1,Jalen Inc.,16,Allen,8153.0,11054.0,0,9,10,10
-2025,9,Regular,I Watch Basketbal,SEE,17,Luke,Away,937.0,1088.0,0,1,New Jersey Eren,2,Eren,10971.0,11210.0,4,5,6,6
-2025,9,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,557.0,942.0,0,1,Team Chigga,5,Johnson,9031.0,11158.0,2,7,9,9
-2025,9,Regular,The Bronx Orthodox Church,13,13,Arian,Home,704.0,1490.0,0,1,Keegan It Real,1,Frank,9274.0,11310.0,2,7,8,8
-2025,9,Regular,Paulie Gee's,JMH,8,Jonathan,Home,797.0,976.0,0,1,Pooh Shaisty,12,Semanto,11285.0,11545.0,3,6,7,7
-2025,9,Regular,Team Chigga,WONG,5,Johnson,Away,942.0,557.0,1,0,Who Invited This Kid?,7,Jooahn,11501.0,10477.0,5,4,5,5
-2025,9,Regular,Jalen Inc.,ALL,16,Allen,Home,1164.0,497.0,1,0,For All the bullDawgs,10,Shayan,12762.0,10582.0,6,3,2,3
-2025,9,Regular,New Jersey Eren,TURK,2,Eren,Home,1088.0,937.0,1,0,I Watch Basketbal,17,Luke,12123.0,11652.0,7,2,3,2
-2025,9,Regular,Keegan It Real,REAL,1,Frank,Away,1490.0,704.0,1,0,The Bronx Orthodox Church,13,Arian,13312.0,10078.0,9,0,1,1
-2025,9,Regular,Pooh Shaisty,SMN,12,Semanto,Away,976.0,797.0,1,0,Paulie Gee's,8,Jonathan,11701.0,11047.0,6,3,4,4
-2025,10,Regular,For All the bullDawgs,FAD,10,Shayan,Away,739.0,1845.0,0,1,Pooh Shaisty,12,Semanto,8892.0,12899.0,0,10,10,10
-2025,10,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,991.0,1483.0,0,1,New Jersey Eren,2,Eren,10022.0,12641.0,2,8,7,9
-2025,10,Regular,The Bronx Orthodox Church,13,13,Arian,Home,965.0,1643.0,0,1,Paulie Gee's,8,Jonathan,10239.0,12953.0,2,8,8,8
-2025,10,Regular,I Watch Basketbal,SEE,17,Luke,Home,913.0,1791.0,0,1,Jalen Inc.,16,Allen,11884.0,13001.0,4,6,9,7
-2025,10,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1643.0,965.0,1,0,The Bronx Orthodox Church,13,Arian,12928.0,12510.0,4,6,4,6
-2025,10,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1845.0,739.0,1,0,For All the bullDawgs,10,Shayan,13546.0,11786.0,7,3,1,4
-2025,10,Regular,Jalen Inc.,ALL,16,Allen,Away,1791.0,913.0,1,0,I Watch Basketbal,17,Luke,14553.0,11495.0,7,3,2,3
-2025,10,Regular,New Jersey Eren,TURK,2,Eren,Away,1483.0,991.0,1,0,Who Invited This Kid?,7,Jooahn,13606.0,12643.0,8,2,5,2
-2025,10,Regular,Keegan It Real,REAL,1,Frank,Away,1711.0,1254.0,1,0,Team Chigga,5,Johnson,15023.0,11332.0,10,0,3,1
-2025,10,Regular,Team Chigga,WONG,5,Johnson,Home,1254.0,1711.0,0,1,Keegan It Real,1,Frank,12755.0,12188.0,5,5,6,5
-2025,11,Regular,I Watch Basketbal,SEE,17,Luke,Away,854.0,1654.0,0,1,Pooh Shaisty,12,Semanto,12738.0,14655.0,4,7,8,7
-2025,11,Regular,For All the bullDawgs,FAD,10,Shayan,Home,793.0,1134.0,0,1,Paulie Gee's,8,Jonathan,9685.0,14033.0,0,11,9,10
-2025,11,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,635.0,1703.0,0,1,Jalen Inc.,16,Allen,10657.0,14344.0,2,9,10,9
-2025,11,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1137.0,1339.0,0,1,Team Chigga,5,Johnson,11376.0,14292.0,2,9,6,8
-2025,11,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1134.0,793.0,1,0,For All the bullDawgs,10,Shayan,14062.0,13303.0,5,6,7,6
-2025,11,Regular,Keegan It Real,REAL,1,Frank,Away,2064.0,1262.0,1,0,New Jersey Eren,2,Eren,17087.0,12594.0,11,0,1,1
-2025,11,Regular,New Jersey Eren,TURK,2,Eren,Home,1262.0,2064.0,0,1,Keegan It Real,1,Frank,14868.0,14707.0,8,3,5,4
-2025,11,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1654.0,854.0,1,0,I Watch Basketbal,17,Luke,15200.0,12640.0,8,3,3,3
-2025,11,Regular,Jalen Inc.,ALL,16,Allen,Away,1703.0,635.0,1,0,Who Invited This Kid?,7,Jooahn,16256.0,12130.0,8,3,2,2
-2025,11,Regular,Team Chigga,WONG,5,Johnson,Away,1339.0,1137.0,1,0,The Bronx Orthodox Church,13,Arian,14094.0,13325.0,6,5,4,5
-2025,12,Regular,I Watch Basketbal,SEE,17,Luke,Away,705.0,1506.0,0,1,Paulie Gee's,8,Jonathan,13443.0,16161.0,4,8,10,7
-2025,12,Regular,For All the bullDawgs,FAD,10,Shayan,Away,808.0,1198.0,0,1,Team Chigga,5,Johnson,10493.0,15231.0,0,12,9,10
-2025,12,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,941.0,1574.0,0,1,Keegan It Real,1,Frank,11598.0,15918.0,2,10,8,9
-2025,12,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1018.0,1370.0,0,1,New Jersey Eren,2,Eren,12394.0,15662.0,2,10,7,8
-2025,12,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1506.0,705.0,1,0,I Watch Basketbal,17,Luke,15568.0,14008.0,6,6,3,6
-2025,12,Regular,Team Chigga,WONG,5,Johnson,Home,1198.0,808.0,1,0,For All the bullDawgs,10,Shayan,15292.0,14133.0,7,5,6,5
-2025,12,Regular,Jalen Inc.,ALL,16,Allen,Home,1472.0,1866.0,0,1,Pooh Shaisty,12,Semanto,17728.0,13996.0,8,4,4,4
-2025,12,Regular,New Jersey Eren,TURK,2,Eren,Home,1370.0,1018.0,1,0,The Bronx Orthodox Church,13,Arian,16238.0,15725.0,9,3,5,3
-2025,12,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1866.0,1472.0,1,0,Jalen Inc.,16,Allen,17066.0,14112.0,9,3,1,2
-2025,12,Regular,Keegan It Real,REAL,1,Frank,Home,1574.0,941.0,1,0,Who Invited This Kid?,7,Jooahn,18661.0,13535.0,12,0,2,1
-2025,13,Regular,The Bronx Orthodox Church,13,13,Arian,Away,858.0,894.0,0,1,Who Invited This Kid?,7,Jooahn,13252.0,16556.0,2,11,9,9
-2025,13,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,894.0,858.0,1,0,The Bronx Orthodox Church,13,Arian,12492.0,16776.0,3,10,7,8
-2025,13,Regular,I Watch Basketbal,SEE,17,Luke,Home,884.0,783.0,1,0,For All the bullDawgs,10,Shayan,14327.0,16944.0,5,8,8,7
-2025,13,Regular,Team Chigga,WONG,5,Johnson,Home,1220.0,1857.0,0,1,New Jersey Eren,2,Eren,16512.0,15990.0,7,6,6,6
-2025,13,Regular,For All the bullDawgs,FAD,10,Shayan,Away,783.0,884.0,0,1,I Watch Basketbal,17,Luke,11276.0,16115.0,0,13,10,10
-2025,13,Regular,Jalen Inc.,ALL,16,Allen,Away,1355.0,1718.0,0,1,Paulie Gee's,8,Jonathan,19083.0,15714.0,8,5,5,4
-2025,13,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1517.0,1822.0,0,1,Keegan It Real,1,Frank,18583.0,15934.0,9,4,4,3
-2025,13,Regular,New Jersey Eren,TURK,2,Eren,Away,1857.0,1220.0,1,0,Team Chigga,5,Johnson,18095.0,16945.0,10,3,1,2
-2025,13,Regular,Keegan It Real,REAL,1,Frank,Home,1822.0,1517.0,1,0,Pooh Shaisty,12,Semanto,20483.0,15052.0,13,0,2,1
-2025,13,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1718.0,1355.0,1,0,Jalen Inc.,16,Allen,17286.0,15363.0,7,6,3,5
-2025,14,Regular,For All the bullDawgs,FAD,10,Shayan,Home,660.0,1365.0,0,1,Keegan It Real,1,Frank,11936.0,17480.0,0,14,10,10
-2025,14,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,788.0,1166.0,0,1,Paulie Gee's,8,Jonathan,13280.0,17942.0,3,11,9,9
-2025,14,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1020.0,808.0,1,0,I Watch Basketbal,17,Luke,14272.0,17364.0,3,11,7,8
-2025,14,Regular,I Watch Basketbal,SEE,17,Luke,Home,808.0,1020.0,0,1,The Bronx Orthodox Church,13,Arian,15135.0,17964.0,5,9,8,7
-2025,14,Regular,Team Chigga,WONG,5,Johnson,Away,1353.0,1490.0,0,1,Jalen Inc.,16,Allen,17865.0,17480.0,7,7,5,6
-2025,14,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1166.0,788.0,1,0,Who Invited This Kid?,7,Jooahn,18452.0,16151.0,8,6,6,5
-2025,14,Regular,Jalen Inc.,ALL,16,Allen,Home,1490.0,1353.0,1,0,Team Chigga,5,Johnson,20573.0,17067.0,9,5,2,3
-2025,14,Regular,New Jersey Eren,TURK,2,Eren,Away,1575.0,1386.0,1,0,Pooh Shaisty,12,Semanto,19670.0,18331.0,11,3,1,2
-2025,14,Regular,Keegan It Real,REAL,1,Frank,Away,1365.0,660.0,1,0,For All the bullDawgs,10,Shayan,21848.0,15712.0,14,0,4,1
-2025,14,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1386.0,1575.0,0,1,New Jersey Eren,2,Eren,19969.0,17509.0,9,5,3,4
-2025,15,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1323.0,1420.0,0,1,Pooh Shaisty,12,Semanto,15595.0,18784.0,3,12,6,8
-2025,15,Regular,For All the bullDawgs,FAD,10,Shayan,Away,734.0,1293.0,0,1,New Jersey Eren,2,Eren,12670.0,18773.0,0,15,10,10
-2025,15,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,798.0,958.0,0,1,I Watch Basketbal,17,Luke,14078.0,18900.0,3,12,9,9
-2025,15,Regular,I Watch Basketbal,SEE,17,Luke,Away,958.0,798.0,1,0,Who Invited This Kid?,7,Jooahn,16093.0,18762.0,6,9,8,7
-2025,15,Regular,Team Chigga,WONG,5,Johnson,Home,1524.0,1562.0,0,1,Paulie Gee's,8,Jonathan,19389.0,19042.0,7,8,4,6
-2025,15,Regular,Jalen Inc.,ALL,16,Allen,Away,1690.0,1770.0,0,1,Keegan It Real,1,Frank,22263.0,18837.0,9,6,2,4
-2025,15,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1420.0,1323.0,1,0,The Bronx Orthodox Church,13,Arian,21389.0,18832.0,10,5,5,3
-2025,15,Regular,New Jersey Eren,TURK,2,Eren,Home,1293.0,734.0,1,0,For All the bullDawgs,10,Shayan,20963.0,19065.0,12,3,7,2
-2025,15,Regular,Keegan It Real,REAL,1,Frank,Home,1770.0,1690.0,1,0,Jalen Inc.,16,Allen,23618.0,17402.0,15,0,1,1
-2025,15,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1562.0,1524.0,1,0,Team Chigga,5,Johnson,20014.0,17675.0,9,6,3,5
-2025,16,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1006.0,1037.0,0,1,The Bronx Orthodox Church,13,Arian,13676.0,19810.0,0,16,8,10
-2025,16,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,987.0,1610.0,0,1,Pooh Shaisty,12,Semanto,15065.0,20510.0,3,13,9,9
-2025,16,Regular,I Watch Basketbal,SEE,17,Luke,Home,855.0,1318.0,0,1,Team Chigga,5,Johnson,16948.0,20080.0,6,10,10,7
-2025,16,Regular,Team Chigga,WONG,5,Johnson,Away,1318.0,855.0,1,0,I Watch Basketbal,17,Luke,20707.0,19897.0,8,8,6,6
-2025,16,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1037.0,1006.0,1,0,For All the bullDawgs,10,Shayan,16632.0,19790.0,4,12,7,8
-2025,16,Regular,Jalen Inc.,ALL,16,Allen,Home,1576.0,1582.0,0,1,New Jersey Eren,2,Eren,23839.0,20419.0,9,7,5,4
-2025,16,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1610.0,987.0,1,0,Who Invited This Kid?,7,Jooahn,22999.0,19819.0,11,5,3,3
-2025,16,Regular,New Jersey Eren,TURK,2,Eren,Away,1582.0,1576.0,1,0,Jalen Inc.,16,Allen,22545.0,20641.0,13,3,4,2
-2025,16,Regular,Keegan It Real,REAL,1,Frank,Away,1893.0,1789.0,1,0,Paulie Gee's,8,Jonathan,25511.0,19191.0,16,0,1,1
-2025,16,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1789.0,1893.0,0,1,Keegan It Real,1,Frank,21803.0,19568.0,9,7,2,5
-2025,17,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1206.0,1098.0,1,0,Who Invited This Kid?,7,Jooahn,14882.0,20908.0,1,16,7,10
-2025,17,Regular,Keegan It Real,REAL,1,Frank,Home,2344.0,1173.0,1,0,I Watch Basketbal,17,Luke,27855.0,20364.0,17,0,1,1
-2025,17,Regular,New Jersey Eren,TURK,2,Eren,Home,1841.0,1941.0,0,1,Paulie Gee's,8,Jonathan,24386.0,22582.0,13,4,4,2
-2025,17,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1888.0,1781.0,1,0,Team Chigga,5,Johnson,24887.0,21600.0,12,5,3,3
-2025,17,Regular,Jalen Inc.,ALL,16,Allen,Away,1780.0,1135.0,1,0,The Bronx Orthodox Church,13,Arian,25619.0,21554.0,10,7,6,4
-2025,17,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1941.0,1841.0,1,0,New Jersey Eren,2,Eren,23744.0,21409.0,10,7,2,5
-2025,17,Regular,Team Chigga,WONG,5,Johnson,Home,1781.0,1888.0,0,1,Pooh Shaisty,12,Semanto,22488.0,21785.0,8,9,5,6
-2025,17,Regular,I Watch Basketbal,SEE,17,Luke,Away,1173.0,2344.0,0,1,Keegan It Real,1,Frank,18121.0,22424.0,6,11,8,7
-2025,17,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1135.0,1780.0,0,1,Jalen Inc.,16,Allen,17767.0,21570.0,4,13,9,8
-2025,17,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1098.0,1206.0,0,1,For All the bullDawgs,10,Shayan,16163.0,21716.0,3,14,10,9
-2025,18,Regular,The Bronx Orthodox Church,13,13,Arian,Away,694.0,1789.0,0,1,Paulie Gee's,8,Jonathan,18461.0,23359.0,4,14,10,8
-2025,18,Regular,I Watch Basketbal,SEE,17,Luke,Home,924.0,1679.0,0,1,New Jersey Eren,2,Eren,19045.0,24103.0,6,12,7,7
-2025,18,Regular,For All the bullDawgs,FAD,10,Shayan,Home,704.0,1771.0,0,1,Team Chigga,5,Johnson,15586.0,22679.0,1,17,9,10
-2025,18,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,779.0,1452.0,0,1,Jalen Inc.,16,Allen,16942.0,23168.0,3,15,8,9
-2025,18,Regular,Team Chigga,WONG,5,Johnson,Away,1771.0,704.0,1,0,For All the bullDawgs,10,Shayan,24259.0,22489.0,9,9,2,6
-2025,18,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1539.0,1467.0,1,0,Keegan It Real,1,Frank,26426.0,23067.0,13,5,4,3
-2025,18,Regular,Jalen Inc.,ALL,16,Allen,Home,1452.0,779.0,1,0,Who Invited This Kid?,7,Jooahn,27071.0,22333.0,11,7,6,4
-2025,18,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1789.0,694.0,1,0,The Bronx Orthodox Church,13,Arian,25533.0,22103.0,11,7,1,5
-2025,18,Regular,New Jersey Eren,TURK,2,Eren,Away,1679.0,924.0,1,0,I Watch Basketbal,17,Luke,26065.0,23506.0,14,4,3,2
-2025,18,Regular,Keegan It Real,REAL,1,Frank,Away,1467.0,1539.0,0,1,Pooh Shaisty,12,Semanto,29322.0,21903.0,17,1,5,1
-2025,19,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1035.0,1528.0,0,1,Keegan It Real,1,Frank,16621.0,24207.0,1,18,8,10
-2025,19,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,887.0,1625.0,0,1,Paulie Gee's,8,Jonathan,17829.0,24793.0,3,16,9,9
-2025,19,Regular,The Bronx Orthodox Church,13,13,Arian,Home,773.0,1037.0,0,1,I Watch Basketbal,17,Luke,19234.0,24396.0,4,15,10,8
-2025,19,Regular,I Watch Basketbal,SEE,17,Luke,Away,1037.0,773.0,1,0,The Bronx Orthodox Church,13,Arian,20082.0,24876.0,7,12,7,7
-2025,19,Regular,Team Chigga,WONG,5,Johnson,Home,1093.0,1377.0,0,1,Jalen Inc.,16,Allen,25352.0,23866.0,9,10,6,6
-2025,19,Regular,Jalen Inc.,ALL,16,Allen,Away,1377.0,1093.0,1,0,Team Chigga,5,Johnson,28448.0,23426.0,12,7,5,4
-2025,19,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1507.0,1753.0,0,1,New Jersey Eren,2,Eren,27933.0,24820.0,13,6,4,3
-2025,19,Regular,New Jersey Eren,TURK,2,Eren,Home,1753.0,1507.0,1,0,Pooh Shaisty,12,Semanto,27818.0,25013.0,15,4,1,2
-2025,19,Regular,Keegan It Real,REAL,1,Frank,Home,1528.0,1035.0,1,0,For All the bullDawgs,10,Shayan,30850.0,22938.0,18,1,3,1
-2025,19,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1625.0,887.0,1,0,Who Invited This Kid?,7,Jooahn,27158.0,22990.0,12,7,2,5
-2025,20,Regular,I Watch Basketbal,SEE,17,Luke,Home,778.0,683.0,1,0,Who Invited This Kid?,7,Jooahn,20860.0,25559.0,8,12,9,7
-2025,20,Regular,For All the bullDawgs,FAD,10,Shayan,Home,877.0,1658.0,0,1,New Jersey Eren,2,Eren,17498.0,25865.0,1,19,8,10
-2025,20,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,683.0,778.0,0,1,I Watch Basketbal,17,Luke,18512.0,25571.0,3,17,10,9
-2025,20,Regular,The Bronx Orthodox Church,13,13,Arian,Away,954.0,1401.0,0,1,Pooh Shaisty,12,Semanto,20188.0,25797.0,4,16,7,8
-2025,20,Regular,Team Chigga,WONG,5,Johnson,Away,1148.0,1510.0,0,1,Paulie Gee's,8,Jonathan,26500.0,25376.0,9,11,6,6
-2025,20,Regular,Keegan It Real,REAL,1,Frank,Away,1586.0,1349.0,1,0,Jalen Inc.,16,Allen,32436.0,24287.0,19,1,2,1
-2025,20,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1510.0,1148.0,1,0,Team Chigga,5,Johnson,28668.0,24138.0,13,7,3,4
-2025,20,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1401.0,954.0,1,0,The Bronx Orthodox Church,13,Arian,29334.0,25774.0,14,6,4,3
-2025,20,Regular,New Jersey Eren,TURK,2,Eren,Away,1658.0,877.0,1,0,For All the bullDawgs,10,Shayan,29476.0,25890.0,16,4,1,2
-2025,20,Regular,Jalen Inc.,ALL,16,Allen,Home,1349.0,1586.0,0,1,Keegan It Real,1,Frank,29797.0,25012.0,12,8,5,5
-2025,21,Consolation,I Watch Basketbal,SEE,17,Luke,Home,781.0,858.0,0,1,The Bronx Orthodox Church,13,Arian,21641.0,26417.0,8,13,6,7
-2025,21,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,585.0,706.0,0,1,For All the bullDawgs,10,Shayan,19097.0,26277.0,3,18,8,9
-2025,21,Consolation,The Bronx Orthodox Church,13,13,Arian,Away,858.0,781.0,1,0,I Watch Basketbal,17,Luke,21046.0,26578.0,5,16,5,8
-2025,21,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,706.0,585.0,1,0,Who Invited This Kid?,7,Jooahn,18204.0,26450.0,2,19,7,10
-2025,21,Playoffs,Team Chigga,WONG,5,Johnson,Away,1210.0,1629.0,0,1,New Jersey Eren,2,Eren,27710.0,27005.0,9,12,4,6
+2024,22,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,1078.0,804.0,1,0,The Bronx Orthodox Church,13.0,Arian,21943.0,29339.0,5,17,7,9
+2024,22,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,1257.0,911.0,1,0,Who Invited This Kid?,7.0,Jooahn,24204.0,28918.0,5,17,5,10
+2024,22,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,804.0,1078.0,0,1,For All the bullDawgs,10.0,Shayan,28931.0,30075.0,10,12,10,7
+2024,22,Playoffs,NYC Chopp Cheese,ALL,16,Allen,Away,1816.0,1813.0,1,0,I Watch Basketbal,17.0,Luke,31716.0,29652.0,12,10,3,2
+2024,22,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,911.0,1257.0,0,1,Paulie Gee's,8.0,Jonathan,27037.0,28764.0,6,16,9,8
+2024,22,Playoffs,I Watch Basketbal,SEE,17,Luke,Home,1813.0,1816.0,0,1,NYC Chopp Cheese,16.0,Allen,31653.0,29668.0,13,8,4,4
+2024,22,Consolation,New Jersey Eren,TURK,2,Eren,Home,1110.0,918.0,1,0,Pooh Shaisty,12.0,Semanto,31721.0,30086.0,14,8,6,5
+2024,22,Playoffs,Team Chigga,WONG,5,Johnson,Away,1839.0,1821.0,1,0,Keegan It Real,1.0,Frank,32947.0,30242.0,14,8,1,1
+2024,22,Playoffs,Keegan It Real,REAL,1,Frank,Home,1821.0,1839.0,0,1,Team Chigga,5.0,Johnson,35225.0,29559.0,17,4,2,3
+2024,22,Consolation,Pooh Shaisty,SMN,12,Semanto,Away,918.0,1110.0,0,1,New Jersey Eren,2.0,Eren,31244.0,30318.0,13,9,8,6
+2024,23,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,1404.0,910.0,1,0,For All the bullDawgs,10.0,Shayan,25608.0,29828.0,6,17,4,10
+2024,23,Consolation,Keegan It Real,REAL,1,Frank,Home,1567.0,1276.0,1,0,I Watch Basketbal,17.0,Luke,36792.0,30835.0,18,4,2,3
+2024,23,Playoffs,Team Chigga,WONG,5,Johnson,Home,1701.0,1491.0,1,0,NYC Chopp Cheese,16.0,Allen,34648.0,31733.0,15,8,1,1
+2024,23,Consolation,New Jersey Eren,TURK,2,Eren,Home,1019.0,1138.0,0,1,Pooh Shaisty,12.0,Semanto,32740.0,31224.0,14,9,8,5
+2024,23,Consolation,Pooh Shaisty,SMN,12,Semanto,Away,1138.0,1019.0,1,0,New Jersey Eren,2.0,Eren,32382.0,31337.0,14,9,7,6
+2024,23,Consolation,I Watch Basketbal,SEE,17,Luke,Away,1276.0,1567.0,0,1,Keegan It Real,1.0,Frank,32929.0,31235.0,13,9,6,4
+2024,23,Playoffs,NYC Chopp Cheese,ALL,16,Allen,Away,1491.0,1701.0,0,1,Team Chigga,5.0,Johnson,33207.0,31353.0,12,11,3,2
+2024,23,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,843.0,1357.0,0,1,Who Invited This Kid?,7.0,Jooahn,29774.0,31432.0,10,13,10,7
+2024,23,Consolation,Who Invited This Kid?,JS,7,Jooahn,Away,1357.0,843.0,1,0,The Bronx Orthodox Church,13.0,Arian,28394.0,29607.0,7,16,5,8
+2024,23,Consolation,For All the bullDawgs,FAD,10,Shayan,Home,910.0,1404.0,0,1,Paulie Gee's,8.0,Jonathan,22853.0,30743.0,5,18,9,9
+2025,1,Regular,New Jersey Eren,TURK,2,Eren,Home,1257.0,1198.0,1,0,Who Invited This Kid?,7.0,Jooahn,1257.0,1198.0,1,0,1,1
+2025,1,Regular,Keegan It Real,REAL,1,Frank,Home,1226.0,961.0,1,0,Team Chigga,5.0,Johnson,1226.0,961.0,1,0,2,2
+2025,1,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1183.0,1180.0,1,0,Paulie Gee's,8.0,Jonathan,1183.0,1180.0,1,0,4,3
+2025,1,Regular,Jalen Inc.,ALL,16,Allen,Away,1182.0,997.0,1,0,For All the bullDawgs,10.0,Shayan,1182.0,997.0,1,0,5,4
+2025,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,1176.0,1052.0,1,0,The Bronx Orthodox Church,13.0,Arian,1176.0,1052.0,1,0,7,5
+2025,1,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1198.0,1257.0,0,1,New Jersey Eren,2.0,Eren,1198.0,1257.0,0,1,3,6
+2025,1,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1180.0,1183.0,0,1,Pooh Shaisty,12.0,Semanto,1180.0,1183.0,0,1,6,7
+2025,1,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1052.0,1176.0,0,1,I Watch Basketbal,17.0,Luke,1052.0,1176.0,0,1,8,8
+2025,1,Regular,For All the bullDawgs,FAD,10,Shayan,Home,997.0,1182.0,0,1,Jalen Inc.,16.0,Allen,997.0,1182.0,0,1,9,9
+2025,1,Regular,Team Chigga,WONG,5,Johnson,Away,961.0,1226.0,0,1,Keegan It Real,1.0,Frank,961.0,1226.0,0,1,10,10
+2025,2,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1046.0,1594.0,0,1,Pooh Shaisty,12.0,Semanto,2043.0,2776.0,0,2,10,10
+2025,2,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1159.0,1435.0,0,1,Team Chigga,5.0,Johnson,2211.0,2611.0,0,2,9,9
+2025,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1251.0,1587.0,0,1,Paulie Gee's,8.0,Jonathan,2449.0,2844.0,0,2,7,8
+2025,2,Regular,Team Chigga,WONG,5,Johnson,Home,1435.0,1159.0,1,0,The Bronx Orthodox Church,13.0,Arian,2396.0,2385.0,1,1,6,7
+2025,2,Regular,New Jersey Eren,TURK,2,Eren,Away,1194.0,1786.0,0,1,Keegan It Real,1.0,Frank,2451.0,2984.0,1,1,8,6
+2025,2,Regular,Jalen Inc.,ALL,16,Allen,Home,1649.0,1467.0,1,0,I Watch Basketbal,17.0,Luke,2831.0,2464.0,2,0,2,2
+2025,2,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1587.0,1251.0,1,0,Who Invited This Kid?,7.0,Jooahn,2767.0,2434.0,1,1,4,4
+2025,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1594.0,1046.0,1,0,For All the bullDawgs,10.0,Shayan,2777.0,2226.0,2,0,3,3
+2025,2,Regular,Keegan It Real,REAL,1,Frank,Home,1786.0,1194.0,1,0,New Jersey Eren,2.0,Eren,3012.0,2155.0,2,0,1,1
+2025,2,Regular,I Watch Basketbal,SEE,17,Luke,Away,1467.0,1649.0,0,1,Jalen Inc.,16.0,Allen,2643.0,2701.0,1,1,5,5
+2025,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1391.0,1843.0,0,1,Keegan It Real,1.0,Frank,3840.0,4687.0,0,3,8,8
+2025,3,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1190.0,1428.0,0,1,Paulie Gee's,8.0,Jonathan,3233.0,4204.0,0,3,9,10
+2025,3,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1076.0,1596.0,0,1,New Jersey Eren,2.0,Eren,3287.0,4207.0,0,3,10,9
+2025,3,Regular,Team Chigga,WONG,5,Johnson,Home,1645.0,1479.0,1,0,Jalen Inc.,16.0,Allen,4041.0,3864.0,2,1,2,6
+2025,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,1425.0,1544.0,0,1,Pooh Shaisty,12.0,Semanto,4068.0,4245.0,1,2,7,7
+2025,3,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1428.0,1190.0,1,0,For All the bullDawgs,10.0,Shayan,4195.0,3624.0,2,1,6,4
+2025,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1596.0,1076.0,1,0,The Bronx Orthodox Church,13.0,Arian,4047.0,4060.0,2,1,3,5
+2025,3,Regular,Jalen Inc.,ALL,16,Allen,Away,1479.0,1645.0,0,1,Team Chigga,5.0,Johnson,4310.0,4109.0,2,1,5,3
+2025,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1544.0,1425.0,1,0,I Watch Basketbal,17.0,Luke,4321.0,3651.0,3,0,4,2
+2025,3,Regular,Keegan It Real,REAL,1,Frank,Away,1843.0,1391.0,1,0,Who Invited This Kid?,7.0,Jooahn,4855.0,3546.0,3,0,1,1
+2025,4,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1125.0,1532.0,0,1,Keegan It Real,1.0,Frank,4358.0,5736.0,0,4,9,9
+2025,4,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1530.0,971.0,1,0,The Bronx Orthodox Church,13.0,Arian,5370.0,5658.0,1,3,4,8
+2025,4,Regular,Team Chigga,WONG,5,Johnson,Away,1469.0,1658.0,0,1,New Jersey Eren,2.0,Eren,5510.0,5522.0,2,2,5,7
+2025,4,Regular,I Watch Basketbal,SEE,17,Luke,Home,1467.0,1424.0,1,0,Paulie Gee's,8.0,Jonathan,5535.0,5669.0,2,2,6,6
+2025,4,Regular,The Bronx Orthodox Church,13,13,Arian,Home,971.0,1530.0,0,1,Who Invited This Kid?,7.0,Jooahn,4258.0,5737.0,0,4,10,10
+2025,4,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1183.0,1759.0,0,1,Jalen Inc.,16.0,Allen,5504.0,5410.0,3,1,8,4
+2025,4,Regular,New Jersey Eren,TURK,2,Eren,Home,1658.0,1469.0,1,0,Team Chigga,5.0,Johnson,5705.0,5529.0,3,1,2,3
+2025,4,Regular,Jalen Inc.,ALL,16,Allen,Away,1759.0,1183.0,1,0,Pooh Shaisty,12.0,Semanto,6069.0,5292.0,3,1,1,2
+2025,4,Regular,Keegan It Real,REAL,1,Frank,Home,1532.0,1125.0,1,0,For All the bullDawgs,10.0,Shayan,6387.0,4671.0,4,0,3,1
+2025,4,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1424.0,1467.0,0,1,I Watch Basketbal,17.0,Luke,5619.0,5091.0,2,2,7,5
+2025,5,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1072.0,1332.0,0,1,Keegan It Real,1.0,Frank,5330.0,7069.0,0,5,9,10
+2025,5,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1180.0,1296.0,0,1,I Watch Basketbal,17.0,Luke,5538.0,7032.0,0,5,8,9
+2025,5,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,809.0,1287.0,0,1,Team Chigga,5.0,Johnson,6179.0,6945.0,1,4,10,8
+2025,5,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1256.0,1256.0,0,1,Jalen Inc.,16.0,Allen,6875.0,6347.0,2,3,6,7
+2025,5,Regular,Team Chigga,WONG,5,Johnson,Home,1287.0,809.0,1,0,Who Invited This Kid?,7.0,Jooahn,6797.0,6331.0,3,2,5,6
+2025,5,Regular,I Watch Basketbal,SEE,17,Luke,Away,1296.0,1180.0,1,0,For All the bullDawgs,10.0,Shayan,6831.0,6849.0,3,2,4,5
+2025,5,Regular,Jalen Inc.,ALL,16,Allen,Home,1256.0,1256.0,0,1,Paulie Gee's,8.0,Jonathan,7325.0,6548.0,3,2,6,3
+2025,5,Regular,New Jersey Eren,TURK,2,Eren,Home,1679.0,1335.0,1,0,Pooh Shaisty,12.0,Semanto,7384.0,6864.0,4,1,1,2
+2025,5,Regular,Keegan It Real,REAL,1,Frank,Home,1332.0,1072.0,1,0,The Bronx Orthodox Church,13.0,Arian,7719.0,5743.0,5,0,3,1
+2025,5,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1335.0,1679.0,0,1,New Jersey Eren,2.0,Eren,6839.0,7089.0,3,2,2,4
+2025,6,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1383.0,1492.0,0,1,The Bronx Orthodox Church,13.0,Arian,8222.0,8581.0,3,3,6,7
+2025,6,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1287.0,1312.0,0,1,New Jersey Eren,2.0,Eren,6825.0,8344.0,0,6,9,10
+2025,6,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1492.0,1383.0,1,0,Pooh Shaisty,12.0,Semanto,6822.0,8452.0,1,5,3,9
+2025,6,Regular,Team Chigga,WONG,5,Johnson,Away,1426.0,1460.0,0,1,Paulie Gee's,8.0,Jonathan,8223.0,7791.0,3,3,5,6
+2025,6,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,907.0,1362.0,0,1,I Watch Basketbal,17.0,Luke,7086.0,8307.0,1,5,10,8
+2025,6,Regular,Jalen Inc.,ALL,16,Allen,Home,1556.0,1670.0,0,1,Keegan It Real,1.0,Frank,8881.0,8218.0,3,3,2,4
+2025,6,Regular,Keegan It Real,REAL,1,Frank,Away,1670.0,1556.0,1,0,Jalen Inc.,16.0,Allen,9389.0,7299.0,6,0,1,1
+2025,6,Regular,New Jersey Eren,TURK,2,Eren,Away,1312.0,1287.0,1,0,For All the bullDawgs,10.0,Shayan,8696.0,8151.0,5,1,8,2
+2025,6,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1460.0,1426.0,1,0,Team Chigga,5.0,Johnson,8335.0,7773.0,3,3,4,5
+2025,6,Regular,I Watch Basketbal,SEE,17,Luke,Home,1362.0,907.0,1,0,Who Invited This Kid?,7.0,Jooahn,8193.0,7756.0,4,2,7,3
+2025,7,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1008.0,1630.0,0,1,Pooh Shaisty,12.0,Semanto,8094.0,9937.0,1,6,9,9
+2025,7,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1166.0,552.0,1,0,For All the bullDawgs,10.0,Shayan,7988.0,9004.0,2,5,8,8
+2025,7,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1490.0,1742.0,0,1,Keegan It Real,1.0,Frank,9825.0,9515.0,3,4,5,7
+2025,7,Regular,I Watch Basketbal,SEE,17,Luke,Away,1256.0,1675.0,0,1,Team Chigga,5.0,Johnson,9449.0,9431.0,4,3,7,6
+2025,7,Regular,For All the bullDawgs,FAD,10,Shayan,Away,552.0,1166.0,0,1,The Bronx Orthodox Church,13.0,Arian,7377.0,9510.0,0,7,10,10
+2025,7,Regular,Team Chigga,WONG,5,Johnson,Home,1675.0,1256.0,1,0,I Watch Basketbal,17.0,Luke,9898.0,9047.0,4,3,3,4
+2025,7,Regular,Jalen Inc.,ALL,16,Allen,Away,1901.0,1285.0,1,0,New Jersey Eren,2.0,Eren,10782.0,9503.0,4,3,1,3
+2025,7,Regular,New Jersey Eren,TURK,2,Eren,Home,1285.0,1901.0,0,1,Jalen Inc.,16.0,Allen,9981.0,10052.0,5,2,6,2
+2025,7,Regular,Keegan It Real,REAL,1,Frank,Home,1742.0,1490.0,1,0,Paulie Gee's,8.0,Jonathan,11131.0,8789.0,7,0,2,1
+2025,7,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1630.0,1008.0,1,0,Who Invited This Kid?,7.0,Jooahn,9852.0,9589.0,4,3,4,5
+2025,8,Regular,For All the bullDawgs,FAD,10,Shayan,Home,279.0,380.0,0,1,Who Invited This Kid?,7.0,Jooahn,7656.0,9890.0,0,8,10,10
+2025,8,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,380.0,279.0,1,0,For All the bullDawgs,10.0,Shayan,8474.0,10216.0,2,6,9,9
+2025,8,Regular,The Bronx Orthodox Church,13,13,Arian,Away,582.0,816.0,0,1,Jalen Inc.,16.0,Allen,8570.0,9820.0,2,6,8,8
+2025,8,Regular,Paulie Gee's,JMH,8,Jonathan,Home,663.0,1054.0,0,1,New Jersey Eren,2.0,Eren,10488.0,10569.0,3,5,5,7
+2025,8,Regular,I Watch Basketbal,SEE,17,Luke,Home,585.0,691.0,0,1,Keegan It Real,1.0,Frank,10034.0,10122.0,4,4,7,6
+2025,8,Regular,Team Chigga,WONG,5,Johnson,Away,661.0,873.0,0,1,Pooh Shaisty,12.0,Semanto,10559.0,9920.0,4,4,6,5
+2025,8,Regular,Jalen Inc.,ALL,16,Allen,Home,816.0,582.0,1,0,The Bronx Orthodox Church,13.0,Arian,11598.0,10085.0,5,3,3,3
+2025,8,Regular,Keegan It Real,REAL,1,Frank,Away,691.0,585.0,1,0,I Watch Basketbal,17.0,Luke,11822.0,9374.0,8,0,4,1
+2025,8,Regular,Pooh Shaisty,SMN,12,Semanto,Home,873.0,661.0,1,0,Team Chigga,5.0,Johnson,10725.0,10250.0,5,3,2,4
+2025,8,Regular,New Jersey Eren,TURK,2,Eren,Away,1054.0,663.0,1,0,Paulie Gee's,8.0,Jonathan,11035.0,10715.0,6,2,1,2
+2025,9,Regular,For All the bullDawgs,FAD,10,Shayan,Away,497.0,1164.0,0,1,Jalen Inc.,16.0,Allen,8153.0,11054.0,0,9,10,10
+2025,9,Regular,I Watch Basketbal,SEE,17,Luke,Away,937.0,1088.0,0,1,New Jersey Eren,2.0,Eren,10971.0,11210.0,4,5,6,6
+2025,9,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,557.0,942.0,0,1,Team Chigga,5.0,Johnson,9031.0,11158.0,2,7,9,9
+2025,9,Regular,The Bronx Orthodox Church,13,13,Arian,Home,704.0,1490.0,0,1,Keegan It Real,1.0,Frank,9274.0,11310.0,2,7,8,8
+2025,9,Regular,Paulie Gee's,JMH,8,Jonathan,Home,797.0,976.0,0,1,Pooh Shaisty,12.0,Semanto,11285.0,11545.0,3,6,7,7
+2025,9,Regular,Team Chigga,WONG,5,Johnson,Away,942.0,557.0,1,0,Who Invited This Kid?,7.0,Jooahn,11501.0,10477.0,5,4,5,5
+2025,9,Regular,Jalen Inc.,ALL,16,Allen,Home,1164.0,497.0,1,0,For All the bullDawgs,10.0,Shayan,12762.0,10582.0,6,3,2,3
+2025,9,Regular,New Jersey Eren,TURK,2,Eren,Home,1088.0,937.0,1,0,I Watch Basketbal,17.0,Luke,12123.0,11652.0,7,2,3,2
+2025,9,Regular,Keegan It Real,REAL,1,Frank,Away,1490.0,704.0,1,0,The Bronx Orthodox Church,13.0,Arian,13312.0,10078.0,9,0,1,1
+2025,9,Regular,Pooh Shaisty,SMN,12,Semanto,Away,976.0,797.0,1,0,Paulie Gee's,8.0,Jonathan,11701.0,11047.0,6,3,4,4
+2025,10,Regular,For All the bullDawgs,FAD,10,Shayan,Away,739.0,1845.0,0,1,Pooh Shaisty,12.0,Semanto,8892.0,12899.0,0,10,10,10
+2025,10,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,991.0,1483.0,0,1,New Jersey Eren,2.0,Eren,10022.0,12641.0,2,8,7,9
+2025,10,Regular,The Bronx Orthodox Church,13,13,Arian,Home,965.0,1643.0,0,1,Paulie Gee's,8.0,Jonathan,10239.0,12953.0,2,8,8,8
+2025,10,Regular,I Watch Basketbal,SEE,17,Luke,Home,913.0,1791.0,0,1,Jalen Inc.,16.0,Allen,11884.0,13001.0,4,6,9,7
+2025,10,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1643.0,965.0,1,0,The Bronx Orthodox Church,13.0,Arian,12928.0,12510.0,4,6,4,6
+2025,10,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1845.0,739.0,1,0,For All the bullDawgs,10.0,Shayan,13546.0,11786.0,7,3,1,4
+2025,10,Regular,Jalen Inc.,ALL,16,Allen,Away,1791.0,913.0,1,0,I Watch Basketbal,17.0,Luke,14553.0,11495.0,7,3,2,3
+2025,10,Regular,New Jersey Eren,TURK,2,Eren,Away,1483.0,991.0,1,0,Who Invited This Kid?,7.0,Jooahn,13606.0,12643.0,8,2,5,2
+2025,10,Regular,Keegan It Real,REAL,1,Frank,Away,1711.0,1254.0,1,0,Team Chigga,5.0,Johnson,15023.0,11332.0,10,0,3,1
+2025,10,Regular,Team Chigga,WONG,5,Johnson,Home,1254.0,1711.0,0,1,Keegan It Real,1.0,Frank,12755.0,12188.0,5,5,6,5
+2025,11,Regular,I Watch Basketbal,SEE,17,Luke,Away,854.0,1654.0,0,1,Pooh Shaisty,12.0,Semanto,12738.0,14655.0,4,7,8,7
+2025,11,Regular,For All the bullDawgs,FAD,10,Shayan,Home,793.0,1134.0,0,1,Paulie Gee's,8.0,Jonathan,9685.0,14033.0,0,11,9,10
+2025,11,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,635.0,1703.0,0,1,Jalen Inc.,16.0,Allen,10657.0,14344.0,2,9,10,9
+2025,11,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1137.0,1339.0,0,1,Team Chigga,5.0,Johnson,11376.0,14292.0,2,9,6,8
+2025,11,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1134.0,793.0,1,0,For All the bullDawgs,10.0,Shayan,14062.0,13303.0,5,6,7,6
+2025,11,Regular,Keegan It Real,REAL,1,Frank,Away,2064.0,1262.0,1,0,New Jersey Eren,2.0,Eren,17087.0,12594.0,11,0,1,1
+2025,11,Regular,New Jersey Eren,TURK,2,Eren,Home,1262.0,2064.0,0,1,Keegan It Real,1.0,Frank,14868.0,14707.0,8,3,5,4
+2025,11,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1654.0,854.0,1,0,I Watch Basketbal,17.0,Luke,15200.0,12640.0,8,3,3,3
+2025,11,Regular,Jalen Inc.,ALL,16,Allen,Away,1703.0,635.0,1,0,Who Invited This Kid?,7.0,Jooahn,16256.0,12130.0,8,3,2,2
+2025,11,Regular,Team Chigga,WONG,5,Johnson,Away,1339.0,1137.0,1,0,The Bronx Orthodox Church,13.0,Arian,14094.0,13325.0,6,5,4,5
+2025,12,Regular,I Watch Basketbal,SEE,17,Luke,Away,705.0,1506.0,0,1,Paulie Gee's,8.0,Jonathan,13443.0,16161.0,4,8,10,7
+2025,12,Regular,For All the bullDawgs,FAD,10,Shayan,Away,808.0,1198.0,0,1,Team Chigga,5.0,Johnson,10493.0,15231.0,0,12,9,10
+2025,12,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,941.0,1574.0,0,1,Keegan It Real,1.0,Frank,11598.0,15918.0,2,10,8,9
+2025,12,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1018.0,1370.0,0,1,New Jersey Eren,2.0,Eren,12394.0,15662.0,2,10,7,8
+2025,12,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1506.0,705.0,1,0,I Watch Basketbal,17.0,Luke,15568.0,14008.0,6,6,3,6
+2025,12,Regular,Team Chigga,WONG,5,Johnson,Home,1198.0,808.0,1,0,For All the bullDawgs,10.0,Shayan,15292.0,14133.0,7,5,6,5
+2025,12,Regular,Jalen Inc.,ALL,16,Allen,Home,1472.0,1866.0,0,1,Pooh Shaisty,12.0,Semanto,17728.0,13996.0,8,4,4,4
+2025,12,Regular,New Jersey Eren,TURK,2,Eren,Home,1370.0,1018.0,1,0,The Bronx Orthodox Church,13.0,Arian,16238.0,15725.0,9,3,5,3
+2025,12,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1866.0,1472.0,1,0,Jalen Inc.,16.0,Allen,17066.0,14112.0,9,3,1,2
+2025,12,Regular,Keegan It Real,REAL,1,Frank,Home,1574.0,941.0,1,0,Who Invited This Kid?,7.0,Jooahn,18661.0,13535.0,12,0,2,1
+2025,13,Regular,The Bronx Orthodox Church,13,13,Arian,Away,858.0,894.0,0,1,Who Invited This Kid?,7.0,Jooahn,13252.0,16556.0,2,11,9,9
+2025,13,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,894.0,858.0,1,0,The Bronx Orthodox Church,13.0,Arian,12492.0,16776.0,3,10,7,8
+2025,13,Regular,I Watch Basketbal,SEE,17,Luke,Home,884.0,783.0,1,0,For All the bullDawgs,10.0,Shayan,14327.0,16944.0,5,8,8,7
+2025,13,Regular,Team Chigga,WONG,5,Johnson,Home,1220.0,1857.0,0,1,New Jersey Eren,2.0,Eren,16512.0,15990.0,7,6,6,6
+2025,13,Regular,For All the bullDawgs,FAD,10,Shayan,Away,783.0,884.0,0,1,I Watch Basketbal,17.0,Luke,11276.0,16115.0,0,13,10,10
+2025,13,Regular,Jalen Inc.,ALL,16,Allen,Away,1355.0,1718.0,0,1,Paulie Gee's,8.0,Jonathan,19083.0,15714.0,8,5,5,4
+2025,13,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1517.0,1822.0,0,1,Keegan It Real,1.0,Frank,18583.0,15934.0,9,4,4,3
+2025,13,Regular,New Jersey Eren,TURK,2,Eren,Away,1857.0,1220.0,1,0,Team Chigga,5.0,Johnson,18095.0,16945.0,10,3,1,2
+2025,13,Regular,Keegan It Real,REAL,1,Frank,Home,1822.0,1517.0,1,0,Pooh Shaisty,12.0,Semanto,20483.0,15052.0,13,0,2,1
+2025,13,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1718.0,1355.0,1,0,Jalen Inc.,16.0,Allen,17286.0,15363.0,7,6,3,5
+2025,14,Regular,For All the bullDawgs,FAD,10,Shayan,Home,660.0,1365.0,0,1,Keegan It Real,1.0,Frank,11936.0,17480.0,0,14,10,10
+2025,14,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,788.0,1166.0,0,1,Paulie Gee's,8.0,Jonathan,13280.0,17942.0,3,11,9,9
+2025,14,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1020.0,808.0,1,0,I Watch Basketbal,17.0,Luke,14272.0,17364.0,3,11,7,8
+2025,14,Regular,I Watch Basketbal,SEE,17,Luke,Home,808.0,1020.0,0,1,The Bronx Orthodox Church,13.0,Arian,15135.0,17964.0,5,9,8,7
+2025,14,Regular,Team Chigga,WONG,5,Johnson,Away,1353.0,1490.0,0,1,Jalen Inc.,16.0,Allen,17865.0,17480.0,7,7,5,6
+2025,14,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1166.0,788.0,1,0,Who Invited This Kid?,7.0,Jooahn,18452.0,16151.0,8,6,6,5
+2025,14,Regular,Jalen Inc.,ALL,16,Allen,Home,1490.0,1353.0,1,0,Team Chigga,5.0,Johnson,20573.0,17067.0,9,5,2,3
+2025,14,Regular,New Jersey Eren,TURK,2,Eren,Away,1575.0,1386.0,1,0,Pooh Shaisty,12.0,Semanto,19670.0,18331.0,11,3,1,2
+2025,14,Regular,Keegan It Real,REAL,1,Frank,Away,1365.0,660.0,1,0,For All the bullDawgs,10.0,Shayan,21848.0,15712.0,14,0,4,1
+2025,14,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1386.0,1575.0,0,1,New Jersey Eren,2.0,Eren,19969.0,17509.0,9,5,3,4
+2025,15,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1323.0,1420.0,0,1,Pooh Shaisty,12.0,Semanto,15595.0,18784.0,3,12,6,8
+2025,15,Regular,For All the bullDawgs,FAD,10,Shayan,Away,734.0,1293.0,0,1,New Jersey Eren,2.0,Eren,12670.0,18773.0,0,15,10,10
+2025,15,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,798.0,958.0,0,1,I Watch Basketbal,17.0,Luke,14078.0,18900.0,3,12,9,9
+2025,15,Regular,I Watch Basketbal,SEE,17,Luke,Away,958.0,798.0,1,0,Who Invited This Kid?,7.0,Jooahn,16093.0,18762.0,6,9,8,7
+2025,15,Regular,Team Chigga,WONG,5,Johnson,Home,1524.0,1562.0,0,1,Paulie Gee's,8.0,Jonathan,19389.0,19042.0,7,8,4,6
+2025,15,Regular,Jalen Inc.,ALL,16,Allen,Away,1690.0,1770.0,0,1,Keegan It Real,1.0,Frank,22263.0,18837.0,9,6,2,4
+2025,15,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1420.0,1323.0,1,0,The Bronx Orthodox Church,13.0,Arian,21389.0,18832.0,10,5,5,3
+2025,15,Regular,New Jersey Eren,TURK,2,Eren,Home,1293.0,734.0,1,0,For All the bullDawgs,10.0,Shayan,20963.0,19065.0,12,3,7,2
+2025,15,Regular,Keegan It Real,REAL,1,Frank,Home,1770.0,1690.0,1,0,Jalen Inc.,16.0,Allen,23618.0,17402.0,15,0,1,1
+2025,15,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1562.0,1524.0,1,0,Team Chigga,5.0,Johnson,20014.0,17675.0,9,6,3,5
+2025,16,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1006.0,1037.0,0,1,The Bronx Orthodox Church,13.0,Arian,13676.0,19810.0,0,16,8,10
+2025,16,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,987.0,1610.0,0,1,Pooh Shaisty,12.0,Semanto,15065.0,20510.0,3,13,9,9
+2025,16,Regular,I Watch Basketbal,SEE,17,Luke,Home,855.0,1318.0,0,1,Team Chigga,5.0,Johnson,16948.0,20080.0,6,10,10,7
+2025,16,Regular,Team Chigga,WONG,5,Johnson,Away,1318.0,855.0,1,0,I Watch Basketbal,17.0,Luke,20707.0,19897.0,8,8,6,6
+2025,16,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1037.0,1006.0,1,0,For All the bullDawgs,10.0,Shayan,16632.0,19790.0,4,12,7,8
+2025,16,Regular,Jalen Inc.,ALL,16,Allen,Home,1576.0,1582.0,0,1,New Jersey Eren,2.0,Eren,23839.0,20419.0,9,7,5,4
+2025,16,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1610.0,987.0,1,0,Who Invited This Kid?,7.0,Jooahn,22999.0,19819.0,11,5,3,3
+2025,16,Regular,New Jersey Eren,TURK,2,Eren,Away,1582.0,1576.0,1,0,Jalen Inc.,16.0,Allen,22545.0,20641.0,13,3,4,2
+2025,16,Regular,Keegan It Real,REAL,1,Frank,Away,1893.0,1789.0,1,0,Paulie Gee's,8.0,Jonathan,25511.0,19191.0,16,0,1,1
+2025,16,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1789.0,1893.0,0,1,Keegan It Real,1.0,Frank,21803.0,19568.0,9,7,2,5
+2025,17,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1206.0,1098.0,1,0,Who Invited This Kid?,7.0,Jooahn,14882.0,20908.0,1,16,7,10
+2025,17,Regular,Keegan It Real,REAL,1,Frank,Home,2344.0,1173.0,1,0,I Watch Basketbal,17.0,Luke,27855.0,20364.0,17,0,1,1
+2025,17,Regular,New Jersey Eren,TURK,2,Eren,Home,1841.0,1941.0,0,1,Paulie Gee's,8.0,Jonathan,24386.0,22582.0,13,4,4,2
+2025,17,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1888.0,1781.0,1,0,Team Chigga,5.0,Johnson,24887.0,21600.0,12,5,3,3
+2025,17,Regular,Jalen Inc.,ALL,16,Allen,Away,1780.0,1135.0,1,0,The Bronx Orthodox Church,13.0,Arian,25619.0,21554.0,10,7,6,4
+2025,17,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1941.0,1841.0,1,0,New Jersey Eren,2.0,Eren,23744.0,21409.0,10,7,2,5
+2025,17,Regular,Team Chigga,WONG,5,Johnson,Home,1781.0,1888.0,0,1,Pooh Shaisty,12.0,Semanto,22488.0,21785.0,8,9,5,6
+2025,17,Regular,I Watch Basketbal,SEE,17,Luke,Away,1173.0,2344.0,0,1,Keegan It Real,1.0,Frank,18121.0,22424.0,6,11,8,7
+2025,17,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1135.0,1780.0,0,1,Jalen Inc.,16.0,Allen,17767.0,21570.0,4,13,9,8
+2025,17,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1098.0,1206.0,0,1,For All the bullDawgs,10.0,Shayan,16163.0,21716.0,3,14,10,9
+2025,18,Regular,The Bronx Orthodox Church,13,13,Arian,Away,694.0,1789.0,0,1,Paulie Gee's,8.0,Jonathan,18461.0,23359.0,4,14,10,8
+2025,18,Regular,I Watch Basketbal,SEE,17,Luke,Home,924.0,1679.0,0,1,New Jersey Eren,2.0,Eren,19045.0,24103.0,6,12,7,7
+2025,18,Regular,For All the bullDawgs,FAD,10,Shayan,Home,704.0,1771.0,0,1,Team Chigga,5.0,Johnson,15586.0,22679.0,1,17,9,10
+2025,18,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,779.0,1452.0,0,1,Jalen Inc.,16.0,Allen,16942.0,23168.0,3,15,8,9
+2025,18,Regular,Team Chigga,WONG,5,Johnson,Away,1771.0,704.0,1,0,For All the bullDawgs,10.0,Shayan,24259.0,22489.0,9,9,2,6
+2025,18,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1539.0,1467.0,1,0,Keegan It Real,1.0,Frank,26426.0,23067.0,13,5,4,3
+2025,18,Regular,Jalen Inc.,ALL,16,Allen,Home,1452.0,779.0,1,0,Who Invited This Kid?,7.0,Jooahn,27071.0,22333.0,11,7,6,4
+2025,18,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1789.0,694.0,1,0,The Bronx Orthodox Church,13.0,Arian,25533.0,22103.0,11,7,1,5
+2025,18,Regular,New Jersey Eren,TURK,2,Eren,Away,1679.0,924.0,1,0,I Watch Basketbal,17.0,Luke,26065.0,23506.0,14,4,3,2
+2025,18,Regular,Keegan It Real,REAL,1,Frank,Away,1467.0,1539.0,0,1,Pooh Shaisty,12.0,Semanto,29322.0,21903.0,17,1,5,1
+2025,19,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1035.0,1528.0,0,1,Keegan It Real,1.0,Frank,16621.0,24207.0,1,18,8,10
+2025,19,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,887.0,1625.0,0,1,Paulie Gee's,8.0,Jonathan,17829.0,24793.0,3,16,9,9
+2025,19,Regular,The Bronx Orthodox Church,13,13,Arian,Home,773.0,1037.0,0,1,I Watch Basketbal,17.0,Luke,19234.0,24396.0,4,15,10,8
+2025,19,Regular,I Watch Basketbal,SEE,17,Luke,Away,1037.0,773.0,1,0,The Bronx Orthodox Church,13.0,Arian,20082.0,24876.0,7,12,7,7
+2025,19,Regular,Team Chigga,WONG,5,Johnson,Home,1093.0,1377.0,0,1,Jalen Inc.,16.0,Allen,25352.0,23866.0,9,10,6,6
+2025,19,Regular,Jalen Inc.,ALL,16,Allen,Away,1377.0,1093.0,1,0,Team Chigga,5.0,Johnson,28448.0,23426.0,12,7,5,4
+2025,19,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1507.0,1753.0,0,1,New Jersey Eren,2.0,Eren,27933.0,24820.0,13,6,4,3
+2025,19,Regular,New Jersey Eren,TURK,2,Eren,Home,1753.0,1507.0,1,0,Pooh Shaisty,12.0,Semanto,27818.0,25013.0,15,4,1,2
+2025,19,Regular,Keegan It Real,REAL,1,Frank,Home,1528.0,1035.0,1,0,For All the bullDawgs,10.0,Shayan,30850.0,22938.0,18,1,3,1
+2025,19,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1625.0,887.0,1,0,Who Invited This Kid?,7.0,Jooahn,27158.0,22990.0,12,7,2,5
+2025,20,Regular,I Watch Basketbal,SEE,17,Luke,Home,778.0,683.0,1,0,Who Invited This Kid?,7.0,Jooahn,20860.0,25559.0,8,12,9,7
+2025,20,Regular,For All the bullDawgs,FAD,10,Shayan,Home,877.0,1658.0,0,1,New Jersey Eren,2.0,Eren,17498.0,25865.0,1,19,8,10
+2025,20,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,683.0,778.0,0,1,I Watch Basketbal,17.0,Luke,18512.0,25571.0,3,17,10,9
+2025,20,Regular,The Bronx Orthodox Church,13,13,Arian,Away,954.0,1401.0,0,1,Pooh Shaisty,12.0,Semanto,20188.0,25797.0,4,16,7,8
+2025,20,Regular,Team Chigga,WONG,5,Johnson,Away,1148.0,1510.0,0,1,Paulie Gee's,8.0,Jonathan,26500.0,25376.0,9,11,6,6
+2025,20,Regular,Keegan It Real,REAL,1,Frank,Away,1586.0,1349.0,1,0,Jalen Inc.,16.0,Allen,32436.0,24287.0,19,1,2,1
+2025,20,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1510.0,1148.0,1,0,Team Chigga,5.0,Johnson,28668.0,24138.0,13,7,3,4
+2025,20,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1401.0,954.0,1,0,The Bronx Orthodox Church,13.0,Arian,29334.0,25774.0,14,6,4,3
+2025,20,Regular,New Jersey Eren,TURK,2,Eren,Away,1658.0,877.0,1,0,For All the bullDawgs,10.0,Shayan,29476.0,25890.0,16,4,1,2
+2025,20,Regular,Jalen Inc.,ALL,16,Allen,Home,1349.0,1586.0,0,1,Keegan It Real,1.0,Frank,29797.0,25012.0,12,8,5,5
+2025,21,Consolation,I Watch Basketbal,SEE,17,Luke,Home,781.0,858.0,0,1,The Bronx Orthodox Church,13.0,Arian,21641.0,26417.0,8,13,6,7
+2025,21,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,585.0,706.0,0,1,For All the bullDawgs,10.0,Shayan,19097.0,26277.0,3,18,8,9
+2025,21,Consolation,The Bronx Orthodox Church,13,13,Arian,Away,858.0,781.0,1,0,I Watch Basketbal,17.0,Luke,21046.0,26578.0,5,16,5,8
+2025,21,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,706.0,585.0,1,0,Who Invited This Kid?,7.0,Jooahn,18204.0,26450.0,2,19,7,10
+2025,21,Playoffs,Team Chigga,WONG,5,Johnson,Away,1210.0,1629.0,0,1,New Jersey Eren,2.0,Eren,27710.0,27005.0,9,12,4,6
 2025,21,Bye,Pooh Shaisty,,12,Semanto,Bye,0.0,0.0,0,0,,,,29334.0,25774.0,14,6,9,2
-2025,21,Playoffs,Jalen Inc.,ALL,16,Allen,Away,1283.0,1228.0,1,0,Paulie Gee's,8,Jonathan,31080.0,26240.0,13,8,2,4
-2025,21,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1629.0,1210.0,1,0,Team Chigga,5,Johnson,31105.0,27100.0,17,4,1,3
+2025,21,Playoffs,Jalen Inc.,ALL,16,Allen,Away,1283.0,1228.0,1,0,Paulie Gee's,8.0,Jonathan,31080.0,26240.0,13,8,2,4
+2025,21,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1629.0,1210.0,1,0,Team Chigga,5.0,Johnson,31105.0,27100.0,17,4,1,3
 2025,21,Bye,Keegan It Real,,1,Frank,Bye,0.0,0.0,0,0,,,,32436.0,24287.0,19,1,9,1
-2025,21,Playoffs,Paulie Gee's,JMH,8,Jonathan,Home,1228.0,1283.0,0,1,Jalen Inc.,16,Allen,29896.0,25421.0,13,8,3,5
-2025,22,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,545.0,782.0,0,1,The Bronx Orthodox Church,13,Arian,18749.0,27232.0,2,20,10,10
-2025,22,Consolation,Who Invited This Kid?,JS,7,Jooahn,Away,560.0,919.0,0,1,I Watch Basketbal,17,Luke,19657.0,27196.0,3,19,9,9
-2025,22,Consolation,I Watch Basketbal,SEE,17,Luke,Home,919.0,560.0,1,0,Who Invited This Kid?,7,Jooahn,22560.0,26977.0,9,13,7,7
-2025,22,Consolation,Team Chigga,WONG,5,Johnson,Away,1300.0,1334.0,0,1,Paulie Gee's,8,Jonathan,29010.0,28339.0,9,13,5,6
-2025,22,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,782.0,545.0,1,0,For All the bullDawgs,10,Shayan,21828.0,27123.0,6,16,8,8
-2025,22,Consolation,Paulie Gee's,JMH,8,Jonathan,Home,1334.0,1300.0,1,0,Team Chigga,5,Johnson,31230.0,26721.0,14,8,4,5
-2025,22,Playoffs,Pooh Shaisty,SMN,12,Semanto,Home,1571.0,1476.0,1,0,New Jersey Eren,2,Eren,30905.0,27250.0,15,6,2,2
-2025,22,Playoffs,New Jersey Eren,TURK,2,Eren,Away,1476.0,1571.0,0,1,Pooh Shaisty,12,Semanto,32581.0,28671.0,17,5,3,3
-2025,22,Playoffs,Keegan It Real,REAL,1,Frank,Home,1751.0,1035.0,1,0,Jalen Inc.,16,Allen,34187.0,25322.0,20,1,1,1
-2025,22,Playoffs,Jalen Inc.,ALL,16,Allen,Away,1035.0,1751.0,0,1,Keegan It Real,1,Frank,32115.0,27991.0,13,9,6,4
-2025,23,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,591.0,746.0,0,1,For All the bullDawgs,10,Shayan,20248.0,27942.0,3,20,10,9
-2025,23,Playoffs,Keegan It Real,REAL,1,Frank,Home,1764.0,1598.0,1,0,Pooh Shaisty,12,Semanto,35951.0,26920.0,21,1,1,1
-2025,23,Consolation,New Jersey Eren,TURK,2,Eren,Home,1561.0,1354.0,1,0,Jalen Inc.,16,Allen,34142.0,30025.0,18,5,3,3
-2025,23,Consolation,Paulie Gee's,JMH,8,Jonathan,Home,1533.0,1099.0,1,0,Team Chigga,5,Johnson,32763.0,27820.0,15,8,4,5
-2025,23,Playoffs,Pooh Shaisty,SMN,12,Semanto,Away,1598.0,1764.0,0,1,Keegan It Real,1,Frank,32503.0,29014.0,15,7,2,2
-2025,23,Consolation,Jalen Inc.,ALL,16,Allen,Away,1354.0,1561.0,0,1,New Jersey Eren,2,Eren,33469.0,29552.0,13,10,5,4
-2025,23,Consolation,I Watch Basketbal,SEE,17,Luke,Home,948.0,796.0,1,0,The Bronx Orthodox Church,13,Arian,23508.0,27773.0,10,13,7,7
-2025,23,Consolation,Team Chigga,WONG,5,Johnson,Away,1099.0,1533.0,0,1,Paulie Gee's,8,Jonathan,30109.0,29872.0,9,14,6,6
-2025,23,Consolation,The Bronx Orthodox Church,13,13,Arian,Away,796.0,948.0,0,1,I Watch Basketbal,17,Luke,22624.0,28071.0,6,17,8,8
-2025,23,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,746.0,591.0,1,0,Who Invited This Kid?,7,Jooahn,19495.0,27823.0,3,20,9,10
+2025,21,Playoffs,Paulie Gee's,JMH,8,Jonathan,Home,1228.0,1283.0,0,1,Jalen Inc.,16.0,Allen,29896.0,25421.0,13,8,3,5
+2025,22,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,545.0,782.0,0,1,The Bronx Orthodox Church,13.0,Arian,18749.0,27232.0,2,20,10,10
+2025,22,Consolation,Who Invited This Kid?,JS,7,Jooahn,Away,560.0,919.0,0,1,I Watch Basketbal,17.0,Luke,19657.0,27196.0,3,19,9,9
+2025,22,Consolation,I Watch Basketbal,SEE,17,Luke,Home,919.0,560.0,1,0,Who Invited This Kid?,7.0,Jooahn,22560.0,26977.0,9,13,7,7
+2025,22,Consolation,Team Chigga,WONG,5,Johnson,Away,1300.0,1334.0,0,1,Paulie Gee's,8.0,Jonathan,29010.0,28339.0,9,13,5,6
+2025,22,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,782.0,545.0,1,0,For All the bullDawgs,10.0,Shayan,21828.0,27123.0,6,16,8,8
+2025,22,Consolation,Paulie Gee's,JMH,8,Jonathan,Home,1334.0,1300.0,1,0,Team Chigga,5.0,Johnson,31230.0,26721.0,14,8,4,5
+2025,22,Playoffs,Pooh Shaisty,SMN,12,Semanto,Home,1571.0,1476.0,1,0,New Jersey Eren,2.0,Eren,30905.0,27250.0,15,6,2,2
+2025,22,Playoffs,New Jersey Eren,TURK,2,Eren,Away,1476.0,1571.0,0,1,Pooh Shaisty,12.0,Semanto,32581.0,28671.0,17,5,3,3
+2025,22,Playoffs,Keegan It Real,REAL,1,Frank,Home,1751.0,1035.0,1,0,Jalen Inc.,16.0,Allen,34187.0,25322.0,20,1,1,1
+2025,22,Playoffs,Jalen Inc.,ALL,16,Allen,Away,1035.0,1751.0,0,1,Keegan It Real,1.0,Frank,32115.0,27991.0,13,9,6,4
+2025,23,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,591.0,746.0,0,1,For All the bullDawgs,10.0,Shayan,20248.0,27942.0,3,20,10,9
+2025,23,Playoffs,Keegan It Real,REAL,1,Frank,Home,1764.0,1598.0,1,0,Pooh Shaisty,12.0,Semanto,35951.0,26920.0,21,1,1,1
+2025,23,Consolation,New Jersey Eren,TURK,2,Eren,Home,1561.0,1354.0,1,0,Jalen Inc.,16.0,Allen,34142.0,30025.0,18,5,3,3
+2025,23,Consolation,Paulie Gee's,JMH,8,Jonathan,Home,1533.0,1099.0,1,0,Team Chigga,5.0,Johnson,32763.0,27820.0,15,8,4,5
+2025,23,Playoffs,Pooh Shaisty,SMN,12,Semanto,Away,1598.0,1764.0,0,1,Keegan It Real,1.0,Frank,32503.0,29014.0,15,7,2,2
+2025,23,Consolation,Jalen Inc.,ALL,16,Allen,Away,1354.0,1561.0,0,1,New Jersey Eren,2.0,Eren,33469.0,29552.0,13,10,5,4
+2025,23,Consolation,I Watch Basketbal,SEE,17,Luke,Home,948.0,796.0,1,0,The Bronx Orthodox Church,13.0,Arian,23508.0,27773.0,10,13,7,7
+2025,23,Consolation,Team Chigga,WONG,5,Johnson,Away,1099.0,1533.0,0,1,Paulie Gee's,8.0,Jonathan,30109.0,29872.0,9,14,6,6
+2025,23,Consolation,The Bronx Orthodox Church,13,13,Arian,Away,796.0,948.0,0,1,I Watch Basketbal,17.0,Luke,22624.0,28071.0,6,17,8,8
+2025,23,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,746.0,591.0,1,0,Who Invited This Kid?,7.0,Jooahn,19495.0,27823.0,3,20,9,10
+2026,1,Regular,New Jersey Eren,TURK,2,Eren,Home,1485.0,999.0,1,0,Who Invited This Kid?,7.0,Jooahn,1485.0,999.0,1,0,1,1
+2026,1,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1393.0,904.0,1,0,Big Wong,5.0,Johnson,1393.0,904.0,1,0,2,2
+2026,1,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1185.0,1101.0,1,0,For All the bullDawgs,10.0,Shayan,1185.0,1101.0,1,0,3,3
+2026,1,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1079.0,1078.0,1,0,Paulie Gee's,8.0,Jonathan,1079.0,1078.0,1,0,5,4
+2026,1,Regular,The Bronx Orthodox Church,13,13,Arian,Home,931.0,855.0,1,0,I Watch Basketbal,17.0,Luke,931.0,855.0,1,0,8,5
+2026,1,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1101.0,1185.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,1101.0,1185.0,0,1,4,6
+2026,1,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1078.0,1079.0,0,1,Pooh Shaisty,12.0,Semanto,1078.0,1079.0,0,1,6,7
+2026,1,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,999.0,1485.0,0,1,New Jersey Eren,2.0,Eren,999.0,1485.0,0,1,7,8
+2026,1,Regular,Big Wong,WONG,5,Johnson,Away,904.0,1393.0,0,1,Wembarrassingggg,1.0,Frank,904.0,1393.0,0,1,9,9
+2026,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,855.0,931.0,0,1,The Bronx Orthodox Church,13.0,Arian,855.0,931.0,0,1,10,10
+2026,2,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1791.0,1630.0,1,0,New Jersey Eren,2.0,Eren,3184.0,2534.0,2,0,1,1
+2026,2,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1632.0,803.0,1,0,I Watch Basketbal,17.0,Luke,2817.0,1904.0,2,0,2,2
+2026,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1397.0,826.0,1,0,For All the bullDawgs,10.0,Shayan,2476.0,1904.0,2,0,6,3
+2026,2,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1307.0,1195.0,1,0,Big Wong,5.0,Johnson,2238.0,2050.0,2,0,7,4
+2026,2,Regular,New Jersey Eren,TURK,2,Eren,Away,1630.0,1791.0,0,1,Wembarrassingggg,1.0,Frank,3115.0,2790.0,1,1,3,5
+2026,2,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1619.0,1485.0,1,0,Who Invited This Kid?,7.0,Jooahn,2697.0,2564.0,1,1,4,6
+2026,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1485.0,1619.0,0,1,Paulie Gee's,8.0,Jonathan,2484.0,3104.0,0,2,5,7
+2026,2,Regular,Big Wong,WONG,5,Johnson,Home,1195.0,1307.0,0,1,The Bronx Orthodox Church,13.0,Arian,2099.0,2700.0,0,2,8,8
+2026,2,Regular,For All the bullDawgs,FAD,10,Shayan,Home,826.0,1397.0,0,1,Pooh Shaisty,12.0,Semanto,1927.0,2582.0,0,2,9,9
+2026,2,Regular,I Watch Basketbal,SEE,17,Luke,Away,803.0,1632.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,1658.0,2563.0,0,2,10,10
+2026,3,Regular,Wembarrassingggg,OOPS,1,Frank,Away,1492.0,992.0,1,0,Who Invited This Kid?,7.0,Jooahn,4676.0,3526.0,3,0,5,1
+2026,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1545.0,904.0,1,0,I Watch Basketbal,17.0,Luke,4021.0,2808.0,3,0,3,2
+2026,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1645.0,854.0,1,0,The Bronx Orthodox Church,13.0,Arian,4760.0,3644.0,2,1,2,3
+2026,3,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1734.0,868.0,1,0,For All the bullDawgs,10.0,Shayan,4431.0,3432.0,2,1,1,4
+2026,3,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1422.0,1536.0,0,1,Big Wong,5.0,Johnson,4239.0,3440.0,2,1,6,5
+2026,3,Regular,The Bronx Orthodox Church,13,13,Arian,Home,854.0,1645.0,0,1,New Jersey Eren,2.0,Eren,3092.0,3695.0,2,1,10,6
+2026,3,Regular,Big Wong,WONG,5,Johnson,Home,1536.0,1422.0,1,0,Jalen Jalen and Jaylen,16.0,Allen,3635.0,4122.0,1,2,4,7
+2026,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,992.0,1492.0,0,1,Wembarrassingggg,1.0,Frank,3476.0,4596.0,0,3,7,8
+2026,3,Regular,For All the bullDawgs,FAD,10,Shayan,Away,868.0,1734.0,0,1,Paulie Gee's,8.0,Jonathan,2795.0,4316.0,0,3,9,9
+2026,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,904.0,1545.0,0,1,Pooh Shaisty,12.0,Semanto,2562.0,4108.0,0,3,8,10
+2026,4,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1755.0,1134.0,1,0,For All the bullDawgs,10.0,Shayan,6431.0,4660.0,4,0,1,1
+2026,4,Regular,New Jersey Eren,TURK,2,Eren,Home,1337.0,1274.0,1,0,Big Wong,5.0,Johnson,6097.0,4918.0,3,1,5,2
+2026,4,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1565.0,1414.0,1,0,Pooh Shaisty,12.0,Semanto,5804.0,4854.0,3,1,2,3
+2026,4,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1150.0,720.0,1,0,I Watch Basketbal,17.0,Luke,5581.0,4152.0,3,1,8,4
+2026,4,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1414.0,1565.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,5435.0,4373.0,3,1,4,5
+2026,4,Regular,The Bronx Orthodox Church,13,13,Arian,Home,1243.0,1474.0,0,1,Who Invited This Kid?,7.0,Jooahn,4335.0,5169.0,2,2,7,6
+2026,4,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1474.0,1243.0,1,0,The Bronx Orthodox Church,13.0,Arian,4950.0,5839.0,1,3,3,7
+2026,4,Regular,Big Wong,WONG,5,Johnson,Away,1274.0,1337.0,0,1,New Jersey Eren,2.0,Eren,4909.0,5459.0,1,3,6,8
+2026,4,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1134.0,1755.0,0,1,Wembarrassingggg,1.0,Frank,3929.0,6071.0,0,4,9,9
+2026,4,Regular,I Watch Basketbal,SEE,17,Luke,Home,720.0,1150.0,0,1,Paulie Gee's,8.0,Jonathan,3282.0,5258.0,0,4,10,10
+2026,5,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1485.0,1233.0,1,0,The Bronx Orthodox Church,13.0,Arian,7916.0,5893.0,5,0,3,1
+2026,5,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1592.0,1298.0,1,0,Paulie Gee's,8.0,Jonathan,7396.0,6152.0,4,1,1,2
+2026,5,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1176.0,1147.0,1,0,New Jersey Eren,2.0,Eren,6611.0,5520.0,4,1,7,3
+2026,5,Regular,New Jersey Eren,TURK,2,Eren,Home,1147.0,1176.0,0,1,Pooh Shaisty,12.0,Semanto,7244.0,6094.0,3,2,8,4
+2026,5,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1298.0,1592.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,6879.0,5744.0,3,2,4,5
+2026,5,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1588.0,1206.0,1,0,Big Wong,5.0,Johnson,6538.0,7045.0,2,3,2,6
+2026,5,Regular,The Bronx Orthodox Church,13,13,Arian,Away,1233.0,1485.0,0,1,Wembarrassingggg,1.0,Frank,5568.0,6654.0,2,3,5,7
+2026,5,Regular,Big Wong,WONG,5,Johnson,Home,1206.0,1588.0,0,1,Who Invited This Kid?,7.0,Jooahn,6115.0,7047.0,1,4,6,8
+2026,5,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1054.0,681.0,1,0,I Watch Basketbal,17.0,Luke,4983.0,6752.0,1,4,9,9
+2026,5,Regular,I Watch Basketbal,SEE,17,Luke,Away,681.0,1054.0,0,1,For All the bullDawgs,10.0,Shayan,3963.0,6312.0,0,5,10,10
+2026,6,Regular,Wembarrassingggg,OOPS,1,Frank,Away,1420.0,1563.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,9336.0,7456.0,5,1,3,1
+2026,6,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1563.0,1420.0,1,0,Wembarrassingggg,1.0,Frank,8959.0,7572.0,5,1,1,2
+2026,6,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1350.0,794.0,1,0,The Bronx Orthodox Church,13.0,Arian,7961.0,6314.0,5,1,6,3
+2026,6,Regular,New Jersey Eren,TURK,2,Eren,Away,1403.0,1163.0,1,0,For All the bullDawgs,10.0,Shayan,8647.0,7257.0,4,2,4,4
+2026,6,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1427.0,981.0,1,0,Big Wong,5.0,Johnson,8306.0,6725.0,4,2,2,5
+2026,6,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1353.0,706.0,1,0,I Watch Basketbal,17.0,Luke,7891.0,7751.0,3,3,5,6
+2026,6,Regular,The Bronx Orthodox Church,13,13,Arian,Away,794.0,1350.0,0,1,Pooh Shaisty,12.0,Semanto,6362.0,8004.0,2,4,9,7
+2026,6,Regular,Big Wong,WONG,5,Johnson,Away,981.0,1427.0,0,1,Paulie Gee's,8.0,Jonathan,7096.0,8474.0,1,5,8,8
+2026,6,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1163.0,1403.0,0,1,New Jersey Eren,2.0,Eren,6146.0,8155.0,1,5,7,9
+2026,6,Regular,I Watch Basketbal,SEE,17,Luke,Home,706.0,1353.0,0,1,Who Invited This Kid?,7.0,Jooahn,4669.0,7665.0,0,6,10,10
+2026,7,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1972.0,1081.0,1,0,Paulie Gee's,8.0,Jonathan,11308.0,8537.0,6,1,1,1
+2026,7,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1938.0,1257.0,1,0,New Jersey Eren,2.0,Eren,10897.0,8829.0,6,1,2,2
+2026,7,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1428.0,1380.0,1,0,Who Invited This Kid?,7.0,Jooahn,9389.0,7694.0,6,1,3,3
+2026,7,Regular,New Jersey Eren,TURK,2,Eren,Home,1257.0,1938.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,9904.0,9195.0,4,3,5,4
+2026,7,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1081.0,1972.0,0,1,Wembarrassingggg,1.0,Frank,9387.0,8697.0,4,3,8,5
+2026,7,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1380.0,1428.0,0,1,Pooh Shaisty,12.0,Semanto,9271.0,9179.0,3,4,4,6
+2026,7,Regular,Big Wong,WONG,5,Johnson,Home,1175.0,592.0,1,0,I Watch Basketbal,17.0,Luke,8271.0,9066.0,2,5,6,7
+2026,7,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1165.0,834.0,1,0,The Bronx Orthodox Church,13.0,Arian,7311.0,8989.0,2,5,7,8
+2026,7,Regular,The Bronx Orthodox Church,13,13,Arian,Home,834.0,1165.0,0,1,For All the bullDawgs,10.0,Shayan,7196.0,9169.0,2,5,9,9
+2026,7,Regular,I Watch Basketbal,SEE,17,Luke,Away,592.0,1175.0,0,1,Big Wong,5.0,Johnson,5261.0,8840.0,0,7,10,10
+2026,8,Regular,Wembarrassingggg,OOPS,1,Frank,Away,890.0,434.0,1,0,I Watch Basketbal,17.0,Luke,12198.0,8971.0,7,1,4,1
+2026,8,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,949.0,350.0,1,0,The Bronx Orthodox Church,13.0,Arian,11846.0,9179.0,7,1,2,2
+2026,8,Regular,Pooh Shaisty,SMN,12,Semanto,Home,868.0,654.0,1,0,Big Wong,5.0,Johnson,10257.0,8348.0,7,1,5,3
+2026,8,Regular,New Jersey Eren,TURK,2,Eren,Away,1126.0,561.0,1,0,Paulie Gee's,8.0,Jonathan,11030.0,9756.0,5,3,1,4
+2026,8,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,924.0,596.0,1,0,For All the bullDawgs,10.0,Shayan,10195.0,9775.0,4,4,3,5
+2026,8,Regular,Paulie Gee's,JMH,8,Jonathan,Home,561.0,1126.0,0,1,New Jersey Eren,2.0,Eren,9948.0,9823.0,4,4,8,6
+2026,8,Regular,Big Wong,WONG,5,Johnson,Away,654.0,868.0,0,1,Pooh Shaisty,12.0,Semanto,8925.0,9934.0,2,6,6,7
+2026,8,Regular,For All the bullDawgs,FAD,10,Shayan,Home,596.0,924.0,0,1,Who Invited This Kid?,7.0,Jooahn,7907.0,9913.0,2,6,7,8
+2026,8,Regular,The Bronx Orthodox Church,13,13,Arian,Away,350.0,949.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,7546.0,10118.0,2,6,10,9
+2026,8,Regular,I Watch Basketbal,SEE,17,Luke,Home,434.0,890.0,0,1,Wembarrassingggg,1.0,Frank,5695.0,9730.0,0,8,9,10
+2026,9,Regular,Wembarrassingggg,OOPS,1,Frank,Away,1054.0,853.0,1,0,The Bronx Orthodox Church,13.0,Arian,13252.0,9824.0,8,1,5,1
+2026,9,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1123.0,824.0,1,0,For All the bullDawgs,10.0,Shayan,12969.0,10003.0,8,1,3,2
+2026,9,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1322.0,1014.0,1,0,Paulie Gee's,8.0,Jonathan,11579.0,9362.0,8,1,1,3
+2026,9,Regular,New Jersey Eren,TURK,2,Eren,Home,1119.0,755.0,1,0,I Watch Basketbal,17.0,Luke,12149.0,10511.0,6,3,4,4
+2026,9,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1279.0,864.0,1,0,Big Wong,5.0,Johnson,11474.0,10639.0,5,4,2,5
+2026,9,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1014.0,1322.0,0,1,Pooh Shaisty,12.0,Semanto,10962.0,11145.0,4,5,6,6
+2026,9,Regular,Big Wong,WONG,5,Johnson,Away,864.0,1279.0,0,1,Who Invited This Kid?,7.0,Jooahn,9789.0,11213.0,2,7,7,7
+2026,9,Regular,For All the bullDawgs,FAD,10,Shayan,Away,824.0,1123.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,8731.0,11036.0,2,7,9,8
+2026,9,Regular,The Bronx Orthodox Church,13,13,Arian,Home,853.0,1054.0,0,1,Wembarrassingggg,1.0,Frank,8399.0,11172.0,2,7,8,9
+2026,9,Regular,I Watch Basketbal,SEE,17,Luke,Away,755.0,1119.0,0,1,New Jersey Eren,2.0,Eren,6450.0,10849.0,0,9,10,10
+2026,10,Regular,Wembarrassingggg,OOPS,1,Frank,Away,1421.0,997.0,1,0,Big Wong,5.0,Johnson,14673.0,10821.0,9,1,3,1
+2026,10,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1479.0,593.0,1,0,I Watch Basketbal,17.0,Luke,14448.0,10596.0,9,1,2,2
+2026,10,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1371.0,1108.0,1,0,For All the bullDawgs,10.0,Shayan,12950.0,10470.0,9,1,4,3
+2026,10,Regular,New Jersey Eren,TURK,2,Eren,Away,1563.0,1217.0,1,0,Who Invited This Kid?,7.0,Jooahn,13712.0,11728.0,7,3,1,4
+2026,10,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1217.0,1563.0,0,1,New Jersey Eren,2.0,Eren,12691.0,12202.0,5,5,5,5
+2026,10,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1058.0,718.0,1,0,The Bronx Orthodox Church,13.0,Arian,12020.0,11863.0,5,5,7,6
+2026,10,Regular,Big Wong,WONG,5,Johnson,Home,997.0,1421.0,0,1,Wembarrassingggg,1.0,Frank,10786.0,12634.0,2,8,8,7
+2026,10,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1108.0,1371.0,0,1,Pooh Shaisty,12.0,Semanto,9839.0,12407.0,2,8,6,8
+2026,10,Regular,The Bronx Orthodox Church,13,13,Arian,Home,718.0,1058.0,0,1,Paulie Gee's,8.0,Jonathan,9117.0,12230.0,2,8,9,9
+2026,10,Regular,I Watch Basketbal,SEE,17,Luke,Home,593.0,1479.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,7043.0,12328.0,0,10,10,10
+2026,11,Regular,Pooh Shaisty,SMN,12,Semanto,Home,1326.0,713.0,1,0,I Watch Basketbal,17.0,Luke,14276.0,11183.0,10,1,6,1
+2026,11,Regular,Wembarrassingggg,OOPS,1,Frank,Away,1619.0,1724.0,0,1,New Jersey Eren,2.0,Eren,16292.0,12545.0,9,2,4,2
+2026,11,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1758.0,1805.0,0,1,Who Invited This Kid?,7.0,Jooahn,16206.0,12401.0,9,2,2,3
+2026,11,Regular,New Jersey Eren,TURK,2,Eren,Home,1724.0,1619.0,1,0,Wembarrassingggg,1.0,Frank,15436.0,13347.0,8,3,3,4
+2026,11,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1805.0,1758.0,1,0,Jalen Jalen and Jaylen,16.0,Allen,14496.0,13960.0,6,5,1,5
+2026,11,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1426.0,1026.0,1,0,For All the bullDawgs,10.0,Shayan,13446.0,12889.0,6,5,5,6
+2026,11,Regular,Big Wong,WONG,5,Johnson,Away,1268.0,793.0,1,0,The Bronx Orthodox Church,13.0,Arian,12054.0,13427.0,3,8,7,7
+2026,11,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1026.0,1426.0,0,1,Paulie Gee's,8.0,Jonathan,10865.0,13833.0,2,9,8,8
+2026,11,Regular,The Bronx Orthodox Church,13,13,Arian,Home,793.0,1268.0,0,1,Big Wong,5.0,Johnson,9910.0,13498.0,2,9,9,9
+2026,11,Regular,I Watch Basketbal,SEE,17,Luke,Away,713.0,1326.0,0,1,Pooh Shaisty,12.0,Semanto,7756.0,13654.0,0,11,10,10
+2026,12,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1481.0,1088.0,1,0,Pooh Shaisty,12.0,Semanto,17687.0,13489.0,10,2,3,1
+2026,12,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1088.0,1481.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,15364.0,12664.0,10,2,8,2
+2026,12,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1278.0,1370.0,0,1,Who Invited This Kid?,7.0,Jooahn,17570.0,13915.0,9,3,5,3
+2026,12,Regular,New Jersey Eren,TURK,2,Eren,Home,1767.0,885.0,1,0,The Bronx Orthodox Church,13.0,Arian,17203.0,14232.0,9,3,1,4
+2026,12,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1370.0,1278.0,1,0,Wembarrassingggg,1.0,Frank,15866.0,15238.0,7,5,4,5
+2026,12,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1497.0,825.0,1,0,I Watch Basketbal,17.0,Luke,14943.0,13714.0,7,5,2,6
+2026,12,Regular,Big Wong,WONG,5,Johnson,Home,1182.0,1094.0,1,0,For All the bullDawgs,10.0,Shayan,13236.0,14521.0,4,8,6,7
+2026,12,Regular,For All the bullDawgs,FAD,10,Shayan,Away,1094.0,1182.0,0,1,Big Wong,5.0,Johnson,11959.0,15015.0,2,10,7,8
+2026,12,Regular,The Bronx Orthodox Church,13,13,Arian,Away,885.0,1767.0,0,1,New Jersey Eren,2.0,Eren,10795.0,15265.0,2,10,9,9
+2026,12,Regular,I Watch Basketbal,SEE,17,Luke,Away,825.0,1497.0,0,1,Paulie Gee's,8.0,Jonathan,8581.0,15151.0,0,12,10,10
+2026,13,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1228.0,1119.0,1,0,Paulie Gee's,8.0,Jonathan,18915.0,14608.0,11,2,5,1
+2026,13,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1548.0,1339.0,1,0,Pooh Shaisty,12.0,Semanto,19118.0,15254.0,10,3,1,2
+2026,13,Regular,New Jersey Eren,TURK,2,Eren,Away,1419.0,1107.0,1,0,Big Wong,5.0,Johnson,18622.0,15339.0,10,3,2,3
+2026,13,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1339.0,1548.0,0,1,Wembarrassingggg,1.0,Frank,16703.0,14212.0,10,3,3,4
+2026,13,Regular,Who Invited This Kid?,JS,7,Jooahn,Home,1333.0,615.0,1,0,The Bronx Orthodox Church,13.0,Arian,17199.0,15853.0,8,5,4,5
+2026,13,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1119.0,1228.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,16062.0,14942.0,7,6,6,6
+2026,13,Regular,Big Wong,WONG,5,Johnson,Home,1107.0,1419.0,0,1,New Jersey Eren,2.0,Eren,14343.0,15940.0,4,9,7,7
+2026,13,Regular,For All the bullDawgs,FAD,10,Shayan,Away,662.0,963.0,0,1,I Watch Basketbal,17.0,Luke,12621.0,15978.0,2,11,9,8
+2026,13,Regular,The Bronx Orthodox Church,13,13,Arian,Away,615.0,1333.0,0,1,Who Invited This Kid?,7.0,Jooahn,11410.0,16598.0,2,11,10,9
+2026,13,Regular,I Watch Basketbal,SEE,17,Luke,Home,963.0,662.0,1,0,For All the bullDawgs,10.0,Shayan,9544.0,15813.0,1,12,8,10
