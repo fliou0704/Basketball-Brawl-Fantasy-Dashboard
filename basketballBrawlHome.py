@@ -133,13 +133,17 @@ def register_home_callbacks(app):
             dtick=1  # show ticks at 1, 2, ..., 10
         )
 
+        last_week = 23
+        if selected_year == 2023:
+            last_week = 24
+
         ### Rank Progression x-axis adjustment
         fig_rank_progression.update_xaxes(
             title="Week",
             tickmode="linear",
             tick0=1,
             dtick=1,  # show ticks at 1, 2, ..., latest_regular_week
-            range=[0.5, latest_week + 0.5]
+            range=[0.5, last_week + 0.5]
         )
 
         highest_scoring_teams = regularData.loc[regularData.groupby('Week')['Points For'].idxmax()]
@@ -154,6 +158,20 @@ def register_home_callbacks(app):
             color_discrete_map=color_map
         )
         fig_highest_scoring.update_traces(textposition='outside')
+
+        last_regular_week = 20
+        if selected_year == 2023:
+            last_regular_week = 21
+
+        fig_highest_scoring.update_xaxes(
+            tick0=1,
+            dtick=1,  # show ticks at 1, 2, ..., latest_regular_week
+            range=[0.5, last_regular_week + 0.5]
+        )
+
+        fig_highest_scoring.update_yaxes(
+            range=[0, highest_scoring_teams["Points For"].max() + 150]
+        )
 
         return html.Div([
             custom_table,
