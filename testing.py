@@ -16,4 +16,3 @@ data = pd.read_csv("data/basketballBrawlLeagueData.csv")
 print(data[data["Team Name"] == "NY L-Eat Gang"])
 
 print(data[(data["Team Name"] == "For All the bullDawgs") & (data["Year"] == 2024)])
-

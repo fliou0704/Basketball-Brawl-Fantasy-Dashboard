@@ -170,7 +170,7 @@ def register_home_callbacks(app):
         )
 
         fig_highest_scoring.update_yaxes(
-            range=[0, highest_scoring_teams["Points For"].max() + 150]
+            range=[0, highest_scoring_teams["Points For"].max() + 200]
         )
 
         return html.Div([
