@@ -22,12 +22,12 @@ jobs:
         run: |
           pip install pandas espn-api
 
-      - name: Run league data updater
+      - name: Run data updaters
         env:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           SWID: ${{ secrets.SWID }}
         run: |
-          python leagueDataUpdater.py
+          python dataUpdater.py
 
       - name: Commit and push changes
         run: |
