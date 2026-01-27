@@ -82,4 +82,4 @@ def render_content(tab):
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8050))  # Use Render's port or default to 8050 locally
-    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False) # Set debug and use_reloader to False for deployment (Use Ctrl + C to shut down app locally)
+    app.run(host="0.0.0.0", port=port, debug=True, use_reloader=False) # Set debug and use_reloader to False for deployment (Use Ctrl + C to shut down app locally)
