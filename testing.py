@@ -11,8 +11,10 @@ import pprint, sys
 ### - Playoff stats
 ### - Last week in review with team of the week, matchup of the week, highest scorers of week, etc
 
-data = pd.read_csv("data/basketballBrawlLeagueData.csv")
+data = pd.read_csv("data/playerMatchupData.csv")
 
-print(data[data["Team Name"] == "NY L-Eat Gang"])
+# print(data[data["Team Name"] == "NY L-Eat Gang"])
 
-print(data[(data["Team Name"] == "For All the bullDawgs") & (data["Year"] == 2024)])
+# print(data[(data["Team Name"] == "For All the bullDawgs") & (data["Year"] == 2024)])
+
+data.to_csv("data/playerMatchupDataBackup.csv", index=False)
