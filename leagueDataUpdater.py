@@ -277,7 +277,7 @@ def update_league_data():
             all_data = pd.concat([all_data, df], ignore_index=True)
         #print(df)
 
-    all_data.to_csv('data/TESTINGbasketballBrawlLeagueData.csv', index=False)
+    all_data.to_csv('data/basketballBrawlLeagueData.csv', index=False)
 
 
 if __name__ == "__main__":
