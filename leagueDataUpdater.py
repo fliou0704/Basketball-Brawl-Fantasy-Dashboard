@@ -59,7 +59,7 @@ def update_league_data():
         totalWeeks = len(league.settings.matchup_periods)
         startingWeek = 1
         if not (data[data["Year"] == year].empty):
-            startingWeek = data[data["Year"] == year]["Week"].max()
+            startingWeek = data[data["Year"] == year]["Week"].max() + 1
         #print(year)
         #print(leagueYear)
         endingWeek = league.currentMatchupPeriod
@@ -277,7 +277,7 @@ def update_league_data():
             all_data = pd.concat([all_data, df], ignore_index=True)
         #print(df)
 
-    all_data.to_csv('data/basketballBrawlLeagueData.csv', index=False)
+    all_data.to_csv('data/TESTINGbasketballBrawlLeagueData.csv', index=False)
 
 
 if __name__ == "__main__":

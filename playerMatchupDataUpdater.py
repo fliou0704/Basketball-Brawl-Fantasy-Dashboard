@@ -57,7 +57,7 @@ def update_playerMatchup_data():
         totalWeeks = len(league.settings.matchup_periods)
         startingWeek = 1
         if not (data[data["Year"] == year].empty):
-            startingWeek = data[data["Year"] == year]["Week"].max()
+            startingWeek = data[data["Year"] == year]["Week"].max() + 1
         #print(year)
         #print(leagueYear)
         endingWeek = league.currentMatchupPeriod
