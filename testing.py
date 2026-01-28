@@ -17,4 +17,4 @@ data = pd.read_csv("data/playerMatchupData.csv")
 
 # print(data[(data["Team Name"] == "For All the bullDawgs") & (data["Year"] == 2024)])
 
-data.to_csv("data/playerMatchupDataBackup.csv", index=False)
+print(pd.__version__)
