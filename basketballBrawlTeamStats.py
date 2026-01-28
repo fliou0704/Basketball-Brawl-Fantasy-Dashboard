@@ -244,10 +244,6 @@ def register_team_callbacks(app):
 
         for stat_label, func in stat_cols.items():
             team_stat = func(year_data)
-            print("=== DEBUG PROD DATA ===")
-            print(year_df.columns.tolist())
-            print(year_df.head())
-            print(year_df["Year"].unique())
             all_stats = year_df.groupby("Team ID").apply(func).dropna()
 
             if team_id not in all_stats:
