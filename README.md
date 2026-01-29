@@ -1,4 +1,4 @@
-# 🏀 Basketball Brawl Fantasy Dashboard
+# Basketball Brawl Fantasy Dashboard
 
 This is a web app dashboard built to display unique stats and visualizations for my fantasy basketball league, *Basketball Brawl*. It's a passion project combining my love of fantasy sports with data analysis and dashboard development.
 
@@ -10,26 +10,25 @@ The goal of this project was to:
 
 ---
 
-## 🚀 Live Demo
+## Live Demo
 
 Check it out here: [Basketball Brawl Dashboard](https://basketball-brawl-fantasy-dashboard.onrender.com/)
 
 ---
 
-## 📊 Features
+## Features
 
-- 🏠 **Home tab**: Overview of league-wide trends and top performers
-- 📈 **Team Stats tab**: View individual team breakdowns with:
-  - Weekly scoring differences
-  - Stat category pie charts
-  - Player contribution breakdowns
-  - Positional analysis
+- **Home tab**
+- **Team Stats tab**
+- **Historical H2H tab**
+- **Record Book tab**
+- **Power Rankings tab**
 
 > More features are being added — this is a living project!
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 - **Dash** (Plotly + Flask) for building the dashboard
 - **Python** for data manipulation and backend logic
@@ -40,7 +39,7 @@ Check it out here: [Basketball Brawl Dashboard](https://basketball-brawl-fantasy
 
 ---
 
-## 📦 Getting Started
+## Getting Started
 
 If you'd like to run this project locally:
 
@@ -55,27 +54,19 @@ Then go to http://localhost:8050 in your browser. Dash will also tell you the UR
 
 ---
 
-## 🧠 Why I Built This
+## In Progress
 
-I wanted to challenge myself to create something useful and fun that reflects my interests. Fantasy basketball is a hobby of mine, and building a custom dashboard helped me explore data that ESPN doesn't show — and present it in a much cooler way.
-
----
-
-## 🛠 In Progress
-
-- Adding a head-to-head history visualization between league teams
-- Adding team and player images
-- Adding 100 point fantasy performances
-- Adding end of season rewards based on in season performace (MVP, All-Fant Team)
-- Adding best waiver wire moves
+- QOL visual improvements
+- Making all data update automatically with GitHub workflows
+- Adding player images
 - Adding a weekly team of the week and overall weekly summary
 - Improving mobile responsiveness
 
 ---
 
-## 📬 Feedback or Ideas?
+## Feedback or Ideas?
 
-Feel free to open an issue or reach out if you have ideas, want to use the dashboard for your own league, or just want to talk data or fantasy sports.
+Feel free reach out if you have and issue with the dashboard or if you have any ideas.
 
 ---
 
