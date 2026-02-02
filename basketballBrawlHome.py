@@ -3,8 +3,12 @@ from dash.dash_table import DataTable
 import pandas as pd
 import plotly.express as px
 from dataStore import data, get_logo_path, get_team_color
+import plotly.graph_objects as go
+import base64
+from pathlib import Path
 
 ### TODO
+### - Fix team logos to have transparent backgrounds
 ### - Highest scoring player per week?
 
 years = []
@@ -146,6 +150,32 @@ def register_home_callbacks(app):
             range=[0.5, last_week + 0.5]
         )
 
+        ### Adding logos for last point on rank progression graph
+
+        latestWeekData = yearData[yearData["Week"] == latest_week]
+        x_vals = latestWeekData["Week"]
+        y_vals = latestWeekData["Rank"]
+        team_names = latestWeekData["Team Name"]
+
+        # add logos
+        for x, y, team in zip(x_vals, y_vals, team_names):
+            logo = get_logo_base64(team)
+
+            fig_rank_progression.add_layout_image(
+                dict(
+                    source=logo,
+                    x=x,
+                    y=y,
+                    xref="x",
+                    yref="y",
+                    sizex=1,
+                    sizey=1,
+                    xanchor="center",
+                    yanchor="middle",
+                    layer="above"
+                )
+            )
+
         highest_scoring_teams = regularData.loc[regularData.groupby('Week')['Points For'].idxmax()]
 
         fig_highest_scoring = px.bar(
@@ -178,3 +208,11 @@ def register_home_callbacks(app):
             dcc.Graph(figure=fig_rank_progression),
             dcc.Graph(figure=fig_highest_scoring)
         ])
+    
+def get_logo_base64(team_name):
+    path = Path("assets") / "logos" / Path(get_logo_path(team_name)).name
+    if not path.exists():
+        return None
+
+    encoded = base64.b64encode(path.read_bytes()).decode()
+    return f"data:image/png;base64,{encoded}"
