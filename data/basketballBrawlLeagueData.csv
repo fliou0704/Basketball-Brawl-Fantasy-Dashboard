@@ -899,13 +899,33 @@ Year,Week,Type,Team Name,Team Abbreviation,Team ID,Team Owner,Home/Away,Points F
 2026,20,Regular,For All the bullDawgs,FAD,10,Shayan,Home,1195.0,1419.0,0,1,New Jersey Eren,2.0,Eren,18363.0,25390.0,3,17,7,8
 2026,20,Regular,The Bronx Orthodox Church,13,13,Arian,Away,446.0,1251.0,0,1,Pooh Shaisty,12.0,Semanto,16752.0,24924.0,3,17,10,9
 2026,20,Regular,I Watch Basketbal,SEE,17,Luke,Home,795.0,1432.0,0,1,Who Invited This Kid?,7.0,Jooahn,16368.0,24161.0,3,17,8,10
-2026,21,Playoffs,Wembarrassingggg,OOPS,1,Frank,Home,1700.0,1223.0,1,0,Paulie Gee's,8.0,Jonathan,32441.0,25039.0,17,4,1,3
-2026,21,Bye,Jalen Jalen and Jaylen,JJJ,16,Allen,,0.0,0.0,0,0,,,,30140.0,23312.0,16,4,9,1
-2026,21,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1053.0,1458.0,0,1,Pooh Shaisty,12.0,Semanto,28688.0,25623.0,14,7,5,5
-2026,21,Bye,Who Invited This Kid?,JS,7,Jooahn,,0.0,0.0,0,0,,,,27622.0,23711.0,14,6,9,2
-2026,21,Playoffs,Pooh Shaisty,SMN,12,Semanto,Away,1458.0,1053.0,1,0,New Jersey Eren,2.0,Eren,27407.0,23478.0,14,7,2,4
+2026,21,Playoffs,Wembarrassingggg,OOPS,1,Frank,Home,1700.0,1223.0,1,0,Paulie Gee's,8.0,Jonathan,32441.0,25039.0,17,4,1,1
+2026,21,Bye,Jalen Jalen and Jaylen,JJJ,16,Allen,,0.0,0.0,0,0,,,,30140.0,23312.0,16,4,9,2
+2026,21,Playoffs,New Jersey Eren,TURK,2,Eren,Home,1053.0,1458.0,0,1,Pooh Shaisty,12.0,Semanto,28688.0,25623.0,14,7,5,3
+2026,21,Bye,Who Invited This Kid?,JS,7,Jooahn,,0.0,0.0,0,0,,,,27622.0,23711.0,14,6,9,4
+2026,21,Playoffs,Pooh Shaisty,SMN,12,Semanto,Away,1458.0,1053.0,1,0,New Jersey Eren,2.0,Eren,27407.0,23478.0,14,7,2,5
 2026,21,Playoffs,Paulie Gee's,JMH,8,Jonathan,Away,1223.0,1700.0,0,1,Wembarrassingggg,1.0,Frank,26256.0,24280.0,12,9,3,6
 2026,21,Consolation,Big Wong,WONG,5,Johnson,Home,1052.0,947.0,1,0,For All the bullDawgs,10.0,Shayan,21309.0,25323.0,7,14,6,7
-2026,21,Consolation,I Watch Basketbal,SEE,17,Luke,Away,1164.0,703.0,1,0,The Bronx Orthodox Church,13.0,Arian,17532.0,24864.0,4,17,4,10
-2026,21,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,947.0,1052.0,0,1,Big Wong,5.0,Johnson,19310.0,26442.0,3,18,7,8
-2026,21,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,703.0,1164.0,0,1,I Watch Basketbal,17.0,Luke,17455.0,26088.0,3,18,8,9
+2026,21,Consolation,I Watch Basketbal,SEE,17,Luke,Away,1164.0,703.0,1,0,The Bronx Orthodox Church,13.0,Arian,17532.0,24864.0,4,17,4,8
+2026,21,Consolation,For All the bullDawgs,FAD,10,Shayan,Away,947.0,1052.0,0,1,Big Wong,5.0,Johnson,19310.0,26442.0,3,18,7,9
+2026,21,Consolation,The Bronx Orthodox Church,13,13,Arian,Home,703.0,1164.0,0,1,I Watch Basketbal,17.0,Luke,17455.0,26088.0,3,18,8,10
+2026,22,Playoffs,Wembarrassingggg,OOPS,1,Frank,Away,1998.0,1600.0,1,0,Who Invited This Kid?,7.0,Jooahn,34439.0,26639.0,18,4,1,1
+2026,22,Playoffs,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1538.0,1446.0,1,0,Pooh Shaisty,12.0,Semanto,31678.0,24758.0,17,4,3,2
+2026,22,Consolation,New Jersey Eren,TURK,2,Eren,Home,756.0,674.0,1,0,Paulie Gee's,8.0,Jonathan,29444.0,26297.0,15,7,9,3
+2026,22,Playoffs,Who Invited This Kid?,JS,7,Jooahn,Home,1600.0,1998.0,0,1,Wembarrassingggg,1.0,Frank,29222.0,25709.0,14,7,2,4
+2026,22,Playoffs,Pooh Shaisty,SMN,12,Semanto,Away,1446.0,1538.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,28853.0,25016.0,14,8,4,5
+2026,22,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,674.0,756.0,0,1,New Jersey Eren,2.0,Eren,26930.0,25036.0,12,10,10,6
+2026,22,Consolation,Big Wong,WONG,5,Johnson,Home,788.0,857.0,0,1,I Watch Basketbal,17.0,Luke,22097.0,26180.0,7,15,8,7
+2026,22,Consolation,I Watch Basketbal,SEE,17,Luke,Away,857.0,788.0,1,0,Big Wong,5.0,Johnson,18389.0,25652.0,5,17,6,8
+2026,22,Consolation,For All the bullDawgs,FAD,10,Shayan,Home,1003.0,807.0,1,0,The Bronx Orthodox Church,13.0,Arian,20313.0,27249.0,4,18,5,9
+2026,22,Consolation,The Bronx Orthodox Church,13,13,Arian,Away,807.0,1003.0,0,1,For All the bullDawgs,10.0,Shayan,18262.0,27091.0,3,19,7,10
+2026,23,Playoffs,Wembarrassingggg,OOPS,1,Frank,Away,1744.0,1282.0,1,0,Jalen Jalen and Jaylen,16.0,Allen,36183.0,27921.0,19,4,1,1
+2026,23,Playoffs,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1282.0,1744.0,0,1,Wembarrassingggg,1.0,Frank,32960.0,26502.0,17,5,4,2
+2026,23,Consolation,Who Invited This Kid?,JS,7,Jooahn,Home,1480.0,1301.0,1,0,Pooh Shaisty,12.0,Semanto,30702.0,27010.0,15,7,2,3
+2026,23,Consolation,New Jersey Eren,TURK,2,Eren,Home,505.0,921.0,0,1,Paulie Gee's,8.0,Jonathan,29949.0,27218.0,15,8,10,5
+2026,23,Consolation,Pooh Shaisty,SMN,12,Semanto,Away,1301.0,1480.0,0,1,Who Invited This Kid?,7.0,Jooahn,30154.0,26496.0,14,9,3,4
+2026,23,Consolation,Paulie Gee's,JMH,8,Jonathan,Away,921.0,505.0,1,0,New Jersey Eren,2.0,Eren,27851.0,25541.0,13,10,6,6
+2026,23,Consolation,Big Wong,WONG,5,Johnson,Home,912.0,787.0,1,0,The Bronx Orthodox Church,13.0,Arian,23009.0,26967.0,8,15,7,7
+2026,23,Consolation,For All the bullDawgs,FAD,10,Shayan,Home,1118.0,855.0,1,0,I Watch Basketbal,17.0,Luke,21431.0,28104.0,5,18,5,8
+2026,23,Consolation,I Watch Basketbal,SEE,17,Luke,Away,855.0,1118.0,0,1,For All the bullDawgs,10.0,Shayan,19244.0,26770.0,5,18,8,10
+2026,23,Consolation,The Bronx Orthodox Church,13,13,Arian,Away,787.0,912.0,0,1,Big Wong,5.0,Johnson,19049.0,28003.0,3,20,9,9
