@@ -7,10 +7,11 @@ exercise their real prepare_* and write_* functions with temporary CSV files.
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import pandas as pd
 
-from dataUpdateSafety import DataValidationError, validate_league_data
+from dataUpdateSafety import DataValidationError, require_espn_credentials, validate_league_data
 from leagueDataUpdater import prepare_league_update, write_league_update
 from playerMatchupDataUpdater import prepare_player_matchup_update, write_player_matchup_update
 
@@ -123,6 +124,17 @@ class ProductionPlayerMatchupUpdateSafetyTests(unittest.TestCase):
             with self.assertRaises(DataValidationError):
                 write_player_matchup_update(stored, stored.iloc[:1], destination)
             self.assertEqual(destination.read_bytes(), original_bytes)
+
+
+class ProductionCredentialConfigurationTests(unittest.TestCase):
+    def test_missing_credentials_raise_a_clear_error_before_an_espn_call(self):
+        with patch.dict("os.environ", {}, clear=True):
+            with self.assertRaisesRegex(RuntimeError, "ESPN_S2.*SWID"):
+                require_espn_credentials()
+
+    def test_year_specific_credential_overrides_the_default(self):
+        with patch.dict("os.environ", {"SWID": "test-swid", "ESPN_S2": "default", "ESPN_S2_2023": "historic"}, clear=True):
+            self.assertEqual(require_espn_credentials(2023), ("test-swid", "historic"))
 
 
 if __name__ == "__main__":

@@ -19,6 +19,27 @@ class DataValidationError(ValueError):
     """An update is invalid and must not replace the persisted dataset."""
 
 
+def require_espn_credentials(year: int | None = None) -> tuple[str, str]:
+    """Return configured ESPN credentials or raise a clear local setup error.
+
+    ``ESPN_S2_<YEAR>`` may be supplied for a historical season that requires a
+    different session; ``ESPN_S2`` is the normal fallback.
+    """
+    espn_s2 = os.environ.get(f"ESPN_S2_{year}") if year else None
+    espn_s2 = espn_s2 or os.environ.get("ESPN_S2")
+    swid = os.environ.get("SWID")
+    missing = []
+    if not espn_s2:
+        missing.append(f"ESPN_S2_{year} or ESPN_S2" if year else "ESPN_S2")
+    if not swid:
+        missing.append("SWID")
+    if missing:
+        raise RuntimeError(
+            "Missing ESPN credentials. Set " + ", ".join(missing) + " in the environment before running a data updater."
+        )
+    return swid, espn_s2
+
+
 LEAGUE_KEY = ["Year", "Week", "Team ID"]
 PLAYER_MATCHUP_KEY = ["Year", "Week", "Team ID", "Player ID"]
 
