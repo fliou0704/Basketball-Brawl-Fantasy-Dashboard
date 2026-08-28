@@ -2,6 +2,34 @@ from espn_api.basketball import League
 import pandas as pd
 from datetime import datetime
 import numpy as np
+from dataUpdateSafety import (
+    PLAYER_MATCHUP_KEY,
+    atomic_write_csv,
+    merge_incremental_rows,
+    validate_player_matchup_data,
+)
+
+
+PLAYER_MATCHUP_DATA_PATH = "data/playerMatchupData.csv"
+
+
+def prepare_player_matchup_update(existing_data, new_rows):
+    """Build a validated, append-only player-matchup candidate without writing it."""
+    return merge_incremental_rows(
+        existing_data,
+        new_rows,
+        PLAYER_MATCHUP_KEY,
+        validate_player_matchup_data,
+    )
+
+
+def write_player_matchup_update(existing_data, new_rows, destination=PLAYER_MATCHUP_DATA_PATH):
+    """Validate before atomically replacing the CSV; return whether a write occurred."""
+    candidate = prepare_player_matchup_update(existing_data, new_rows)
+    if candidate.equals(existing_data):
+        return False
+    atomic_write_csv(candidate, destination)
+    return True
 
 def update_playerMatchup_data():
     league_id = 609694684
@@ -18,7 +46,7 @@ def update_playerMatchup_data():
         league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
         leagueYear = year
 
-    data = pd.read_csv("data/playerMatchupData.csv")
+    data = pd.read_csv(PLAYER_MATCHUP_DATA_PATH)
 
     maxyear = data["Year"].max()
     maxweek = data[data["Year"] == maxyear]["Week"].max()
@@ -43,7 +71,7 @@ def update_playerMatchup_data():
             else:    
                 yearsToUpdate.append(maxyear)
 
-    all_data = data[~data["Year"].isin(yearsToUpdate)]
+    new_data_frames = []
 
     for year in yearsToUpdate:
 
@@ -127,12 +155,14 @@ def update_playerMatchup_data():
             if col in df.columns:
                 df[col] = pd.to_numeric(df[col])
 
-        if all_data.empty:
-            all_data = df
-        else:
-            all_data = pd.concat([all_data, df], ignore_index=True)
+        # Keep already stored weeks untouched; only append rows that were fetched
+        # for a week after the persisted maximum.
+        new_data_frames.append(df[df["Week"] >= startingWeek].copy())
 
-    all_data.to_csv('data/playerMatchupData.csv', index=False)
+    if not new_data_frames:
+        return False
+    new_rows = pd.concat(new_data_frames, ignore_index=True)
+    return write_player_matchup_update(data, new_rows)
 
 if __name__ == "__main__":
     update_playerMatchup_data()

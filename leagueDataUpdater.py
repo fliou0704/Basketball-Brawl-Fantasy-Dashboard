@@ -2,6 +2,35 @@ from espn_api.basketball import League
 import pandas as pd
 from datetime import datetime
 import numpy as np
+from dataUpdateSafety import (
+    LEAGUE_KEY,
+    atomic_write_csv,
+    merge_incremental_rows,
+    validate_league_data,
+)
+
+
+LEAGUE_DATA_PATH = "data/basketballBrawlLeagueData.csv"
+
+
+def prepare_league_update(existing_data, new_rows, terminal_week_by_year=None):
+    """Build a validated, append-only league-data candidate without writing it."""
+    return merge_incremental_rows(
+        existing_data,
+        new_rows,
+        LEAGUE_KEY,
+        validate_league_data,
+        terminal_week_by_year,
+    )
+
+
+def write_league_update(existing_data, new_rows, destination=LEAGUE_DATA_PATH, terminal_week_by_year=None):
+    """Validate before atomically replacing the CSV; return whether a write occurred."""
+    candidate = prepare_league_update(existing_data, new_rows, terminal_week_by_year)
+    if candidate.equals(existing_data):
+        return False
+    atomic_write_csv(candidate, destination)
+    return True
 
 def update_league_data():
     league_id = 609694684
@@ -18,15 +47,17 @@ def update_league_data():
         league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
         leagueYear = year
 
-    data = pd.read_csv("data/basketballBrawlLeagueData.csv")
+    data = pd.read_csv(LEAGUE_DATA_PATH)
 
     maxyear = data["Year"].max()
     maxweek = data[data["Year"] == maxyear]["Week"].max()
 
     yearsToUpdate = []
+    terminal_week_by_year = {}
 
     if (maxyear != leagueYear):
         league = League(league_id=league_id, year=maxyear, espn_s2=espn_s2, swid=swid)
+        terminal_week_by_year = {maxyear: len(league.settings.matchup_periods)}
         if (maxweek != len(league.settings.matchup_periods)):
             yearsToUpdate.append(maxyear)
         year = maxyear
@@ -45,7 +76,9 @@ def update_league_data():
 
     #print(yearsToUpdate)
 
-    all_data = data[~data["Year"].isin(yearsToUpdate)]
+    # Keep the persisted data as the source of truth.  New weeks are built in a
+    # separate frame, then appended only after full validation succeeds.
+    new_data_frames = []
 
     for year in yearsToUpdate:
 
@@ -57,6 +90,7 @@ def update_league_data():
         league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
         regularWeeks = league.settings.reg_season_count
         totalWeeks = len(league.settings.matchup_periods)
+        terminal_week_by_year[year] = totalWeeks
         startingWeek = 1
         if not (data[data["Year"] == year].empty):
             startingWeek = data[data["Year"] == year]["Week"].max() + 1
@@ -269,15 +303,14 @@ def update_league_data():
 
         df = df.sort_values(by='Week').reset_index(drop=True)
 
-        # Append to master dataframe
-        if all_data.empty:
-            #print('HI')
-            all_data = df
-        else:
-            all_data = pd.concat([all_data, df], ignore_index=True)
-        #print(df)
+        # `df` includes old rows only so the existing playoff/ranking logic can
+        # calculate the new week. Persist only newly generated weeks.
+        new_data_frames.append(df[df["Week"] >= startingWeek].copy())
 
-    all_data.to_csv('data/basketballBrawlLeagueData.csv', index=False)
+    if not new_data_frames:
+        return False
+    new_rows = pd.concat(new_data_frames, ignore_index=True)
+    return write_league_update(data, new_rows, terminal_week_by_year=terminal_week_by_year)
 
 
 if __name__ == "__main__":
