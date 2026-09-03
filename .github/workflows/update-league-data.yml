@@ -19,8 +19,10 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install pandas espn-api
+        run: pip install -r requirements.txt
+
+      - name: Run automated tests
+        run: python -m unittest discover -s tests -v
 
       - name: Run data updaters
         env:
@@ -28,6 +30,10 @@ jobs:
           SWID: ${{ secrets.SWID }}
         run: |
           python dataUpdater.py
+
+      - name: Validate updated data
+        run: >-
+          python -c "import pandas as pd; from dataUpdateSafety import validate_league_data, validate_player_matchup_data, validate_player_daily_data; validate_league_data(pd.read_csv('data/basketballBrawlLeagueData.csv')); validate_player_matchup_data(pd.read_csv('data/playerMatchupData.csv')); validate_player_daily_data(pd.read_csv('data/playerDailyData.csv')); print('Updated CSV validation passed.')"
 
       - name: Commit and push changes
         run: |

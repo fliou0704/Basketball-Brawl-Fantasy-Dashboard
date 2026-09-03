@@ -2,11 +2,39 @@ from espn_api.basketball import League
 import pandas as pd
 from datetime import datetime
 import numpy as np
+from dataUpdateSafety import (
+    PLAYER_MATCHUP_KEY,
+    atomic_write_csv,
+    merge_incremental_rows,
+    require_espn_credentials,
+    validate_player_matchup_data,
+)
+
+
+PLAYER_MATCHUP_DATA_PATH = "data/playerMatchupData.csv"
+
+
+def prepare_player_matchup_update(existing_data, new_rows):
+    """Build a validated, append-only player-matchup candidate without writing it."""
+    return merge_incremental_rows(
+        existing_data,
+        new_rows,
+        PLAYER_MATCHUP_KEY,
+        validate_player_matchup_data,
+    )
+
+
+def write_player_matchup_update(existing_data, new_rows, destination=PLAYER_MATCHUP_DATA_PATH):
+    """Validate before atomically replacing the CSV; return whether a write occurred."""
+    candidate = prepare_player_matchup_update(existing_data, new_rows)
+    if candidate.equals(existing_data):
+        return False
+    atomic_write_csv(candidate, destination)
+    return True
 
 def update_playerMatchup_data():
     league_id = 609694684
-    swid = "{462737C8-F92F-4033-8AD6-1D877AC43C1D}"
-    espn_s2 = "AEAgnCeltBfv4nKLUgjlax5tsKzVho%2B6cA1L370VKGvF%2B8hlSX4dpV6Gv7kWYNR5t3zCcNNNwmdXlDPD3HMHLCK%2B6EjbZSYRcIKDl32HUTlKJYweuLKQkzjVDaj89PrtCQ6Cv5zujpbZo7SZ50hqICxorzGB3w01Tds62R78b4wQctPA8rL%2ByshLkXQXs9BM8f9ULC5JywoL3i%2B98bHo%2F9JzYyqmCdUvC1ugiM%2F5%2BY63l49PvhdpoEkbn340BC6gShqus0164TuLh28VviKz6JwKssbPorWtoA%2Fx5RhSs%2FLarA%3D%3D"
+    swid, espn_s2 = require_espn_credentials()
 
     current_year = datetime.now().year
     current_year = current_year + 1
@@ -18,7 +46,7 @@ def update_playerMatchup_data():
         league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
         leagueYear = year
 
-    data = pd.read_csv("data/playerMatchupData.csv")
+    data = pd.read_csv(PLAYER_MATCHUP_DATA_PATH)
 
     maxyear = data["Year"].max()
     maxweek = data[data["Year"] == maxyear]["Week"].max()
@@ -43,14 +71,11 @@ def update_playerMatchup_data():
             else:    
                 yearsToUpdate.append(maxyear)
 
-    all_data = data[~data["Year"].isin(yearsToUpdate)]
+    new_data_frames = []
 
     for year in yearsToUpdate:
 
-        if year == 2023:
-            espn_s2 = 'AEB%2BZ33nD3CVjTy1%2BY7Y6lYP5KSTfdAI6lUjIpSJ8WHLUyjlIMjYKiJlolvuDTyLPBjdhVHIE5UlyyOh6M%2BWtfB1WA5v2CtQhc1CVjmoF%2B%2BgYmTNE%2FDJgSUC0ws0N9S%2Bermktd4xrMRGnr6C%2FpE2hqqe%2BSjMMAVw941%2F%2BAqJw5qqPpT4LfO4BQuSGepw20APuVapbRM3uzCzqadS91HCK0%2BTQhEpm1lpVCGlqCx%2F6rb0UwYNqjJeLkbuXXbrkqK9mPrg5QAqGRI914K2U%2Bah2yD08dXZ8xfYB7K0ilPeqJPKJA%3D%3D'
-        else:
-            espn_s2 = "AEAgnCeltBfv4nKLUgjlax5tsKzVho%2B6cA1L370VKGvF%2B8hlSX4dpV6Gv7kWYNR5t3zCcNNNwmdXlDPD3HMHLCK%2B6EjbZSYRcIKDl32HUTlKJYweuLKQkzjVDaj89PrtCQ6Cv5zujpbZo7SZ50hqICxorzGB3w01Tds62R78b4wQctPA8rL%2ByshLkXQXs9BM8f9ULC5JywoL3i%2B98bHo%2F9JzYyqmCdUvC1ugiM%2F5%2BY63l49PvhdpoEkbn340BC6gShqus0164TuLh28VviKz6JwKssbPorWtoA%2Fx5RhSs%2FLarA%3D%3D"
+        swid, espn_s2 = require_espn_credentials(year)
 
         league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
         regularWeeks = league.settings.reg_season_count
@@ -127,12 +152,14 @@ def update_playerMatchup_data():
             if col in df.columns:
                 df[col] = pd.to_numeric(df[col])
 
-        if all_data.empty:
-            all_data = df
-        else:
-            all_data = pd.concat([all_data, df], ignore_index=True)
+        # Keep already stored weeks untouched; only append rows that were fetched
+        # for a week after the persisted maximum.
+        new_data_frames.append(df[df["Week"] >= startingWeek].copy())
 
-    all_data.to_csv('data/playerMatchupData.csv', index=False)
+    if not new_data_frames:
+        return False
+    new_rows = pd.concat(new_data_frames, ignore_index=True)
+    return write_player_matchup_update(data, new_rows)
 
 if __name__ == "__main__":
     update_playerMatchup_data()
