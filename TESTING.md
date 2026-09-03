@@ -29,3 +29,6 @@ The logical uniqueness keys are:
 - `playerMatchupData.csv`: `Year`, `Week`, `Team ID`, `Player ID`. A player can
   change fantasy teams over a season, but should occur only once for one team in
   one matchup week.
+- `playerDailyData.csv`: `Year`, `Scoring Period`, `Team ID`, `Player ID`.
+  Scoring period identifies the fantasy day, while team ID preserves the roster
+  attribution if a player changes teams during a season.

@@ -42,6 +42,7 @@ def require_espn_credentials(year: int | None = None) -> tuple[str, str]:
 
 LEAGUE_KEY = ["Year", "Week", "Team ID"]
 PLAYER_MATCHUP_KEY = ["Year", "Week", "Team ID", "Player ID"]
+PLAYER_DAILY_KEY = ["Year", "Scoring Period", "Team ID", "Player ID"]
 
 LEAGUE_REQUIRED_COLUMNS = {
     "Year", "Week", "Type", "Team ID", "Points For", "Points Against", "Win", "Loss",
@@ -51,6 +52,15 @@ LEAGUE_REQUIRED_COLUMNS = {
 PLAYER_MATCHUP_REQUIRED_COLUMNS = {
     "Year", "Week", "Team Name", "Team ID", "Player Name", "Player ID", "FPTS",
 }
+PLAYER_DAILY_REQUIRED_COLUMNS = {
+    "Year", "Scoring Period", "Date", "Team Name", "Team ID", "Player Name", "Player ID",
+    "Player Slot", "FPTS", "MIN", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB",
+    "TO", "FGM", "FGA", "FTM",
+}
+PLAYER_DAILY_NUMERIC_COLUMNS = [
+    "Year", "Scoring Period", "Team ID", "Player ID", "FPTS", "MIN", "FTA", "PTS", "3PM",
+    "BLK", "STL", "AST", "REB", "TO", "FGM", "FGA", "FTM",
+]
 
 
 def _require_columns(frame: pd.DataFrame, required: set[str], dataset_name: str) -> None:
@@ -132,6 +142,77 @@ def validate_player_matchup_data(frame: pd.DataFrame) -> None:
     _numeric(frame, ["Year", "Week", "Team ID", "Player ID", "FPTS"], "player matchup data")
     if (pd.to_numeric(frame["Week"]) < 1).any():
         raise DataValidationError("player matchup data contains an invalid week")
+
+
+def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dict[int, int] | None = None) -> None:
+    """Validate daily-player data without altering its dashboard-compatible schema."""
+    _require_columns(frame, PLAYER_DAILY_REQUIRED_COLUMNS, "player daily data")
+    _require_unique_keys(frame, PLAYER_DAILY_KEY, "player daily data")
+    _numeric(frame, PLAYER_DAILY_NUMERIC_COLUMNS, "player daily data")
+
+    data = frame.copy()
+    data["Year"] = pd.to_numeric(data["Year"])
+    data["Scoring Period"] = pd.to_numeric(data["Scoring Period"])
+    if (data["Scoring Period"] < 1).any() or not data["Scoring Period"].map(lambda value: float(value).is_integer()).all():
+        raise DataValidationError("player daily data contains an invalid scoring period")
+    try:
+        parsed_dates = pd.to_datetime(data["Date"], format="%Y-%m-%d", errors="raise")
+    except (TypeError, ValueError) as error:
+        raise DataValidationError("player daily data contains an invalid date") from error
+    if parsed_dates.isna().any():
+        raise DataValidationError("player daily data contains a missing date")
+
+    # ESPN scoring periods represent individual dates in this export.
+    dates_per_period = data.groupby(["Year", "Scoring Period"])["Date"].nunique()
+    if (dates_per_period > 1).any():
+        raise DataValidationError("player daily data maps a scoring period to multiple dates")
+
+    if terminal_period_by_year:
+        years = sorted(int(year) for year in data["Year"].unique())
+        for year in years[:-1]:
+            if year in terminal_period_by_year:
+                observed_final_period = data.loc[data["Year"] == year, "Scoring Period"].max()
+                if observed_final_period != terminal_period_by_year[year]:
+                    raise DataValidationError(f"season {year} is incomplete before a later season begins")
+
+
+def merge_refreshable_daily_rows(
+    existing: pd.DataFrame,
+    fetched_rows: pd.DataFrame,
+    refresh_period_by_year: dict[int, int],
+    terminal_period_by_year: dict[int, int] | None = None,
+) -> pd.DataFrame:
+    """Replace only named latest daily periods and append later records safely.
+
+    The latest stored scoring period may still be in progress, so its entire
+    partition is replaced from ESPN. All earlier periods are immutable; any
+    fetched overlap with one of them is rejected before a candidate is built.
+    """
+    original = existing.copy(deep=True)
+    validate_player_daily_data(existing)
+    if list(existing.columns) != list(fetched_rows.columns):
+        raise DataValidationError("new rows do not match the persisted CSV schema")
+
+    existing_years = pd.to_numeric(existing["Year"])
+    existing_periods = pd.to_numeric(existing["Scoring Period"])
+    fetched_years = pd.to_numeric(fetched_rows["Year"])
+    fetched_periods = pd.to_numeric(fetched_rows["Scoring Period"])
+    refresh_existing_mask = pd.Series(False, index=existing.index)
+    for year, period in refresh_period_by_year.items():
+        refresh_existing_mask |= (existing_years == year) & (existing_periods == period)
+        if ((fetched_years == year) & (fetched_periods < period)).any():
+            raise DataValidationError(f"daily refresh attempts to modify immutable periods for season {year}")
+
+    immutable_rows = existing.loc[~refresh_existing_mask].copy()
+    overlap = immutable_rows.merge(fetched_rows[PLAYER_DAILY_KEY], on=PLAYER_DAILY_KEY, how="inner")
+    if not overlap.empty:
+        raise DataValidationError("daily refresh overlaps immutable logical records")
+
+    candidate = pd.concat([immutable_rows, fetched_rows], ignore_index=True)
+    validate_player_daily_data(candidate, terminal_period_by_year)
+    if not existing.equals(original):
+        raise DataValidationError("existing rows were mutated during daily refresh")
+    return candidate
 
 
 def merge_incremental_rows(
