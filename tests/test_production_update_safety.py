@@ -337,9 +337,9 @@ class ProductionCredentialConfigurationTests(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "ESPN_S2.*SWID"):
                 require_espn_credentials()
 
-    def test_year_specific_credential_overrides_the_default(self):
-        with patch.dict("os.environ", {"SWID": "test-swid", "ESPN_S2": "default", "ESPN_S2_2023": "historic"}, clear=True):
-            self.assertEqual(require_espn_credentials(2023), ("test-swid", "historic"))
+    def test_configured_credentials_are_returned(self):
+        with patch.dict("os.environ", {"SWID": "test-swid", "ESPN_S2": "default"}, clear=True):
+            self.assertEqual(require_espn_credentials(), ("test-swid", "default"))
 
 
 if __name__ == "__main__":

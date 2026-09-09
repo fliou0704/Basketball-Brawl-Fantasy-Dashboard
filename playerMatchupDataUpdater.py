@@ -75,7 +75,7 @@ def update_playerMatchup_data():
 
     for year in yearsToUpdate:
 
-        swid, espn_s2 = require_espn_credentials(year)
+        swid, espn_s2 = require_espn_credentials()
 
         league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
         regularWeeks = league.settings.reg_season_count
