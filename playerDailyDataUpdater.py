@@ -115,7 +115,7 @@ def update_player_daily_data():
         active_year = requested_year
     except Exception:
         active_year = requested_year - 1
-        swid, espn_s2 = require_espn_credentials(active_year)
+        swid, espn_s2 = require_espn_credentials()
         active_league = League(league_id=league_id, year=active_year, espn_s2=espn_s2, swid=swid)
 
     existing_data = pd.read_csv(PLAYER_DAILY_DATA_PATH)
@@ -126,7 +126,7 @@ def update_player_daily_data():
     refresh_period_by_year = {}
 
     if max_year != active_year:
-        swid, espn_s2 = require_espn_credentials(max_year)
+        swid, espn_s2 = require_espn_credentials()
         prior_league = League(league_id=league_id, year=max_year, espn_s2=espn_s2, swid=swid)
         prior_terminal_period = available_scoring_period(prior_league)
         terminal_period_by_year[max_year] = prior_terminal_period
@@ -139,7 +139,7 @@ def update_player_daily_data():
 
     new_data_frames = []
     for year in years_to_update:
-        swid, espn_s2 = require_espn_credentials(year)
+        swid, espn_s2 = require_espn_credentials()
         league = active_league if year == active_year else League(
             league_id=league_id, year=year, espn_s2=espn_s2, swid=swid
         )
