@@ -13,6 +13,12 @@ from collections.abc import Callable, Iterable
 from pathlib import Path
 
 import pandas as pd
+from dotenv import load_dotenv
+
+
+# Resolve from this module, not the working directory. Existing environment
+# variables (including GitHub Actions Secrets) always take precedence.
+load_dotenv(dotenv_path=Path(__file__).resolve().parent / ".env", override=False)
 
 
 class DataValidationError(ValueError):
@@ -30,7 +36,7 @@ def require_espn_credentials() -> tuple[str, str]:
         missing.append("SWID")
     if missing:
         raise RuntimeError(
-            "Missing ESPN credentials. Set " + ", ".join(missing) + " in the environment before running a data updater."
+            "Missing ESPN credentials. Set " + ", ".join(missing) + " in the environment or root .env before running a data updater."
         )
     return swid, espn_s2
 
