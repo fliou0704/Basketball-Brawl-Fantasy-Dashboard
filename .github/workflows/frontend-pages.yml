@@ -23,6 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # Read current league data without merging main or changing the codex CSV.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: frontend/.league-source
+          sparse-checkout: data/basketballBrawlLeagueData.csv
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -33,8 +41,10 @@ jobs:
           python-version: '3.11'
       - run: npm ci
         working-directory: frontend
-      - run: python frontend/scripts/generate_standings.py
+      - run: python frontend/scripts/generate_standings.py --source frontend/.league-source/data/basketballBrawlLeagueData.csv
       - run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
+        env:
+          STANDINGS_TEST_SOURCE: frontend/.league-source/data/basketballBrawlLeagueData.csv
       - run: npm run build
         working-directory: frontend
       - uses: actions/upload-pages-artifact@v3

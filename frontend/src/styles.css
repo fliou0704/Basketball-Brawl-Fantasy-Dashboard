@@ -1,494 +1,68 @@
 :root {
-  font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  color:#242b27;
-  background:#f5f5f0;
-  font-synthesis:none;
-  -webkit-font-smoothing:antialiased;
-  font-variant-numeric:tabular-nums
-}
-
-
-* {
-  box-sizing:border-box
-}
-
-body {
-  margin:0
-}
-
-.masthead {
-  max-width:1120px;
-  margin:auto;
-  height:92px;
-  padding:0 32px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between
-}
-
-.brand {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:19px;
-  font-weight:760;
-  letter-spacing:-.6px
-}
-
-.ball {
-  background:#d8ed93;
-  color:#263b29;
-  border-radius:50%;
-  height:33px;
-  width:33px;
-  display:grid;
-  place-items:center;
-  font-size:31px
-}
-
-.prototype {
-  font-size:10px;
-  letter-spacing:1.5px;
-  color:#6b746c
-}
-
-main {
-  max-width:1120px;
-  margin:auto;
-  padding:0 32px
-}
-
-.hero {
-  position:relative;
-  overflow:hidden;
-  background:#202d25;
-  color:#fafcf5;
-  border-radius:20px;
-  padding:46px 44px
-}
-
-.eyebrow {
-  font-size:10px;
-  font-weight:650;
-  letter-spacing:2.5px;
-  color:#c4d4bf
-}
-
-h1 {
-  position:relative;
-  z-index:1;
-  font-size:clamp(36px,5.5vw,60px);
-  font-weight:750;
-  letter-spacing:-2.8px;
-  margin:20px 0 12px;
-  line-height:1.05
-}
-
-h1 span {
-  font-weight:420
-}
-
-h1 i {
-  font-style:normal;
-  color:#d8ed93
-}
-
-.hero p {
-  color:#bbc8bb;
-  font-size:14px;
-  margin:0 0 30px
-}
-
-.season-tag {
-  position:relative;
-  z-index:1;
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
-  font-size:11px;
-  background:#354338;
-  border:1px solid #53604e;
-  padding:9px 12px;
-  border-radius:6px;
-  color:#e0e8d8
-}
-
-.season-tag>span {
-  width:6px;
-  height:6px;
-  background:#d8ed93;
-  border-radius:50%
-}
-
-.court {
-  position:absolute;
-  width:340px;
-  height:340px;
-  border:1px solid #4d5d44;
-  border-radius:50%;
-  right:-90px;
-  top:-26px;
-  opacity:.55
-}
-
-.court:after {
-  content:"";
-  position:absolute;
-  inset:55px;
-  border:1px solid #4d5d44;
-  border-radius:50%
-}
-
-.court div {
-  position:absolute;
-  width:390px;
-  height:130px;
-  border:1px solid #4d5d44;
-  top:104px;
-  left:70px
-}
-
-.section-heading {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin:34px 2px 16px
-}
-
-h2 {
-  font-size:18px;
-  letter-spacing:-.4px;
-  margin:0
-}
-
-.section-heading>span {
-  font-size:10px;
-  letter-spacing:1.3px;
-  color:#70786c
-}
-
-.standings-card {
-  background:#fff;
-  border:1px solid #dddfd5;
-  border-radius:14px;
-  overflow:hidden;
-  box-shadow:0 3px 10px #27342504
-}
-
-table {
-  width:100%;
-  border-collapse:collapse;
-  text-align:left
-}
-
-thead {
-  background:#fafbf7;
-  color:#727c72;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:1px
-}
-
-thead th {
-  height:45px;
-  font-weight:600
-}
-
-th,td {
-  padding:14px 20px
-}
-
-thead th:first-child {
-  text-align:center;
-  width:75px
-}
-
-tbody tr {
-  border-top:1px solid #eaede5
-}
-
-tbody th {
-  font-weight:600
-}
-
-tbody tr.leader {
-  background:#f4f8ec
-}
-
-.rank {
-  text-align:center;
-  color:#7b8279;
-  font-size:13px
-}
-
-.rank span {
-  display:inline-grid;
-  place-items:center;
-  width:28px;
-  height:28px
-}
-
-.leader .rank span {
-  border-radius:7px;
-  background:#dfedbd;
-  color:#334b21;
-  font-weight:750
-}
-
-.team {
-  display:flex;
-  gap:14px;
-  align-items:center
-}
-
-.team img {
-  object-fit:contain;
-  border-radius:9px;
-  background:white;
-  border:1px solid #eaede6;
-  flex-shrink:0
-}
-
-.team-name {
-  font-size:14px;
-  letter-spacing:-.2px
-}
-
-.team-detail {
-  display:block;
-  font-size:9px;
-  letter-spacing:1.1px;
-  color:#788171;
-  margin-top:6px;
-  font-weight:500
-}
-
-.numeric {
-  text-align:right;
-  font-size:13px;
-  white-space:nowrap;
-  color:#768071
-}
-
-thead .numeric {
-  font-size:10px
-}
-
-.points-for {
-  color:#364330;
-  font-weight:550
-}
-
-.record {
-  text-align:center;
-  white-space:nowrap;
-  font-size:12px
-}
-
-.record span {
-  background:#f3f4ee;
-  border:1px solid #e6e8df;
-  padding:5px 10px;
-  border-radius:5px
-}
-
-.leader .record span {
-  background:#e9f0db;
-  border-color:#d9e4c5
-}
-
-.data-note {
-  font-size:11px;
-  color:#747d70;
-  margin:17px 2px;
-  line-height:1.6
-}
-
-footer {
-  margin-top:40px;
-  border-top:1px solid #dfe2d8;
-  padding:24px 0 30px;
-  display:flex;
-  justify-content:space-between;
-  color:#798171;
-  font-size:9px;
-  letter-spacing:1.3px
-}
-
-.footer-divider {
-  padding:0 9px;
-  color:#acb0a5
-}
-
-.mobile-points {
-  display:none
-}
-
-.message {
-  padding:35px;
-  border:1px solid #dddfd5;
-  border-radius:12px;
-  margin-top:24px
-}
-
-.message button {
-  padding:10px 18px;
-  border-radius:6px;
-  border:1px solid #687861;
-  background:#e3eccf;
-  cursor:pointer
-}
-
-.sr-only,.skip:not(:focus) {
-  position:absolute;
-  width:1px;
-  height:1px;
-  overflow:hidden;
-  clip-path:inset(50%)
-}
-
-.skip:focus {
-  display:block;
-  padding:12px;
-  color:#202d25
-}
-
-
-@media(max-width:700px) {
-  .masthead {
-  height:76px;
-  padding:0 20px
-}
-
-.brand {
-  font-size:17px;
-  gap:9px
-}
-
-.prototype {
-  font-size:9px
-}
-
-.prototype span {
-  display:none
-}
-
-main {
-  padding:0 16px
-}
-
-.hero {
-  padding:30px 24px;
-  border-radius:14px
-}
-
-.eyebrow {
-  font-size:9px;
-  letter-spacing:1.8px
-}
-
-h1 {
-  letter-spacing:-1.7px;
-  margin-top:22px
-}
-
-.hero p {
-  font-size:12px;
-  position:relative;
-  z-index:1
-}
-
-.court {
-  right:-245px
-}
-
-.section-heading {
-  margin-top:28px
-}
-
-h2 {
-  font-size:16px
-}
-
-.desktop {
-  display:none
-}
-
-.mobile-points {
-  display:block;
-  font-size:11px;
-  font-weight:450;
-  color:#748069;
-  margin-top:7px
-}
-
-.mobile-points abbr {
-  text-decoration:none;
-  font-size:9px;
-  margin-left:3px
-}
-
-.team {
-  gap:10px
-}
-
-.team img {
-  width:36px;
-  height:36px
-}
-
-.team-name {
-  font-size:12px;
-  line-height:1.45;
-  display:block;
-  overflow-wrap:anywhere
-}
-
-th,td {
-  padding:15px 8px
-}
-
-thead th:first-child {
-  width:40px;
-  font-size:9px
-}
-
-.rank {
-  font-size:12px
-}
-
-.rank span {
-  width:24px;
-  height:26px
-}
-
-.record {
-  width:68px;
-  font-size:11px;
-  padding-right:12px
-}
-
-.record span {
-  padding:5px 6px
-}
-
-.standings-card {
-  border-radius:11px
-}
-
-footer {
-  font-size:8px;
-  letter-spacing:.9px;
-  margin-top:30px
-}
-
-.data-note {
-  font-size:10px
-}
-
-.team-detail {
-  display:none
-}
-
-
+  font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #202b24;
+  background: #fafbf8;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+.masthead { background: #202d25; color: #fff; border-bottom: 3px solid #abc474; }
+.brand { max-width: 1060px; margin: auto; padding: 22px 16px; font-size: 20px; font-weight: 750; letter-spacing: -.6px; }
+main { max-width: 1060px; margin: auto; padding: 30px 12px 48px; }
+.page-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+h1 { font-size: 27px; line-height: 1.2; letter-spacing: -1px; margin: 0; }
+.week { font-size: 12px; color: #52604f; white-space: nowrap; margin: 0; }
+.stats-scope { font-size: 11px; color: #5e695c; margin: 12px 0 24px; line-height: 1.6; }
+table { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
+thead { border-top: 2px solid #28392c; border-bottom: 1px solid #cbd1c6; }
+thead th { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #586353; padding: 12px 4px; }
+tbody tr { border-bottom: 1px solid #e0e4da; }
+tbody td, tbody th { padding: 17px 4px; }
+.rank { width: 30px; text-align: left; }
+tbody .rank { font-size: 14px; font-weight: 650; color: #4f614b; }
+.record { width: 48px; text-align: right; white-space: nowrap; }
+tbody .record { font-size: 14px; font-weight: 650; color: #263a27; }
+.team { display: flex; gap: 8px; align-items: center; }
+.team img { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; border-radius: 3px; }
+.team-text { min-width: 0; }
+.team-name { display: block; font-size: 13px; font-weight: 650; line-height: 1.45; letter-spacing: -.25px; overflow-wrap: anywhere; }
+.mobile-points { display: block; font-size: 12px; font-weight: 400; color: #596754; margin-top: 5px; }
+abbr { text-decoration: none; font-size: 10px; margin-left: 2px; }
+.desktop { display: none; }
+.numeric { text-align: right; white-space: nowrap; }
+.message { padding: 24px 0; }
+h2 { font-size: 18px; }
+button { padding: 10px 16px; border: 1px solid #62715d; border-radius: 3px; background: #edf2e6; color: #202b24; cursor: pointer; font: inherit; }
+.sr-only, .skip:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.skip:focus { display: block; padding: 12px; color: #202d25; }
+
+@media (min-width: 380px) {
+  main { padding-inline: 16px; }
+  h1 { font-size: 30px; }
+  .rank { width: 34px; }
+  .record { width: 52px; }
+  .team { gap: 10px; }
+  .team img { width: 36px; height: 36px; }
+  .team-name { font-size: 14px; }
+}
+
+@media (min-width: 720px) {
+  .brand { padding: 26px 32px; font-size: 23px; }
+  main { padding: 42px 32px 64px; }
+  h1 { font-size: 38px; }
+  .week { font-size: 14px; }
+  .stats-scope { font-size: 12px; margin-bottom: 30px; }
+  th, td { padding-inline: 12px; }
+  .rank { width: 55px; }
+  .record { width: 80px; }
+  .desktop { display: table-cell; width: 130px; }
+  .mobile-points { display: none; }
+  .team { gap: 14px; }
+  .team img { width: 40px; height: 40px; }
+  .team-name { font-size: 15px; }
+  tbody .numeric { font-size: 14px; color: #5e6a59; }
+  tbody .points-for { color: #2c3e2a; }
 }

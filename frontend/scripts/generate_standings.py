@@ -1,5 +1,6 @@
 """Export the Dash standings snapshot using only local CSVs and the stdlib."""
 import ast
+import argparse
 import csv
 import json
 from pathlib import Path
@@ -33,14 +34,18 @@ def build_standings(rows, season=2026):
                           wins=wins, losses=losses, record=f'{wins}–{losses}',
                           pointsFor=pf, pointsAgainst=pa,
                           pointsForDisplay=f'{pf:,.0f}', pointsAgainstDisplay=f'{pa:,.0f}'))
-    return dict(schemaVersion=1, season=season, statsThroughWeek=stats_week,
+    return dict(schemaVersion=1, season=season, currentWeek=rank_week, statsThroughWeek=stats_week,
                 ranksThroughWeek=rank_week, teamCount=len(teams),
                 statsScope='Regular season', source='basketballBrawlLeagueData.csv',
                 teams=sorted(teams, key=lambda team: team['rank']))
 
 
 def main():
-    with (ROOT / 'data/basketballBrawlLeagueData.csv').open(newline='') as source:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--source', type=Path, default=ROOT / 'data/basketballBrawlLeagueData.csv',
+                        help='League CSV to read; CI supplies a read-only checkout of current production data.')
+    args = parser.parse_args()
+    with args.source.open(newline='') as source:
         payload = build_standings(list(csv.DictReader(source)))
     # Read only literal logo configuration; never import Dash or load its datasets.
     config = {}
@@ -59,7 +64,7 @@ def main():
         team['logo'] = f'logos/{logo.name}'
     (PUBLIC / 'data').mkdir(parents=True, exist_ok=True)
     (PUBLIC / 'data/standings.json').write_text(json.dumps(payload, indent=2, allow_nan=False) + '\n')
-    print(f'Generated {payload["season"]}: {payload["teamCount"]} teams, stats through Week {payload["statsThroughWeek"]}')
+    print(f'Generated {payload["season"]}: {payload["teamCount"]} teams, standings Week {payload["currentWeek"]}, regular-season stats through Week {payload["statsThroughWeek"]}')
 
 
 if __name__ == '__main__':
