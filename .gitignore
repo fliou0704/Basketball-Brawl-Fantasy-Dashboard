@@ -2,3 +2,8 @@ basketball-brawl-fant-48835f8bd41a.json
 __pycache__/
 *.py[cod]
 /data/activityDataBackup.csv
+
+# Local credentials and environment variants; keep the blank template tracked.
+.env
+.env.*
+!.env.example
