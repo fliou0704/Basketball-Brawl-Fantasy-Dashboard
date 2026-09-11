@@ -14,8 +14,20 @@ body { margin: 0; }
 main { max-width: 1060px; margin: auto; padding: 30px 12px 48px; }
 .page-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 h1 { font-size: 27px; line-height: 1.2; letter-spacing: -1px; margin: 0; }
-.week { font-size: 12px; color: #52604f; white-space: nowrap; margin: 0; }
-.stats-scope { font-size: 11px; color: #5e695c; margin: 12px 0 24px; line-height: 1.6; }
+.stats-scope { font-size: 12px; color: #5e695c; margin: 12px 0 24px; line-height: 1.6; }
+.stats-scope p { margin: 4px 0; }
+.desktop-standings { display: none; }
+.mobile-standings { list-style: none; padding: 0; margin: 0; border-top: 2px solid #28392c; }
+.mobile-standings li { padding: 18px 0 15px; border-bottom: 1px solid #dce2d6; }
+.mobile-team-heading { display: grid; grid-template-columns: 22px minmax(0, 1fr) 44px; gap: 8px; align-items: center; }
+.mobile-rank { font-size: 14px; font-weight: 650; color: #4f614b; }
+.mobile-record { text-align: right; }
+.stat-label { display: block; color: #5e695c; font-size: 10px; font-weight: 500; margin-bottom: 3px; }
+.mobile-record strong { font-size: 14px; white-space: nowrap; }
+.mobile-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 13px 0 0 30px; padding-top: 10px; border-top: 1px solid #e8ece3; }
+.mobile-stats > div { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.mobile-stats dt { color: #5e695c; font-size: 11px; }
+.mobile-stats dd { margin: 0; font-size: 13px; font-weight: 550; }
 table { width: 100%; border-collapse: collapse; text-align: left; table-layout: fixed; }
 thead { border-top: 2px solid #28392c; border-bottom: 1px solid #cbd1c6; }
 thead th { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #586353; padding: 12px 4px; }
@@ -29,8 +41,7 @@ tbody .record { font-size: 14px; font-weight: 650; color: #263a27; }
 .team img { width: 32px; height: 32px; object-fit: contain; flex-shrink: 0; border-radius: 3px; }
 .team-text { min-width: 0; }
 .team-name { display: block; font-size: 13px; font-weight: 650; line-height: 1.45; letter-spacing: -.25px; overflow-wrap: anywhere; }
-.mobile-points { display: block; font-size: 12px; font-weight: 400; color: #596754; margin-top: 5px; }
-abbr { text-decoration: none; font-size: 10px; margin-left: 2px; }
+abbr { text-decoration: none; }
 .desktop { display: none; }
 .numeric { text-align: right; white-space: nowrap; }
 .message { padding: 24px 0; }
@@ -50,16 +61,16 @@ button { padding: 10px 16px; border: 1px solid #62715d; border-radius: 3px; back
 }
 
 @media (min-width: 720px) {
+  .mobile-standings { display: none; }
+  .desktop-standings { display: table; }
   .brand { padding: 26px 32px; font-size: 23px; }
   main { padding: 42px 32px 64px; }
   h1 { font-size: 38px; }
-  .week { font-size: 14px; }
   .stats-scope { font-size: 12px; margin-bottom: 30px; }
   th, td { padding-inline: 12px; }
   .rank { width: 55px; }
   .record { width: 80px; }
   .desktop { display: table-cell; width: 130px; }
-  .mobile-points { display: none; }
   .team { gap: 14px; }
   .team img { width: 40px; height: 40px; }
   .team-name { font-size: 15px; }

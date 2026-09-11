@@ -57,8 +57,10 @@ The cleanup investigation found 160 rows through Week 16 in the `codex` CSV,
 but 230 rows through Week 23 on `main`, including playoffs and consolation.
 Week 16 came from the older branch data, not a hardcoded exporter cutoff.
 The generated snapshot now contains Week 23 ranks and Week 20 regular-season
-records/points. The page uses `currentWeek` for the heading and explicitly labels
-the regular-season stats week. No owner names or authenticated URLs are exported.
+records/points. The page labels records and points with their regular-season week and separately
+labels the ranking week when different. It never presents the ranking week as
+the week covered by the points totals. Mobile rows show rank, team and record
+above a dedicated two-column PF/PA stat row; desktop retains the standings table. No owner names or authenticated URLs are exported.
 
 Logo paths are relative to the Vite base. The exporter safely reads the literal
 logo mapping in `dataStore.py` without importing it, then copies the ten needed

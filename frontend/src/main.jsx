@@ -29,14 +29,34 @@ function App() {
     <main id="standings">
       <div className="page-heading">
         <h1>2026 Standings</h1>
-        {data && <p className="week">Week {data.currentWeek}</p>}
       </div>
       {error ? <section className="message" role="alert">
         <h2>Standings couldn’t load</h2>
         <button onClick={() => window.location.reload()}>Try again</button>
       </section> : !data ? <p className="message" role="status">Loading standings…</p> : <>
-        <p className="stats-scope">Regular-season records & points · Week {data.statsThroughWeek}</p>
-        <table>
+        <div className="stats-scope">
+          <p>Records & points: regular season through Week {data.statsThroughWeek}</p>
+          {data.ranksThroughWeek !== data.statsThroughWeek &&
+            <p>Rankings: through Week {data.ranksThroughWeek}</p>}
+        </div>
+        <ol className="mobile-standings" aria-label="2026 standings">
+          {data.teams.map(team => <li key={team.teamId}>
+            <div className="mobile-team-heading">
+              <span className="mobile-rank"><span className="sr-only">Rank </span>{team.rank}</span>
+              <div className="team">
+                <img src={`${base}${team.logo}`} width="36" height="36" alt=""
+                  onError={event => { event.currentTarget.style.visibility = 'hidden'; }} />
+                <span className="team-name">{team.teamName}</span>
+              </div>
+              <div className="mobile-record"><span className="stat-label">W–L</span><strong>{team.record}</strong></div>
+            </div>
+            <dl className="mobile-stats">
+              <div><dt><abbr title="Points for">PF</abbr></dt><dd>{team.pointsForDisplay}</dd></div>
+              <div><dt><abbr title="Points against">PA</abbr></dt><dd>{team.pointsAgainstDisplay}</dd></div>
+            </dl>
+          </li>)}
+        </ol>
+        <table className="desktop-standings">
           <caption className="sr-only">2026 standings through Week {data.currentWeek}. Regular-season records and points through Week {data.statsThroughWeek}.</caption>
           <thead><tr>
             <th scope="col" className="rank" aria-label="Rank">#</th>
@@ -53,7 +73,6 @@ function App() {
                   onError={event => { event.currentTarget.style.visibility = 'hidden'; }} />
                 <div className="team-text">
                   <span className="team-name">{team.teamName}</span>
-                  <span className="mobile-points">{team.pointsForDisplay} <abbr title="Points for">PF</abbr></span>
                 </div>
               </div>
             </th>
