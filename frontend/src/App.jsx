@@ -1,0 +1,66 @@
+import React, { useEffect, useState } from 'react';
+import Standings from './components/Standings';
+import Playoffs from './components/Playoffs';
+import { Daily, Weekly, Scoreboard, Around } from './components/Recaps';
+import { SeasonLeaders, SeasonHistory } from './components/SeasonHistory';
+import './homepage.css';
+
+const base = import.meta.env.BASE_URL;
+const cache = new Map();
+function getData(path) {
+  if (!cache.has(path)) cache.set(path, fetch(`${base}data/${path}`).then(r=>{
+    if (!r.ok) throw new Error('Data unavailable');
+    return r.json();
+  }).then(d=>{if(d.schemaVersion!==1) throw new Error('Unsupported data'); return d;}).catch(e=>{cache.delete(path);throw e;}));
+  return cache.get(path);
+}
+function today() { return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); }
+function chooseState(manifest, requested) {
+  if(manifest.states[requested]) return manifest.states[requested];
+  return manifest.offseasons.filter(s=>s.after<requested).at(-1)?.state ?? {phase:'offseason',season:null};
+}
+function Header() {
+  const [open,setOpen] = useState(false);
+  return <header className="masthead"><div className="header-inner"><a className="brand" href={base}>Basketball Brawl</a><button className="menu-button" aria-expanded={open} aria-controls="site-menu" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}><span aria-hidden="true">{open?'×':'☰'}</span></button>
+    <nav id="site-menu" className={open?'site-menu open':'site-menu'} aria-label="Main navigation"><a href={base} aria-current="page">Home</a>{['Team Stats','Historical H2H','Record Book','Power Rankings','Teams','Players'].map(label=><span key={label} aria-disabled="true">{label}</span>)}</nav>
+  </div></header>;
+}
+export default function App() {
+  const override = new URLSearchParams(window.location.search).get('date');
+  const [realDate,setRealDate] = useState(today);
+  const requested = override || realDate;
+  const [page,setPage] = useState(null);
+  const [error,setError] = useState(false);
+  useEffect(()=>{const timer=setInterval(()=>setRealDate(today()),60000);return()=>clearInterval(timer);},[]);
+  useEffect(()=>{
+    let cancelled=false; setPage(null);setError(false);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(requested) || Number.isNaN(Date.parse(`${requested}T12:00:00Z`)) || new Date(`${requested}T12:00:00Z`).toISOString().slice(0,10)!==requested) {setError(true);return;}
+    getData('homepage.json').then(async manifest=>{
+      const state=chooseState(manifest,requested);
+      if(!state.season) return {state};
+      const names=state.phase==='offseason'?['standings','playoffs','season-leaders','history']:state.phase==='playoffs'?['standings','daily-recap','weekly-recap','playoffs']:['standings','daily-recap','weekly-recap'];
+      const entries=await Promise.all(names.map(async name=>[name,(await getData(`${state.season}/${name}.json`)).data]));
+      return {state,...Object.fromEntries(entries)};
+    }).then(data=>{if(!cancelled)setPage(data);}).catch(()=>{if(!cancelled)setError(true);});
+    return()=>{cancelled=true;};
+  },[requested]);
+  const state=page?.state;
+  const offseason=state?.phase==='offseason';
+  const daily=page?.['daily-recap']?.[state?.dailyDate];
+  const weekly=page?.['weekly-recap']?.[state?.weeklyWeek];
+  const standings=page?.standings?.[state?.standingsWeek];
+  const bracket=page?.playoffs?.[state?.playoffKey];
+  return <><a className="skip" href="#home">Skip to content</a><Header/><main id="home" className="homepage">
+    <div className="home-heading"><h1>{state?.season ? `${state.season} ${offseason?'Season':state.phase==='playoffs'?'Playoffs':'Season'}`:'Basketball Brawl'}</h1>{state?.season && <p>{offseason?'Season complete':`Week ${state.week}`}</p>}</div>
+    {error?<section className="message" role="alert"><h2>Homepage unavailable</h2><p>{override?'Check the date (YYYY-MM-DD) and try again.':'Please try again.'}</p><button onClick={()=>window.location.reload()}>Try again</button></section>:!page?<p role="status">Loading…</p>:!state.season?<p className="archive-note">No completed season is available for this date.</p>:offseason?<>
+      <Playoffs bracket={bracket} completed/><Standings data={standings} final/>
+      <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
+    </>:state.phase==='playoffs'?<>
+      <Playoffs bracket={bracket}/><Weekly recap={weekly} playoffOnly/>
+      <Scoreboard recap={daily} week={state.week}/><Standings data={standings} final/>
+    </>:<>
+      {state.weeklyFirst?<><Weekly recap={weekly}/><Daily recap={daily}/></>:<><Daily recap={daily}/><Weekly recap={weekly}/></>}
+      <Scoreboard recap={daily} week={state.week}/><Standings data={standings}/><Around recap={weekly}/>
+    </>}
+  </main></>;
+}

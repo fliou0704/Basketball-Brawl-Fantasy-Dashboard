@@ -1,3 +1,11 @@
+# Basketball Brawl frontend
+
+Stage 2 is implemented. See [STAGE2.md](STAGE2.md) for the current build command,
+historical date previews, data contracts, validation, and known limitations.
+
+The instructions below document the original Stage 1 exporter and setup; use
+`build_homepage.py` for the current homepage.
+
 # Basketball Brawl — Stage 1
 
 An isolated React + Vite prototype. No Dash server, ESPN requests, credentials,

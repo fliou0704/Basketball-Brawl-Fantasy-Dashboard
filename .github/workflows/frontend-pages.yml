@@ -6,6 +6,8 @@ on:
     paths:
       - 'frontend/**'
       - 'data/basketballBrawlLeagueData.csv'
+      - 'data/playerDailyData.csv'
+      - 'data/playerMatchupData.csv'
       - 'dataStore.py'
       - 'assets/logos/**'
       - '.github/workflows/frontend-pages.yml'
@@ -28,7 +30,10 @@ jobs:
         with:
           ref: main
           path: frontend/.league-source
-          sparse-checkout: data/basketballBrawlLeagueData.csv
+          sparse-checkout: |
+            data/basketballBrawlLeagueData.csv
+            data/playerDailyData.csv
+            data/playerMatchupData.csv
           sparse-checkout-cone-mode: false
           persist-credentials: false
       - uses: actions/setup-node@v4
@@ -41,9 +46,10 @@ jobs:
           python-version: '3.11'
       - run: npm ci
         working-directory: frontend
-      - run: python frontend/scripts/generate_standings.py --source frontend/.league-source/data/basketballBrawlLeagueData.csv
+      - run: python frontend/scripts/build_homepage.py --source-dir frontend/.league-source/data
       - run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
         env:
+          HOMEPAGE_TEST_SOURCE: frontend/.league-source/data
           STANDINGS_TEST_SOURCE: frontend/.league-source/data/basketballBrawlLeagueData.csv
       - run: npm run build
         working-directory: frontend
