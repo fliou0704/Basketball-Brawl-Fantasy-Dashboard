@@ -1,16 +1,16 @@
 import React from 'react';
 export function SeasonLeaders({ players }) {
   if (!players?.length) return null;
-  return <section className="home-section"><div className="section-title"><h2>Season leaders</h2><span>Rostered players · all fantasy weeks</span></div><ol className="season-leaders">{players.map(p=><li key={p.playerId}><span className="leader-rank">{p.rank}</span><div><h3>{p.name}</h3><p>{p.teams.map(t=>t.teamName).join(' / ')}</p></div><strong>{p.pointsDisplay}<small>FPTS</small></strong></li>)}</ol></section>;
+  return <section className="home-section"><div className="section-title"><h2>Season Leaders</h2><span>Rostered players</span></div><ol className="season-leaders">{players.map(p=><li key={p.playerId}><span className="leader-rank">{p.rank}</span><div><h3>{p.name}</h3><p>{p.teams.map(t=>t.teamName).join(' / ')}</p></div><strong>{p.pointsDisplay}<small>FPTS</small></strong></li>)}</ol></section>;
 }
 export function SeasonHistory({ data }) {
   if (!data) return null;
-  return <section className="home-section"><div className="section-title"><h2>The regular season</h2></div><div className="history-grid">
-    <figure><figcaption>Rank progression</figcaption><svg className="rank-chart" viewBox="0 0 320 230" role="img" aria-label="Weekly regular-season team rank progression. Rank one is at the top.">
+  return <section className="home-section"><div className="section-title"><h2>Regular Season</h2></div><div className="history-grid">
+    <figure><figcaption>Rank Progression</figcaption><svg className="rank-chart" viewBox="0 0 320 230" role="img" aria-label="Weekly regular-season team rank progression. Rank one is at the top.">
       {data.rankTicks.map(t=><g key={t.rank}><line x1="25" x2="300" y1={t.y} y2={t.y} stroke="#e0e4da"/><text x="8" y={t.y+4}>{t.rank}</text></g>)}
       {data.ranks.map(t=><polyline key={t.teamId} points={t.path} fill="none" stroke={t.color} strokeWidth="2"><title>{t.teamName}</title></polyline>)}
       <text x="25" y="225">Week 1</text><text x="250" y="225">Week {data.weeks[data.weeks.length-1]}</text>
     </svg><ul className="chart-legend">{data.ranks.map(t=><li key={t.teamId}><span style={{background:t.color}}/>{t.teamName}</li>)}</ul></figure>
-    <figure><figcaption>Highest-scoring team each week</figcaption><ol className="weekly-highs">{data.highWeeks.map(t=><li key={t.week}><span className="week-number">{t.week}</span><div><div className="bar-label"><span>{t.teamName}</span><strong>{t.pointsDisplay}</strong></div><div className="bar" style={{width:t.width,background:t.color}}/></div></li>)}</ol></figure>
+    <figure><figcaption>Weekly Scoring Leaders</figcaption><ol className="weekly-highs">{data.highWeeks.map(t=><li key={t.week}><span className="week-number">{t.week}</span><div><div className="bar-label"><span>{t.teamName}</span><strong>{t.pointsDisplay}</strong></div><div className="bar" style={{width:t.width,background:t.color}}/></div></li>)}</ol></figure>
   </div></section>;
 }

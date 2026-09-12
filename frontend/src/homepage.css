@@ -8,7 +8,7 @@
 .homepage { padding-top: 25px; }
 .home-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 28px; }
 .home-heading p { color: #61705b; font-size: 12px; text-align: right; }
-.home-section { margin-bottom: 38px; }
+.home-section { margin-bottom: 40px; }
 .section-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; border-bottom: 2px solid #2c3d2d; padding-bottom: 12px; margin-bottom: 16px; }
 .section-title h2 { margin: 0; font-size: 20px; letter-spacing: -.5px; }
 .section-title > span { color: #5d6b57; font-size: 11px; }
@@ -29,8 +29,10 @@ small { display: block; font-size: 9px; font-weight: 500; color: #62715b; margin
 .stat-line { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 12px 8px; margin: 14px 0 0; }
 .stat-line dt { font-size: 9px; color: #607059; }
 .stat-line dd { margin: 4px 0 0; font-size: 13px; }
-.source-note { color: #65705f; font-size: 10px; line-height: 1.6; }
-.recap-highlights { display: grid; gap: 22px; }
+.source-note { margin: 12px 0 0; color: #65705f; font-size: 10px; line-height: 1.6; }
+.recap-highlights { display: grid; gap: 24px; }
+.recap-highlights > div { padding: 0; min-width: 0; }
+.recap-highlights h3 { min-height: 20px; }
 .subtle { color: #65715f; font-size: 11px; font-weight: 400; }
 .match { border: 1px solid #d7dfcf; padding: 10px; background: #fff; }
 .match-team { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 0; }
@@ -62,7 +64,7 @@ small { display: block; font-size: 9px; font-weight: 500; color: #62715b; margin
 .pending-round { color: #6e775f; font-size: 12px; border: 1px dashed #c7d0ba; padding: 20px 12px; }
 .section-title .champion { color: #866515; font-weight: 600; }
 .championship-match .match { border-top: 3px solid #ad8c39; background: #fffdf5; }
-.playoff-results { margin-top: 20px; display: grid; gap: 10px; }
+.playoff-results { margin-top: 24px; display: grid; gap: 10px; }
 .playoff-results h3 { margin-bottom: 0; }
 .season-leaders { list-style: none; padding: 0; margin: 0; }
 .season-leaders li { display: grid; grid-template-columns: 22px minmax(0,1fr) 62px; gap: 10px; padding: 15px 0; border-bottom: 1px solid #e0e4da; align-items: center; }

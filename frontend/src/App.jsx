@@ -53,7 +53,7 @@ export default function App() {
   return <><a className="skip" href="#home">Skip to content</a><Header/><main id="home" className="homepage">
     <div className="home-heading"><h1>{state?.season ? `${state.season} ${offseason?'Season':state.phase==='playoffs'?'Playoffs':'Season'}`:'Basketball Brawl'}</h1>{state?.season && <p>{offseason?'Season complete':`Week ${state.week}`}</p>}</div>
     {error?<section className="message" role="alert"><h2>Homepage unavailable</h2><p>{override?'Check the date (YYYY-MM-DD) and try again.':'Please try again.'}</p><button onClick={()=>window.location.reload()}>Try again</button></section>:!page?<p role="status">Loading…</p>:!state.season?<p className="archive-note">No completed season is available for this date.</p>:offseason?<>
-      <Playoffs bracket={bracket} completed/><Standings data={standings} final/>
+      <Playoffs bracket={bracket}/><Standings data={standings} final/>
       <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
     </>:state.phase==='playoffs'?<>
       <Playoffs bracket={bracket}/><Weekly recap={weekly} playoffOnly/>
