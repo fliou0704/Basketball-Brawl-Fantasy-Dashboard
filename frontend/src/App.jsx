@@ -7,7 +7,7 @@ import './homepage.css';
 
 const base = import.meta.env.BASE_URL;
 const cache = new Map();
-function getData(path) {
+export function getData(path) {
   if (!cache.has(path)) cache.set(path, fetch(`${base}data/${path}`).then(r=>{
     if (!r.ok) throw new Error('Data unavailable');
     return r.json();
@@ -19,10 +19,10 @@ function chooseState(manifest, requested) {
   if(manifest.states[requested]) return manifest.states[requested];
   return manifest.offseasons.filter(s=>s.after<requested).at(-1)?.state ?? {phase:'offseason',season:null};
 }
-function Header() {
+export function Header({ active = 'home' }) {
   const [open,setOpen] = useState(false);
   return <header className="masthead"><div className="header-inner"><a className="brand" href={base}>Basketball Brawl</a><button className="menu-button" aria-expanded={open} aria-controls="site-menu" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}><span aria-hidden="true">{open?'×':'☰'}</span></button>
-    <nav id="site-menu" className={open?'site-menu open':'site-menu'} aria-label="Main navigation"><a href={base} aria-current="page">Home</a>{['Team Stats','Historical H2H','Record Book','Power Rankings','Teams','Players'].map(label=><span key={label} aria-disabled="true">{label}</span>)}</nav>
+    <nav id="site-menu" className={open?'site-menu open':'site-menu'} aria-label="Main navigation"><a href={base} aria-current={active==='home'?'page':undefined}>Home</a><a href={`${base}#/team-stats`} aria-current={active==='team-stats'?'page':undefined} onClick={()=>setOpen(false)}>Team Stats</a>{['Historical H2H','Record Book','Power Rankings','Teams','Players'].map(label=><span key={label} aria-disabled="true">{label}</span>)}</nav>
   </div></header>;
 }
 export default function App() {
