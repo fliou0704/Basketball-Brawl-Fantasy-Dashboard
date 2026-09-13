@@ -1,0 +1,38 @@
+.h2h-selectors { display: grid; gap: 16px; margin-bottom: 32px; }
+.h2h-selectors > div { display: grid; gap: 8px; min-width: 0; }
+.h2h-selectors label { font-size: 12px; color: #596850; }
+.h2h-selectors select { width: 100%; min-width: 0; padding: 12px 10px; border: 1px solid #bbc6b3; border-radius: 3px; background: #fff; color: #243027; font: inherit; font-size: 16px; }
+.h2h-records { display: grid; gap: 20px; margin: 0; }
+.h2h-records dt { font-size: 12px; color: #61705b; }
+.h2h-records dd { margin: 8px 0 0; font-size: 20px; font-weight: 600; }
+.h2h-history { font-size: 12px; }
+.h2h-history td, .h2h-history th { padding: 12px 6px; overflow-wrap: anywhere; }
+.h2h-history tr { cursor: pointer; }
+.h2h-history .h2h-playoff { font-weight: 700; }
+.h2h-result.win { color: #35622c; }
+.h2h-result.loss { color: #9b3a32; }
+.h2h-score { padding: 3px 0; border: 0; background: none; border-radius: 0; text-decoration: underline; text-underline-offset: 3px; font: inherit; color: inherit; }
+.h2h-score:hover { color: #456839; }
+.h2h-player-sides { display: grid; gap: 28px; }
+.h2h-player-sides table { font-size: 13px; }
+.h2h-player-sides caption { text-align: left; font-size: 15px; font-weight: 650; padding-bottom: 14px; }
+.h2h-player-sides td { overflow-wrap: anywhere; }
+.h2h-player-sides th:last-child, .h2h-player-sides td:last-child { width: 70px; text-align: right; }
+.h2h-details { scroll-margin-top: 20px; }
+.h2h-details > p { font-size: 12px; color: #61705b; margin: 0 0 20px; }
+.h2h-details .section-title button { font-size: 12px; padding: 8px 12px; }
+@media(max-width:719px) {
+  .h2h-history, .h2h-history tbody { display: block; }
+  .h2h-history thead { display: none; }
+  .h2h-history tr { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 12px; border-bottom: 1px solid #dce2d6; padding: 18px 0; }
+  .h2h-history td { display: block; border: 0; padding: 0; font-size: 13px; }
+  .h2h-history td::before { content: attr(data-label); display: block; color: #61705b; font-size: 10px; font-weight: 500; margin-bottom: 5px; }
+}
+@media(min-width:720px) {
+  .h2h-selectors { grid-template-columns: 1fr 1fr; }
+  .h2h-records { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .h2h-history th:nth-child(1), .h2h-history th:nth-child(2) { width: 48px; }
+  .h2h-history th:nth-child(5) { width: 52px; }
+  .h2h-history th:nth-child(6) { width: 110px; }
+  .h2h-player-sides { grid-template-columns: 1fr 1fr; }
+}

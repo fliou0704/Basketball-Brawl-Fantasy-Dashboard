@@ -51,8 +51,10 @@ jobs:
         working-directory: frontend
       - run: python frontend/scripts/build_homepage.py --source-dir frontend/.league-source/data
       - run: python frontend/scripts/generate_team_stats.py --source-dir frontend/.league-source/data
+      - run: python frontend/scripts/generate_historical_h2h.py --source-dir frontend/.league-source/data
       - run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
         env:
+          H2H_TEST_SOURCE: frontend/.league-source/data
           TEAM_STATS_TEST_SOURCE: frontend/.league-source/data
           HOMEPAGE_TEST_SOURCE: frontend/.league-source/data
           STANDINGS_TEST_SOURCE: frontend/.league-source/data/basketballBrawlLeagueData.csv
