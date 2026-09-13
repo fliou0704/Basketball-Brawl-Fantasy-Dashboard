@@ -1,9 +1,10 @@
 # Basketball Brawl frontend
 
-Team Stats and Historical H2H are migrated in Stage 3. See
+Team Stats, Historical H2H, and Record Book are migrated in Stage 3. See
 [STAGE3-TEAM-STATS.md](STAGE3-TEAM-STATS.md) and
-[STAGE3-HISTORICAL-H2H.md](STAGE3-HISTORICAL-H2H.md) for their routes,
-exporters, dependencies, and parity validation.
+[STAGE3-HISTORICAL-H2H.md](STAGE3-HISTORICAL-H2H.md), plus
+[STAGE3-RECORD-BOOK.md](STAGE3-RECORD-BOOK.md), for their routes, exporters,
+dependencies, and parity validation.
 
 Stage 2 is implemented. See [STAGE2.md](STAGE2.md) for the current build command,
 historical date previews, data contracts, validation, and known limitations.
