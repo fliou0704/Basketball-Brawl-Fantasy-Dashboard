@@ -18,7 +18,9 @@ Basketball Brawl is a modern sports editorial and league-information site. Data,
 
 ## Type
 
-The system font stack keeps the site fast and lets league data remain the focus. Body copy is 1rem/1.55. Labels and metadata are 0.75–0.8125rem with deliberate tracking. Page headings use 2–2.75rem, section headings 1.25–1.5rem, and card headings 0.75rem uppercase. Scores and fantasy points use bold tabular numerals. Avoid display copy or marketing subtitles.
+Typography is controlled in one place through `--font-family-base` and `--font-family-heading` in `src/styles.css`. Both currently use the same local system-font stack, but they remain separate tokens so body and display typography can be tested independently later. Do not hardcode another font stack in component or page CSS, and do not add an external font dependency without an explicit design decision.
+
+Body copy is 1rem/1.55. Labels and metadata are 0.75–0.8125rem with deliberate tracking. Page headings use 2–2.75rem, section headings 1.25–1.5rem, and card headings 0.75rem uppercase. Scores and fantasy points use bold tabular numerals. Avoid display copy or marketing subtitles.
 
 ## Dimensions and spacing
 
@@ -45,6 +47,23 @@ The system font stack keeps the site fast and lets league data remain the focus.
 ## Card treatment
 
 `Card` and `TableCard` use a white surface, subtle neutral 1px border, 11px radius, and consistent padding. Related rows sit together inside one card with internal dividers. Avoid cards inside cards and avoid separate cards for tiny metrics.
+
+## Layout density
+
+### Home page
+
+- Home is the one page where a denser editorial layout is encouraged.
+- Complementary cards may sit side by side, with a maximum of two content cards in one row.
+- Never place three or more content cards across in one row.
+- Mobile stacks cards naturally into one column.
+
+### All other pages
+
+- Default to a wide-form, vertically stacked layout.
+- Major cards and tables should generally span the main content width.
+- Do not turn Team Stats, Historical H2H, Record Book, or future detail pages into dense dashboard grids.
+- Side-by-side content is the exception and should be used only when the content is very small and clearly benefits from pairing.
+- Shared layout primitives do not create multi-column grids. A page must opt into any exceptional pairing explicitly.
 
 ## Tables
 

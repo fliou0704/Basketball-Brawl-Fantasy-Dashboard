@@ -22,7 +22,7 @@ function chooseState(manifest, requested) {
 }
 export function Header({ active = 'home' }) {
   const [open,setOpen] = useState(false);
-  return <header className="masthead"><div className="header-inner"><a className="brand" href={base}><span className="brand-mark" aria-hidden="true">BB</span><span>Basketball Brawl</span></a><button className="menu-button" aria-expanded={open} aria-controls="site-menu" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}><span aria-hidden="true">{open?'×':'☰'}</span></button>
+  return <header className="masthead"><div className="header-inner"><a className="brand" href={base}><span className="brand-mark" aria-hidden="true"/><span>Basketball Brawl</span></a><button type="button" className="menu-button" aria-expanded={open} aria-controls="site-menu" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}><span className={open?'menu-icon open':'menu-icon'} aria-hidden="true"><span/><span/><span/></span></button>
     <nav id="site-menu" className={open?'site-menu open':'site-menu'} aria-label="Main navigation"><a href={base} aria-current={active==='home'?'page':undefined}>Home</a><a href={`${base}#/team-stats`} aria-current={active==='team-stats'?'page':undefined} onClick={()=>setOpen(false)}>Team Stats</a><a href={`${base}#/historical-h2h`} aria-current={active==='historical-h2h'?'page':undefined} onClick={()=>setOpen(false)}>Historical H2H</a><a href={`${base}#/record-book`} aria-current={active==='record-book'?'page':undefined} onClick={()=>setOpen(false)}>Record Book</a>{['Power Rankings','Teams','Players'].map(label=><span key={label} aria-disabled="true">{label}</span>)}</nav>
   </div></header>;
 }
