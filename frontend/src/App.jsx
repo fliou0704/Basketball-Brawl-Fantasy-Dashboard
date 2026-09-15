@@ -3,6 +3,7 @@ import Standings from './components/Standings';
 import Playoffs from './components/Playoffs';
 import { Daily, Weekly, Scoreboard, Around } from './components/Recaps';
 import { SeasonLeaders, SeasonHistory } from './components/SeasonHistory';
+import { PageHeader, PageShell } from './components/Layout';
 import './homepage.css';
 
 const base = import.meta.env.BASE_URL;
@@ -21,7 +22,7 @@ function chooseState(manifest, requested) {
 }
 export function Header({ active = 'home' }) {
   const [open,setOpen] = useState(false);
-  return <header className="masthead"><div className="header-inner"><a className="brand" href={base}>Basketball Brawl</a><button className="menu-button" aria-expanded={open} aria-controls="site-menu" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}><span aria-hidden="true">{open?'×':'☰'}</span></button>
+  return <header className="masthead"><div className="header-inner"><a className="brand" href={base}><span className="brand-mark" aria-hidden="true">BB</span><span>Basketball Brawl</span></a><button className="menu-button" aria-expanded={open} aria-controls="site-menu" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}><span aria-hidden="true">{open?'×':'☰'}</span></button>
     <nav id="site-menu" className={open?'site-menu open':'site-menu'} aria-label="Main navigation"><a href={base} aria-current={active==='home'?'page':undefined}>Home</a><a href={`${base}#/team-stats`} aria-current={active==='team-stats'?'page':undefined} onClick={()=>setOpen(false)}>Team Stats</a><a href={`${base}#/historical-h2h`} aria-current={active==='historical-h2h'?'page':undefined} onClick={()=>setOpen(false)}>Historical H2H</a><a href={`${base}#/record-book`} aria-current={active==='record-book'?'page':undefined} onClick={()=>setOpen(false)}>Record Book</a>{['Power Rankings','Teams','Players'].map(label=><span key={label} aria-disabled="true">{label}</span>)}</nav>
   </div></header>;
 }
@@ -50,8 +51,8 @@ export default function App() {
   const weekly=page?.['weekly-recap']?.[state?.weeklyWeek];
   const standings=page?.standings?.[state?.standingsWeek];
   const bracket=page?.playoffs?.[state?.playoffKey];
-  return <><a className="skip" href="#home">Skip to content</a><Header/><main id="home" className="homepage">
-    <div className="home-heading"><h1>{state?.season ? `${state.season} ${offseason?'Season':state.phase==='playoffs'?'Playoffs':'Season'}`:'Basketball Brawl'}</h1>{state?.season && <p>{offseason?'Season complete':`Week ${state.week}`}</p>}</div>
+  return <><a className="skip" href="#home">Skip to content</a><Header/><PageShell id="home" className="homepage">
+    <PageHeader title={state?.season ? `${state.season} ${offseason?'Season':state.phase==='playoffs'?'Playoffs':'Season'}`:'Basketball Brawl'} meta={state?.season && (offseason?'Season complete':`Week ${state.week}`)}/>
     {error?<section className="message" role="alert"><h2>Homepage unavailable</h2><p>{override?'Check the date (YYYY-MM-DD) and try again.':'Please try again.'}</p><button onClick={()=>window.location.reload()}>Try again</button></section>:!page?<p role="status">Loading…</p>:!state.season?<p className="archive-note">No completed season is available for this date.</p>:offseason?<>
       <Playoffs bracket={bracket}/><Standings data={standings} final/>
       <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
@@ -62,5 +63,5 @@ export default function App() {
       {state.weeklyFirst?<><Weekly recap={weekly}/><Daily recap={daily}/></>:<><Daily recap={daily}/><Weekly recap={weekly}/></>}
       <Scoreboard recap={daily} week={state.week}/><Standings data={standings}/><Around recap={weekly}/>
     </>}
-  </main></>;
+  </PageShell></>;
 }
