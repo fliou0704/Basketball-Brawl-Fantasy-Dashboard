@@ -100,7 +100,7 @@ def choose_lineup(rows, slots, teams):
                 score = total + number(row['FPTS'])
                 if new_mask not in dp or score > dp[new_mask][0]:
                     dp[new_mask] = (score, picks + [(i, row)])
-    best_mask = max(dp, key=lambda mask: (mask.bit_count(), dp[mask][0]))
+    best_mask = max(dp, key=lambda mask: (bin(mask).count('1'), dp[mask][0]))
     picks = sorted(dp[best_mask][1])
     mvp = max((row for _, row in picks), key=lambda r: (number(r['FPTS']), -int(r['Player ID'])), default=None)
     return [dict(player_info(row, teams), slot=slots[i], mvp=row is mvp) for i, row in picks]

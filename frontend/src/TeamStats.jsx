@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Header, getData } from './App';
-import { Team } from './components/Standings';
+import { TeamLogo } from './components/Standings';
+import { Card, PageShell, Section, TableCard } from './components/Layout';
+import { latestTeamSeason } from './site-data';
 import './team-stats.css';
 
 function Roster({ rows, summary }) {
@@ -15,33 +17,40 @@ function Roster({ rows, summary }) {
   </table>;
 }
 
-export default function TeamStats() {
+function ordinal(rank) {
+  if(rank == null) return 'N/A';
+  const mod100=rank%100;
+  return `${rank}${mod100>=11&&mod100<=13?'th':rank%10===1?'st':rank%10===2?'nd':rank%10===3?'rd':'th'}`;
+}
+
+export default function TeamStats({ teamId }) {
   const [manifest,setManifest] = useState(null);
-  const [teamId,setTeamId] = useState('');
-  const [year,setYear] = useState('Summary');
+  const [year,setYear] = useState('');
   const [data,setData] = useState(null);
   const [error,setError] = useState(false);
   useEffect(()=>{let active=true;getData('team-stats.json').then(d=>{if(active)setManifest(d);}).catch(()=>{if(active)setError(true);});return()=>{active=false;};},[]);
   useEffect(()=>{
-    let active=true;setData(null);setError(false);
-    if(teamId)getData(`team-stats/${teamId}.json`).then(d=>{if(active)setData(d);}).catch(()=>{if(active)setError(true);});
+    let active=true;setData(null);setError(false);setYear('');
+    if(teamId)getData(`team-stats/${teamId}.json`).then(d=>{if(active){setData(d);setYear(latestTeamSeason(d));}}).catch(()=>{if(active)setError(true);});
     return()=>{active=false;};
   },[teamId]);
   const isSummary = year==='Summary';
   const season = data?.seasons[year];
-  return <><a className="skip" href="#team-stats">Skip to content</a><Header active="team-stats"/>
-    <main id="team-stats" className="homepage team-stats-page"><div className="home-heading"><h1>Team Stats</h1></div>
-      {manifest && <div className="team-stats-selectors"><label>Team<select value={teamId} onChange={e=>setTeamId(e.target.value)}><option value="">Select a team</option>{manifest.teams.map(t=><option key={t.teamId} value={t.teamId}>{t.teamName}</option>)}</select></label>
-        {teamId && <label>Season<select value={year} onChange={e=>setYear(e.target.value)}><option value="Summary">Summary</option>{manifest.years.map(y=><option key={y} value={y}>{y}</option>)}</select></label>}
-      </div>}
-      {error?<p role="alert">Team Stats unavailable. Please reload to try again.</p>:!manifest || (teamId&&!data)?<p role="status">Loading…</p>:!teamId?<p>Please select a team</p>:data && <>
-        <div className="selected-team"><h2><Team team={data.team}/></h2><span>{year}</span></div>
-        {isSummary?<><section className="home-section"><div className="section-title"><h2>All-Time Record</h2></div><dl className="team-records">{data.summary.records.map(r=><div key={r.label}><dt>{r.label}</dt><dd>{r.value}</dd></div>)}</dl></section>
-          <section className="home-section"><div className="section-title"><h2>All-Time Roster</h2></div><Roster rows={data.summary.roster} summary/></section></>
+  const validTeam = manifest?.teams.some(team=>String(team.teamId)===String(teamId));
+  return <><a className="skip" href="#team-page">Skip to content</a><Header active="teams"/>
+    <PageShell id="team-page" className="homepage team-stats-page">
+      {error || (manifest && !validTeam)?<section className="message" role="alert"><h1>Team unavailable</h1><p>Choose a team from the Teams menu.</p></section>:!manifest || !data || !year?<p role="status">Loading…</p>:<>
+        <header className="team-identity" style={{'--team-color':data.team.color}}>
+          <TeamLogo team={data.team} size={84}/><div className="team-identity-copy"><p className="page-eyebrow">Franchise</p><h1>{data.team.teamName}</h1>{data.team.owner&&<p className="team-owner">Owner · {data.team.owner}</p>}</div>
+          <label className="season-selector">Season<select aria-label="Season" value={year} onChange={event=>setYear(event.target.value)}><option value="Summary">Summary</option>{Object.keys(data.seasons).filter(y=>data.seasons[y]).sort((a,b)=>b-a).map(y=><option key={y} value={y}>{y}</option>)}</select></label>
+        </header>
+        {isSummary?<><Section title="All-Time Record"><Card><dl className="team-records">{data.summary.records.map(r=><div key={r.label}><dt>{r.label}</dt><dd>{r.value}</dd></div>)}</dl></Card></Section>
+          <Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>
           :!season?<p>No data for {data.team.teamName} in {year}</p>:<>
-            <section className="home-section"><div className="section-title"><h2>Stat Rankings</h2></div><dl className="team-rankings">{season.rankings.map(stat=><div key={stat.label}><dt>{stat.label}</dt><dd><span className="stat-rank">{stat.rank===null?'Rank N/A':`Rank ${stat.rank}`}</span><strong>{stat.value}</strong></dd></div>)}</dl></section>
-            <section className="home-section"><div className="section-title"><h2>Roster</h2></div><Roster rows={season.roster}/></section>
+            <Section title="Season Snapshot" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd></div></dl></Card></Section>
+            <Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div key={stat.label}><dt>{stat.label}</dt><dd><span className="stat-rank">{stat.rank===null?'Rank N/A':`Rank ${stat.rank}`}</span><strong>{stat.value}</strong></dd></div>)}</dl></Card></Section>
+            <Section title="Roster"><TableCard><Roster rows={season.roster}/></TableCard></Section>
           </>}
       </>}
-    </main></>;
+    </PageShell></>;
 }

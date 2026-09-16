@@ -65,6 +65,27 @@ class TeamStatsParityTests(unittest.TestCase):
         self.assertEqual([(t['teamId'], t['teamName']) for t in self.manifest['teams']],
                          list(expected[['Team ID', 'Team Name']].itertuples(index=False, name=None)))
         self.assertEqual(self.manifest['years'], sorted(self.weekly['Year'].unique(), reverse=True))
+        self.assertEqual([t['owner'] for t in self.manifest['teams']], list(expected['Team Owner']))
+
+    def test_season_snapshots_match_final_regular_season_source(self):
+        for tid, payload in self.payloads.items():
+            for year in self.manifest['years']:
+                season = payload['seasons'][str(year)]
+                if season is None:
+                    continue
+                regular = self.league[(self.league['Year'] == year) &
+                                      (self.league['Type'] == 'Regular') &
+                                      (self.league['Team ID'] == tid)]
+                source = regular.loc[regular['Week'].idxmax()]
+                final_week = regular['Week'].max()
+                rank = self.league[(self.league['Year'] == year) &
+                                   (self.league['Week'] == final_week) &
+                                   (self.league['Team ID'] == tid)].iloc[0]['Rank']
+                snapshot = season['snapshot']
+                self.assertEqual(snapshot['rank'], int(rank))
+                self.assertEqual(snapshot['record'], f"{int(source['Cumulative Wins'])}–{int(source['Cumulative Losses'])}")
+                self.assertEqual(snapshot['pointsFor'], source['Cumulative Points For'])
+                self.assertEqual(snapshot['pointsAgainst'], source['Cumulative Points Against'])
 
     def test_every_season_stat_value_and_rank_matches_dash(self):
         placements = ['first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth']

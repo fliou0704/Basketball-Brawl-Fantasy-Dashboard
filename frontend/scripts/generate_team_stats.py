@@ -4,6 +4,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from generate_standings import build_standings
+
 ROOT = Path(__file__).resolve().parents[2]
 STAT_LABELS = ('FG%', 'FT%', '3PM', 'REB', 'AST/TO', 'STL', 'BLK', 'PTS', 'FPTS', 'PPM')
 
@@ -100,17 +102,35 @@ def build(source, output):
     players = prepare_players(weekly)
     years = sorted(map(int, players['Year'].unique()), reverse=True)
     latest = league.sort_values('Year', ascending=False).drop_duplicates('Team ID')
-    teams = [team_info(row, logo_config()) for _, row in latest.iterrows()]
+    config = logo_config()
+    teams = [dict(team_info(row, config), owner=row['Team Owner']) for _, row in latest.iterrows()]
     rankings = {year: stat_values(players, daily, year) for year in years}
+    # Match the site's regular-season standings snapshots; playoff placement is not
+    # the Team page's standings rank.
+    regular_rows = league[league['Type'] == 'Regular'].to_dict('records')
+    standings = {year: build_standings(regular_rows, year) for year in years}
+    for year, table in standings.items():
+        season_rows = league[league['Year'] == year].sort_values('Week', ascending=False).drop_duplicates('Team ID')
+        identities = {int(row['Team ID']): team_info(row, config) for _, row in season_rows.iterrows()}
+        for row in table['teams']:
+            row.update(identities[row['teamId']])
     for team in teams:
         tid = team['teamId']
         seasons = {}
         for year in years:
             roster = season_roster(players, daily, activity, tid, year)
-            seasons[str(year)] = None if roster is None else {'rankings': rankings[year][tid], 'roster': roster}
+            standing = next((row for row in standings[year]['teams'] if row['teamId'] == tid), None)
+            seasons[str(year)] = None if roster is None else {
+                'rankings': rankings[year][tid], 'roster': roster,
+                'snapshot': None if standing is None else {
+                    key: standing[key] for key in ('rank', 'record', 'wins', 'losses', 'pointsFor',
+                                                   'pointsAgainst', 'pointsForDisplay', 'pointsAgainstDisplay')
+                }
+            }
         write_json(output / 'team-stats' / f'{tid}.json', {'schemaVersion': 1, 'team': team,
                    'summary': summary(players, league, activity, tid), 'seasons': seasons})
-    write_json(output / 'team-stats.json', {'schemaVersion': 1, 'years': years, 'teams': teams})
+    write_json(output / 'team-stats.json', {'schemaVersion': 1, 'years': years, 'teams': teams,
+                                             'standings': {str(year): standings[year] for year in years}})
     print(f'Team Stats: {len(teams)} teams, {len(years)} seasons, all-time summaries')
 
 
