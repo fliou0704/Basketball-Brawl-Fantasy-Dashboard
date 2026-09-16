@@ -104,7 +104,29 @@ class TeamStatsParityTests(unittest.TestCase):
                     labels = [c.children for c in rows[0].find('Td')]
                     ranks = [placements.index(Path(c.children.props['src']).stem)+1 if isinstance(c.children, Element) else None for c in rows[1].find('Td')]
                     values = [c.children for c in rows[2].find('Td')]
-                    self.assertEqual(season['rankings'], [{'label': l, 'rank': r, 'value': v} for l,r,v in zip(labels,ranks,values)])
+                    actual = [{key: stat[key] for key in ('label','rank','value')} for stat in season['rankings']]
+                    self.assertEqual(actual, [{'label': l, 'rank': r, 'value': v} for l,r,v in zip(labels,ranks,values)])
+
+    def test_category_relative_bars_use_actual_values(self):
+        year = self.manifest['years'][0]
+        by_label = {}
+        for payload in self.payloads.values():
+            season = payload['seasons'][str(year)]
+            if season:
+                for stat in season['rankings']:
+                    by_label.setdefault(stat['label'], []).append(stat)
+        for label, stats in by_label.items():
+            available = [stat for stat in stats if stat['rank'] is not None]
+            self.assertTrue(all(0 <= stat['relativePercent'] <= 100 for stat in available))
+            self.assertTrue(all(stat['rankImage'].startswith('placements/') for stat in available))
+            self.assertTrue(all(stat['relativePercent'] == 100 for stat in available if stat['rank'] == 1))
+            ordered = sorted(available, key=lambda stat: float(stat['value']), reverse=True)
+            self.assertEqual([stat['relativePercent'] for stat in ordered],
+                             sorted((stat['relativePercent'] for stat in ordered), reverse=True))
+            if label == 'PTS':
+                best = float(ordered[0]['value'])
+                for stat in ordered:
+                    self.assertAlmostEqual(stat['relativePercent'], float(stat['value']) / best * 100, delta=.11)
 
     def test_every_season_roster_value_and_order_matches_dash(self):
         for tid, payload in self.payloads.items():
@@ -118,6 +140,27 @@ class TeamStatsParityTests(unittest.TestCase):
                     expected = [[c.children for c in row.find('Td')] for row in reference.find('Tr')]
                     actual = [[r[k] for k in ('name','fpts','ppm','action','date','contribution')] for r in season['roster']]
                     self.assertEqual(actual, expected)
+
+    def test_roster_exports_box_score_totals_games_and_status(self):
+        payload = self.payloads[16]
+        year = self.manifest['years'][0]
+        roster = payload['seasons'][str(year)]['roster']
+        self.assertTrue(roster)
+        required = {'games','points','rebounds','assists','steals','blocks','turnovers',
+                    'threePointers','fieldGoalPct','freeThrowPct','current'}
+        self.assertTrue(all(required.issubset(row) for row in roster))
+        source = prepare_players(self.weekly)
+        for player in roster[:3]:
+            rows = source[(source['Year'] == year) & (source['Team ID'] == 16) &
+                          (source['Player ID'] == player['playerId'])]
+            self.assertEqual(player['points'], str(int(rows['PTS'].sum())))
+            self.assertEqual(player['rebounds'], str(int(rows['REB'].sum())))
+            appearances = self.daily[(self.daily['Year'] == year) & (self.daily['Team ID'] == 16) &
+                                     (self.daily['Player ID'] == player['playerId']) & (self.daily['MIN'] > 0)]['Date'].nunique()
+            self.assertEqual(player['games'], appearances)
+        self.assertTrue(any(row['current'] for row in roster))
+        self.assertTrue(any(not row['current'] for row in roster))
+        self.assertTrue(all(row['current'] == (row['action'] not in ('DROPPED','TRADED','NOT KEPT')) for row in roster))
 
     def test_all_time_records_roster_and_status_match_dash(self):
         for tid, payload in self.payloads.items():
@@ -139,7 +182,10 @@ class TeamStatsParityTests(unittest.TestCase):
         daily = self.daily.iloc[:0].copy()
         stats = stat_values(weekly, daily, 2026)
         self.assertEqual([stats[t][7]['rank'] for t in (1,2,3)], [1,1,3])
-        self.assertEqual(stats[1][-1], {'label':'PPM','rank':None,'value':'N/A'})
+        self.assertEqual({key: stats[1][-1][key] for key in ('label','rank','value')},
+                         {'label':'PPM','rank':None,'value':'N/A'})
+        self.assertIsNone(stats[1][-1]['relativePercent'])
+        self.assertIsNone(stats[1][-1]['rankImage'])
 
     def test_missing_team_season_returns_no_roster(self):
         self.assertIsNone(season_roster(prepare_players(self.weekly), self.daily, self.activity, -1, 2026))

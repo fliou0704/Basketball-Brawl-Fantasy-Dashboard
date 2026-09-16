@@ -1,6 +1,7 @@
 """Precompute the existing Dash Team Stats definitions without importing the app."""
 import argparse
 from pathlib import Path
+import shutil
 
 import pandas as pd
 
@@ -8,6 +9,8 @@ from generate_standings import build_standings
 
 ROOT = Path(__file__).resolve().parents[2]
 STAT_LABELS = ('FG%', 'FT%', '3PM', 'REB', 'AST/TO', 'STL', 'BLK', 'PTS', 'FPTS', 'PPM')
+RANK_NAMES = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth')
+INACTIVE_ACTIONS = ('DROPPED', 'TRADED', 'NOT KEPT')
 
 
 def prepare_players(weekly):
@@ -34,9 +37,14 @@ def stat_values(players, daily, year):
     for label, func in functions.items():
         values = pd.Series({tid: func(group) for tid, group in rows.groupby('Team ID')})
         ranks = values.dropna().rank(ascending=False, method='min')
+        best = values.dropna().max() if not values.dropna().empty else None
         for tid, value in values.items():
             digits = 3 if label == 'PPM' else 2 if label in ('FG%', 'FT%', 'AST/TO') else 0
-            result[int(tid)].append({'label': label, 'rank': int(ranks[tid]) if tid in ranks else None,
+            rank = int(ranks[tid]) if tid in ranks else None
+            relative = max(0, min(100, float(value) / float(best) * 100)) if pd.notna(value) and best else None
+            result[int(tid)].append({'label': label, 'rank': rank,
+                                     'rankImage': f'placements/{RANK_NAMES[rank - 1]}.png' if rank else None,
+                                     'relativePercent': round(relative, 1) if relative is not None else None,
                                      'value': f'{value:.{digits}f}' if pd.notna(value) else 'N/A'})
     return result
 
@@ -75,9 +83,12 @@ def season_roster(players, daily, activity, team_id, year):
     rows = players[(players['Year'] == year) & (players['Team ID'] == team_id)]
     if rows.empty:
         return None
-    roster = rows.groupby(['Player Name', 'Player ID'])['FPTS'].sum().reset_index().sort_values('FPTS', ascending=False)
-    ppm = daily[(daily['Year'] == year) & (daily['Team ID'] == team_id)].groupby(['Player Name', 'Player ID']).agg({'FPTS': 'sum', 'MIN': 'sum'}).reset_index()
+    stat_columns = ['FPTS', 'PTS', 'REB', 'AST', 'STL', 'BLK', 'TO', '3PM', 'FGM', 'FGA', 'FTM', 'FTA']
+    roster = rows.groupby(['Player Name', 'Player ID'])[stat_columns].sum().reset_index().sort_values('FPTS', ascending=False)
+    daily_rows = daily[(daily['Year'] == year) & (daily['Team ID'] == team_id)]
+    ppm = daily_rows.groupby(['Player Name', 'Player ID']).agg({'FPTS': 'sum', 'MIN': 'sum'}).reset_index()
     ppm['PPM'] = (ppm['FPTS'] / ppm['MIN']).round(3)
+    games = daily_rows[daily_rows['MIN'] > 0].groupby('Player ID')['Date'].nunique().rename('Games')
     actions = activity[(activity['Team ID'] == team_id) & (activity['Year'] == year)].copy()
     actions['Datetime'] = pd.to_datetime(actions['Date'] + ' ' + actions['Time'])
     actions = actions.sort_values('Datetime', ascending=False)
@@ -85,11 +96,19 @@ def season_roster(players, daily, activity, team_id, year):
     merged = merged.sort_values('Datetime', ascending=False).drop_duplicates('Player ID')
     # Preserve Dash's name-based PPM join and latest-action ordering, including ties.
     merged = merged.merge(ppm[['Player Name', 'PPM']], on='Player Name', how='left')
+    merged = merged.merge(games, on='Player ID', how='left')
     merged['Action'] = merged['Action'].fillna('KEEPER')
     merged['Date'] = merged['Date'].fillna('—')
+    merged['Games'] = merged['Games'].fillna(0).astype(int)
     merged['Contribution'] = (merged['FPTS'] / roster['FPTS'].sum() * 100).round(2)
     merged = merged.sort_values('FPTS', ascending=False)
-    return [{'playerId': int(r['Player ID']), 'name': r['Player Name'], 'fpts': str(int(r['FPTS'])),
+    return [{'playerId': int(r['Player ID']), 'name': r['Player Name'], 'fpts': str(int(r['FPTS'])), 'games': int(r['Games']),
+             'points': str(int(r['PTS'])), 'rebounds': str(int(r['REB'])), 'assists': str(int(r['AST'])),
+             'steals': str(int(r['STL'])), 'blocks': str(int(r['BLK'])), 'turnovers': str(int(r['TO'])),
+             'threePointers': str(int(r['3PM'])),
+             'fieldGoalPct': f"{r['FGM'] / r['FGA'] * 100:.1f}%" if r['FGA'] else 'N/A',
+             'freeThrowPct': f"{r['FTM'] / r['FTA'] * 100:.1f}%" if r['FTA'] else 'N/A',
+             'current': r['Action'] not in INACTIVE_ACTIONS,
              'ppm': f"{r['PPM']:.3f}" if pd.notna(r['PPM']) else 'N/A', 'action': r['Action'],
              'date': r['Date'], 'contribution': f"{r['Contribution']:.2f}%"} for _, r in merged.iterrows()]
 
@@ -103,6 +122,10 @@ def build(source, output):
     years = sorted(map(int, players['Year'].unique()), reverse=True)
     latest = league.sort_values('Year', ascending=False).drop_duplicates('Team ID')
     config = logo_config()
+    placements = output.parent / 'placements'
+    placements.mkdir(parents=True, exist_ok=True)
+    for name in RANK_NAMES:
+        shutil.copyfile(ROOT / 'assets' / 'placements' / f'{name}.png', placements / f'{name}.png')
     teams = [dict(team_info(row, config), owner=row['Team Owner']) for _, row in latest.iterrows()]
     rankings = {year: stat_values(players, daily, year) for year in years}
     # Match the site's regular-season standings snapshots; playoff placement is not

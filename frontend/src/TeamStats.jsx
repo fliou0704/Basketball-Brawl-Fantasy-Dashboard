@@ -8,13 +8,22 @@ import './team-stats.css';
 function Roster({ rows, summary }) {
   const columns = summary
     ? [['name','Player Name'],['fpts','Total FPTS'],['action','Last Action'],['date','Last Action Date']]
-    : [['name','Player Name'],['fpts','FPTS'],['ppm','PPM'],['action','Action'],['date','Date'],['contribution','Contribution']];
-  return <table className="team-roster"><caption className="sr-only">{summary?'All-Time Roster':'Roster'}</caption>
+    : [['name','Player'],['fpts','FPTS'],['games','GP'],['points','PTS'],['rebounds','REB'],['assists','AST'],['steals','STL'],['blocks','BLK'],['turnovers','TO'],['threePointers','3PM'],['fieldGoalPct','FG%'],['freeThrowPct','FT%']];
+  return <table className={`team-roster ${summary?'summary-roster':'season-roster'}`}><caption className="sr-only">{summary?'All-Time Roster':'Roster'}</caption>
     <thead><tr>{columns.map(([key,label])=><th key={key} scope="col">{label}</th>)}</tr></thead>
     <tbody>{rows.map((row,index)=><tr key={`${row.playerId}-${index}`} className={summary?(row.inactive?'roster-inactive':'roster-active'):''}>
       {columns.map(([key,label])=>key==='name'?<th key={key} scope="row">{row[key]}</th>:<td key={key} data-label={label}>{row[key]}</td>)}
     </tr>)}</tbody>
   </table>;
+}
+
+function SeasonRoster({ rows }) {
+  const current=rows.filter(row=>row.current);
+  const former=rows.filter(row=>!row.current);
+  return <div className="roster-groups">
+    <div><h3 className="roster-heading">Current Roster <span>{current.length} players</span></h3><TableCard className="roster-card"><Roster rows={current}/></TableCard></div>
+    {former.length>0&&<div><h3 className="roster-heading">Former Players <span>{former.length} players</span></h3><TableCard className="roster-card"><Roster rows={former}/></TableCard></div>}
+  </div>;
 }
 
 function ordinal(rank) {
@@ -48,8 +57,8 @@ export default function TeamStats({ teamId }) {
           <Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>
           :!season?<p>No data for {data.team.teamName} in {year}</p>:<>
             <Section title="Season Snapshot" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd></div></dl></Card></Section>
-            <Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div key={stat.label}><dt>{stat.label}</dt><dd><span className="stat-rank">{stat.rank===null?'Rank N/A':`Rank ${stat.rank}`}</span><strong>{stat.value}</strong></dd></div>)}</dl></Card></Section>
-            <Section title="Roster"><TableCard><Roster rows={season.roster}/></TableCard></Section>
+            <Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div className="ranking-row" key={stat.label}><dt>{stat.label}</dt><dd><div className="ranking-result">{stat.rankImage?<img className="rank-image" src={`${import.meta.env.BASE_URL}${stat.rankImage}`} alt={ordinal(stat.rank)}/>:<span className="rank-unavailable">N/A</span>}<strong>{stat.value}</strong></div><div className="relative-track" role="img" aria-label={`${stat.label}: ${stat.relativePercent ?? 0}% of the category leader`}><span style={{width:`${stat.relativePercent ?? 0}%`}}/></div></dd></div>)}</dl></Card></Section>
+            <Section title="Roster"><SeasonRoster rows={season.roster}/></Section>
           </>}
       </>}
     </PageShell></>;
