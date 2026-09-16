@@ -1,4 +1,5 @@
 .team-identity { display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 16px; align-items: center; margin-bottom: 40px; padding: 18px; background: var(--color-surface); border: 1px solid var(--color-border); border-top: 5px solid var(--team-color, var(--color-brand)); border-radius: var(--radius-card); }
+.season-view .section-title { border-bottom-color: var(--team-color, var(--color-brand)); }
 .team-identity > img { width: 72px; height: 72px; object-fit: contain; }
 .team-identity-copy { min-width: 0; }
 .team-identity h1 { font-size: clamp(1.75rem,6vw,2.6rem); overflow-wrap: anywhere; }
@@ -13,28 +14,29 @@
 .team-records { display: grid; gap: 20px; margin: 0; }
 .team-records dt { font-size: 12px; color: #61705b; }
 .team-records dd { margin: 8px 0 0; font-weight: 600; font-size: 17px; font-variant-numeric: tabular-nums; }
-.team-rankings { margin: 0; }
-.ranking-row { display: grid; grid-template-columns: 72px minmax(0,1fr); gap: 14px; align-items: center; padding: 15px 0; border-bottom: 1px solid var(--color-border); }
-.ranking-row:first-child { padding-top: 0; }
-.ranking-row:last-child { padding-bottom: 0; border-bottom: 0; }
+.team-rankings { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin: 0; }
+.ranking-item { display: grid; grid-template-columns: 58px minmax(0,1fr); gap: 8px 10px; align-items: center; min-width: 0; padding: 14px 10px; border-bottom: 1px solid var(--color-border); }
+.ranking-item:nth-child(odd) { border-right: 1px solid var(--color-border); }
+.ranking-item:nth-last-child(-n+2) { border-bottom: 0; }
 .team-rankings dt { font-size: .78rem; font-weight: 850; letter-spacing: .025em; }
 .team-rankings dd { min-width: 0; margin: 0; font-variant-numeric: tabular-nums; }
-.ranking-result { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 8px; }
-.rank-image { width: auto; height: 36px; max-width: 78px; object-fit: contain; object-position: left center; }
+.ranking-copy { min-width: 0; }
+.rank-image { width: auto; height: 31px; max-width: 58px; object-fit: contain; object-position: left center; }
 .rank-unavailable { color: var(--color-ink-muted); font-size: .78rem; font-weight: 800; }
-.team-rankings strong { font-size: 1.05rem; }
-.relative-track { height: 9px; overflow: hidden; background: #e8e5e1; border-radius: 999px; }
-.relative-track > span { display: block; height: 100%; background: var(--color-brand); border-radius: inherit; }
+.team-rankings strong { font-size: .95rem; }
+.relative-track { grid-column: 1 / -1; height: 5px; overflow: hidden; background: #e8e5e1; border-radius: 999px; }
+.relative-track > span { display: block; height: 100%; background: var(--team-color, var(--color-brand)); border-radius: inherit; }
 .roster-groups { display: grid; min-width: 0; gap: 30px; }
 .roster-groups > div { min-width: 0; }
-.roster-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; font-size: .9rem; text-transform: uppercase; letter-spacing: .035em; }
+.roster-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; padding-bottom: 8px; border-bottom: 2px solid var(--team-color, var(--color-brand)); font-size: .9rem; text-transform: uppercase; letter-spacing: .035em; }
 .roster-heading span { color: var(--color-ink-muted); font-size: .68rem; font-weight: 700; white-space: nowrap; }
 .roster-card { width: 100%; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
 .team-roster { width: 100%; border-collapse: collapse; font-size: .76rem; font-variant-numeric: tabular-nums; }
 .team-roster th, .team-roster td { padding: 13px 8px; border-bottom: 1px solid var(--color-border); text-align: left; }
-.season-roster { min-width: 940px; }
-.season-roster th, .season-roster td { text-align: right; white-space: nowrap; }
-.season-roster th:first-child { position: sticky; left: 0; z-index: 1; min-width: 150px; background: var(--color-surface); text-align: left; white-space: normal; }
+.season-roster { min-width: 1010px; }
+.season-roster tr { height: 48px; }
+.season-roster th, .season-roster td { border-left: 1px solid var(--color-border); text-align: right; white-space: nowrap; }
+.season-roster th:first-child { position: sticky; left: 0; z-index: 1; min-width: 165px; border-left: 0; background: var(--color-surface); text-align: left; white-space: nowrap; }
 .team-roster thead th { color: var(--color-ink-muted); background: var(--color-surface-muted); font-size: .65rem; font-weight: 800; }
 .season-roster thead th:first-child { z-index: 2; background: var(--color-surface-muted); }
 .team-roster tbody th { font-weight: 600; }
@@ -57,8 +59,10 @@
   .season-snapshot > div { padding: 10px 20px; border-right: 1px solid var(--color-border); border-bottom: 0; }
   .season-snapshot > div:last-child { border-right: 0; }
   .team-records { grid-template-columns: repeat(3,minmax(0,1fr)); }
-  .ranking-row { grid-template-columns: 110px minmax(0,1fr); gap: 24px; padding-block: 18px; }
-  .ranking-result { justify-content: flex-start; }
-  .ranking-result strong { margin-left: auto; font-size: 1.15rem; }
-  .rank-image { height: 42px; max-width: 96px; }
+  .team-rankings { grid-template-columns: repeat(5,minmax(0,1fr)); }
+  .ranking-item { grid-template-columns: 64px minmax(0,1fr); padding: 15px 12px; border-right: 1px solid var(--color-border); }
+  .ranking-item:nth-child(5n) { border-right: 0; }
+  .ranking-item:nth-last-child(-n+5) { border-bottom: 0; }
+  .ranking-item:nth-child(-n+5) { border-bottom: 1px solid var(--color-border); }
+  .rank-image { height: 34px; max-width: 64px; }
 }

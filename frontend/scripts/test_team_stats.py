@@ -107,7 +107,7 @@ class TeamStatsParityTests(unittest.TestCase):
                     actual = [{key: stat[key] for key in ('label','rank','value')} for stat in season['rankings']]
                     self.assertEqual(actual, [{'label': l, 'rank': r, 'value': v} for l,r,v in zip(labels,ranks,values)])
 
-    def test_category_relative_bars_use_actual_values(self):
+    def test_category_relative_bars_map_first_to_full_and_last_to_empty(self):
         year = self.manifest['years'][0]
         by_label = {}
         for payload in self.payloads.values():
@@ -120,13 +120,11 @@ class TeamStatsParityTests(unittest.TestCase):
             self.assertTrue(all(0 <= stat['relativePercent'] <= 100 for stat in available))
             self.assertTrue(all(stat['rankImage'].startswith('placements/') for stat in available))
             self.assertTrue(all(stat['relativePercent'] == 100 for stat in available if stat['rank'] == 1))
-            ordered = sorted(available, key=lambda stat: float(stat['value']), reverse=True)
-            self.assertEqual([stat['relativePercent'] for stat in ordered],
-                             sorted((stat['relativePercent'] for stat in ordered), reverse=True))
-            if label == 'PTS':
-                best = float(ordered[0]['value'])
-                for stat in ordered:
-                    self.assertAlmostEqual(stat['relativePercent'], float(stat['value']) / best * 100, delta=.11)
+            last_rank = max(stat['rank'] for stat in available)
+            for stat in available:
+                expected = (last_rank - stat['rank']) / (last_rank - 1) * 100
+                self.assertAlmostEqual(stat['relativePercent'], expected, delta=.11, msg=label)
+            self.assertTrue(all(stat['relativePercent'] == 0 for stat in available if stat['rank'] == last_rank))
 
     def test_every_season_roster_value_and_order_matches_dash(self):
         for tid, payload in self.payloads.items():

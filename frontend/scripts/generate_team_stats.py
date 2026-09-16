@@ -37,11 +37,11 @@ def stat_values(players, daily, year):
     for label, func in functions.items():
         values = pd.Series({tid: func(group) for tid, group in rows.groupby('Team ID')})
         ranks = values.dropna().rank(ascending=False, method='min')
-        best = values.dropna().max() if not values.dropna().empty else None
+        last_rank = int(ranks.max()) if not ranks.empty else None
         for tid, value in values.items():
             digits = 3 if label == 'PPM' else 2 if label in ('FG%', 'FT%', 'AST/TO') else 0
             rank = int(ranks[tid]) if tid in ranks else None
-            relative = max(0, min(100, float(value) / float(best) * 100)) if pd.notna(value) and best else None
+            relative = (last_rank - rank) / (last_rank - 1) * 100 if rank and last_rank > 1 else 100 if rank == 1 else None
             result[int(tid)].append({'label': label, 'rank': rank,
                                      'rankImage': f'placements/{RANK_NAMES[rank - 1]}.png' if rank else None,
                                      'relativePercent': round(relative, 1) if relative is not None else None,
