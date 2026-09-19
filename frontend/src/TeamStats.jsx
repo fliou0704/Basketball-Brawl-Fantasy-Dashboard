@@ -5,25 +5,44 @@ import { Card, PageShell, Section, TableCard } from './components/Layout';
 import { latestTeamSeason } from './site-data';
 import './team-stats.css';
 
-function Roster({ rows, summary }) {
+function Roster({ rows, summary, qualityMetric = 'fpts' }) {
   const columns = summary
     ? [['name','Player Name'],['fpts','Total FPTS'],['action','Last Action'],['date','Last Action Date']]
-    : [['name','Player'],['fpts','FPTS'],['ppm','Fantasy PPM'],['games','GP'],['points','PTS'],['rebounds','REB'],['assists','AST'],['steals','STL'],['blocks','BLK'],['turnovers','TO'],['threePointers','3PM'],['fieldGoalPct','FG%'],['freeThrowPct','FT%']];
+    : [['name','Player'],['quality','League %ile'],['fpts','FPTS'],['ppm','FPPM'],['games','GP'],['points','PTS'],['rebounds','REB'],['assists','AST'],['steals','STL'],['blocks','BLK'],['turnovers','TO'],['threePointers','3PM'],['fieldGoalPct','FG%'],['freeThrowPct','FT%']];
   return <table className={`team-roster ${summary?'summary-roster':'season-roster'}`}><caption className="sr-only">{summary?'All-Time Roster':'Roster'}</caption>
     <thead><tr>{columns.map(([key,label])=><th key={key} scope="col">{label}</th>)}</tr></thead>
     <tbody>{rows.map((row,index)=><tr key={`${row.playerId}-${index}`} className={summary?(row.inactive?'roster-inactive':'roster-active'):''}>
-      {columns.map(([key,label])=>key==='name'?<th key={key} scope="row">{row[key]}</th>:<td key={key} data-label={label}>{row[key]}</td>)}
+      {columns.map(([key,label])=>key==='name'?<th key={key} scope="row" title={row[key]}>{row[key]}</th>:key==='quality'?<td key={key} data-label={label}><PlayerQuality row={row} metric={qualityMetric}/></td>:<td key={key} data-label={label}>{row[key]}</td>)}
     </tr>)}</tbody>
   </table>;
 }
 
+function PlayerQuality({ row, metric }) {
+  const value=row[metric==='fppm'?'fppmPercentile':'fptsPercentile'];
+  if(value==null) return <span className="quality-na">N/A</span>;
+  return <div className={`player-quality ${value>=75?'quality-high':value<50?'quality-low':''}`} aria-label={`${ordinal(Math.round(value))} percentile by ${metric.toUpperCase()}`}><span>{ordinal(Math.round(value))}</span><div><i style={{width:`${value}%`}}/></div></div>;
+}
+
 function SeasonRoster({ rows }) {
+  const [qualityMetric,setQualityMetric]=useState('fpts');
   const current=rows.filter(row=>row.current);
   const former=rows.filter(row=>!row.current);
   return <div className="roster-groups">
-    <div><h3 className="roster-heading">Current Roster <span>{current.length} players</span></h3><TableCard className="roster-card"><Roster rows={current}/></TableCard></div>
-    {former.length>0&&<div><h3 className="roster-heading">Former Players <span>{former.length} players</span></h3><TableCard className="roster-card"><Roster rows={former}/></TableCard></div>}
+    <div className="quality-controls"><p>League percentile compares each player with all fantasy-relevant players that season.</p><div className="metric-toggle" aria-label="Player percentile basis">{[['fpts','FPTS'],['fppm','FPPM']].map(([key,label])=><button key={key} type="button" aria-pressed={qualityMetric===key} onClick={()=>setQualityMetric(key)}>{label}</button>)}</div></div>
+    <div><h3 className="roster-heading">Current Roster <span>{current.length} players</span></h3><TableCard className="roster-card"><Roster rows={current} qualityMetric={qualityMetric}/></TableCard></div>
+    {former.length>0&&<div><h3 className="roster-heading">Former Players <span>{former.length} players</span></h3><TableCard className="roster-card"><Roster rows={former} qualityMetric={qualityMetric}/></TableCard></div>}
   </div>;
+}
+
+function WeeklyPerformance({ data }) {
+  const metric=data?.metrics?.fpts;
+  if(!metric?.points?.length) return null;
+  return <Section title="Weekly Performance" meta="FPTS"><Card as="figure" className="weekly-performance-card"><svg className="weekly-performance-chart" viewBox={data.viewBox.join(' ')} role="img" aria-label="Weekly team fantasy points">
+    {metric.yTicks.map(tick=><g key={tick.value}><line x1="54" x2="770" y1={tick.y} y2={tick.y}/><text x="46" y={tick.y+4} textAnchor="end">{tick.display}</text></g>)}
+    <polyline points={metric.path}/>
+    {metric.points.map(point=><g className="weekly-point" key={point.week}><circle cx={point.x} cy={point.y} r="4"><title>{`Week ${point.week}: ${point.display} FPTS`}</title></circle>{point.showLabel&&<text x={point.x} y="239" textAnchor="middle">{point.week}</text>}</g>)}
+    <text className="axis-label" x="412" y="249" textAnchor="middle">Week</text>
+  </svg></Card></Section>;
 }
 
 function ordinal(rank) {
@@ -58,6 +77,7 @@ export default function TeamStats({ teamId }) {
           :!season?<p>No data for {data.team.teamName} in {year}</p>:<>
             <Section title="Overview" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd></div></dl></Card></Section>
             <Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div className="ranking-item" key={stat.label}>{stat.rankImage?<img className="rank-image" src={`${import.meta.env.BASE_URL}${stat.rankImage}`} alt={ordinal(stat.rank)}/>:<span className="rank-unavailable">N/A</span>}<div className="ranking-copy"><dt>{stat.label}</dt><dd><strong>{stat.value}</strong></dd></div><div className="relative-track" role="img" aria-label={`${stat.label}: rank position ${stat.relativePercent ?? 0}%`}><span style={{width:`${stat.relativePercent ?? 0}%`}}/></div></div>)}</dl></Card></Section>
+            <WeeklyPerformance data={season.weeklyPerformance}/>
             <Section title="Roster"><SeasonRoster rows={season.roster}/></Section>
           </>}
       </div>}

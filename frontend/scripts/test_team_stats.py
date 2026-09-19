@@ -9,7 +9,8 @@ import warnings
 
 import pandas as pd
 
-from generate_team_stats import build, prepare_players, stat_values, season_roster, ROOT
+from generate_team_stats import (ROOT, build, player_percentiles, prepare_players,
+                                 season_roster, stat_values, weekly_performance)
 
 
 class Element:
@@ -145,7 +146,8 @@ class TeamStatsParityTests(unittest.TestCase):
         roster = payload['seasons'][str(year)]['roster']
         self.assertTrue(roster)
         required = {'games','points','rebounds','assists','steals','blocks','turnovers',
-                    'threePointers','fieldGoalPct','freeThrowPct','current'}
+                    'threePointers','fieldGoalPct','freeThrowPct','current',
+                    'fptsPercentile','fppmPercentile'}
         self.assertTrue(all(required.issubset(row) for row in roster))
         source = prepare_players(self.weekly)
         for player in roster[:3]:
@@ -159,6 +161,42 @@ class TeamStatsParityTests(unittest.TestCase):
         self.assertTrue(any(row['current'] for row in roster))
         self.assertTrue(any(not row['current'] for row in roster))
         self.assertTrue(all(row['current'] == (row['action'] not in ('DROPPED','TRADED','NOT KEPT')) for row in roster))
+        for row in roster:
+            for key in ('fptsPercentile', 'fppmPercentile'):
+                self.assertTrue(row[key] is None or 0 <= row[key] <= 100)
+
+    def test_player_percentiles_are_league_relative_for_fpts_and_fppm(self):
+        weekly = pd.DataFrame([
+            {'Year': 2026, 'Week': 1, 'Player ID': 1, 'FPTS': 100},
+            {'Year': 2026, 'Week': 1, 'Player ID': 2, 'FPTS': 50},
+            {'Year': 2026, 'Week': 1, 'Player ID': 3, 'FPTS': 10},
+        ])
+        daily = pd.DataFrame([
+            {'Year': 2026, 'Player ID': 1, 'FPTS': 20, 'MIN': 40},
+            {'Year': 2026, 'Player ID': 2, 'FPTS': 30, 'MIN': 30},
+            {'Year': 2026, 'Player ID': 3, 'FPTS': 10, 'MIN': 40},
+        ])
+        result = player_percentiles(weekly, daily, 2026)
+        self.assertEqual([result[pid]['fptsPercentile'] for pid in (1, 2, 3)], [100, 50, 0])
+        self.assertEqual([result[pid]['fppmPercentile'] for pid in (2, 1, 3)], [100, 50, 0])
+
+    def test_weekly_performance_sums_team_fpts_and_exports_chart_geometry(self):
+        rows = pd.DataFrame([
+            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'FPTS': 100},
+            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'FPTS': 50},
+            {'Year': 2026, 'Week': 2, 'Team ID': 7, 'FPTS': 225},
+            {'Year': 2026, 'Week': 1, 'Team ID': 8, 'FPTS': 900},
+            {'Year': 2025, 'Week': 1, 'Team ID': 7, 'FPTS': 800},
+        ])
+        result = weekly_performance(rows, 7, 2026)
+        metric = result['metrics']['fpts']
+        self.assertEqual(result['weeks'], [1, 2])
+        self.assertEqual([point['value'] for point in metric['points']], [150, 225])
+        self.assertEqual([point['display'] for point in metric['points']], ['150', '225'])
+        self.assertEqual(metric['points'][0]['x'], 54)
+        self.assertEqual(metric['points'][-1]['x'], 770)
+        self.assertEqual(len(metric['yTicks']), 5)
+        self.assertTrue(metric['path'])
 
     def test_all_time_records_roster_and_status_match_dash(self):
         for tid, payload in self.payloads.items():
