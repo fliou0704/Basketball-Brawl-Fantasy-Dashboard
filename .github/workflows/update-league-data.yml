@@ -5,9 +5,16 @@ on:
     - cron: "0 13 * * 3"   # Wednesdays 9am ET
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
   update-data:
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.changes.outputs.changed }}
 
     steps:
       - name: Checkout repository
@@ -30,15 +37,85 @@ jobs:
           SWID: ${{ secrets.SWID }}
         run: |
           python dataUpdater.py
+          python activityDataUpdater.py --write
 
       - name: Validate updated data
         run: >-
-          python -c "import pandas as pd; from dataUpdateSafety import validate_league_data, validate_player_matchup_data, validate_player_daily_data; validate_league_data(pd.read_csv('data/basketballBrawlLeagueData.csv')); validate_player_matchup_data(pd.read_csv('data/playerMatchupData.csv')); validate_player_daily_data(pd.read_csv('data/playerDailyData.csv')); print('Updated CSV validation passed.')"
+          python -c "import pandas as pd; from activityDataUpdater import validate_activity; from dataUpdateSafety import validate_league_data, validate_player_matchup_data, validate_player_daily_data; validate_league_data(pd.read_csv('data/basketballBrawlLeagueData.csv')); validate_player_matchup_data(pd.read_csv('data/playerMatchupData.csv')); validate_player_daily_data(pd.read_csv('data/playerDailyData.csv')); validate_activity(pd.read_csv('data/activityData.csv')); print('Updated CSV validation passed.')"
+
+      - name: Check for data changes
+        id: changes
+        run: |
+          if git diff --quiet -- data/*.csv; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add data/*.csv
-          git commit -m "Weekly league data update" || echo "No changes to commit"
+          git commit -m "Weekly league data update"
           git push
+
+      # Build codex here because GITHUB_TOKEN data pushes do not start the
+      # push-triggered Pages workflow.
+      - name: Checkout codex frontend
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: codex
+          path: site
+          persist-credentials: false
+
+      - name: Set up Node
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: site/frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          pip install -r site/frontend/requirements-build.txt
+          npm ci --prefix site/frontend
+
+      - name: Regenerate and test all frontend data
+        if: steps.changes.outputs.changed == 'true'
+        env:
+          H2H_TEST_SOURCE: data
+          RECORD_BOOK_TEST_SOURCE: data
+          TEAM_STATS_TEST_SOURCE: data
+          HOMEPAGE_TEST_SOURCE: data
+          STANDINGS_TEST_SOURCE: data/basketballBrawlLeagueData.csv
+        run: |
+          python site/frontend/scripts/generate_all.py --source-dir data --output-dir site/frontend/public/data
+          python -m unittest discover -s site/frontend/scripts -p 'test_*.py' -v
+          npm test --prefix site/frontend
+
+      - name: Build frontend
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run build --prefix site/frontend
+
+      - name: Upload Pages artifact
+        if: steps.changes.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/frontend/dist
+
+  deploy:
+    needs: update-data
+    if: needs.update-data.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - uses: actions/deploy-pages@v4
+        id: deployment
