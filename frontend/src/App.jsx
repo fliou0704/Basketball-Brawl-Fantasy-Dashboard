@@ -23,17 +23,18 @@ function chooseState(manifest, requested) {
 export function Header({ active = 'home' }) {
   const [open,setOpen] = useState(false);
   const [teamsOpen,setTeamsOpen] = useState(false);
+  const [h2hOpen,setH2hOpen] = useState(false);
   const [teams,setTeams] = useState([]);
   useEffect(()=>{let active=true;getData('team-stats.json').then(data=>{if(active)setTeams(data.teams);}).catch(()=>{});return()=>{active=false;};},[]);
   useEffect(()=>{
-    if(!teamsOpen) return;
-    const close = event => { if(!event.target.closest('.teams-menu')) setTeamsOpen(false); };
-    const escape = event => { if(event.key==='Escape') setTeamsOpen(false); };
+    if(!teamsOpen && !h2hOpen) return;
+    const close = event => { if(!event.target.closest('.teams-menu')) setTeamsOpen(false); if(!event.target.closest('.h2h-menu')) setH2hOpen(false); };
+    const escape = event => { if(event.key==='Escape') { setTeamsOpen(false); setH2hOpen(false); } };
     document.addEventListener('click',close); document.addEventListener('keydown',escape);
     return()=>{document.removeEventListener('click',close);document.removeEventListener('keydown',escape);};
-  },[teamsOpen]);
+  },[teamsOpen,h2hOpen]);
   return <header className="masthead"><div className="header-inner"><a className="brand" href={base}><span className="brand-mark" aria-hidden="true"/><span>Basketball Brawl</span></a><button type="button" className="menu-button" aria-expanded={open} aria-controls="site-menu" aria-label={open?'Close menu':'Open menu'} onClick={()=>setOpen(!open)}><span className={open?'menu-icon open':'menu-icon'} aria-hidden="true"><span/><span/><span/></span></button>
-    <nav id="site-menu" className={open?'site-menu open':'site-menu'} aria-label="Main navigation"><a href={base} aria-current={active==='home'?'page':undefined}>Home</a><a href={`${base}#/standings`} aria-current={active==='standings'?'page':undefined} onClick={()=>setOpen(false)}>Standings</a><div className={`teams-menu ${teamsOpen?'open':''}`}><button type="button" aria-expanded={teamsOpen} aria-controls="teams-submenu" aria-current={active==='teams'?'page':undefined} onClick={event=>{event.stopPropagation();setTeamsOpen(!teamsOpen);}}>Teams <span aria-hidden="true">▾</span></button><div id="teams-submenu" className="teams-submenu">{teams.map(team=><a key={team.teamId} href={`${base}#/teams/${team.teamId}`} onClick={()=>{setTeamsOpen(false);setOpen(false);}}>{team.teamName}</a>)}</div></div><a href={`${base}#/historical-h2h`} aria-current={active==='historical-h2h'?'page':undefined} onClick={()=>setOpen(false)}>Historical H2H</a><a href={`${base}#/record-book`} aria-current={active==='record-book'?'page':undefined} onClick={()=>setOpen(false)}>Record Book</a><span aria-disabled="true">Power Rankings</span></nav>
+    <nav id="site-menu" className={open?'site-menu open':'site-menu'} aria-label="Main navigation"><a href={base} aria-current={active==='home'?'page':undefined}>Home</a><a href={`${base}#/standings`} aria-current={active==='standings'?'page':undefined} onClick={()=>setOpen(false)}>Standings</a><div className={`teams-menu ${teamsOpen?'open':''}`}><button type="button" aria-expanded={teamsOpen} aria-controls="teams-submenu" aria-current={active==='teams'?'page':undefined} onClick={event=>{event.stopPropagation();setTeamsOpen(!teamsOpen);setH2hOpen(false);}}>Teams <span aria-hidden="true">▾</span></button><div id="teams-submenu" className="teams-submenu">{teams.map(team=><a key={team.teamId} href={`${base}#/teams/${team.teamId}`} onClick={()=>{setTeamsOpen(false);setOpen(false);}}>{team.teamName}</a>)}</div></div><div className={`teams-menu h2h-menu ${h2hOpen?'open':''}`}><button type="button" aria-expanded={h2hOpen} aria-controls="h2h-submenu" aria-current={active==='h2h'?'page':undefined} onClick={event=>{event.stopPropagation();setH2hOpen(!h2hOpen);setTeamsOpen(false);}}>H2H <span aria-hidden="true">▾</span></button><div id="h2h-submenu" className="teams-submenu"><a href={`${base}#/h2h/historical`} onClick={()=>{setH2hOpen(false);setOpen(false);}}>Historical</a><a href={`${base}#/h2h/theoretical`} onClick={()=>{setH2hOpen(false);setOpen(false);}}>Theoretical</a></div></div><a href={`${base}#/record-book`} aria-current={active==='record-book'?'page':undefined} onClick={()=>setOpen(false)}>Record Book</a><span aria-disabled="true">Power Rankings</span></nav>
   </div></header>;
 }
 export default function App() {

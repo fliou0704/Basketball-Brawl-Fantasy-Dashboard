@@ -2,6 +2,10 @@ export function teamIdFromRoute(route) {
   return route.match(/^#\/?teams\/(\d+)$/)?.[1] || null;
 }
 
+export function nextExpandedId(current, clicked) {
+  return current === clicked ? null : clicked;
+}
+
 export function latestTeamSeason(data) {
   return Object.keys(data?.seasons || {}).filter(year=>data.seasons[year]).map(Number).sort((a,b)=>b-a)[0]?.toString() || 'Summary';
 }

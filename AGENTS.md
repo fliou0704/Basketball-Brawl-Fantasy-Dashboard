@@ -8,6 +8,8 @@ Do not perform destructive or difficult-to-reverse actions without explicit appr
 
 # Frontend design system
 
+**Frontend data architecture:** Prefer implementing new frontend features from existing CSV data and frontend exporters. Do not modify production updater/data semantics unless the feature requires data that is not reliably available in the existing datasets. Any new browser-facing data should be generated through the frontend export pipeline so scheduled deployments remain fully automatic.
+
 - Before changing frontend layout, styling, navigation, or reusable UI, read and follow `frontend/DESIGN_SYSTEM.md`.
 - Treat the Home page as the reference implementation. Reuse its design tokens and shared primitives rather than introducing page-specific equivalents.
 - Keep orange for Basketball Brawl brand/interaction states and gold for achievements, winners, champions, and MVP treatment.

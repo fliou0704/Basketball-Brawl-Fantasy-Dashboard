@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import './styles.css';
 import App from './App';
 import TeamStats from './TeamStats';
-import HistoricalH2H from './HistoricalH2H';
+import H2HPage from './HistoricalH2H';
 import RecordBook from './RecordBook';
 import StandingsPage from './StandingsPage';
 import { teamIdFromRoute } from './site-data';
@@ -11,7 +11,8 @@ import { teamIdFromRoute } from './site-data';
 function Site() {
   const [route,setRoute] = useState(window.location.hash);
   useEffect(()=>{const update=()=>setRoute(window.location.hash);window.addEventListener('hashchange',update);return()=>window.removeEventListener('hashchange',update);},[]);
-  if(route==='#/historical-h2h' || route==='#historical-h2h') return <HistoricalH2H/>;
+  if(route==='#/historical-h2h' || route==='#historical-h2h' || route==='#/h2h/historical') return <H2HPage mode="historical"/>;
+  if(route==='#/h2h/theoretical') return <H2HPage mode="theoretical"/>;
   if(route==='#/record-book' || route==='#record-book') return <RecordBook/>;
   if(route==='#/standings' || route==='#standings') return <StandingsPage/>;
   const teamId=teamIdFromRoute(route);
