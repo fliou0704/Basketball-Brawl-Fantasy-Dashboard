@@ -6,6 +6,12 @@ export function nextExpandedId(current, clicked) {
   return current === clicked ? null : clicked;
 }
 
+export function h2hRoute(route) {
+  if (route==='#/historical-h2h' || route==='#historical-h2h' || route==='#/h2h/historical') return {mode:'historical',key:'h2h-historical'};
+  if (route==='#/h2h/theoretical') return {mode:'theoretical',key:'h2h-theoretical'};
+  return null;
+}
+
 export function latestTeamSeason(data) {
   return Object.keys(data?.seasons || {}).filter(year=>data.seasons[year]).map(Number).sort((a,b)=>b-a)[0]?.toString() || 'Summary';
 }

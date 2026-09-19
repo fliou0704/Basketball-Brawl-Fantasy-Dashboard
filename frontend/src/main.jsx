@@ -6,13 +6,13 @@ import TeamStats from './TeamStats';
 import H2HPage from './HistoricalH2H';
 import RecordBook from './RecordBook';
 import StandingsPage from './StandingsPage';
-import { teamIdFromRoute } from './site-data';
+import { h2hRoute, teamIdFromRoute } from './site-data';
 
 function Site() {
   const [route,setRoute] = useState(window.location.hash);
   useEffect(()=>{const update=()=>setRoute(window.location.hash);window.addEventListener('hashchange',update);return()=>window.removeEventListener('hashchange',update);},[]);
-  if(route==='#/historical-h2h' || route==='#historical-h2h' || route==='#/h2h/historical') return <H2HPage mode="historical"/>;
-  if(route==='#/h2h/theoretical') return <H2HPage mode="theoretical"/>;
+  const h2h=h2hRoute(route);
+  if(h2h) return <H2HPage key={h2h.key} mode={h2h.mode}/>;
   if(route==='#/record-book' || route==='#record-book') return <RecordBook/>;
   if(route==='#/standings' || route==='#standings') return <StandingsPage/>;
   const teamId=teamIdFromRoute(route);

@@ -18,7 +18,7 @@ function MatchupSelector({ teams, first, second, setFirst, setSecond }) {
 }
 
 function PlayerSide({ team, players }) {
-  return <div className="player-side" style={{'--side-color':team.color}}><header><TeamMark team={team}/><div><span>{team.teamName}</span><strong>{players.reduce((sum,p)=>sum+(p.fpts||0),0).toFixed(0)} FPTS</strong></div></header><div className="player-list">{players.map((p,index)=><div className="player-row" key={`${p.name}-${index}`}><strong>{p.name}</strong><span>{p.fpts?.toFixed(1)??'—'} FPTS</span></div>)}</div></div>;
+  return <div className="player-side" style={{'--side-color':team.color}}><header><TeamMark team={team}/><div><span>{team.teamName}</span><strong>{Math.round(players.reduce((sum,p)=>sum+(p.fpts||0),0))} FPTS</strong></div></header><div className="player-list">{players.map((p,index)=><div className="player-row" key={`${p.name}-${index}`}><strong>{p.name}</strong><span>{p.fpts==null?'—':Math.round(p.fpts)} FPTS</span></div>)}</div></div>;
 }
 
 function MatchupDetails({ details, teams }) {
@@ -34,8 +34,8 @@ function ResultRecord({ mode, view, teams, record }) {
 
 function MatchupHistory({ view, manifest, expandedId, setExpandedId, mode }) {
   const teamById=Object.fromEntries(manifest.teams.map(t=>[t.teamId,t]));
-  const columns=mode==='theoretical'?manifest.theoreticalColumns:manifest.historicalColumns;
-  return <Section title={mode==='theoretical'?'Week-by-Week Results':'Matchup History'} meta="Select a row for player details"><TableCard className="h2h-table-card"><table className={`h2h-history ${mode}`}><caption className="sr-only">Head-to-head results</caption><thead><tr><th>Winner</th>{columns.map(c=><th key={c}>{c}</th>)}</tr></thead><tbody>{view.history.map(row=>{const winner=teamById[row.winnerTeamId];const open=expandedId===row.id;const toggle=()=>setExpandedId(nextExpandedId(expandedId,row.id));return <React.Fragment key={row.id}><tr className={`${row.playoff?'h2h-playoff ':''}result-row`} style={{'--winner-color':winner?.color||'var(--color-border)'}} onClick={toggle} onKeyDown={event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}}} tabIndex="0" aria-expanded={open}><td data-label="Winner" className="winner-cell">{winner?<TeamMark team={winner} size={34}/>:<strong>Tie</strong>}</td>{columns.map(c=><td key={c} data-label={c}>{row.fields[c]}</td>)}</tr>{open&&<tr className="details-row"><td colSpan={columns.length+1}><MatchupDetails details={row.details} teams={manifest.teams}/></td></tr>}</React.Fragment>})}</tbody></table></TableCard></Section>;
+  const teamA=teamById[view.team1Id];const teamB=teamById[view.team2Id];
+  return <Section title={mode==='theoretical'?'Week-by-Week Results':'Matchup History'} meta="Select a row for player details"><TableCard className="h2h-table-card"><div className="h2h-history" role="list">{view.history.map(row=>{const winner=teamById[row.winnerTeamId];const open=expandedId===row.id;const [scoreA,scoreB]=String(row.fields.Score).split(' - ').map(value=>Number(value).toLocaleString());const type=mode==='theoretical'?'Regular':row.fields.Type;const toggle=()=>setExpandedId(nextExpandedId(expandedId,row.id));return <div className="matchup-entry" key={row.id}><button type="button" className="result-row" style={{'--winner-color':winner?.color||'var(--color-border)'}} onClick={toggle} aria-expanded={open}><span className={`row-team-mark ${winner?.teamId===teamA?.teamId?'winner':''}`}><TeamMark team={teamA} size={42}/></span><span className="row-result"><strong>{scoreA} - {scoreB}</strong><small>{row.fields.Year} Week {row.fields.Week}, {type}</small></span><span className={`row-team-mark row-team-mark-b ${winner?.teamId===teamB?.teamId?'winner':''}`}><TeamMark team={teamB} size={42}/></span></button>{open&&<MatchupDetails details={row.details} teams={manifest.teams}/>}</div>})}</div></TableCard></Section>;
 }
 
 export default function H2HPage({ mode }) {
