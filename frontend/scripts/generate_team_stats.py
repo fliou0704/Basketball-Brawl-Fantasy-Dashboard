@@ -85,8 +85,7 @@ def weekly_performance(players, team_id, year):
         x = left if len(totals) == 1 else left + index * (right - left) / (len(totals) - 1)
         y = bottom - float(value) / ceiling * (bottom - top)
         points.append({'week': int(week), 'value': round(float(value), 1),
-                       'display': f'{float(value):,.0f}', 'x': round(x, 2), 'y': round(y, 2),
-                       'showLabel': index == 0 or index == len(totals) - 1 or index % 2 == 1})
+                       'display': f'{float(value):,.0f}', 'x': round(x, 2), 'y': round(y, 2)})
     ticks = [{'value': round(ceiling * part), 'display': f'{ceiling * part:,.0f}',
               'y': round(bottom - part * (bottom - top), 2)} for part in (0, .25, .5, .75, 1)]
     return {'metrics': {'fpts': {'label': 'FPTS', 'path': ' '.join(f"{p['x']},{p['y']}" for p in points),

@@ -40,7 +40,7 @@ function WeeklyPerformance({ data }) {
   return <Section title="Weekly Performance" meta="FPTS"><Card as="figure" className="weekly-performance-card"><svg className="weekly-performance-chart" viewBox={data.viewBox.join(' ')} role="img" aria-label="Weekly team fantasy points">
     {metric.yTicks.map(tick=><g key={tick.value}><line x1="54" x2="770" y1={tick.y} y2={tick.y}/><text x="46" y={tick.y+4} textAnchor="end">{tick.display}</text></g>)}
     <polyline points={metric.path}/>
-    {metric.points.map(point=><g className="weekly-point" key={point.week}><circle cx={point.x} cy={point.y} r="4"><title>{`Week ${point.week}: ${point.display} FPTS`}</title></circle>{point.showLabel&&<text x={point.x} y="239" textAnchor="middle">{point.week}</text>}</g>)}
+    {metric.points.map(point=><g className="weekly-point" key={point.week}><circle cx={point.x} cy={point.y} r="4"><title>{`Week ${point.week}: ${point.display} FPTS`}</title></circle><text x={point.x} y="239" textAnchor="middle">{point.week}</text></g>)}
     <text className="axis-label" x="412" y="249" textAnchor="middle">Week</text>
   </svg></Card></Section>;
 }

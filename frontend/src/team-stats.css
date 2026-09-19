@@ -38,25 +38,28 @@
 .roster-card { width: 100%; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }
 .team-roster { width: 100%; border-collapse: collapse; font-size: .76rem; font-variant-numeric: tabular-nums; }
 .team-roster th, .team-roster td { padding: 13px 8px; border-bottom: 1px solid var(--color-border); text-align: left; }
-.season-roster { min-width: 1190px; table-layout: fixed; }
+.season-roster { min-width: 1260px; table-layout: fixed; }
 .season-roster tr { height: 48px; }
 .season-roster th, .season-roster td { border-left: 1px solid var(--color-border); text-align: right; white-space: nowrap; }
 .season-roster th:first-child { position: sticky; left: 0; z-index: 1; width: 220px; min-width: 220px; max-width: 220px; overflow: hidden; border-left: 0; background: var(--color-surface); text-align: left; text-overflow: ellipsis; white-space: nowrap; }
+.season-roster th:nth-child(2), .season-roster td:nth-child(2) { width: 128px; min-width: 128px; max-width: 128px; }
 .team-roster thead th { color: var(--color-ink-muted); background: var(--color-surface-muted); font-size: .65rem; font-weight: 800; }
 .season-roster thead th { overflow: hidden; line-height: 1.2; overflow-wrap: anywhere; text-overflow: clip; white-space: normal; }
 .season-roster thead th:first-child { z-index: 2; background: var(--color-surface-muted); }
 .team-roster tbody th { font-weight: 600; }
-.player-quality { display: grid; grid-template-columns: 30px 54px; gap: 6px; align-items: center; justify-content: end; color: var(--color-ink-muted); font-weight: 750; }
+.player-quality { display: grid; grid-template-columns: 38px 62px; gap: 8px; align-items: center; justify-content: end; color: var(--color-ink-muted); font-weight: 750; }
+.player-quality > span { overflow: visible; text-align: right; }
 .player-quality > div { height: 5px; overflow: hidden; background: #e8e5e1; border-radius: 999px; }
 .player-quality i { display: block; height: 100%; background: #8b9287; border-radius: inherit; }
 .player-quality.quality-high { color: var(--color-ink); font-weight: 900; }
 .player-quality.quality-high i { background: var(--team-color, var(--color-brand)); }
 .player-quality.quality-low i { background: #b2aca5; }
 .quality-na { color: var(--color-ink-muted); }
-.weekly-performance-card { padding: 18px 14px 10px; }
+.weekly-performance-card { overflow-x: auto; padding: 18px 14px 10px; overscroll-behavior-inline: contain; }
 .weekly-performance-chart { display: block; width: 100%; height: auto; overflow: visible; }
 .weekly-performance-chart line { stroke: var(--color-border); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .weekly-performance-chart text { fill: var(--color-ink-muted); font-size: 10px; font-weight: 650; }
+.weekly-performance-chart .weekly-point text { font-size: 9px; }
 .weekly-performance-chart polyline { fill: none; stroke: var(--team-color, var(--color-brand)); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .weekly-performance-chart circle { fill: var(--team-color, var(--color-brand)); stroke: var(--color-surface); stroke-width: 2; vector-effect: non-scaling-stroke; }
 .weekly-performance-chart .axis-label { font-size: 9px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
@@ -66,6 +69,7 @@
   .quality-controls { align-items: flex-start; flex-direction: column; }
   .roster-card { width: calc(100% + 2 * var(--space-page-mobile)); max-width: none; margin-inline: calc(var(--space-page-mobile) * -1); border-radius: 0; border-inline: 0; }
   .weekly-performance-card { padding-inline: 8px; }
+  .weekly-performance-chart { min-width: 650px; }
   .summary-roster, .summary-roster tbody { display: block; }
   .summary-roster thead { display: none; }
   .summary-roster tr { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px 16px; padding: 16px 12px; border-bottom: 1px solid var(--color-border); }

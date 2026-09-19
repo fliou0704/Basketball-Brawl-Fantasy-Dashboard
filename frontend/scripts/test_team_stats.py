@@ -195,6 +195,8 @@ class TeamStatsParityTests(unittest.TestCase):
         self.assertEqual([point['display'] for point in metric['points']], ['150', '225'])
         self.assertEqual(metric['points'][0]['x'], 54)
         self.assertEqual(metric['points'][-1]['x'], 770)
+        self.assertEqual([point['week'] for point in metric['points']], result['weeks'])
+        self.assertTrue(all('showLabel' not in point for point in metric['points']))
         self.assertEqual(len(metric['yTicks']), 5)
         self.assertTrue(metric['path'])
 
