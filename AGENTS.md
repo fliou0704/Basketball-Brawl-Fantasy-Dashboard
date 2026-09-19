@@ -1,5 +1,11 @@
 # ESPN diagnostics and credentials
 
+### Autonomous execution
+
+Codex may run normal development commands without asking for approval, including tests, builds, Git status/diff, installs needed by the existing project, and normal commits/pushes to `codex`.
+
+Do not perform destructive or difficult-to-reverse actions without explicit approval, including force pushes, history rewrites, destructive resets, deleting production data, modifying secrets/.env, or merging/pushing directly to `main`.
+
 # Frontend design system
 
 - Before changing frontend layout, styling, navigation, or reusable UI, read and follow `frontend/DESIGN_SYSTEM.md`.
