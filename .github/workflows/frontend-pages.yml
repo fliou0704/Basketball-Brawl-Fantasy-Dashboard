@@ -11,6 +11,7 @@ on:
       - 'data/activityData.csv'
       - 'dataStore.py'
       - 'assets/logos/**'
+      - 'assets/placements/**'
       - '.github/workflows/frontend-pages.yml'
 
 permissions:
@@ -26,7 +27,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # Read current league data without merging main or changing the codex CSV.
+      # The scheduled updater owns production CSVs on main. Build the codex
+      # frontend against that freshly committed source snapshot.
       - uses: actions/checkout@v4
         with:
           ref: main
@@ -49,10 +51,7 @@ jobs:
       - run: pip install -r frontend/requirements-build.txt
       - run: npm ci
         working-directory: frontend
-      - run: python frontend/scripts/build_homepage.py --source-dir frontend/.league-source/data
-      - run: python frontend/scripts/generate_team_stats.py --source-dir frontend/.league-source/data
-      - run: python frontend/scripts/generate_historical_h2h.py --source-dir frontend/.league-source/data
-      - run: python frontend/scripts/generate_record_book.py --source-dir frontend/.league-source/data
+      - run: python frontend/scripts/generate_all.py --source-dir frontend/.league-source/data
       - run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
         env:
           H2H_TEST_SOURCE: frontend/.league-source/data
@@ -60,6 +59,8 @@ jobs:
           TEAM_STATS_TEST_SOURCE: frontend/.league-source/data
           HOMEPAGE_TEST_SOURCE: frontend/.league-source/data
           STANDINGS_TEST_SOURCE: frontend/.league-source/data/basketballBrawlLeagueData.csv
+      - run: npm test
+        working-directory: frontend
       - run: npm run build
         working-directory: frontend
       - uses: actions/upload-pages-artifact@v3
