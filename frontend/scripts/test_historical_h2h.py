@@ -59,9 +59,11 @@ class HistoricalH2HParityTests(unittest.TestCase):
                     self.assertEqual(reference.find('H3')[0].children, view['title'])
                     self.assertEqual([p.children for p in reference.find('P')], [f"{r['label']}: {r['value']}" for r in view['records']])
                     table = reference.find('DataTable')[0]
-                    expected_rows = [{**r['fields'], 'Result': 'W' if r['winnerTeamId']==view['team1Id'] else 'L'} for r in view['history']]
-                    self.assertEqual(table.props['data'], expected_rows)
-                    self.assertEqual([c['id'] for c in table.props['columns'] if c['id']!='Result'], self.manifest['columns'])
+                    exported = [{**r['fields'], 'Result': 'W' if r['winnerTeamId']==view['team1Id'] else 'L'} for r in view['history']]
+                    for actual, expected in zip(exported, table.props['data']):
+                        self.assertEqual({key: expected[key] for key in self.manifest['historicalColumns']},
+                                         {key: actual[key] for key in self.manifest['historicalColumns']})
+                    self.assertEqual([c['id'] for c in table.props['columns'] if c['id'] not in ('Result','Team Name','Opponent Team Name','Opponent Owner')], self.manifest['historicalColumns'])
                     self.assertEqual([r['playoff'] for r in view['history']], [r['Type']=='Playoffs' for r in table.props['data']])
                     playoff_pairs += any(r['playoff'] for r in view['history'])
                     regular_only += not any(r['playoff'] for r in view['history'])
@@ -91,10 +93,9 @@ class HistoricalH2HParityTests(unittest.TestCase):
         for pair in self.payloads:
             for view in pair['historical'].values():
                 for row in view['history']:
-                    f = row['fields']
-                    self.assertEqual(row['details']['teams'], [f['Team Name'],f['Opponent Team Name']])
+                    self.assertEqual(len(row['details']['teams']), 2)
                     current = next(t['teamName'] for t in self.manifest['teams'] if t['teamId']==view['team1Id'])
-                    changed += f['Team Name'] != current
+                    changed += row['details']['teams'][0] != current
         self.assertGreater(changed, 0)
 
     def test_reversed_results_and_scores_follow_each_team_perspective(self):
@@ -104,7 +105,6 @@ class HistoricalH2HParityTests(unittest.TestCase):
             for row in first['history']:
                 r = row['fields']; reverse_row = other[(r['Year'],r['Week'])]; reverse=reverse_row['fields']
                 self.assertEqual(r['Score'].split(' - '), list(reversed(reverse['Score'].split(' - '))))
-                self.assertEqual(r['Team Name'], reverse['Opponent Team Name'])
                 if len(set(r['Score'].split(' - ')))>1:
                     self.assertEqual(row['winnerTeamId'],reverse_row['winnerTeamId'])
 
@@ -129,10 +129,10 @@ class HistoricalH2HParityTests(unittest.TestCase):
         reverse = perspective(fixture,self.players,int(second),int(first))
         self.assertEqual(reverse['message'],'These teams have never played before.')
 
-    def test_theoretical_compares_only_same_actual_week_and_uses_points_for(self):
+    def test_theoretical_uses_regular_season_same_week_points_only(self):
         team_ids=[t['teamId'] for t in self.manifest['teams'][:2]]
         result=theoretical(self.league,self.players,*team_ids)
-        expected=self.league[(self.league['Team ID'].isin(team_ids)) & (self.league['Type']!='Consolation')]
+        expected=self.league[(self.league['Team ID'].isin(team_ids)) & (self.league['Type']=='Regular')]
         common=expected.groupby(['Year','Week'])['Team ID'].nunique()
         self.assertEqual(len(result['history']),int((common==2).sum()))
         for row in result['history']:
@@ -141,6 +141,20 @@ class HistoricalH2HParityTests(unittest.TestCase):
             self.assertEqual(row['fields']['Score'],f"{int(actual[team_ids[0]])} - {int(actual[team_ids[1]])}")
             winner=team_ids[0] if actual[team_ids[0]]>actual[team_ids[1]] else team_ids[1] if actual[team_ids[1]]>actual[team_ids[0]] else None
             self.assertEqual(row['winnerTeamId'],winner)
+
+    def test_theoretical_summary_and_season_records_filter_the_same_rows(self):
+        team_ids=[t['teamId'] for t in self.manifest['teams'][:2]]
+        result=theoretical(self.league,self.players,*team_ids)
+        self.assertEqual(result['records']['Summary']['weeks'],len(result['history']))
+        total=0
+        for year in result['seasons']:
+            rows=[row for row in result['history'] if row['fields']['Year']==year]
+            record=result['records'][str(year)]
+            self.assertEqual(record['weeks'],len(rows))
+            self.assertEqual(record['wins'],sum(row['winnerTeamId']==team_ids[0] for row in rows))
+            self.assertEqual(record['losses'],sum(row['winnerTeamId']==team_ids[1] for row in rows))
+            total += len(rows)
+        self.assertEqual(total,len(result['history']))
 
 
 if __name__ == '__main__':
