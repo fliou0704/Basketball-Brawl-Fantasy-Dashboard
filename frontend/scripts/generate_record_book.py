@@ -62,11 +62,17 @@ def season_teams(league, year, config):
     return {int(row['Team ID']): team_info(row, config) for _, row in rows.iterrows()}
 
 
-def player_totals(daily, year, active_slots, teams):
+def player_totals(daily, year, active_slots, teams, eligibility_fallback=None):
     season = daily[daily['Year'] == year].copy()
     totals = season[season['Player Slot'].isin(active_slots)].groupby('Player ID', as_index=False)['FPTS'].sum()
     season['_date'] = pd.to_datetime(season['Date'])
-    latest = season.sort_values(['_date', 'Scoring Period']).drop_duplicates('Player ID', keep='last')
+    if set(POSITION_COLUMNS).issubset(season.columns):
+        latest = season.sort_values(['_date', 'Scoring Period']).drop_duplicates('Player ID', keep='last')
+    elif eligibility_fallback is not None:
+        fallback = eligibility_fallback[eligibility_fallback['Year'] == year].copy()
+        latest = fallback.sort_values('Week').drop_duplicates('Player ID', keep='last')
+    else:
+        raise ValueError(f'{year} daily player data is missing positional eligibility')
     result = totals.merge(latest[['Player ID', 'Player Name', 'Team ID', *POSITION_COLUMNS]], on='Player ID')
     result['positions'] = result.apply(lambda row: [row[c] for c in POSITION_COLUMNS if pd.notna(row[c])], axis=1)
     result['team'] = result['Team ID'].map(lambda value: teams.get(int(value)))
@@ -137,11 +143,11 @@ def champion_for(league, year, teams):
     return teams.get(int(winner.iloc[0]['Team ID'])) if not winner.empty else None
 
 
-def season_awards(league, daily, activity, metadata, config, year):
+def season_awards(league, weekly, daily, activity, metadata, config, year):
     settings = next(item for item in metadata['seasons'] if int(item['season']) == year)
     slots = settings['lineupSlots']
     teams = season_teams(league, year, config)
-    players = player_totals(daily, year, slots, teams)
+    players = player_totals(daily, year, slots, teams, weekly)
     team_scores = (daily[(daily['Year'] == year) & daily['Player Slot'].isin(slots)]
                    .groupby(['Player ID', 'Team ID'], as_index=False)['FPTS'].sum())
     activity_year = activity[activity['Year'] == year]
@@ -173,7 +179,7 @@ def build(source, output):
     years = sorted((int(year) for year in daily['Year'].unique()), reverse=True)
     payload = {'schemaVersion': 1, 'defaultYear': years[0], 'years': years,
                'allTime': all_time(league, weekly, daily, activity, config),
-               'seasons': {str(year): season_awards(league, daily, activity, metadata, config, year)
+               'seasons': {str(year): season_awards(league, weekly, daily, activity, metadata, config, year)
                            for year in years}}
     write_json(output / 'record-book.json', payload)
     print(f'Record Book: all-time plus {len(years)} season honor sets')
