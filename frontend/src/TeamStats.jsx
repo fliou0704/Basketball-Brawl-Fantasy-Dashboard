@@ -35,12 +35,14 @@ function SeasonRoster({ rows }) {
 }
 
 function WeeklyPerformance({ data }) {
-  const metric=data?.metrics?.fpts;
+  const [metricKey,setMetricKey]=useState('fpts');
+  const metric=data?.metrics?.[metricKey];
   if(!metric?.points?.length) return null;
-  return <Section title="Weekly Performance" meta="FPTS"><Card as="figure" className="weekly-performance-card"><svg className="weekly-performance-chart" viewBox={data.viewBox.join(' ')} role="img" aria-label="Weekly team fantasy points">
+  const toggle=<span className="metric-toggle weekly-metric-toggle" aria-label="Weekly performance metric">{[['fpts','FPTS'],['fppm','FPPM'],['starts','Starts']].map(([key,label])=><button key={key} type="button" aria-pressed={metricKey===key} onClick={()=>setMetricKey(key)}>{label}</button>)}</span>;
+  return <Section title="Weekly Performance" meta={toggle}><Card as="figure" className="weekly-performance-card"><svg className="weekly-performance-chart" viewBox={data.viewBox.join(' ')} role="img" aria-label={`Weekly team ${metric.label}`}>
     {metric.yTicks.map(tick=><g key={tick.value}><line x1="54" x2="770" y1={tick.y} y2={tick.y}/><text x="46" y={tick.y+4} textAnchor="end">{tick.display}</text></g>)}
     <polyline points={metric.path}/>
-    {metric.points.map(point=><g className="weekly-point" key={point.week}><circle cx={point.x} cy={point.y} r="4"><title>{`Week ${point.week}: ${point.display} FPTS`}</title></circle><text x={point.x} y="239" textAnchor="middle">{point.week}</text></g>)}
+    {metric.points.map(point=><g className="weekly-point" key={point.week}><circle cx={point.x} cy={point.y} r="4"><title>{`Week ${point.week}: ${point.display} ${metric.label}`}</title></circle><text x={point.x} y="239" textAnchor="middle">{point.week}</text></g>)}
     <text className="axis-label" x="412" y="249" textAnchor="middle">Week</text>
   </svg></Card></Section>;
 }

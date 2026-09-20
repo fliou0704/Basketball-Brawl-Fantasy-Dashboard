@@ -33,6 +33,7 @@
 .metric-toggle { display: inline-flex; flex: none; padding: 3px; background: var(--color-surface-muted); border: 1px solid var(--color-border); border-radius: 999px; }
 .metric-toggle button { min-width: 58px; padding: 6px 10px; color: var(--color-ink-muted); background: transparent; border: 0; border-radius: 999px; font: inherit; font-size: .7rem; font-weight: 800; cursor: pointer; }
 .metric-toggle button[aria-pressed="true"] { color: #fff; background: var(--team-color, var(--color-brand)); }
+.weekly-metric-toggle button { min-width: 54px; }
 .roster-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 0 0 10px; padding-bottom: 8px; border-bottom: 2px solid var(--team-color, var(--color-brand)); font-size: .9rem; text-transform: uppercase; letter-spacing: .035em; }
 .roster-heading span { color: var(--color-ink-muted); font-size: .68rem; font-weight: 700; white-space: nowrap; }
 .roster-card { width: 100%; max-width: 100%; overflow-x: auto; overscroll-behavior-inline: contain; }

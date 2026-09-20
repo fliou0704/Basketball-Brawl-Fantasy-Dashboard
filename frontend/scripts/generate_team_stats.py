@@ -3,12 +3,19 @@ import argparse
 import math
 from pathlib import Path
 import shutil
+import sys
 
 import pandas as pd
 
 from generate_standings import build_standings
 
 ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from playerDailyAggregation import (aggregate_daily_to_weekly, load_scoring_period_map,
+                                    load_season_metadata)
+
 STAT_LABELS = ('FG%', 'FT%', '3PM', 'REB', 'AST/TO', 'STL', 'BLK', 'PTS', 'FPTS', 'PPM')
 RANK_NAMES = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth')
 INACTIVE_ACTIONS = ('DROPPED', 'TRADED', 'NOT KEPT')
@@ -71,26 +78,43 @@ def player_percentiles(players, daily, year):
             for pid in set(fpts_pct) | set(fppm_pct)}
 
 
-def weekly_performance(players, team_id, year):
-    rows = players[(players['Year'] == year) & (players['Team ID'] == team_id)]
-    totals = rows.groupby('Week')['FPTS'].sum().sort_index()
+def weekly_performance(daily_weekly, team_id, year):
+    """Build chart-ready weekly metrics from canonical active daily performances."""
+    rows = daily_weekly[(daily_weekly['Year'] == year) & (daily_weekly['Team ID'] == team_id)]
+    totals = rows.groupby('Week').agg({'FPTS': 'sum', 'MIN': 'sum', 'Fantasy Starts': 'sum'}).sort_index()
     if totals.empty:
         return None
+    totals['FPPM'] = totals['FPTS'] / totals['MIN'].replace(0, pd.NA)
     weeks = [int(week) for week in totals.index]
-    maximum = float(totals.max())
-    ceiling = max(100, math.ceil(maximum / 500) * 500)
     left, right, top, bottom = 54, 770, 20, 215
-    points = []
-    for index, (week, value) in enumerate(totals.items()):
-        x = left if len(totals) == 1 else left + index * (right - left) / (len(totals) - 1)
-        y = bottom - float(value) / ceiling * (bottom - top)
-        points.append({'week': int(week), 'value': round(float(value), 1),
-                       'display': f'{float(value):,.0f}', 'x': round(x, 2), 'y': round(y, 2)})
-    ticks = [{'value': round(ceiling * part), 'display': f'{ceiling * part:,.0f}',
-              'y': round(bottom - part * (bottom - top), 2)} for part in (0, .25, .5, .75, 1)]
-    return {'metrics': {'fpts': {'label': 'FPTS', 'path': ' '.join(f"{p['x']},{p['y']}" for p in points),
-                                  'points': points, 'yTicks': ticks}},
-            'weeks': weeks, 'viewBox': [0, 0, 800, 250]}
+
+    def chart_metric(series, key, label):
+        maximum = float(series.max())
+        if key == 'fpts':
+            ceiling = max(100, math.ceil(maximum / 500) * 500)
+            display = lambda value: f'{value:,.0f}'
+        elif key == 'fppm':
+            ceiling = max(.1, math.ceil(maximum * 10) / 10)
+            display = lambda value: f'{value:.2f}'.rstrip('0').rstrip('.')
+        else:
+            ceiling = max(20, math.ceil(maximum / 20) * 20)
+            display = lambda value: f'{value:,.0f}'
+        points = []
+        for index, (week, value) in enumerate(series.items()):
+            x = left if len(series) == 1 else left + index * (right - left) / (len(series) - 1)
+            y = bottom - float(value) / ceiling * (bottom - top)
+            points.append({'week': int(week), 'value': round(float(value), 3),
+                           'display': display(float(value)), 'x': round(x, 2), 'y': round(y, 2)})
+        ticks = [{'value': round(ceiling * part, 3), 'display': display(ceiling * part),
+                  'y': round(bottom - part * (bottom - top), 2)} for part in (0, .25, .5, .75, 1)]
+        return {'label': label, 'path': ' '.join(f"{point['x']},{point['y']}" for point in points),
+                'points': points, 'yTicks': ticks}
+
+    return {'metrics': {
+                'fpts': chart_metric(totals['FPTS'], 'fpts', 'FPTS'),
+                'fppm': chart_metric(totals['FPPM'], 'fppm', 'FPPM'),
+                'starts': chart_metric(totals['Fantasy Starts'], 'starts', 'Starts'),
+            }, 'weeks': weeks, 'viewBox': [0, 0, 800, 250]}
 
 
 def summary(players, league, activity, team_id):
@@ -165,6 +189,9 @@ def build(source, output):
     league, weekly, daily, activity = [pd.read_csv(source / name) for name in
         ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
     players = prepare_players(weekly)
+    daily_weekly = aggregate_daily_to_weekly(
+        daily, load_scoring_period_map(), load_season_metadata(), active_only=True
+    )
     years = sorted(map(int, players['Year'].unique()), reverse=True)
     latest = league.sort_values('Year', ascending=False).drop_duplicates('Team ID')
     config = logo_config()
@@ -192,7 +219,7 @@ def build(source, output):
             standing = next((row for row in standings[year]['teams'] if row['teamId'] == tid), None)
             seasons[str(year)] = None if roster is None else {
                 'rankings': rankings[year][tid], 'roster': roster,
-                'weeklyPerformance': weekly_performance(players, tid, year),
+                'weeklyPerformance': weekly_performance(daily_weekly, tid, year),
                 'snapshot': None if standing is None else {
                     key: standing[key] for key in ('rank', 'record', 'wins', 'losses', 'pointsFor',
                                                    'pointsAgainst', 'pointsForDisplay', 'pointsAgainstDisplay')

@@ -11,6 +11,7 @@ import pandas as pd
 
 from generate_team_stats import (ROOT, build, player_percentiles, prepare_players,
                                  season_roster, stat_values, weekly_performance)
+from playerDailyAggregation import aggregate_daily_to_weekly, load_scoring_period_map, load_season_metadata
 
 
 class Element:
@@ -50,6 +51,9 @@ class TeamStatsParityTests(unittest.TestCase):
         cls.source = Path(os.environ.get('TEAM_STATS_TEST_SOURCE', ROOT / 'data'))
         cls.league, cls.weekly, cls.daily, cls.activity = [pd.read_csv(cls.source / name) for name in
             ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
+        cls.daily_weekly = aggregate_daily_to_weekly(
+            cls.daily, load_scoring_period_map(), load_season_metadata(), active_only=True
+        )
         cls.reference = staticmethod(dash_callback(cls.league, cls.weekly, cls.daily, cls.activity))
         cls.temp = tempfile.TemporaryDirectory()
         cls.output = Path(cls.temp.name)
@@ -182,23 +186,53 @@ class TeamStatsParityTests(unittest.TestCase):
 
     def test_weekly_performance_sums_team_fpts_and_exports_chart_geometry(self):
         rows = pd.DataFrame([
-            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'FPTS': 100},
-            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'FPTS': 50},
-            {'Year': 2026, 'Week': 2, 'Team ID': 7, 'FPTS': 225},
-            {'Year': 2026, 'Week': 1, 'Team ID': 8, 'FPTS': 900},
-            {'Year': 2025, 'Week': 1, 'Team ID': 7, 'FPTS': 800},
+            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'FPTS': 100, 'MIN': 50, 'Fantasy Starts': 2},
+            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'FPTS': 50, 'MIN': 50, 'Fantasy Starts': 1},
+            {'Year': 2026, 'Week': 2, 'Team ID': 7, 'FPTS': 225, 'MIN': 150, 'Fantasy Starts': 4},
+            {'Year': 2026, 'Week': 1, 'Team ID': 8, 'FPTS': 900, 'MIN': 10, 'Fantasy Starts': 1},
+            {'Year': 2025, 'Week': 1, 'Team ID': 7, 'FPTS': 800, 'MIN': 10, 'Fantasy Starts': 1},
         ])
         result = weekly_performance(rows, 7, 2026)
-        metric = result['metrics']['fpts']
+        metric, fppm, starts = [result['metrics'][key] for key in ('fpts', 'fppm', 'starts')]
         self.assertEqual(result['weeks'], [1, 2])
         self.assertEqual([point['value'] for point in metric['points']], [150, 225])
         self.assertEqual([point['display'] for point in metric['points']], ['150', '225'])
+        self.assertEqual([point['value'] for point in fppm['points']], [1.5, 1.5])
+        self.assertEqual([point['display'] for point in fppm['points']], ['1.5', '1.5'])
+        self.assertEqual([point['value'] for point in starts['points']], [3, 4])
         self.assertEqual(metric['points'][0]['x'], 54)
         self.assertEqual(metric['points'][-1]['x'], 770)
         self.assertEqual([point['week'] for point in metric['points']], result['weeks'])
         self.assertTrue(all('showLabel' not in point for point in metric['points']))
         self.assertEqual(len(metric['yTicks']), 5)
         self.assertTrue(metric['path'])
+
+    def test_weekly_fppm_and_starts_use_only_canonical_active_performances(self):
+        daily = pd.DataFrame([
+            {'Year': 2026, 'Scoring Period': 1, 'Team ID': 7, 'Player ID': 1,
+             'Team Name': 'Seven', 'Player Name': 'Active', 'Player Slot': 'PG', 'FPTS': 20, 'MIN': 10},
+            {'Year': 2026, 'Scoring Period': 2, 'Team ID': 7, 'Player ID': 1,
+             'Team Name': 'Seven', 'Player Name': 'Active', 'Player Slot': 'UT', 'FPTS': 10, 'MIN': 20},
+            {'Year': 2026, 'Scoring Period': 1, 'Team ID': 7, 'Player ID': 2,
+             'Team Name': 'Seven', 'Player Name': 'Bench', 'Player Slot': 'BE', 'FPTS': 100, 'MIN': 20},
+        ])
+        mapping = pd.DataFrame([{'Year': 2026, 'Scoring Period': period, 'Week': 1} for period in (1, 2)])
+        metadata = {'seasons': [{'season': 2026, 'lineupSlots': ['PG', 'UT']}]}
+        canonical = aggregate_daily_to_weekly(daily, mapping, metadata, active_only=True)
+        result = weekly_performance(canonical, 7, 2026)['metrics']
+        self.assertEqual(result['fpts']['points'][0]['value'], 30)
+        self.assertEqual(result['fppm']['points'][0]['value'], 1)
+        self.assertEqual(result['starts']['points'][0]['value'], 2)
+
+    def test_known_team_week_matches_canonical_daily_aggregation(self):
+        expected = self.daily_weekly[(self.daily_weekly['Year'] == 2025) &
+                                     (self.daily_weekly['Team ID'] == 16) &
+                                     (self.daily_weekly['Week'] == 1)]
+        totals = expected[['FPTS', 'MIN', 'Fantasy Starts']].sum()
+        exported = self.payloads[16]['seasons']['2025']['weeklyPerformance']['metrics']
+        self.assertEqual(exported['fpts']['points'][0]['value'], totals['FPTS'])
+        self.assertAlmostEqual(exported['fppm']['points'][0]['value'], totals['FPTS'] / totals['MIN'], places=3)
+        self.assertEqual(exported['starts']['points'][0]['value'], totals['Fantasy Starts'])
 
     def test_all_time_records_roster_and_status_match_dash(self):
         for tid, payload in self.payloads.items():
