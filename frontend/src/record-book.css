@@ -1,25 +1,69 @@
-.record-year { display: grid; gap: 8px; max-width: 360px; margin-bottom: 32px; color: #596850; font-size: 12px; }
-.record-year select { width: 100%; padding: 12px 10px; border: 1px solid #bbc6b3; border-radius: 3px; background: #fff; color: #243027; font: inherit; font-size: 16px; }
-.award-title { margin: 0 0 28px; font-size: 21px; }
+.record-book-page { padding-bottom: 64px; }
+.record-year { display: grid; gap: 7px; max-width: 340px; margin-bottom: 32px; color: var(--color-ink-muted); font-size: .75rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+.record-year select { width: 100%; padding: 11px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-small); background: var(--color-surface); color: var(--color-ink); font: inherit; font-size: 1rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.award-title { margin: 0 0 28px; font-size: 1.5rem; }
+.season-honors { display: grid; gap: 40px; }
+.premier-awards { display: grid; gap: var(--card-gap); }
+.premier-award { min-height: 184px; display: flex; flex-direction: column; justify-content: center; background: var(--color-gold-soft); border-color: #d9bd70; border-top: 3px solid var(--color-gold); }
+.award-kicker { margin: 0 0 22px; color: var(--color-gold); font-size: .75rem; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
+.award-identity, .player-identity { min-width: 0; display: flex; align-items: center; gap: 13px; }
+.award-identity img, .player-identity img { flex: none; object-fit: contain; }
+.award-identity strong { display: block; font-size: clamp(1.35rem,3vw,1.85rem); line-height: 1.12; }
+.award-identity span, .player-identity span, .award-leader span, .award-ranking li>div span { display: block; margin-top: 3px; color: var(--color-ink-muted); font-size: .78rem; }
+.player-identity strong { display: block; line-height: 1.25; overflow-wrap: anywhere; }
+.player-identity.featured strong { font-size: clamp(1.25rem,3vw,1.65rem); }
+.award-points { margin: 17px 0 0 65px; color: var(--color-gold); font-weight: 750; font-variant-numeric: tabular-nums; }
+.award-pending { margin: 0; color: var(--color-ink-muted); font-size: 1.15rem; font-weight: 700; }
+.all-fantasy-section, .compact-award-section { margin: 0; }
+.fantasy-roster { padding: 0; overflow: hidden; }
+.fantasy-roster ol, .award-ranking { margin: 0; padding: 0; list-style: none; }
+.fantasy-roster li { display: grid; grid-template-columns: 56px minmax(0,1fr) auto; align-items: center; gap: 12px; min-height: 66px; padding: 10px 18px; border-bottom: 1px solid var(--color-border); }
+.fantasy-roster li:last-child { border: 0; }
+.roster-slot { display: inline-grid; place-items: center; width: 43px; min-height: 29px; border-radius: var(--radius-small); background: var(--color-brand-soft); color: var(--color-brand-strong); font-size: .72rem; font-weight: 800; }
+.roster-slot.bench { background: var(--color-surface-muted); color: var(--color-ink-muted); }
+.fantasy-roster li>strong, .award-result { font-size: .86rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.expandable-award { padding: 0; overflow: hidden; }
+.award-leaders { padding: 18px 20px; }
+.award-leader { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.award-leader+.award-leader { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--color-border); }
+.expandable-award summary { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; border-top: 1px solid var(--color-border); color: var(--color-brand-strong); cursor: pointer; font-size: .78rem; font-weight: 800; list-style: none; }
+.expandable-award summary::-webkit-details-marker { display: none; }
+.award-caret { font-size: 1.15rem; transition: transform .15s ease; }
+.expandable-award details[open] .award-caret { transform: rotate(180deg); }
+.award-ranking { border-top: 1px solid var(--color-border); }
+.award-ranking li { display: grid; grid-template-columns: 30px minmax(0,1fr) auto; align-items: center; gap: 12px; padding: 10px 20px; border-bottom: 1px solid var(--color-border); }
+.award-ranking li:last-child { border: 0; }
+.award-rank { color: var(--color-ink-muted); font-size: .75rem; font-weight: 800; font-variant-numeric: tabular-nums; }
+
+/* Summary / All-Time keeps its existing structure and treatment. */
 .record-highlights { display: grid; gap: 24px; margin-bottom: 40px; }
-.record-item { border-left: 3px solid #9baf74; padding: 4px 0 4px 14px; }
+.record-item { border-left: 3px solid var(--color-brand); padding: 4px 0 4px 14px; }
 .record-item h3 { margin-bottom: 7px; }
-.record-item p { margin: 0; font-size: 14px; line-height: 1.55; }
-.record-table { font-size: 13px; }
+.record-item p { margin: 0; font-size: .875rem; line-height: 1.55; }
+.record-table { width: 100%; font-size: .8125rem; }
 .record-table th, .record-table td { padding: 13px 10px; overflow-wrap: anywhere; }
 .record-table th:last-child, .record-table td:last-child { text-align: right; }
-.record-counts { margin: 18px 0 0; color: #53614e; font-size: 12px; line-height: 1.7; }
+.record-counts { margin: 18px 0 0; color: var(--color-ink-muted); font-size: .75rem; line-height: 1.7; }
 .negative-team-counts { display: flex; flex-wrap: wrap; gap: 14px 20px; margin-top: 20px; }
-.negative-team-counts span { display: inline-flex; align-items: center; gap: 5px; font-size: 13px; }
+.negative-team-counts span { display: inline-flex; align-items: center; gap: 5px; font-size: .8125rem; }
 .negative-team-counts img { width: 25px; height: 25px; object-fit: contain; }
+
 @media(max-width:719px) {
   .record-table, .record-table tbody { display: block; }
   .record-table thead { display: none; }
-  .record-table tr { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px 16px; padding: 16px 10px; border-bottom: 1px solid #dce2d6; }
+  .record-table tr { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px 16px; padding: 16px 10px; border-bottom: 1px solid var(--color-border); }
   .record-table th, .record-table td { display: block; padding: 0; border: 0; text-align: left !important; }
-  .record-table th::before, .record-table td::before { content: attr(data-label); display: block; color: #61705b; font-size: 10px; font-weight: 500; margin-bottom: 5px; }
+  .record-table th::before, .record-table td::before { content: attr(data-label); display: block; color: var(--color-ink-muted); font-size: .625rem; font-weight: 600; margin-bottom: 5px; }
+}
+@media(max-width:359px) {
+  .fantasy-roster li { grid-template-columns: 48px minmax(0,1fr); padding-inline: 12px; }
+  .fantasy-roster li>strong { grid-column: 2; color: var(--color-ink-muted); }
+  .award-ranking li { padding-inline: 14px; }
+  .player-identity { gap: 9px; }
 }
 @media(min-width:720px) {
+  .premier-awards { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .record-highlights { grid-template-columns: repeat(3,minmax(0,1fr)); }
   .record-highlights:has(.record-item:only-child) { grid-template-columns: 1fr; }
+  .season-honors { gap: 56px; }
 }

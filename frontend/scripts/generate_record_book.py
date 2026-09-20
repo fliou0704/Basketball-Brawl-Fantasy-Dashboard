@@ -1,136 +1,182 @@
-"""Precompute the current Dash Record Book without importing the Dash app."""
+"""Precompute Record Book data without importing the Dash app."""
 import argparse
 from pathlib import Path
-
+import sys
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT))
+POSITION_COLUMNS = ('Position', 'Position2', 'Position3')
+FLEX = {'G': {'PG', 'SG'}, 'F': {'SF', 'PF'}, 'UT': {'PG', 'SG', 'SF', 'PF', 'C'}}
+
+
+def scalar(value):
+    return value.item() if hasattr(value, 'item') else value
 
 
 def frame_records(frame, columns):
-    return [{column: (None if pd.isna(value) else value.item() if hasattr(value, 'item') else value)
-             for column, value in row.items()}
+    return [{column: None if pd.isna(value) else scalar(value) for column, value in row.items()}
             for row in frame[columns].to_dict('records')]
 
 
-def all_time(league, weekly, daily, activity, logos):
+def all_time(league, weekly, daily, activity, config):
+    """Intentionally retain the existing Summary / All-Time definitions."""
     top_team = league.sort_values('Points For', ascending=False).iloc[0]
     top_player = weekly.sort_values('FPTS', ascending=False).iloc[0]
     top_daily = daily.sort_values('FPTS', ascending=False).iloc[0]
-
-    hundred = daily[daily['FPTS'] >= 100].copy()
-    hundred.sort_values('Date', ascending=False, inplace=True)
+    hundred = daily[daily['FPTS'] >= 100].copy().sort_values('Date', ascending=False)
     hundred = hundred[['Date', 'Player Name', 'Team Name', 'FPTS']]
     hundred['Date'] = pd.to_datetime(hundred['Date']).dt.strftime('%m/%d/%Y')
     hundred_counts = hundred['Player Name'].value_counts().rename('Count').reset_index()
-
-    dated_daily = daily.copy()
-    dated_daily['Date'] = pd.to_datetime(dated_daily['Date'])
-    negative = dated_daily[(dated_daily['FPTS'] < 0) & (~dated_daily['Player Slot'].isin(['BE', 'IR']))].copy()
+    dated = daily.copy()
+    dated['Date'] = pd.to_datetime(dated['Date'])
+    negative = dated[(dated['FPTS'] < 0) & (~dated['Player Slot'].isin(['BE', 'IR']))].copy()
     negative.sort_values('Date', ascending=False, inplace=True)
-    latest_names = negative.drop_duplicates('Team ID')[['Team ID', 'Team Name']]
-    name_by_id = dict(zip(latest_names['Team ID'], latest_names['Team Name']))
-    negative_counts = negative.groupby('Team ID').size().reset_index(name='Count')
-    negative_counts['Team Name'] = negative_counts['Team ID'].map(name_by_id)
-    negative_counts['Logo Path'] = negative_counts['Team Name'].map(logos)
-    negative_counts = negative_counts[['Logo Path', 'Count']].dropna().sort_values('Count', ascending=False)
-
+    names = dict(zip(negative.drop_duplicates('Team ID')['Team ID'],
+                     negative.drop_duplicates('Team ID')['Team Name']))
+    counts = negative.groupby('Team ID').size().reset_index(name='Count')
+    counts['Logo Path'] = counts['Team ID'].map(names).map(config['team_logo_paths'])
+    counts = counts.dropna(subset=['Logo Path']).sort_values('Count', ascending=False)
     transactions = activity[activity['Action'].isin(['WAIVER ADDED', 'DROPPED', 'DRAFTED', 'TRADED'])]
     transactions = (transactions.groupby('Asset')['Action'].count().reset_index(name='Transaction Count')
                     .sort_values('Transaction Count', ascending=False).head(10))
-
-    negative_table = negative[['Date', 'Player Name', 'Team Name', 'FPTS']].copy()
-    negative_table['Date'] = negative_table['Date'].dt.strftime('%m/%d/%Y')
+    negative['Date'] = negative['Date'].dt.strftime('%m/%d/%Y')
     return {
         'records': [
-            {'label': 'Most Points in a Single Matchup (Team)',
-             'value': f"{top_team['Team Name']} scored {top_team['Points For']} points in Week {top_team['Week']} of {top_team['Year']}"},
-            {'label': 'Most Points in a Single Matchup (Player)',
-             'value': f"{top_player['Player Name']} scored {top_player['FPTS']} points in Week {top_player['Week']} of {top_player['Year']} for {top_player['Team Name']}"},
-            {'label': 'Most Points in a Single Day (Player)',
-             'value': f"{top_daily['Player Name']} scored {top_daily['FPTS']} points on {top_daily['Date']} for {top_daily['Team Name']}"},
+            {'label': 'Most Points in a Single Matchup (Team)', 'value': f"{top_team['Team Name']} scored {top_team['Points For']} points in Week {top_team['Week']} of {top_team['Year']}"},
+            {'label': 'Most Points in a Single Matchup (Player)', 'value': f"{top_player['Player Name']} scored {top_player['FPTS']} points in Week {top_player['Week']} of {top_player['Year']} for {top_player['Team Name']}"},
+            {'label': 'Most Points in a Single Day (Player)', 'value': f"{top_daily['Player Name']} scored {top_daily['FPTS']} points on {top_daily['Date']} for {top_daily['Team Name']}"},
         ],
         'transactionLeaders': frame_records(transactions, ['Asset', 'Transaction Count']),
         'hundredPointDays': frame_records(hundred, ['Date', 'Player Name', 'Team Name', 'FPTS']),
         'hundredPointCounts': frame_records(hundred_counts, ['Player Name', 'Count']),
-        'negativePointDays': frame_records(negative_table, ['Date', 'Player Name', 'Team Name', 'FPTS']),
-        'negativeTeamCounts': [
-            {'logo': 'logos/' + Path(row['Logo Path']).name, 'count': int(row['Count'])}
-            for _, row in negative_counts.iterrows()
-        ],
+        'negativePointDays': frame_records(negative, ['Date', 'Player Name', 'Team Name', 'FPTS']),
+        'negativeTeamCounts': [{'logo': 'logos/' + Path(row['Logo Path']).name, 'count': int(row['Count'])}
+                               for _, row in counts.iterrows()],
     }
 
 
-def all_nba_teams(year_df):
-    position_rows = []
-    for player, group in year_df.groupby('Player Name'):
-        total = group['FPTS'].sum()
-        positions = (set(group['Position'].dropna().unique()) |
-                     set(group['Position2'].dropna().unique()) |
-                     set(group['Position3'].dropna().unique()))
-        for position in positions:
-            position_rows.append({'Player Name': player, 'Position': position, 'FPTS': total})
-    positions = pd.DataFrame(position_rows).sort_values('FPTS', ascending=False)
-
-    def select(used):
-        team = []
-        for slot in ['G', 'G', 'F', 'F', 'C']:
-            eligible_positions = ['PG', 'SG'] if slot == 'G' else ['SF', 'PF'] if slot == 'F' else ['C']
-            eligible = positions[positions['Position'].isin(eligible_positions) &
-                                 (~positions['Player Name'].isin(used))]
-            if not eligible.empty:
-                player_row = eligible.iloc[0]
-                name = player_row['Player Name']
-                latest = year_df[year_df['Player Name'] == name].sort_values('Week', ascending=False).iloc[0]
-                team.append({'Position': slot, 'Player': name, 'Team Name': latest['Team Name'],
-                             'FPTS': player_row['FPTS'].item() if hasattr(player_row['FPTS'], 'item') else player_row['FPTS']})
-                used.add(name)
-        return team
-
-    used = set()
-    return [select(used), select(used), select(used)]
+def season_teams(league, year, config):
+    from build_homepage import team_info
+    rows = league[league['Year'] == year].sort_values('Week').drop_duplicates('Team ID', keep='last')
+    return {int(row['Team ID']): team_info(row, config) for _, row in rows.iterrows()}
 
 
-def season_awards(weekly, activity, year):
-    year_df = weekly[weekly['Year'] == year]
-    mvp = year_df.groupby('Player Name')['FPTS'].sum().reset_index().sort_values('FPTS', ascending=False).iloc[0]
-    teams = all_nba_teams(year_df)
+def player_totals(daily, year, active_slots, teams):
+    season = daily[daily['Year'] == year].copy()
+    totals = season[season['Player Slot'].isin(active_slots)].groupby('Player ID', as_index=False)['FPTS'].sum()
+    season['_date'] = pd.to_datetime(season['Date'])
+    latest = season.sort_values(['_date', 'Scoring Period']).drop_duplicates('Player ID', keep='last')
+    result = totals.merge(latest[['Player ID', 'Player Name', 'Team ID', *POSITION_COLUMNS]], on='Player ID')
+    result['positions'] = result.apply(lambda row: [row[c] for c in POSITION_COLUMNS if pd.notna(row[c])], axis=1)
+    result['team'] = result['Team ID'].map(lambda value: teams.get(int(value)))
+    return result.sort_values(['FPTS', 'Player ID'], ascending=[False, True]).reset_index(drop=True)
 
+
+def player_record(row, slot=None):
+    result = {'playerId': int(row['Player ID']), 'name': row['Player Name'],
+              'points': scalar(row['FPTS']), 'positions': row['positions'], 'team': row['team']}
+    if slot is not None:
+        result['slot'] = slot
+    return result
+
+
+def all_fantasy_team(players, active_slots, bench_count):
+    used, lineup = set(), []
+    for slot in active_slots:
+        positions = FLEX.get(slot, {slot})
+        choice = next((row for _, row in players.iterrows()
+                       if row['Player ID'] not in used and set(row['positions']) & positions), None)
+        if choice is not None:
+            used.add(choice['Player ID'])
+            lineup.append(player_record(choice, slot))
+    for _, row in players.iterrows():
+        if len(lineup) >= len(active_slots) + bench_count:
+            break
+        if row['Player ID'] not in used:
+            used.add(row['Player ID'])
+            lineup.append(player_record(row, 'BE'))
+    return lineup
+
+
+def inferred_bench_count(daily, year):
+    bench = daily[(daily['Year'] == year) & (daily['Player Slot'] == 'BE')]
+    if bench.empty:
+        return 0
+    return int(bench.groupby(['Scoring Period', 'Team ID'])['Player ID'].nunique().max())
+
+
+def ordered_events(activity_year):
+    events = activity_year.copy()
+    events['_date'] = pd.to_datetime(events['Date'])
+    events['_time'] = events['Time'].fillna('')
+    events['_order'] = range(len(events))
+    return events.sort_values(['_date', '_time', '_order'])
+
+
+def transaction_rankings(activity_year, team_scores, teams, action, latest_action=False):
+    events = ordered_events(activity_year)
+    if latest_action:
+        candidates = events.drop_duplicates('Player ID', keep='last')
+        candidates = candidates[candidates['Action'] == action]
+    else:
+        candidates = events[events['Action'] == action].drop_duplicates(['Player ID', 'Team ID'])
+    ranked = (candidates.merge(team_scores, on=['Player ID', 'Team ID'], how='left')
+              .dropna(subset=['FPTS']).sort_values(['FPTS', 'Player ID'], ascending=[False, True])
+              .drop_duplicates('Player ID').head(10))
+    return [{'playerId': int(row['Player ID']), 'name': row['Asset'], 'points': scalar(row['FPTS']),
+             'team': teams.get(int(row['Team ID']))} for _, row in ranked.iterrows()]
+
+
+def champion_for(league, year, teams):
+    playoffs = league[(league['Year'] == year) & (league['Type'] == 'Playoffs')]
+    if playoffs.empty:
+        return None
+    final = playoffs[playoffs['Week'] == playoffs['Week'].max()]
+    winner = final[final['Win'] == 1]
+    return teams.get(int(winner.iloc[0]['Team ID'])) if not winner.empty else None
+
+
+def season_awards(league, daily, activity, metadata, config, year):
+    settings = next(item for item in metadata['seasons'] if int(item['season']) == year)
+    slots = settings['lineupSlots']
+    teams = season_teams(league, year, config)
+    players = player_totals(daily, year, slots, teams)
+    team_scores = (daily[(daily['Year'] == year) & daily['Player Slot'].isin(slots)]
+                   .groupby(['Player ID', 'Team ID'], as_index=False)['FPTS'].sum())
     activity_year = activity[activity['Year'] == year]
-    unique = activity_year.groupby('Asset')['Team ID'].nunique().reset_index()
-    unique.columns = ['Player Name', 'Unique Teams']
-    most_unique = unique[unique['Unique Teams'] == unique['Unique Teams'].max()]
-
-    waiver = activity_year[activity_year['Action'] == 'WAIVER ADDED'].copy()
-    waiver.rename(columns={'Asset': 'Player Name'}, inplace=True)
-    waiver = waiver.drop_duplicates(subset=['Player Name', 'Team Name'])
-    totals = year_df.groupby(['Player Name', 'Team Name'])['FPTS'].sum().reset_index()
-    best = waiver.merge(totals, on=['Player Name', 'Team Name'], how='left').sort_values('FPTS', ascending=False).reset_index().iloc[0]
-
+    unique = (activity_year.groupby(['Player ID', 'Asset'], dropna=False)['Team ID'].nunique()
+              .reset_index(name='teamCount').sort_values(['teamCount', 'Asset'], ascending=[False, True]))
+    unique['rank'] = unique['teamCount'].rank(method='min', ascending=False).astype(int)
+    journeymen = [{'playerId': None if pd.isna(row['Player ID']) else int(row['Player ID']),
+                   'name': row['Asset'], 'teamCount': int(row['teamCount']), 'rank': int(row['rank'])}
+                  for _, row in unique[unique['rank'] <= 10].iterrows()]
+    bench_count = int(settings.get('benchSlots', inferred_bench_count(daily, year)))
     return {
-        'title': f'{year} Awards',
-        'mvp': {'label': '🏆 MVP', 'value': f"{mvp['Player Name']} with {mvp['FPTS']} fantasy points"},
-        'allNba': [{'label': f"All-NBA {label} Team", 'players': team}
-                   for label, team in zip(('1st', '2nd', '3rd'), teams)],
-        'bestWaiverAdd': {'label': 'Best Waiver Add',
-                          'value': f"{best['Player Name']} on {best['Team Name']} scored {best['FPTS']} points"},
-        'mostUniqueTeams': {
-            'label': 'League Slut (Most Unique Teams in a Season)',
-            'players': frame_records(most_unique, ['Player Name', 'Unique Teams']),
-        },
+        'title': f'{year} Honors',
+        'champion': champion_for(league, year, teams),
+        'mvp': player_record(players.iloc[0]),
+        'allFantasyTeam': all_fantasy_team(players, slots, bench_count),
+        'bestWaiverAdds': transaction_rankings(activity_year, team_scores, teams, 'WAIVER ADDED'),
+        'bestDraftPicks': transaction_rankings(activity_year, team_scores, teams, 'DRAFTED', True),
+        'journeymen': journeymen,
+        'roster': {'activeSlots': slots, 'benchSlots': bench_count},
     }
 
 
 def build(source, output):
     from build_homepage import logo_config, write_json
+    from playerDailyAggregation import load_season_metadata
     league, weekly, daily, activity = [pd.read_csv(source / name) for name in
         ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
-    years = sorted((int(year) for year in weekly['Year'].unique()), reverse=True)
+    metadata, config = load_season_metadata(), logo_config()
+    years = sorted((int(year) for year in daily['Year'].unique()), reverse=True)
     payload = {'schemaVersion': 1, 'defaultYear': years[0], 'years': years,
-               'allTime': all_time(league, weekly, daily, activity, logo_config()['team_logo_paths']),
-               'seasons': {str(year): season_awards(weekly, activity, year) for year in years}}
+               'allTime': all_time(league, weekly, daily, activity, config),
+               'seasons': {str(year): season_awards(league, daily, activity, metadata, config, year)
+                           for year in years}}
     write_json(output / 'record-book.json', payload)
-    print(f'Record Book: all-time plus {len(years)} season award sets')
+    print(f'Record Book: all-time plus {len(years)} season honor sets')
     return payload
 
 

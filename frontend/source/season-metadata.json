@@ -191,6 +191,7 @@
         "UT",
         "UT"
       ],
+      "benchSlots": 3,
       "scoringWeights": {
         "REB": 1.0,
         "TO": -2.0,
@@ -3926,6 +3927,7 @@
         "UT",
         "UT"
       ],
+      "benchSlots": 3,
       "scoringWeights": {
         "REB": 1.0,
         "TO": -2.0,
@@ -7495,6 +7497,7 @@
         "UT",
         "UT"
       ],
+      "benchSlots": 3,
       "scoringWeights": {
         "REB": 1.0,
         "TO": -2.0,
@@ -11209,6 +11212,7 @@
         "UT",
         "UT"
       ],
+      "benchSlots": 3,
       "scoringWeights": {
         "REB": 1.0,
         "TO": -2.0,

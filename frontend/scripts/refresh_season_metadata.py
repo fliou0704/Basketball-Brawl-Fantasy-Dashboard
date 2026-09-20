@@ -57,11 +57,14 @@ def refresh(source, output):
                              'end': (anchor + timedelta(days=max(periods))).isoformat()})
         slots = [POSITION_MAP[int(slot)] for slot, count in settings['rosterSettings']['lineupSlotCounts'].items()
                  if POSITION_MAP.get(int(slot)) not in ('BE', 'IR', '') for _ in range(count)]
+        bench_slots = sum(count for slot, count in settings['rosterSettings']['lineupSlotCounts'].items()
+                          if POSITION_MAP.get(int(slot)) == 'BE')
         season = {'season': year, 'firstPeriod': data['status']['firstScoringPeriod'],
                   'finalPeriod': data['status']['finalScoringPeriod'],
                   'regularWeeks': settings['scheduleSettings']['matchupPeriodCount'],
                   'playoffTeamCount': settings['scheduleSettings']['playoffTeamCount'],
                   'dateAnchor': anchor.isoformat(), 'weeks': calendar, 'lineupSlots': slots,
+                  'benchSlots': bench_slots,
                   'scoringWeights': {STATS_MAP.get(str(item['statId']), str(item['statId'])): item['points']
                                      for item in settings['scoringSettings']['scoringItems']},
                   'matchups': matchups}

@@ -3,13 +3,16 @@ import ast
 import json
 import os
 from pathlib import Path
+import sys
 import tempfile
 import types
 import unittest
 
 import pandas as pd
 
-from generate_record_book import ROOT, all_time, build, season_awards
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from generate_record_book import (ROOT, all_fantasy_team, all_time, build,
+                                  player_totals, transaction_rankings)
 from test_team_stats import Element, Html
 
 
@@ -53,7 +56,8 @@ class RecordBookParityTests(unittest.TestCase):
         cls.league, cls.weekly, cls.daily, cls.activity = [pd.read_csv(cls.source / name) for name in
             ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
         from build_homepage import logo_config
-        cls.logos = logo_config()['team_logo_paths']
+        cls.config = logo_config()
+        cls.logos = cls.config['team_logo_paths']
         cls.namespace, callback = dash_oracle(cls.league, cls.weekly, cls.daily, cls.activity, cls.logos)
         cls.callback = staticmethod(callback)
         cls.temp = tempfile.TemporaryDirectory()
@@ -103,23 +107,18 @@ class RecordBookParityTests(unittest.TestCase):
                              'count': int(span.children.removeprefix(': '))})
         self.assertEqual(exported['negativeTeamCounts'], expected)
 
-    def test_every_season_section_value_order_and_ties_match_dash(self):
+    def test_every_season_has_complete_unique_roster_and_ranked_awards(self):
         for year in self.payload['years']:
             with self.subTest(year=year):
-                reference = self.callback(str(year))
                 exported = self.payload['seasons'][str(year)]
-                self.assertEqual(reference.find('H3')[0].children, exported['title'])
-                self.assertEqual(reference.find('H4')[0].children, exported['mvp']['label'])
-                self.assertEqual(reference.find('P')[0].children, exported['mvp']['value'])
-                tables = reference.find('DataTable')
-                for index, team in enumerate(exported['allNba']):
-                    self.assertEqual(team['label'], reference.find('H4')[index + 1].children)
-                    self.assertEqual(team['players'], table_data(tables[index]))
-                    self.assertEqual(len({p['Player'] for p in team['players']}), len(team['players']))
-                self.assertEqual(reference.find('P')[1].children, exported['bestWaiverAdd']['value'])
-                self.assertEqual(exported['mostUniqueTeams']['players'], table_data(tables[3]))
-                maximum = exported['mostUniqueTeams']['players'][0]['Unique Teams']
-                self.assertTrue(all(row['Unique Teams'] == maximum for row in exported['mostUniqueTeams']['players']))
+                roster = exported['allFantasyTeam']
+                self.assertEqual(len(roster), len(exported['roster']['activeSlots']) + exported['roster']['benchSlots'])
+                self.assertEqual(len({row['playerId'] for row in roster}), len(roster))
+                self.assertTrue(all(row['team']['teamId'] for row in roster))
+                self.assertLessEqual(len(exported['bestWaiverAdds']), 10)
+                self.assertLessEqual(len(exported['bestDraftPicks']), 10)
+                self.assertEqual(exported['journeymen'][0]['rank'], 1)
+                self.assertTrue(all(row['rank'] <= 10 for row in exported['journeymen']))
 
     def test_isolated_activity_edge_filters_and_best_waiver_deduplication(self):
         year = int(self.weekly['Year'].max())
@@ -130,14 +129,30 @@ class RecordBookParityTests(unittest.TestCase):
             row = first.copy(); row['Action'] = action; row['Asset'] = f'Excluded {action}'
             excluded.append(row)
         changed = pd.concat([self.activity, pd.DataFrame(excluded)], ignore_index=True)
-        result = all_time(self.league, self.weekly, self.daily, changed, self.logos)
+        result = all_time(self.league, self.weekly, self.daily, changed, self.config)
         names = {row['Asset'] for row in result['transactionLeaders']}
         self.assertFalse(names & {row['Asset'] for row in excluded})
 
-        waiver = activity[activity['Action'] == 'WAIVER ADDED'].iloc[0].copy()
-        duplicate = pd.concat([self.activity, pd.DataFrame([waiver, waiver])], ignore_index=True)
-        baseline = season_awards(self.weekly, self.activity, year)['bestWaiverAdd']
-        self.assertEqual(season_awards(self.weekly, duplicate, year)['bestWaiverAdd'], baseline)
+    def test_latest_position_eligibility_controls_lineup(self):
+        daily = pd.DataFrame([
+            {'Year': 2026, 'Date': '2025-10-20', 'Scoring Period': 1, 'Player Slot': 'PG', 'Player ID': 1, 'Player Name': 'Changed', 'Team ID': 1, 'Position': 'PG', 'Position2': None, 'Position3': None, 'FPTS': 50},
+            {'Year': 2026, 'Date': '2026-01-20', 'Scoring Period': 90, 'Player Slot': 'SF', 'Player ID': 1, 'Player Name': 'Changed', 'Team ID': 1, 'Position': 'SF', 'Position2': None, 'Position3': None, 'FPTS': 50},
+            {'Year': 2026, 'Date': '2026-01-20', 'Scoring Period': 90, 'Player Slot': 'PG', 'Player ID': 2, 'Player Name': 'Guard', 'Team ID': 2, 'Position': 'PG', 'Position2': None, 'Position3': None, 'FPTS': 80},
+        ])
+        players = player_totals(daily, 2026, ['PG', 'SF'], {1: {'teamId': 1}, 2: {'teamId': 2}})
+        lineup = all_fantasy_team(players, ['PG', 'SF'], 0)
+        self.assertEqual([(row['slot'], row['name']) for row in lineup], [('PG', 'Guard'), ('SF', 'Changed')])
+
+    def test_draft_pick_requires_drafted_to_be_latest_action(self):
+        activity = pd.DataFrame([
+            {'Date': '2025-10-01', 'Time': '10:00', 'Player ID': 1, 'Asset': 'Dropped', 'Team ID': 1, 'Action': 'DRAFTED'},
+            {'Date': '2025-10-20', 'Time': '10:00', 'Player ID': 1, 'Asset': 'Dropped', 'Team ID': 1, 'Action': 'DROPPED'},
+            {'Date': '2025-10-01', 'Time': '10:00', 'Player ID': 2, 'Asset': 'Kept', 'Team ID': 2, 'Action': 'DRAFTED'},
+        ])
+        scores = pd.DataFrame([{'Player ID': 1, 'Team ID': 1, 'FPTS': 200},
+                               {'Player ID': 2, 'Team ID': 2, 'FPTS': 100}])
+        ranked = transaction_rankings(activity, scores, {1: {'teamId': 1}, 2: {'teamId': 2}}, 'DRAFTED', True)
+        self.assertEqual([row['name'] for row in ranked], ['Kept'])
 
 
 if __name__ == '__main__':
