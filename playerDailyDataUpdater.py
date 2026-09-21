@@ -12,6 +12,7 @@ from dataUpdateSafety import (
     require_espn_credentials,
     validate_player_daily_data,
 )
+from playerDailyAggregation import eligible_position_fields
 
 
 PLAYER_DAILY_DATA_PATH = "data/playerDailyData.csv"
@@ -77,6 +78,7 @@ def _record_for_player(year, scoring_period, team, player):
         "FPTS": player.points,
         "MIN": day_stats["total"].get("MIN"),
     }
+    record.update(eligible_position_fields(player.eligibleSlots))
     record.update(player.points_breakdown)
     return record
 

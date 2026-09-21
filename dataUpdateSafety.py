@@ -56,7 +56,7 @@ PLAYER_MATCHUP_REQUIRED_COLUMNS = {
 PLAYER_DAILY_REQUIRED_COLUMNS = {
     "Year", "Scoring Period", "Date", "Team Name", "Team ID", "Player Name", "Player ID",
     "Player Slot", "FPTS", "MIN", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB",
-    "TO", "FGM", "FGA", "FTM",
+    "TO", "FGM", "FGA", "FTM", "Position", "Position2", "Position3",
 }
 PLAYER_DAILY_NUMERIC_COLUMNS = [
     "Year", "Scoring Period", "Team ID", "Player ID", "FPTS", "MIN", "FTA", "PTS", "3PM",

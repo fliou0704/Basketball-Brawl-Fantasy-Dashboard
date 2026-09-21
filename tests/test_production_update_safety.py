@@ -69,6 +69,7 @@ def daily_period(year, scoring_period):
             "Year": year, "Scoring Period": scoring_period, "Date": date,
             "Team Name": f"Team {team_id}", "Team ID": team_id, "Player Name": player_name,
             "Player ID": player_id, "Player Slot": "PG", "FPTS": points, "MIN": 30,
+            "Position": "PG", "Position2": None, "Position3": None,
             "FTA": 2, "PTS": 20, "3PM": 2, "BLK": 0, "STL": 1, "AST": 5, "REB": 4,
             "TO": 2, "FGM": 8, "FGA": 15, "FTM": 2,
         })
