@@ -38,10 +38,13 @@ jobs:
         run: |
           python dataUpdater.py
           python activityDataUpdater.py --write
+          # Re-run discovery after activity updates. Fresh profiles are cached,
+          # so this only calls ESPN if activity introduced a new player ID.
+          python playerMetadataUpdater.py
 
       - name: Validate updated data
         run: >-
-          python -c "import pandas as pd; from activityDataUpdater import validate_activity; from dataUpdateSafety import validate_league_data, validate_player_matchup_data, validate_player_daily_data; validate_league_data(pd.read_csv('data/basketballBrawlLeagueData.csv')); validate_player_matchup_data(pd.read_csv('data/playerMatchupData.csv')); validate_player_daily_data(pd.read_csv('data/playerDailyData.csv')); validate_activity(pd.read_csv('data/activityData.csv')); print('Updated CSV validation passed.')"
+          python -c "import pandas as pd; from activityDataUpdater import validate_activity; from dataUpdateSafety import validate_league_data, validate_player_matchup_data, validate_player_daily_data; from playerMetadataUpdater import discover_player_ids, validate_metadata; validate_league_data(pd.read_csv('data/basketballBrawlLeagueData.csv')); validate_player_matchup_data(pd.read_csv('data/playerMatchupData.csv')); validate_player_daily_data(pd.read_csv('data/playerDailyData.csv')); validate_activity(pd.read_csv('data/activityData.csv')); metadata=pd.read_csv('data/playerMetadata.csv'); discovered=discover_player_ids('data'); validate_metadata(metadata, discovered, discovered-set(pd.to_numeric(metadata['ESPN Player ID']).astype(int))); print('Updated CSV validation passed.')"
 
       - name: Check for data changes
         id: changes

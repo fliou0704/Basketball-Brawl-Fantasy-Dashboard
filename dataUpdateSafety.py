@@ -256,3 +256,16 @@ def atomic_write_csv(frame: pd.DataFrame, destination: str | Path) -> None:
     except Exception:
         temporary_path.unlink(missing_ok=True)
         raise
+
+
+def player_metadata_by_id(frame: pd.DataFrame) -> dict[int, dict]:
+    """Return player metadata keyed by the canonical integer ESPN player ID."""
+    if "ESPN Player ID" not in frame.columns:
+        raise DataValidationError("player metadata is missing ESPN Player ID")
+    ids = pd.to_numeric(frame["ESPN Player ID"], errors="coerce")
+    if ids.isna().any() or not ids.map(lambda value: float(value).is_integer() and value > 0).all():
+        raise DataValidationError("player metadata contains an invalid ESPN Player ID")
+    if ids.duplicated().any():
+        raise DataValidationError("player metadata contains duplicate ESPN Player IDs")
+    records = frame.where(pd.notna(frame), None).to_dict("records")
+    return {int(record["ESPN Player ID"]): record for record in records}

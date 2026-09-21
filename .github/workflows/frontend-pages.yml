@@ -9,6 +9,7 @@ on:
       - 'data/playerDailyData.csv'
       - 'data/playerMatchupData.csv'
       - 'data/activityData.csv'
+      - 'data/playerMetadata.csv'
       - 'dataStore.py'
       - 'assets/logos/**'
       - 'assets/placements/**'
@@ -38,8 +39,14 @@ jobs:
             data/playerDailyData.csv
             data/playerMatchupData.csv
             data/activityData.csv
+            data/playerMetadata.csv
           sparse-checkout-cone-mode: false
           persist-credentials: false
+      - name: Use codex metadata until the updater is merged to main
+        run: |
+          if [ ! -f frontend/.league-source/data/playerMetadata.csv ]; then
+            cp data/playerMetadata.csv frontend/.league-source/data/playerMetadata.csv
+          fi
       - uses: actions/setup-node@v4
         with:
           node-version: '22'

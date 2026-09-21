@@ -6,6 +6,7 @@ from build_homepage import build as build_homepage
 from generate_historical_h2h import build as build_historical_h2h
 from generate_record_book import build as build_record_book
 from generate_team_stats import build as build_team_stats
+from generate_player_metadata import build as build_player_metadata
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -16,6 +17,7 @@ def build_all(source: Path, output: Path) -> None:
     build_team_stats(source, output)
     build_historical_h2h(source, output)
     build_record_book(source, output)
+    build_player_metadata(source, output)
 
 
 if __name__ == "__main__":
