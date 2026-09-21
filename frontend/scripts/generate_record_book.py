@@ -15,7 +15,8 @@ def scalar(value):
 
 
 def frame_records(frame, columns):
-    return [{column: None if pd.isna(value) else scalar(value) for column, value in row.items()}
+    return [{column: value if isinstance(value, dict) else None if pd.isna(value) else scalar(value)
+             for column, value in row.items()}
             for row in frame[columns].to_dict('records')]
 
 
@@ -24,14 +25,19 @@ def all_time(league, weekly, daily, activity, config):
     top_team = league.sort_values('Points For', ascending=False).iloc[0]
     top_player = weekly.sort_values('FPTS', ascending=False).iloc[0]
     top_daily = daily.sort_values('FPTS', ascending=False).iloc[0]
+    teams_by_season = {int(year): season_teams(league, int(year), config)
+                       for year in league['Year'].unique()}
+    team_for = lambda row: teams_by_season.get(int(row['Year']), {}).get(int(row['Team ID']))
     hundred = daily[daily['FPTS'] >= 100].copy().sort_values('Date', ascending=False)
-    hundred = hundred[['Date', 'Player Name', 'Team Name', 'FPTS']]
+    hundred = hundred[['Year', 'Date', 'Player Name', 'Team Name', 'Team ID', 'FPTS']]
+    hundred['team'] = hundred.apply(team_for, axis=1)
     hundred['Date'] = pd.to_datetime(hundred['Date']).dt.strftime('%m/%d/%Y')
     hundred_counts = hundred['Player Name'].value_counts().rename('Count').reset_index()
     dated = daily.copy()
     dated['Date'] = pd.to_datetime(dated['Date'])
     negative = dated[(dated['FPTS'] < 0) & (~dated['Player Slot'].isin(['BE', 'IR']))].copy()
     negative.sort_values('Date', ascending=False, inplace=True)
+    negative['team'] = negative.apply(team_for, axis=1)
     names = dict(zip(negative.drop_duplicates('Team ID')['Team ID'],
                      negative.drop_duplicates('Team ID')['Team Name']))
     counts = negative.groupby('Team ID').size().reset_index(name='Count')
@@ -42,15 +48,18 @@ def all_time(league, weekly, daily, activity, config):
                     .sort_values('Transaction Count', ascending=False).head(10))
     negative['Date'] = negative['Date'].dt.strftime('%m/%d/%Y')
     return {
+        'champions': [{'year': year, 'team': champion_for(league, year, teams_by_season[year])}
+                      for year in sorted(teams_by_season)
+                      if champion_for(league, year, teams_by_season[year])],
         'records': [
-            {'label': 'Most Points in a Single Matchup (Team)', 'value': f"{top_team['Team Name']} scored {top_team['Points For']} points in Week {top_team['Week']} of {top_team['Year']}"},
-            {'label': 'Most Points in a Single Matchup (Player)', 'value': f"{top_player['Player Name']} scored {top_player['FPTS']} points in Week {top_player['Week']} of {top_player['Year']} for {top_player['Team Name']}"},
-            {'label': 'Most Points in a Single Day (Player)', 'value': f"{top_daily['Player Name']} scored {top_daily['FPTS']} points on {top_daily['Date']} for {top_daily['Team Name']}"},
+            {'label': 'Most Points in a Single Matchup (Team)', 'value': f"{top_team['Team Name']} scored {top_team['Points For']} points in Week {top_team['Week']} of {top_team['Year']}", 'team': team_for(top_team)},
+            {'label': 'Most Points in a Single Matchup (Player)', 'value': f"{top_player['Player Name']} scored {top_player['FPTS']} points in Week {top_player['Week']} of {top_player['Year']} for {top_player['Team Name']}", 'team': team_for(top_player)},
+            {'label': 'Most Points in a Single Day (Player)', 'value': f"{top_daily['Player Name']} scored {top_daily['FPTS']} points on {top_daily['Date']} for {top_daily['Team Name']}", 'team': team_for(top_daily)},
         ],
         'transactionLeaders': frame_records(transactions, ['Asset', 'Transaction Count']),
-        'hundredPointDays': frame_records(hundred, ['Date', 'Player Name', 'Team Name', 'FPTS']),
+        'hundredPointDays': frame_records(hundred, ['Date', 'Player Name', 'Team Name', 'FPTS', 'team']),
         'hundredPointCounts': frame_records(hundred_counts, ['Player Name', 'Count']),
-        'negativePointDays': frame_records(negative, ['Date', 'Player Name', 'Team Name', 'FPTS']),
+        'negativePointDays': frame_records(negative, ['Date', 'Player Name', 'Team Name', 'FPTS', 'team']),
         'negativeTeamCounts': [{'logo': 'logos/' + Path(row['Logo Path']).name, 'count': int(row['Count'])}
                                for _, row in counts.iterrows()],
     }
@@ -120,8 +129,8 @@ def ordered_events(activity_year):
     return events.sort_values(['_date', '_time', '_order'])
 
 
-def transaction_rankings(activity_year, team_scores, teams, action, latest_action=False):
-    events = ordered_events(activity_year)
+def transaction_rankings(activity, team_scores, teams, action, latest_action=False, year=None):
+    events = ordered_events(activity[activity['Year'] == year] if year is not None else activity)
     if latest_action:
         candidates = events.drop_duplicates('Player ID', keep='last')
         candidates = candidates[candidates['Action'] == action]
@@ -154,9 +163,13 @@ def season_awards(league, weekly, daily, activity, metadata, config, year):
     unique = (activity_year.groupby(['Player ID', 'Asset'], dropna=False)['Team ID'].nunique()
               .reset_index(name='teamCount').sort_values(['teamCount', 'Asset'], ascending=[False, True]))
     unique['rank'] = unique['teamCount'].rank(method='min', ascending=False).astype(int)
-    journeymen = [{'playerId': None if pd.isna(row['Player ID']) else int(row['Player ID']),
-                   'name': row['Asset'], 'teamCount': int(row['teamCount']), 'rank': int(row['rank'])}
-                  for _, row in unique[unique['rank'] <= 10].iterrows()]
+    journeymen = []
+    for _, row in unique[unique['teamCount'] >= 3].iterrows():
+        history = ordered_events(activity_year[activity_year['Player ID'] == row['Player ID']])
+        team_ids = list(dict.fromkeys(int(value) for value in history['Team ID'].dropna()))
+        journeymen.append({'playerId': None if pd.isna(row['Player ID']) else int(row['Player ID']),
+                           'name': row['Asset'], 'teamCount': int(row['teamCount']),
+                           'rank': int(row['rank']), 'teams': [teams[team_id] for team_id in team_ids if team_id in teams]})
     bench_count = int(settings.get('benchSlots', inferred_bench_count(daily, year)))
     return {
         'title': f'{year} Honors',
@@ -164,7 +177,7 @@ def season_awards(league, weekly, daily, activity, metadata, config, year):
         'mvp': player_record(players.iloc[0]),
         'allFantasyTeam': all_fantasy_team(players, slots, bench_count),
         'bestWaiverAdds': transaction_rankings(activity_year, team_scores, teams, 'WAIVER ADDED'),
-        'bestDraftPicks': transaction_rankings(activity_year, team_scores, teams, 'DRAFTED', True),
+        'bestDraftPicks': transaction_rankings(activity, team_scores, teams, 'DRAFTED', True, year),
         'journeymen': journeymen,
         'roster': {'activeSlots': slots, 'benchSlots': bench_count},
     }

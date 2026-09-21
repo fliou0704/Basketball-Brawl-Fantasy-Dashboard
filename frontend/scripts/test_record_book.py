@@ -86,8 +86,11 @@ class RecordBookParityTests(unittest.TestCase):
         tables = reference.find('DataTable')
         exported = self.payload['allTime']
         self.assertEqual(exported['transactionLeaders'], table_data(tables[0]))
-        self.assertEqual(exported['hundredPointDays'], table_data(tables[1]))
-        self.assertEqual(exported['negativePointDays'], table_data(tables[2]))
+        for key, index in (('hundredPointDays', 1), ('negativePointDays', 2)):
+            projected = [{column: row[column] for column in ('Date', 'Player Name', 'Team Name', 'FPTS')}
+                         for row in exported[key]]
+            self.assertEqual(projected, table_data(tables[index]))
+            self.assertTrue(all(row['team']['teamId'] for row in exported[key]))
         allowed = self.activity[self.activity['Action'].isin(['WAIVER ADDED','DROPPED','DRAFTED','TRADED'])]
         self.assertEqual(sum(row['Transaction Count'] for row in exported['transactionLeaders']),
                          sum(allowed['Asset'].value_counts().head(10)))
@@ -118,7 +121,24 @@ class RecordBookParityTests(unittest.TestCase):
                 self.assertLessEqual(len(exported['bestWaiverAdds']), 10)
                 self.assertLessEqual(len(exported['bestDraftPicks']), 10)
                 self.assertEqual(exported['journeymen'][0]['rank'], 1)
-                self.assertTrue(all(row['rank'] <= 10 for row in exported['journeymen']))
+                self.assertTrue(all(row['teamCount'] >= 3 for row in exported['journeymen']))
+                self.assertTrue(all(len(row['teams']) == row['teamCount'] for row in exported['journeymen']))
+                for player in exported['journeymen']:
+                    history = self.activity[(self.activity['Year'] == year) &
+                                            (self.activity['Player ID'] == player['playerId'])].copy()
+                    history['_date'] = pd.to_datetime(history['Date'])
+                    history['_time'] = history['Time'].fillna('')
+                    history['_order'] = range(len(history))
+                    history.sort_values(['_date', '_time', '_order'], inplace=True)
+                    expected = list(dict.fromkeys(int(value) for value in history['Team ID'].dropna()))
+                    self.assertEqual([team['teamId'] for team in player['teams']], expected)
+
+    def test_championship_history_contains_each_completed_champion_once(self):
+        champions = self.payload['allTime']['champions']
+        completed = {int(year) for year in self.payload['years']
+                     if self.payload['seasons'][str(year)]['champion']}
+        self.assertEqual({row['year'] for row in champions}, completed)
+        self.assertEqual(len({row['year'] for row in champions}), len(champions))
 
     def test_isolated_activity_edge_filters_and_best_waiver_deduplication(self):
         year = int(self.weekly['Year'].max())
@@ -145,14 +165,16 @@ class RecordBookParityTests(unittest.TestCase):
 
     def test_draft_pick_requires_drafted_to_be_latest_action(self):
         activity = pd.DataFrame([
-            {'Date': '2025-10-01', 'Time': '10:00', 'Player ID': 1, 'Asset': 'Dropped', 'Team ID': 1, 'Action': 'DRAFTED'},
-            {'Date': '2025-10-20', 'Time': '10:00', 'Player ID': 1, 'Asset': 'Dropped', 'Team ID': 1, 'Action': 'DROPPED'},
-            {'Date': '2025-10-01', 'Time': '10:00', 'Player ID': 2, 'Asset': 'Kept', 'Team ID': 2, 'Action': 'DRAFTED'},
+            {'Year': 2024, 'Date': '2023-10-01', 'Time': '10:00', 'Player ID': 1, 'Asset': 'Older Pick', 'Team ID': 1, 'Action': 'DRAFTED'},
+            {'Year': 2025, 'Date': '2024-10-20', 'Time': '10:00', 'Player ID': 1, 'Asset': 'Older Pick', 'Team ID': 1, 'Action': 'DROPPED'},
+            {'Year': 2024, 'Date': '2023-10-01', 'Time': '10:00', 'Player ID': 2, 'Asset': 'Dropped Same Year', 'Team ID': 2, 'Action': 'DRAFTED'},
+            {'Year': 2024, 'Date': '2024-01-20', 'Time': '10:00', 'Player ID': 2, 'Asset': 'Dropped Same Year', 'Team ID': 2, 'Action': 'DROPPED'},
         ])
         scores = pd.DataFrame([{'Player ID': 1, 'Team ID': 1, 'FPTS': 200},
                                {'Player ID': 2, 'Team ID': 2, 'FPTS': 100}])
-        ranked = transaction_rankings(activity, scores, {1: {'teamId': 1}, 2: {'teamId': 2}}, 'DRAFTED', True)
-        self.assertEqual([row['name'] for row in ranked], ['Kept'])
+        ranked = transaction_rankings(activity, scores, {1: {'teamId': 1}, 2: {'teamId': 2}},
+                                      'DRAFTED', True, 2024)
+        self.assertEqual([row['name'] for row in ranked], ['Older Pick'])
 
 
 if __name__ == '__main__':
