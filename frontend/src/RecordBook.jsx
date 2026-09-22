@@ -21,7 +21,7 @@ function ResponsiveTable({ rows, fields, label }) {
 
 function Record({ record }) {
   const detail=record.playerName?record.value.slice(record.playerName.length):record.value;
-  return <Card className="all-time-record"><p className="award-kicker">{record.label}</p><div>{record.playerId?<PlayerLinkIdentity playerId={record.playerId} name={record.playerName} showHeadshot size={42}/>:record.team&&<TeamLogo team={record.team} size={52}/>}<p>{detail}</p></div></Card>;
+  return <Card className="all-time-record"><p className="award-kicker">{record.label}</p><div>{record.playerId?<><PlayerLinkIdentity playerId={record.playerId} name={record.playerName} showHeadshot size={42}/>{record.team&&<TeamLogo team={record.team} size={34}/>}</>:record.team&&<TeamLogo team={record.team} size={52}/>}<p>{detail}</p></div></Card>;
 }
 
 function AllTime({ data }) {
@@ -43,7 +43,7 @@ function Season({ data }) {
   return <div className="season-honors">
     <section className="premier-awards" aria-label="Premier season awards">
       <Card className="premier-award champion-card"><p className="award-kicker">Champion</p>{data.champion?<TeamIdentity team={data.champion}/>:<p className="award-pending">Season in progress</p>}</Card>
-      <Card className="premier-award mvp-card"><p className="award-kicker">Most Valuable Player</p><PlayerIdentity player={data.mvp} featured/><p className="award-points">{formatPoints(data.mvp.points)} FPTS</p></Card>
+      <Card className="premier-award mvp-card"><p className="award-kicker">Most Valuable Player</p><div className="mvp-primary"><PlayerIdentity player={data.mvp} featured/><p className="award-points">{formatPoints(data.mvp.points)} FPTS</p></div></Card>
     </section>
     <Section title="All-Fantasy Team" meta={`${data.roster.activeSlots.length} starters · ${data.roster.benchSlots} bench`} className="all-fantasy-section">
       <Card className="fantasy-roster"><div className="roster-columns" aria-hidden="true"><span>Slot</span><span>Player</span><span>FPTS</span></div><ol>{data.allFantasyTeam.map((player,index)=><li key={player.playerId}><span className={`roster-slot ${player.slot==='BE'?'bench':''}`}>{player.slot==='BE'?`BE ${index-data.roster.activeSlots.length+1}`:player.slot}</span><PlayerIdentity player={player}/><strong>{formatPoints(player.points)} <small>FPTS</small></strong></li>)}</ol></Card>
@@ -61,7 +61,7 @@ function TeamIdentity({ team }) {
 }
 
 function PlayerIdentity({ player, featured=false }) {
-  return <div className={`player-identity ${featured?'featured':''}`}><div><strong><PlayerLinkIdentity playerId={player.playerId} name={player.name} showHeadshot size={featured?52:34}/></strong>{player.team&&<span>{player.team.teamName}</span>}</div></div>;
+  return <div className={`player-identity ${featured?'featured':''}`}><div><strong><PlayerLinkIdentity playerId={player.playerId} name={player.name} showHeadshot size={featured?52:38}/></strong>{player.team&&<span className="player-team"><TeamLogo team={player.team} size={20}/>{player.team.teamName}</span>}</div></div>;
 }
 
 function AwardLeaders({ players, journeyman=false }) {
@@ -69,7 +69,7 @@ function AwardLeaders({ players, journeyman=false }) {
 }
 
 function JourneymanIdentity({ player }) {
-  return <div className="journeyman-identity"><div><strong><PlayerLinkIdentity playerId={player.playerId} name={player.name}/></strong><span>{player.teamCount} fantasy teams</span></div><div className="journeyman-logos" aria-label={`${player.name} fantasy teams`}>{player.teams.map(team=><TeamLogo key={team.teamId} team={team} size={24}/>)}</div></div>;
+  return <div className="journeyman-identity"><div><strong><PlayerLinkIdentity playerId={player.playerId} name={player.name} showHeadshot size={38}/></strong><span>{player.teamCount} fantasy teams</span></div><div className="journeyman-logos" aria-label={`${player.name} fantasy teams`}>{player.teams.map(team=><TeamLogo key={team.teamId} team={team} size={24}/>)}</div></div>;
 }
 
 function ExpandableAward({ title, players, leaders=players.slice(0,1), journeyman=false, expandLabel='View Top 10' }) {

@@ -13,7 +13,7 @@ function Roster({ rows, summary, qualityMetric = 'fpts' }) {
   return <table className={`team-roster ${summary?'summary-roster':'season-roster'}`}><caption className="sr-only">{summary?'All-Time Roster':'Roster'}</caption>
     <thead><tr>{columns.map(([key,label])=><th key={key} scope="col">{label}</th>)}</tr></thead>
     <tbody>{rows.map((row,index)=><tr key={`${row.playerId}-${index}`} className={summary?(row.inactive?'roster-inactive':'roster-active'):''}>
-      {columns.map(([key,label])=>key==='name'?<th key={key} scope="row" title={row[key]}><PlayerIdentity playerId={row.playerId} name={row[key]} showHeadshot size={22}/></th>:key==='quality'?<td key={key} data-label={label}><PlayerQuality row={row} metric={qualityMetric}/></td>:<td key={key} data-label={label}>{row[key]}</td>)}
+      {columns.map(([key,label])=>key==='name'?<th key={key} scope="row" title={row[key]}><PlayerIdentity playerId={row.playerId} name={row[key]} showHeadshot/></th>:key==='quality'?<td key={key} data-label={label}><PlayerQuality row={row} metric={qualityMetric}/></td>:<td key={key} data-label={label}>{row[key]}</td>)}
     </tr>)}</tbody>
   </table>;
 }

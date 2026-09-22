@@ -3,7 +3,7 @@ import { Card, Section, TableCard } from './Layout';
 import PlayerIdentity from './PlayerIdentity';
 export function SeasonLeaders({ players }) {
   if (!players?.length) return null;
-  return <Section title="Season Leaders" meta="Rostered players"><TableCard><ol className="season-leaders">{players.map(p=><li key={p.playerId}><span className="leader-rank">{p.rank}</span><div><h3><PlayerIdentity playerId={p.playerId} name={p.name} showHeadshot size={22}/></h3><p>{p.teams.map(t=>t.teamName).join(' / ')}</p></div><strong>{p.pointsDisplay}<small>FPTS</small></strong></li>)}</ol></TableCard></Section>;
+  return <Section title="Season Leaders" meta="Rostered players"><TableCard><ol className="season-leaders">{players.map(p=><li key={p.playerId}><span className="leader-rank">{p.rank}</span><div><h3><PlayerIdentity playerId={p.playerId} name={p.name} showHeadshot/></h3><p>{p.teams.map(t=>t.teamName).join(' / ')}</p></div><strong>{p.pointsDisplay}<small>FPTS</small></strong></li>)}</ol></TableCard></Section>;
 }
 export function SeasonHistory({ data }) {
   if (!data) return null;

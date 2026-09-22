@@ -10,7 +10,11 @@
 .award-identity span, .player-identity span, .award-leader span, .award-ranking li>div span { display: block; margin-top: 3px; color: var(--color-ink-muted); font-size: .78rem; }
 .player-identity strong { display: block; line-height: 1.25; overflow-wrap: anywhere; }
 .player-identity.featured strong { font-size: clamp(1.25rem,3vw,1.65rem); }
-.award-points { margin: 17px 0 0 65px; color: var(--color-gold); font-weight: 750; font-variant-numeric: tabular-nums; }
+.player-team { display: flex !important; align-items: center; gap: 5px; white-space: nowrap; }
+.player-team img { width: 20px; height: 20px; object-fit: contain; }
+.mvp-primary { display: flex; min-width: 0; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.mvp-primary .player-identity { min-width: 0; }
+.award-points { flex: none; margin: 16px 0 0; color: var(--color-gold); font-weight: 750; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
 .award-pending { margin: 0; color: var(--color-ink-muted); font-size: 1.15rem; font-weight: 700; }
 .all-fantasy-section, .compact-award-section { margin: 0; }
 .fantasy-roster { padding: 0; overflow: hidden; }
@@ -51,9 +55,10 @@
 .all-time-records { display: grid; gap: 16px; }
 .all-time-record { min-height: 122px; }
 .all-time-record .award-kicker { margin-bottom: 16px; }
-.all-time-record>div { display: flex; align-items: center; gap: 15px; }
+.all-time-record>div { display: flex; min-width: 0; align-items: center; gap: 12px; }
+.all-time-record .player-link-identity { flex: 0 1 auto; }
 .all-time-record img { flex: none; object-fit: contain; }
-.all-time-record p { margin: 0; font-size: 1rem; font-weight: 700; line-height: 1.5; }
+.all-time-record p { min-width: 0; margin: 0; font-size: 1rem; font-weight: 700; line-height: 1.5; }
 .all-time-expandable { overflow: hidden; border: 1px solid var(--color-border); border-radius: var(--radius-card); background: var(--color-surface); }
 .all-time-expandable summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 18px 20px; cursor: pointer; font-size: 1rem; font-weight: 800; list-style: none; }
 .all-time-expandable summary::-webkit-details-marker { display: none; }
@@ -72,6 +77,8 @@
 .table-team img { flex: none; object-fit: contain; }
 
 @media(max-width:719px) {
+  .mvp-primary { gap: 10px; }
+  .mvp-primary .player-identity.featured strong { font-size: 1.15rem; }
   .record-table, .record-table tbody { display: block; }
   .record-table thead { display: none; }
   .record-table tr { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px 16px; padding: 16px 10px; border-bottom: 1px solid var(--color-border); }
