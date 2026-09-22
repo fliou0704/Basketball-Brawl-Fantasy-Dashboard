@@ -7,7 +7,7 @@
 .award-identity, .player-identity { min-width: 0; display: flex; align-items: center; gap: 13px; }
 .award-identity img, .player-identity img { flex: none; object-fit: contain; }
 .award-identity strong { display: block; font-size: clamp(1.35rem,3vw,1.85rem); line-height: 1.12; }
-.award-identity span, .player-identity span, .award-leader span, .award-ranking li>div span { display: block; margin-top: 3px; color: var(--color-ink-muted); font-size: .78rem; }
+.award-identity > div > span, .player-identity > div > span { display: block; margin-top: 3px; color: var(--color-ink-muted); font-size: .78rem; }
 .player-identity strong { display: block; line-height: 1.25; overflow-wrap: anywhere; }
 .player-identity.featured strong { font-size: clamp(1.25rem,3vw,1.65rem); }
 .player-team { display: flex !important; align-items: center; gap: 5px; white-space: nowrap; }
