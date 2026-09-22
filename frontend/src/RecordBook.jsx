@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header, getData } from './App';
 import { Card, PageHeader, PageShell, Section } from './components/Layout';
 import { TeamLogo } from './components/Standings';
+import PlayerLinkIdentity from './components/PlayerIdentity';
 import './record-book.css';
 
 const columns = {
@@ -13,20 +14,21 @@ function ResponsiveTable({ rows, fields, label }) {
   return <table className="record-table"><caption className="sr-only">{label}</caption>
     <thead><tr>{fields.map(([key,name])=><th key={key} scope="col">{name}</th>)}</tr></thead>
     <tbody>{rows.map((row,index)=><tr key={index}>{fields.map(([key,name],cell)=>cell===0
-      ? <th key={key} scope="row" data-label={name}>{row[key]}</th>
-      : <td key={key} data-label={name}>{key==='Team Name'&&row.team?<span className="table-team"><TeamLogo team={row.team} size={26}/>{row[key]}</span>:row[key]}</td>)}</tr>)}</tbody>
+      ? <th key={key} scope="row" data-label={name}>{(key==='Player Name'||key==='Asset')?<PlayerLinkIdentity playerId={row['Player ID']} name={row[key]}/>:row[key]}</th>
+      : <td key={key} data-label={name}>{(key==='Player Name'||key==='Asset')?<PlayerLinkIdentity playerId={row['Player ID']} name={row[key]}/>:key==='Team Name'&&row.team?<span className="table-team"><TeamLogo team={row.team} size={26}/>{row[key]}</span>:row[key]}</td>)}</tr>)}</tbody>
   </table>;
 }
 
 function Record({ record }) {
-  return <Card className="all-time-record"><p className="award-kicker">{record.label}</p><div>{record.team&&<TeamLogo team={record.team} size={52}/>}<p>{record.value}</p></div></Card>;
+  const detail=record.playerName?record.value.slice(record.playerName.length):record.value;
+  return <Card className="all-time-record"><p className="award-kicker">{record.label}</p><div>{record.playerId?<PlayerLinkIdentity playerId={record.playerId} name={record.playerName} showHeadshot size={42}/>:record.team&&<TeamLogo team={record.team} size={52}/>}<p>{detail}</p></div></Card>;
 }
 
 function AllTime({ data }) {
   return <div className="all-time-record-book">
     <Section title="Championship History"><Card className="championship-timeline"><ol>{data.champions.map(champion=><li key={champion.year}><span className="timeline-year">{champion.year}</span><span className="timeline-crown" aria-hidden="true">♛</span><TeamLogo team={champion.team} size={48}/><strong>{champion.team.teamName}</strong></li>)}</ol></Card></Section>
     <Section title="Most Points"><div className="all-time-records">{data.records.map(record=><Record key={record.label} record={record}/>)}</div></Section>
-    <ExpandableTable title="Players with 100+ Point Days" rows={data.hundredPointDays} fields={columns.days}><p className="record-counts">{data.hundredPointCounts.map(row=>`${row['Player Name']}: ${row.Count}`).join(', ')}</p></ExpandableTable>
+    <ExpandableTable title="Players with 100+ Point Days" rows={data.hundredPointDays} fields={columns.days}><p className="record-counts">{data.hundredPointCounts.map((row,index)=><React.Fragment key={row['Player ID']??row['Player Name']}>{index>0?', ':''}<PlayerLinkIdentity playerId={row['Player ID']} name={row['Player Name']}/>: {row.Count}</React.Fragment>)}</p></ExpandableTable>
     <ExpandableTable title="Players with Negative Point Days" rows={data.negativePointDays} fields={columns.days}><div className="negative-team-counts">{data.negativeTeamCounts.map((row,index)=><span key={`${row.logo}-${index}`}><img src={`${import.meta.env.BASE_URL}${row.logo}`} alt=""/>: {row.count}</span>)}</div></ExpandableTable>
     <ExpandableTable title="Top 10 Most Active Players (Total Transactions)" rows={data.transactionLeaders} fields={columns.transactions}/>
   </div>;
@@ -59,7 +61,7 @@ function TeamIdentity({ team }) {
 }
 
 function PlayerIdentity({ player, featured=false }) {
-  return <div className={`player-identity ${featured?'featured':''}`}>{player.team&&<TeamLogo team={player.team} size={featured?52:34}/>}<div><strong>{player.name}</strong>{player.team&&<span>{player.team.teamName}</span>}</div></div>;
+  return <div className={`player-identity ${featured?'featured':''}`}><div><strong><PlayerLinkIdentity playerId={player.playerId} name={player.name} showHeadshot size={featured?52:34}/></strong>{player.team&&<span>{player.team.teamName}</span>}</div></div>;
 }
 
 function AwardLeaders({ players, journeyman=false }) {
@@ -67,7 +69,7 @@ function AwardLeaders({ players, journeyman=false }) {
 }
 
 function JourneymanIdentity({ player }) {
-  return <div className="journeyman-identity"><div><strong>{player.name}</strong><span>{player.teamCount} fantasy teams</span></div><div className="journeyman-logos" aria-label={`${player.name} fantasy teams`}>{player.teams.map(team=><TeamLogo key={team.teamId} team={team} size={24}/>)}</div></div>;
+  return <div className="journeyman-identity"><div><strong><PlayerLinkIdentity playerId={player.playerId} name={player.name}/></strong><span>{player.teamCount} fantasy teams</span></div><div className="journeyman-logos" aria-label={`${player.name} fantasy teams`}>{player.teams.map(team=><TeamLogo key={team.teamId} team={team} size={24}/>)}</div></div>;
 }
 
 function ExpandableAward({ title, players, leaders=players.slice(0,1), journeyman=false, expandLabel='View Top 10' }) {

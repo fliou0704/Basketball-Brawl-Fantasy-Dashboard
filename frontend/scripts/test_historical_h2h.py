@@ -78,6 +78,7 @@ class HistoricalH2HParityTests(unittest.TestCase):
                     with self.subTest(pair=view['title'], year=details['year'], week=details['week']):
                         for team_id, actual in zip(details['teamIds'], details['players']):
                             source=self.players[(self.players['Year']==details['year'])&(self.players['Week']==details['week'])&(self.players['Team ID']==team_id)].sort_values('FPTS',ascending=False)
+                            self.assertEqual([p['playerId'] for p in actual],source['Player ID'].astype(int).tolist())
                             self.assertEqual([p['name'] for p in actual],source['Player Name'].tolist())
                             self.assertEqual([p['fpts'] for p in actual],source['FPTS'].astype(float).round(2).tolist())
 

@@ -28,7 +28,7 @@ def matchup_details(players, year, week, team_ids, team_names):
     for team_id in team_ids:
         group = players[(players['Year'] == year) & (players['Week'] == week) & (players['Team ID'] == team_id)]
         group = group.sort_values('FPTS', ascending=False).reset_index(drop=True)
-        sides.append([{'name': r['Player Name'], 'fpts': None if pd.isna(r['FPTS']) else round(float(r['FPTS']), 2)}
+        sides.append([{'playerId': int(r['Player ID']), 'name': r['Player Name'], 'fpts': None if pd.isna(r['FPTS']) else round(float(r['FPTS']), 2)}
                       for _, r in group.iterrows()])
     return {'year': int(year), 'week': int(week), 'teamIds': list(map(int, team_ids)),
             'teams': list(team_names), 'players': sides}

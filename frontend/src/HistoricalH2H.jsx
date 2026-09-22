@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header, getData } from './App';
 import { Card, PageHeader, PageShell, Section, TableCard } from './components/Layout';
 import { nextExpandedId } from './site-data';
+import PlayerIdentity from './components/PlayerIdentity';
 import './historical-h2h.css';
 
 const base = import.meta.env.BASE_URL;
@@ -18,7 +19,7 @@ function MatchupSelector({ teams, first, second, setFirst, setSecond }) {
 }
 
 function PlayerSide({ team, players }) {
-  return <div className="player-side" style={{'--side-color':team.color}}><header><TeamMark team={team}/><div><span>{team.teamName}</span><strong>{Math.round(players.reduce((sum,p)=>sum+(p.fpts||0),0))} FPTS</strong></div></header><div className="player-list">{players.map((p,index)=><div className="player-row" key={`${p.name}-${index}`}><strong>{p.name}</strong><span>{p.fpts==null?'—':Math.round(p.fpts)} FPTS</span></div>)}</div></div>;
+  return <div className="player-side" style={{'--side-color':team.color}}><header><TeamMark team={team}/><div><span>{team.teamName}</span><strong>{Math.round(players.reduce((sum,p)=>sum+(p.fpts||0),0))} FPTS</strong></div></header><div className="player-list">{players.map((p,index)=><div className="player-row" key={`${p.name}-${index}`}><strong><PlayerIdentity playerId={p.playerId} name={p.name}/></strong><span>{p.fpts==null?'—':Math.round(p.fpts)} FPTS</span></div>)}</div></div>;
 }
 
 function MatchupDetails({ details, teams }) {

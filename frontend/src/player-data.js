@@ -10,6 +10,11 @@ export function searchPlayers(players, query, limit=8) {
 
 export function clearPlayerSearch() { return ''; }
 
+export function playerHref(playerId, base='/') {
+  const value=String(playerId??'');
+  return /^\d+$/.test(value)&&Number(value)>0 ? `${base}#/players/${value}` : null;
+}
+
 export function ageOnDate(birthDate, now=new Date()) {
   const [year,month,day]=String(birthDate||'').split('-').map(Number);
   if(!year || !month || !day) return null;

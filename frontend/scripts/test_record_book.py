@@ -85,12 +85,14 @@ class RecordBookParityTests(unittest.TestCase):
         reference = self.callback('All-Time')
         tables = reference.find('DataTable')
         exported = self.payload['allTime']
-        self.assertEqual(exported['transactionLeaders'], table_data(tables[0]))
+        projected_transactions=[{key:row[key] for key in ('Asset','Transaction Count')} for row in exported['transactionLeaders']]
+        self.assertEqual(projected_transactions, table_data(tables[0]))
         for key, index in (('hundredPointDays', 1), ('negativePointDays', 2)):
             projected = [{column: row[column] for column in ('Date', 'Player Name', 'Team Name', 'FPTS')}
                          for row in exported[key]]
             self.assertEqual(projected, table_data(tables[index]))
             self.assertTrue(all(row['team']['teamId'] for row in exported[key]))
+            self.assertTrue(all(row['Player ID'] for row in exported[key]))
         allowed = self.activity[self.activity['Action'].isin(['WAIVER ADDED','DROPPED','DRAFTED','TRADED'])]
         self.assertEqual(sum(row['Transaction Count'] for row in exported['transactionLeaders']),
                          sum(allowed['Asset'].value_counts().head(10)))

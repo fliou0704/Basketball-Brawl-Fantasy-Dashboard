@@ -29,10 +29,12 @@ def all_time(league, weekly, daily, activity, config):
                        for year in league['Year'].unique()}
     team_for = lambda row: teams_by_season.get(int(row['Year']), {}).get(int(row['Team ID']))
     hundred = daily[daily['FPTS'] >= 100].copy().sort_values('Date', ascending=False)
-    hundred = hundred[['Year', 'Date', 'Player Name', 'Team Name', 'Team ID', 'FPTS']]
+    hundred = hundred[['Year', 'Date', 'Player ID', 'Player Name', 'Team Name', 'Team ID', 'FPTS']]
     hundred['team'] = hundred.apply(team_for, axis=1)
     hundred['Date'] = pd.to_datetime(hundred['Date']).dt.strftime('%m/%d/%Y')
     hundred_counts = hundred['Player Name'].value_counts().rename('Count').reset_index()
+    hundred_count_ids = hundred.drop_duplicates('Player Name')[['Player Name', 'Player ID']]
+    hundred_counts = hundred_counts.merge(hundred_count_ids, on='Player Name', how='left')
     dated = daily.copy()
     dated['Date'] = pd.to_datetime(dated['Date'])
     negative = dated[(dated['FPTS'] < 0) & (~dated['Player Slot'].isin(['BE', 'IR']))].copy()
@@ -44,8 +46,9 @@ def all_time(league, weekly, daily, activity, config):
     counts['Logo Path'] = counts['Team ID'].map(names).map(config['team_logo_paths'])
     counts = counts.dropna(subset=['Logo Path']).sort_values('Count', ascending=False)
     transactions = activity[activity['Action'].isin(['WAIVER ADDED', 'DROPPED', 'DRAFTED', 'TRADED'])]
+    transaction_ids = transactions.dropna(subset=['Player ID']).drop_duplicates('Asset', keep='last')[['Asset', 'Player ID']]
     transactions = (transactions.groupby('Asset')['Action'].count().reset_index(name='Transaction Count')
-                    .sort_values('Transaction Count', ascending=False).head(10))
+                    .sort_values('Transaction Count', ascending=False).head(10).merge(transaction_ids, on='Asset', how='left'))
     negative['Date'] = negative['Date'].dt.strftime('%m/%d/%Y')
     return {
         'champions': [{'year': year, 'team': champion_for(league, year, teams_by_season[year])}
@@ -53,13 +56,13 @@ def all_time(league, weekly, daily, activity, config):
                       if champion_for(league, year, teams_by_season[year])],
         'records': [
             {'label': 'Most Points in a Single Matchup (Team)', 'value': f"{top_team['Team Name']} scored {top_team['Points For']} points in Week {top_team['Week']} of {top_team['Year']}", 'team': team_for(top_team)},
-            {'label': 'Most Points in a Single Matchup (Player)', 'value': f"{top_player['Player Name']} scored {top_player['FPTS']} points in Week {top_player['Week']} of {top_player['Year']} for {top_player['Team Name']}", 'team': team_for(top_player)},
-            {'label': 'Most Points in a Single Day (Player)', 'value': f"{top_daily['Player Name']} scored {top_daily['FPTS']} points on {top_daily['Date']} for {top_daily['Team Name']}", 'team': team_for(top_daily)},
+            {'label': 'Most Points in a Single Matchup (Player)', 'value': f"{top_player['Player Name']} scored {top_player['FPTS']} points in Week {top_player['Week']} of {top_player['Year']} for {top_player['Team Name']}", 'playerId': int(top_player['Player ID']), 'playerName': top_player['Player Name'], 'team': team_for(top_player)},
+            {'label': 'Most Points in a Single Day (Player)', 'value': f"{top_daily['Player Name']} scored {top_daily['FPTS']} points on {top_daily['Date']} for {top_daily['Team Name']}", 'playerId': int(top_daily['Player ID']), 'playerName': top_daily['Player Name'], 'team': team_for(top_daily)},
         ],
-        'transactionLeaders': frame_records(transactions, ['Asset', 'Transaction Count']),
-        'hundredPointDays': frame_records(hundred, ['Date', 'Player Name', 'Team Name', 'FPTS', 'team']),
-        'hundredPointCounts': frame_records(hundred_counts, ['Player Name', 'Count']),
-        'negativePointDays': frame_records(negative, ['Date', 'Player Name', 'Team Name', 'FPTS', 'team']),
+        'transactionLeaders': frame_records(transactions, ['Player ID', 'Asset', 'Transaction Count']),
+        'hundredPointDays': frame_records(hundred, ['Date', 'Player ID', 'Player Name', 'Team Name', 'FPTS', 'team']),
+        'hundredPointCounts': frame_records(hundred_counts, ['Player ID', 'Player Name', 'Count']),
+        'negativePointDays': frame_records(negative, ['Date', 'Player ID', 'Player Name', 'Team Name', 'FPTS', 'team']),
         'negativeTeamCounts': [{'logo': 'logos/' + Path(row['Logo Path']).name, 'count': int(row['Count'])}
                                for _, row in counts.iterrows()],
     }

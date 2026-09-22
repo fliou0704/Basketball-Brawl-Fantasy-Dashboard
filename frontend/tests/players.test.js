@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ageOnDate, clearPlayerSearch, normalizePlayerSearch, searchPlayers } from '../src/player-data.js';
+import { ageOnDate, clearPlayerSearch, normalizePlayerSearch, playerHref, searchPlayers } from '../src/player-data.js';
 import { playerRoute } from '../src/site-data.js';
 
 const players=[{playerId:1,name:'Nikola Jokić'},{playerId:1966,name:'LeBron James'}];
@@ -24,4 +24,10 @@ test('age is calculated around the birthday boundary',()=>{
 
 test('selecting a player clears the reusable search query',()=>{
   assert.equal(clearPlayerSearch('jokic'),'');
+});
+
+test('shared player links use ESPN IDs and reject missing IDs',()=>{
+  assert.equal(playerHref(1966,'/Basketball-Brawl/'),'/Basketball-Brawl/#/players/1966');
+  assert.equal(playerHref(null,'/Basketball-Brawl/'),null);
+  assert.equal(playerHref('not-an-id','/Basketball-Brawl/'),null);
 });
