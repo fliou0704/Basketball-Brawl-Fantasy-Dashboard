@@ -14,11 +14,12 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from build_homepage import logo_config, team_info, write_json
-from playerDailyAggregation import DAILY_STATS, credited_daily_rows, load_season_metadata
+from playerDailyAggregation import active_slots_by_year, credited_daily_rows, load_season_metadata
 
 STAT_DIVISORS = {"FGM": 2, "FGA": -1, "FTA": -1, "AST": 2, "STL": 4, "BLK": 4, "TO": -2}
 STAT_KEYS = ("FPTS", "PTS", "REB", "AST", "STL", "BLK", "3PM", "TO", "FGM", "FGA", "FTM", "FTA")
 ACTIVE_OWNERSHIP_ACTIONS = {"DRAFTED", "KEEPER", "WAIVER ADDED", "FA ADDED", "RECEIVED"}
+BOX_SCORE_DIVISORS = {**STAT_DIVISORS, "PTS": 1, "REB": 1, "3PM": 1, "FTM": 1}
 
 
 def number(value):
@@ -99,30 +100,86 @@ def aggregate_career(daily: pd.DataFrame, team_lookup: dict[int, dict]) -> tuple
     return display_rows, career
 
 
+def game_log(daily: pd.DataFrame, season_metadata: dict, config: dict) -> tuple[list[dict], list[int]]:
+    """Export every reliably played saved NBA game, independent of fantasy lineup credit."""
+    rows = daily[pd.to_numeric(daily["MIN"], errors="coerce").fillna(0) > 0].copy()
+    if rows.empty:
+        return [], []
+    active_by_year = active_slots_by_year(season_metadata)
+    rows["_date"] = pd.to_datetime(rows["Date"], errors="raise")
+    rows = rows.sort_values(["_date", "Scoring Period"], ascending=[False, False], kind="stable")
+    games = []
+    for _, row in rows.iterrows():
+        slot = str(row["Player Slot"])
+        context = "START" if slot in active_by_year.get(int(row["Year"]), set()) else "BENCH" if slot == "BE" else "INACTIVE"
+        stats = {"FPTS": number(row["FPTS"]), "MIN": number(row["MIN"])}
+        for stat in ("PTS", "REB", "AST", "STL", "BLK", "3PM", "TO", "FGM", "FGA", "FTM", "FTA"):
+            stats[stat] = number(row[stat] / BOX_SCORE_DIVISORS[stat])
+        games.append({
+            "date": row["_date"].date().isoformat(), "season": int(row["Year"]),
+            "scoringPeriod": int(row["Scoring Period"]), "context": context, "slot": slot,
+            "team": team_info(row, config), **stats,
+        })
+    return games, sorted({game["season"] for game in games}, reverse=True)
+
+
+def transaction_history(activity: pd.DataFrame, config: dict) -> list[dict]:
+    """Export the canonical activity ledger with paired trade-side context when available."""
+    if activity.empty:
+        return []
+    rows = activity.copy()
+    rows["_order"] = range(len(rows))
+    rows["_date"] = pd.to_datetime(rows["Date"], errors="raise")
+    rows = rows.sort_values(["_date", "Time", "_order"], ascending=[False, False, False], kind="stable")
+    events = []
+    for _, row in rows.iterrows():
+        event = {
+            "date": row["_date"].date().isoformat(), "time": str(row["Time"]),
+            "season": int(row["Year"]), "type": row["Action"], "team": team_info(row, config),
+        }
+        if row["Action"] in {"TRADED", "RECEIVED"}:
+            counterpart_action = "RECEIVED" if row["Action"] == "TRADED" else "TRADED"
+            counterpart = activity[
+                (activity["Date"] == row["Date"]) & (activity["Time"] == row["Time"]) &
+                (activity["Player ID"] == row["Player ID"]) & (activity["Action"] == counterpart_action)
+            ]
+            if not counterpart.empty:
+                event["counterpartTeam"] = team_info(counterpart.iloc[-1], config)
+        events.append(event)
+    return events
+
+
 def build(source: Path, output: Path) -> dict:
     metadata = pd.read_csv(source / "playerMetadata.csv").set_index("ESPN Player ID")
     daily = pd.read_csv(source / "playerDailyData.csv")
-    credited = credited_daily_rows(daily, load_season_metadata())
+    season_metadata = load_season_metadata()
+    credited = credited_daily_rows(daily, season_metadata)
     league = pd.read_csv(source / "basketballBrawlLeagueData.csv")
     config = logo_config()
     team_rows = league.sort_values(["Year", "Week"]).drop_duplicates("Team ID", keep="last")
     teams = {int(row["Team ID"]): team_info(row, config) for _, row in team_rows.iterrows()}
     eligibility = latest_eligibility(daily)
-    ownership = current_ownership(pd.read_csv(source / "activityData.csv"), teams)
+    activity = pd.read_csv(source / "activityData.csv")
+    ownership = current_ownership(activity, teams)
     players = []
+    exported_games = 0
     for player_id, row in metadata.sort_values("Full Name").iterrows():
         player_eligibility = eligibility.get(int(player_id), [])
         fantasy_team = ownership.get(int(player_id))
         record = search_record(player_id, row, player_eligibility, fantasy_team)
         players.append(record)
         career_rows, career = aggregate_career(credited[credited["Player ID"] == player_id], teams)
+        games, game_seasons = game_log(daily[daily["Player ID"] == player_id], season_metadata, config)
+        transactions = transaction_history(activity[activity["Player ID"] == player_id], config)
+        exported_games += len(games)
         write_json(output / "players" / f"{int(player_id)}.json", {
             "schemaVersion": 1, "playerId": int(player_id), "fantasyEligibility": player_eligibility,
             "fantasyTeam": fantasy_team, "careerRows": career_rows, "career": career,
+            "gameLog": games, "gameSeasons": game_seasons, "transactions": transactions,
         })
     payload = {"schemaVersion": 1, "players": players}
     write_json(output / "players.json", payload)
-    print(f"Players: {len(players)} profiles, {len(credited)} credited starts")
+    print(f"Players: {len(players)} profiles, {len(credited)} credited starts, {exported_games} played games")
     return payload
 
 

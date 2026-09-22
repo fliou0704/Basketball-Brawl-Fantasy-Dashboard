@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { getData, Header } from './App';
 import { PageShell, Section, TableCard } from './components/Layout';
 import PlayerSearch from './components/PlayerSearch';
-import { ageOnDate, formatHeight } from './player-data';
+import { TeamLogo } from './components/Standings';
+import { ageOnDate, defaultPlayerTab, formatHeight, latestPlayerGameSeason, recentPlayerGames, selectPlayerTab } from './player-data';
 import './players.css';
 
 const base=import.meta.env.BASE_URL;
@@ -10,6 +11,9 @@ const stats=['starts','FPTS','fpPerStart','mpg','fppm','PTS','REB','AST','STL','
 const rateStats=new Set(['fpPerStart','mpg','fppm']);
 const labels={starts:'GP',FPTS:'FPTS',fpPerStart:'FP/Start',mpg:'MPG',fppm:'FPPM',PTS:'PTS',REB:'REB',AST:'AST',STL:'STL',BLK:'BLK','3PM':'3PM',TO:'TO',FGM:'FGM',FGA:'FGA',FTM:'FTM',FTA:'FTA'};
 const statTitles={starts:'Credited fantasy starts',fpPerStart:'Fantasy points per credited start',mpg:'Minutes per credited game',fppm:'Fantasy points per minute'};
+const gameStats=['FPTS','MIN','PTS','REB','AST','STL','BLK','3PM','TO'];
+const fullGameStats=[...gameStats,'FGM','FGA','FTM','FTA'];
+const tabLabels={career:'Career','game-log':'Game Log',transactions:'Transactions'};
 const clean=value=>value!==null&&value!==undefined&&value!=='';
 
 function usePlayers() {
@@ -39,9 +43,46 @@ function CareerTable({rows,career}) {
   </tbody></table></div></TableCard>;
 }
 
+function PlayerTabs({active,onChange}) {
+  return <nav className="player-tabs" aria-label="Player sections" role="tablist">{Object.entries(tabLabels).map(([tab,label])=><button key={tab} type="button" role="tab" aria-selected={active===tab} aria-controls={`player-tab-${tab}`} onClick={()=>onChange(selectPlayerTab(tab))}>{label}</button>)}</nav>;
+}
+
+function gameDate(value) { return new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(new Date(`${value}T12:00:00Z`)); }
+function gameValue(game,stat) { const value=game[stat]; return value==null?'—':Number(value).toLocaleString(undefined,{maximumFractionDigits:2}); }
+function GameContext({game}) { return <span className="game-context"><TeamLogo team={game.team} size={24}/><span><strong>{game.context}</strong><small>{game.slot}</small></span></span>; }
+function GameTable({games,full=false,label}) {
+  const columns=full?fullGameStats:gameStats;
+  if(!games.length) return <div className="player-tab-empty">No played games recorded for this season.</div>;
+  return <TableCard className="game-log-card"><div className="game-log-scroll"><table className="game-log-table"><caption className="sr-only">{label}</caption><thead><tr><th>Date</th><th>Fantasy context</th>{columns.map(stat=><th className="numeric" key={stat}>{stat}</th>)}</tr></thead><tbody>{games.map(game=><tr key={`${game.date}-${game.scoringPeriod}`}><th scope="row">{gameDate(game.date)}</th><td><GameContext game={game}/></td>{columns.map(stat=><td className={`numeric ${stat==='FPTS'?'game-fpts':''}`} key={stat}>{gameValue(game,stat)}</td>)}</tr>)}</tbody></table></div></TableCard>;
+}
+
+function GameLogTab({career}) {
+  const latest=latestPlayerGameSeason(career.gameSeasons||[]);
+  const [season,setSeason]=useState(latest==null?'':String(latest));
+  const games=career.gameLog||[];
+  const selected=games.filter(game=>String(game.season)===season);
+  return <div id="player-tab-game-log" role="tabpanel" className="player-tab-panel">
+    <Section title="Recent Games" meta="Latest 5 played games"><GameTable games={recentPlayerGames(games)} label="Recent games"/></Section>
+    <Section title="Complete Game Log" className="complete-game-log"><label className="player-season-selector">Season<select aria-label="Game Log season" value={season} onChange={event=>setSeason(event.target.value)}>{(career.gameSeasons||[]).map(year=><option key={year} value={year}>{year}</option>)}</select></label><GameTable games={selected} full label={`${season} complete game log`}/></Section>
+  </div>;
+}
+
+function TransactionTeam({team}) { return <span className="transaction-team"><TeamLogo team={team} size={34}/><span>{team.teamName}</span></span>; }
+function TransactionTeams({transaction}) {
+  if(!transaction.counterpartTeam) return <TransactionTeam team={transaction.team}/>;
+  const from=transaction.type==='TRADED'?transaction.team:transaction.counterpartTeam;
+  const to=transaction.type==='TRADED'?transaction.counterpartTeam:transaction.team;
+  return <span className="transaction-trade"><TransactionTeam team={from}/><span aria-hidden="true">→</span><TransactionTeam team={to}/></span>;
+}
+function TransactionsTab({transactions}) {
+  return <div id="player-tab-transactions" role="tabpanel" className="player-tab-panel"><Section title="Basketball Brawl Transactions" meta="Most recent first">{transactions.length?<ol className="transaction-list">{transactions.map((transaction,index)=><li key={`${transaction.date}-${transaction.time}-${transaction.type}-${index}`}><time dateTime={transaction.date}>{gameDate(transaction.date)}</time><div><strong>{transaction.type}</strong><span>{transaction.season} season</span></div><TransactionTeams transaction={transaction}/></li>)}</ol>:<div className="player-tab-empty">No Basketball Brawl transactions recorded for this player.</div>}</Section></div>;
+}
+
 export function PlayerPage({playerId}) {
   const {players,error:searchError}=usePlayers();
   const [state,setState]=useState({metadata:null,career:null,error:false});
+  const [activeTab,setActiveTab]=useState(defaultPlayerTab());
+  useEffect(()=>setActiveTab(defaultPlayerTab()),[playerId]);
   useEffect(()=>{let live=true;setState({metadata:null,career:null,error:false});Promise.all([getData('player-metadata.json'),getData(`players/${playerId}.json`)]).then(([metadata,career])=>{if(live)setState({metadata:metadata.players[playerId]||null,career,error:!metadata.players[playerId]});}).catch(()=>live&&setState({metadata:null,career:null,error:true}));return()=>{live=false;};},[playerId]);
   const {metadata:player,career,error}=state;
   const teamLabel=player?.Active?'NBA Team':'Last NBA Team';
@@ -50,7 +91,10 @@ export function PlayerPage({playerId}) {
     {!searchError&&players&&<PlayerSearch players={players} compact/>}
     {error?<div className="message" role="alert"><h2>Player not found</h2><p>The ESPN Player ID {playerId} is not in Basketball Brawl history.</p><a href={`${base}#/players`}>Search players</a></div>:!player?<p role="status">Loading player…</p>:<>
       <section className="player-profile"><div className="player-headshot-wrap">{player['Headshot URL']?<img src={player['Headshot URL']} alt={`${player['Full Name']} headshot`}/>:<span aria-hidden="true"/>}</div><div className="player-profile-main"><p className="page-eyebrow">Basketball Brawl Player</p><h1>{player['Full Name']}</h1><p className="player-nba-line">{[eligibility,clean(player['Jersey Number'])?`#${player['Jersey Number']}`:null].filter(clean).join(' · ')}</p><div className="current-fantasy-team"><span>Fantasy Team</span>{career.fantasyTeam?<strong><img src={`${base}${career.fantasyTeam.logo}`} alt=""/>{career.fantasyTeam.teamName}</strong>:<strong>Fantasy Free Agent</strong>}</div><dl className="player-bio"><BioItem label="Age" value={ageOnDate(player['Birth Date'])} featured/><BioItem label="Height" value={formatHeight(player['Height Inches'])}/><BioItem label="Weight" value={clean(player['Weight Pounds'])?`${player['Weight Pounds']} lb`:null}/><BioItem label={teamLabel} value={player['NBA Team Name']}/><BioItem label="NBA position" value={player['NBA Position Name']||player['NBA Position Abbreviation']}/><BioItem label="Born" value={dateLabel(player['Birth Date'])}/><BioItem label="Birthplace" value={birthplace(player)}/><BioItem label="Draft" value={draftLabel(player)}/><BioItem label="NBA experience" value={clean(player['NBA Experience Years'])?`${player['NBA Experience Years']} years`:null}/><BioItem label="Status" value={player.Active?'Active':'Inactive'}/></dl></div></section>
-      <Section title="Basketball Brawl Career"><p className="career-definition">Totals include played NBA games only when the player occupied an active fantasy lineup slot.</p><CareerTable rows={career.careerRows} career={career.career}/></Section>
+      <PlayerTabs active={activeTab} onChange={setActiveTab}/>
+      {activeTab==='career'&&<div id="player-tab-career" role="tabpanel" className="player-tab-panel"><Section title="Basketball Brawl Career"><p className="career-definition">Totals include played NBA games only when the player occupied an active fantasy lineup slot.</p><CareerTable rows={career.careerRows} career={career.career}/></Section></div>}
+      {activeTab==='game-log'&&<GameLogTab career={career}/>}
+      {activeTab==='transactions'&&<TransactionsTab transactions={career.transactions||[]}/>}
     </>}
   </PageShell></>;
 }

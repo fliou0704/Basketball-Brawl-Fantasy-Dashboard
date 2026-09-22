@@ -10,6 +10,12 @@ export function searchPlayers(players, query, limit=8) {
 
 export function clearPlayerSearch() { return ''; }
 
+export const PLAYER_TABS=['career','game-log','transactions'];
+export function defaultPlayerTab() { return PLAYER_TABS[0]; }
+export function selectPlayerTab(tab) { return PLAYER_TABS.includes(tab)?tab:defaultPlayerTab(); }
+export function recentPlayerGames(games,limit=5) { return [...games].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,limit); }
+export function latestPlayerGameSeason(seasons) { return [...seasons].map(Number).sort((a,b)=>b-a)[0]??null; }
+
 export function playerHref(playerId, base='/') {
   const value=String(playerId??'');
   return /^\d+$/.test(value)&&Number(value)>0 ? `${base}#/players/${value}` : null;
