@@ -100,6 +100,18 @@ def attach_matchup_weeks(daily: pd.DataFrame, mapping: pd.DataFrame) -> pd.DataF
     return result
 
 
+def credited_daily_rows(daily: pd.DataFrame, season_metadata: dict) -> pd.DataFrame:
+    """Return played games credited to an active fantasy lineup slot."""
+    rows = daily.copy()
+    active_by_year = active_slots_by_year(season_metadata)
+    active = [
+        slot in active_by_year.get(int(year), set())
+        for year, slot in zip(rows["Year"], rows["Player Slot"])
+    ]
+    minutes = pd.to_numeric(rows["MIN"], errors="coerce").fillna(0)
+    return rows[pd.Series(active, index=rows.index) & (minutes > 0)].copy()
+
+
 def aggregate_daily_to_weekly(
     daily: pd.DataFrame,
     mapping: pd.DataFrame,

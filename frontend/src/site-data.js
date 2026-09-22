@@ -2,6 +2,12 @@ export function teamIdFromRoute(route) {
   return route.match(/^#\/?teams\/(\d+)$/)?.[1] || null;
 }
 
+export function playerRoute(route) {
+  if (route==='#/players' || route==='#players') return {playerId:null};
+  const match=route.match(/^#\/?players\/(\d+)$/);
+  return match ? {playerId:match[1]} : null;
+}
+
 export function nextExpandedId(current, clicked) {
   return current === clicked ? null : clicked;
 }
