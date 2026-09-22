@@ -21,6 +21,10 @@
 .player-headshot-wrap img { width: min(100%,280px); max-height: 260px; object-fit: contain; object-position: bottom; }
 .player-profile-main { padding-bottom: 24px; }
 .player-nba-line { margin: 10px 0 22px; color: var(--color-ink-muted); font-weight: 700; }
+.current-fantasy-team { display: flex; align-items: center; gap: 12px; margin: -8px 0 20px; }
+.current-fantasy-team > span { color: var(--color-ink-muted); font-size: .68rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
+.current-fantasy-team strong { display: inline-flex; align-items: center; gap: 7px; font-size: .88rem; }
+.current-fantasy-team img { width: 30px; height: 30px; object-fit: contain; }
 .player-bio { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin: 0; border-top: 1px solid var(--color-border); }
 .bio-item { padding: 13px 10px 10px 0; border-bottom: 1px solid var(--color-border); }
 .bio-item dt { color: var(--color-ink-muted); font-size: .66rem; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; }
@@ -29,7 +33,7 @@
 .career-definition { margin: -8px 0 16px; color: var(--color-ink-muted); font-size: .82rem; }
 .career-table-card { padding: 0; }
 .career-scroll { overflow-x: auto; }
-.career-table { min-width: 1080px; table-layout: auto; }
+.career-table { min-width: 1320px; table-layout: auto; }
 .career-table th:first-child { width: 74px; }
 .career-table .career-team { min-width: 210px; }
 .career-team-cell { display: flex; align-items: center; gap: 10px; min-width: 190px; }
@@ -38,12 +42,16 @@
 .career-fpts { color: var(--color-ink)!important; font-weight: 850; }
 .career-total { background: var(--color-surface-muted); border-top: 2px solid var(--color-border-strong); }
 .career-total th, .career-total td { font-weight: 850; }
+.season-total { background: var(--color-brand-soft); border-top: 1px solid #efb894; }
+.season-total th, .season-total td { font-weight: 800; }
 .career-empty { padding: 24px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); }
 .career-empty h3 { margin: 0 0 6px; }
 .career-empty p { margin: 0; color: var(--color-ink-muted); }
 @media (min-width:720px) {
   .player-search-compact { width: min(100%,560px); margin-left: auto; }
   .player-profile { grid-template-columns: minmax(230px,31%) 1fr; gap: 34px; padding: 28px 30px 0; }
+  .player-headshot-wrap { align-self: center; place-items: center; border-radius: var(--radius-card); }
+  .player-headshot-wrap img { object-position: center; }
   .player-bio { grid-template-columns: repeat(4,minmax(0,1fr)); }
   .bio-item { padding-right: 16px; }
 }

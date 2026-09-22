@@ -8,6 +8,8 @@ export function searchPlayers(players, query, limit=8) {
   return players.filter(player=>normalizePlayerSearch(player.name).includes(term)).slice(0,limit);
 }
 
+export function clearPlayerSearch() { return ''; }
+
 export function ageOnDate(birthDate, now=new Date()) {
   const [year,month,day]=String(birthDate||'').split('-').map(Number);
   if(!year || !month || !day) return null;

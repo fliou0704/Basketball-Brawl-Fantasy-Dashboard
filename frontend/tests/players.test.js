@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { ageOnDate, normalizePlayerSearch, searchPlayers } from '../src/player-data.js';
+import { ageOnDate, clearPlayerSearch, normalizePlayerSearch, searchPlayers } from '../src/player-data.js';
 import { playerRoute } from '../src/site-data.js';
 
 const players=[{playerId:1,name:'Nikola Jokić'},{playerId:1966,name:'LeBron James'}];
@@ -20,4 +20,8 @@ test('player search is partial, case-insensitive, and diacritic-normalized',()=>
 test('age is calculated around the birthday boundary',()=>{
   assert.equal(ageOnDate('1984-12-30',new Date(2026,11,29)),41);
   assert.equal(ageOnDate('1984-12-30',new Date(2026,11,30)),42);
+});
+
+test('selecting a player clears the reusable search query',()=>{
+  assert.equal(clearPlayerSearch('jokic'),'');
 });
