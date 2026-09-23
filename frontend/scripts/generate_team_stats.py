@@ -21,6 +21,13 @@ RANK_NAMES = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh',
 INACTIVE_ACTIONS = ('DROPPED', 'TRADED', 'NOT KEPT')
 
 
+def ordinal(value):
+    value = int(value)
+    mod100 = value % 100
+    suffix = 'th' if 11 <= mod100 <= 13 else {1: 'st', 2: 'nd', 3: 'rd'}.get(value % 10, 'th')
+    return f'{value}{suffix}'
+
+
 def prepare_players(weekly):
     players = weekly.copy()
     for stat, divisor in {'FGM': 2, 'FGA': -1, 'FTA': -1, 'AST': 2, 'STL': 4, 'BLK': 4, 'TO': -2}.items():
@@ -183,15 +190,91 @@ def season_roster(players, daily, activity, team_id, year, quality=None):
              'date': r['Date'], 'contribution': f"{r['Contribution']:.2f}%"} for _, r in merged.iterrows()]
 
 
+def season_reference_date(season_metadata, year):
+    """Use the first saved matchup date as the season's demographic reference."""
+    season = next(item for item in season_metadata['seasons'] if int(item['season']) == int(year))
+    return pd.Timestamp(season['weeks'][0]['start'])
+
+
+def physical_metrics(rosters, metadata, season_metadata, year):
+    """Calculate and league-rank current-roster physicals for one fantasy season."""
+    fields = metadata.copy()
+    fields['ESPN Player ID'] = pd.to_numeric(fields['ESPN Player ID'], errors='coerce')
+    fields = fields.dropna(subset=['ESPN Player ID']).drop_duplicates('ESPN Player ID')
+    fields['ESPN Player ID'] = fields['ESPN Player ID'].astype(int)
+    fields['Birth Date'] = pd.to_datetime(fields['Birth Date'], errors='coerce')
+    fields['Height Inches'] = pd.to_numeric(fields['Height Inches'], errors='coerce')
+    fields['Weight Pounds'] = pd.to_numeric(fields['Weight Pounds'], errors='coerce')
+    fields = fields.set_index('ESPN Player ID')
+    reference = season_reference_date(season_metadata, year)
+    values = {}
+    for team_id, roster in rosters.items():
+        current_ids = [row['playerId'] for row in (roster or []) if row['current']]
+        current = fields.reindex(current_ids)
+        births = current['Birth Date'].dropna()
+        ages = births.map(lambda birth: reference.year - birth.year -
+                          ((reference.month, reference.day) < (birth.month, birth.day)))
+        heights = current['Height Inches'].dropna()
+        heights = heights[heights > 0]
+        bmi_rows = current[['Height Inches', 'Weight Pounds']].dropna()
+        bmi_rows = bmi_rows[(bmi_rows['Height Inches'] > 0) & (bmi_rows['Weight Pounds'] > 0)]
+        bmis = 703 * bmi_rows['Weight Pounds'] / bmi_rows['Height Inches'].pow(2)
+        values[int(team_id)] = {
+            'age': (float(ages.mean()) if not ages.empty else None, int(ages.count())),
+            'height': (float(heights.mean()) if not heights.empty else None, int(heights.count())),
+            'bmi': (float(bmis.mean()) if not bmis.empty else None, int(bmis.count())),
+        }
+
+    ranks = {}
+    for key, ascending in (('age', True), ('height', False), ('bmi', False)):
+        series = pd.Series({team_id: metrics[key][0] for team_id, metrics in values.items()}).dropna()
+        ranks[key] = series.rank(ascending=ascending, method='min').astype(int).to_dict()
+
+    team_count = len(ranks['age'])
+    output = {}
+    for team_id, metrics in values.items():
+        rows = []
+        for key, label in (('age', 'Average Age'), ('height', 'Average Height'), ('bmi', 'Average BMI')):
+            raw, sample_size = metrics[key]
+            rank = ranks[key].get(team_id)
+            if raw is None:
+                display, caption = 'N/A', 'Not ranked'
+            elif key == 'age':
+                display = f'{raw:.1f}'
+                oldest_rank = team_count - rank + 1
+                if rank == 1:
+                    caption = 'Youngest'
+                elif oldest_rank == 1:
+                    caption = 'Oldest'
+                elif rank <= team_count / 2:
+                    caption = f'{ordinal(rank)} Youngest'
+                else:
+                    caption = f'{ordinal(oldest_rank)} Oldest'
+            elif key == 'height':
+                rounded_inches = int(round(raw))
+                display = f'{rounded_inches // 12}\'{rounded_inches % 12}"'
+                caption = f'{ordinal(rank)} Tallest'
+            else:
+                display = f'{raw:.1f}'
+                caption = f'{ordinal(rank)} in League'
+            rows.append({'key': key, 'label': label, 'value': display,
+                         'rawValue': round(raw, 4) if raw is not None else None,
+                         'rank': rank, 'caption': caption, 'sampleSize': sample_size})
+        output[team_id] = rows
+    return output
+
+
 def build(source, output):
     # Imported here to reuse safe logo configuration, not Dash's mutable dataStore.
     from build_homepage import logo_config, team_info, write_json
     league, weekly, daily, activity = [pd.read_csv(source / name) for name in
         ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
     players = prepare_players(weekly)
+    season_metadata = load_season_metadata()
     daily_weekly = aggregate_daily_to_weekly(
-        daily, load_scoring_period_map(), load_season_metadata(), active_only=True
+        daily, load_scoring_period_map(), season_metadata, active_only=True
     )
+    metadata = pd.read_csv(source / 'playerMetadata.csv')
     years = sorted(map(int, players['Year'].unique()), reverse=True)
     latest = league.sort_values('Year', ascending=False).drop_duplicates('Team ID')
     config = logo_config()
@@ -202,6 +285,9 @@ def build(source, output):
     teams = [dict(team_info(row, config), owner=row['Team Owner']) for _, row in latest.iterrows()]
     rankings = {year: stat_values(players, daily, year) for year in years}
     quality = {year: player_percentiles(players, daily, year) for year in years}
+    rosters = {year: {team['teamId']: season_roster(players, daily, activity, team['teamId'], year, quality[year])
+                      for team in teams} for year in years}
+    physicals = {year: physical_metrics(rosters[year], metadata, season_metadata, year) for year in years}
     # Match the site's regular-season standings snapshots; playoff placement is not
     # the Team page's standings rank.
     regular_rows = league[league['Type'] == 'Regular'].to_dict('records')
@@ -215,10 +301,11 @@ def build(source, output):
         tid = team['teamId']
         seasons = {}
         for year in years:
-            roster = season_roster(players, daily, activity, tid, year, quality[year])
+            roster = rosters[year][tid]
             standing = next((row for row in standings[year]['teams'] if row['teamId'] == tid), None)
             seasons[str(year)] = None if roster is None else {
                 'rankings': rankings[year][tid], 'roster': roster,
+                'physicals': physicals[year][tid],
                 'weeklyPerformance': weekly_performance(daily_weekly, tid, year),
                 'snapshot': None if standing is None else {
                     key: standing[key] for key in ('rank', 'record', 'wins', 'losses', 'pointsFor',

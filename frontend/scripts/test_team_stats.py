@@ -9,8 +9,8 @@ import warnings
 
 import pandas as pd
 
-from generate_team_stats import (ROOT, build, player_percentiles, prepare_players,
-                                 season_roster, stat_values, weekly_performance)
+from generate_team_stats import (ROOT, build, physical_metrics, player_percentiles, prepare_players,
+                                 season_reference_date, season_roster, stat_values, weekly_performance)
 from playerDailyAggregation import aggregate_daily_to_weekly, load_scoring_period_map, load_season_metadata
 
 
@@ -233,6 +233,60 @@ class TeamStatsParityTests(unittest.TestCase):
         self.assertEqual(exported['fpts']['points'][0]['value'], totals['FPTS'])
         self.assertAlmostEqual(exported['fppm']['points'][0]['value'], totals['FPTS'] / totals['MIN'], places=3)
         self.assertEqual(exported['starts']['points'][0]['value'], totals['Fantasy Starts'])
+
+    def test_physicals_use_current_roster_and_metric_specific_denominators(self):
+        rosters = {
+            1: [{'playerId': 1, 'current': True}, {'playerId': 2, 'current': False},
+                {'playerId': 3, 'current': True}],
+            2: [{'playerId': 4, 'current': True}],
+        }
+        metadata = pd.DataFrame([
+            {'ESPN Player ID': 1, 'Birth Date': '2000-10-22', 'Height Inches': 72, 'Weight Pounds': 180},
+            {'ESPN Player ID': 2, 'Birth Date': '1980-01-01', 'Height Inches': 90, 'Weight Pounds': 300},
+            {'ESPN Player ID': 3, 'Birth Date': '2001-10-23', 'Height Inches': None, 'Weight Pounds': 210},
+            {'ESPN Player ID': 4, 'Birth Date': '1999-01-01', 'Height Inches': 78, 'Weight Pounds': 220},
+        ])
+        seasons = {'seasons': [{'season': 2025, 'weeks': [{'start': '2024-10-22'}]}]}
+        result = physical_metrics(rosters, metadata, seasons, 2025)
+        team = {metric['key']: metric for metric in result[1]}
+        self.assertEqual(team['age']['rawValue'], 23)
+        self.assertEqual(team['age']['sampleSize'], 2)
+        self.assertEqual(team['height']['rawValue'], 72)
+        self.assertEqual(team['height']['value'], '6\'0"')
+        self.assertEqual(team['height']['sampleSize'], 1)
+        self.assertAlmostEqual(team['bmi']['rawValue'], 703 * 180 / 72 ** 2, places=4)
+        self.assertEqual(team['bmi']['sampleSize'], 1)
+        self.assertEqual(team['height']['rank'], 2)
+        self.assertEqual(team['height']['caption'], '2nd Tallest')
+
+    def test_historical_age_uses_first_matchup_date(self):
+        seasons = {'seasons': [{'season': 2025, 'weeks': [{'start': '2024-10-22'}]}]}
+        self.assertEqual(season_reference_date(seasons, 2025), pd.Timestamp('2024-10-22'))
+        metadata = pd.DataFrame([
+            {'ESPN Player ID': 1, 'Birth Date': '2000-10-22', 'Height Inches': 72, 'Weight Pounds': 180},
+            {'ESPN Player ID': 2, 'Birth Date': '2000-10-23', 'Height Inches': 72, 'Weight Pounds': 180},
+        ])
+        result = physical_metrics({1: [{'playerId': 1, 'current': True},
+                                       {'playerId': 2, 'current': True}]}, metadata, seasons, 2025)
+        age = next(metric for metric in result[1] if metric['key'] == 'age')
+        self.assertEqual(age['rawValue'], 23.5)
+
+    def test_physical_rank_labels_and_ties_follow_min_rank(self):
+        rosters = {team_id: [{'playerId': team_id, 'current': True}] for team_id in range(1, 5)}
+        metadata = pd.DataFrame([
+            {'ESPN Player ID': 1, 'Birth Date': '2004-01-01', 'Height Inches': 80, 'Weight Pounds': 240},
+            {'ESPN Player ID': 2, 'Birth Date': '2003-01-01', 'Height Inches': 80, 'Weight Pounds': 220},
+            {'ESPN Player ID': 3, 'Birth Date': '2002-01-01', 'Height Inches': 76, 'Weight Pounds': 210},
+            {'ESPN Player ID': 4, 'Birth Date': '2001-01-01', 'Height Inches': 74, 'Weight Pounds': 180},
+        ])
+        seasons = {'seasons': [{'season': 2025, 'weeks': [{'start': '2024-10-22'}]}]}
+        result = physical_metrics(rosters, metadata, seasons, 2025)
+        by_team = {team_id: {metric['key']: metric for metric in rows} for team_id, rows in result.items()}
+        self.assertEqual([by_team[team]['age']['caption'] for team in range(1, 5)],
+                         ['Youngest', '2nd Youngest', '2nd Oldest', 'Oldest'])
+        self.assertEqual([by_team[team]['height']['rank'] for team in (1, 2)], [1, 1])
+        self.assertEqual(by_team[1]['height']['caption'], '1st Tallest')
+        self.assertEqual(by_team[1]['bmi']['caption'], '1st in League')
 
     def test_all_time_records_roster_and_status_match_dash(self):
         for tid, payload in self.payloads.items():

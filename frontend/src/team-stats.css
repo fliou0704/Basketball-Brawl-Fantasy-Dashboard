@@ -26,6 +26,12 @@
 .team-rankings strong { font-size: .95rem; }
 .relative-track { grid-column: 1 / -1; height: 5px; overflow: hidden; background: #e8e5e1; border-radius: 999px; }
 .relative-track > span { display: block; height: 100%; background: var(--team-color, var(--color-brand)); border-radius: inherit; }
+.team-physicals { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); margin: 0; }
+.team-physicals > div { min-width: 0; padding: 4px 12px; border-right: 1px solid var(--color-border); border-top: 3px solid var(--team-color, var(--color-brand)); }
+.team-physicals > div:last-child { border-right: 0; }
+.team-physicals dt { margin-top: 9px; color: var(--color-ink-muted); font-size: .68rem; font-weight: 800; letter-spacing: .055em; text-transform: uppercase; }
+.team-physicals dd { margin: 5px 0 0; font-size: clamp(1.35rem,5vw,2rem); font-weight: 900; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.team-physicals .physical-rank { margin-top: 5px; color: var(--color-ink-muted); font-size: .72rem; font-weight: 700; line-height: 1.25; letter-spacing: 0; }
 .roster-groups { display: grid; min-width: 0; gap: 30px; }
 .roster-groups > div { min-width: 0; }
 .quality-controls { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
