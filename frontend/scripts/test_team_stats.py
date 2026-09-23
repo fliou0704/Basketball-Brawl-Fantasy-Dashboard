@@ -10,7 +10,8 @@ import warnings
 import pandas as pd
 
 from generate_team_stats import (ROOT, build, physical_metrics, player_percentiles, prepare_players,
-                                 season_reference_date, season_roster, stat_values, weekly_performance)
+                                 point_rank_captions, roster_mpg, season_reference_date, season_roster,
+                                 stat_values, weekly_performance)
 from playerDailyAggregation import aggregate_daily_to_weekly, load_scoring_period_map, load_season_metadata
 
 
@@ -91,6 +92,19 @@ class TeamStatsParityTests(unittest.TestCase):
                 self.assertEqual(snapshot['record'], f"{int(source['Cumulative Wins'])}–{int(source['Cumulative Losses'])}")
                 self.assertEqual(snapshot['pointsFor'], source['Cumulative Points For'])
                 self.assertEqual(snapshot['pointsAgainst'], source['Cumulative Points Against'])
+
+    def test_points_for_and_against_rank_captions_follow_direction_and_ties(self):
+        teams = [
+            {'teamId': 1, 'pointsFor': 120, 'pointsAgainst': 80},
+            {'teamId': 2, 'pointsFor': 110, 'pointsAgainst': 90},
+            {'teamId': 3, 'pointsFor': 100, 'pointsAgainst': 100},
+            {'teamId': 4, 'pointsFor': 100, 'pointsAgainst': 100},
+        ]
+        result = point_rank_captions(teams)
+        self.assertEqual(result[1]['pointsForRankCaption'], '1st')
+        self.assertEqual(result[4]['pointsForRankCaption'], 'T-3rd')
+        self.assertEqual(result[1]['pointsAgainstRankCaption'], '1st')
+        self.assertEqual(result[4]['pointsAgainstRankCaption'], 'T-3rd')
 
     def test_every_season_stat_value_and_rank_matches_dash(self):
         placements = ['first','second','third','fourth','fifth','sixth','seventh','eighth','ninth','tenth']
@@ -223,6 +237,16 @@ class TeamStatsParityTests(unittest.TestCase):
         self.assertEqual(result['fpts']['points'][0]['value'], 30)
         self.assertEqual(result['fppm']['points'][0]['value'], 1)
         self.assertEqual(result['starts']['points'][0]['value'], 2)
+
+    def test_roster_mpg_aggregates_active_minutes_before_dividing_by_starts(self):
+        active = pd.DataFrame([
+            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'Player ID': 10, 'MIN': 20, 'Fantasy Starts': 2},
+            {'Year': 2026, 'Week': 2, 'Team ID': 7, 'Player ID': 10, 'MIN': 30, 'Fantasy Starts': 1},
+            {'Year': 2026, 'Week': 1, 'Team ID': 7, 'Player ID': 11, 'MIN': 40, 'Fantasy Starts': 0},
+        ])
+        result = roster_mpg(active, 7, 2026)
+        self.assertAlmostEqual(result[10], 50 / 3)
+        self.assertTrue(pd.isna(result[11]))
 
     def test_known_team_week_matches_canonical_daily_aggregation(self):
         expected = self.daily_weekly[(self.daily_weekly['Year'] == 2025) &

@@ -28,6 +28,22 @@ def ordinal(value):
     return f'{value}{suffix}'
 
 
+def point_rank_captions(teams):
+    """Return tie-aware regular-season PF/PA rank captions by team ID."""
+    captions = {}
+    for field, ascending, output_key in (
+        ('pointsFor', False, 'pointsForRankCaption'),
+        ('pointsAgainst', True, 'pointsAgainstRankCaption'),
+    ):
+        values = pd.Series({int(team['teamId']): team[field] for team in teams})
+        ranks = values.rank(ascending=ascending, method='min').astype(int)
+        counts = values.value_counts()
+        for team_id, value in values.items():
+            prefix = 'T-' if counts[value] > 1 else ''
+            captions.setdefault(int(team_id), {})[output_key] = f'{prefix}{ordinal(ranks[team_id])}'
+    return captions
+
+
 def prepare_players(weekly):
     players = weekly.copy()
     for stat, divisor in {'FGM': 2, 'FGA': -1, 'FTA': -1, 'AST': 2, 'STL': 4, 'BLK': 4, 'TO': -2}.items():
@@ -124,6 +140,13 @@ def weekly_performance(daily_weekly, team_id, year):
             }, 'weeks': weeks, 'viewBox': [0, 0, 800, 250]}
 
 
+def roster_mpg(daily_weekly, team_id, year):
+    """Aggregate credited active-lineup minutes per credited played-game start."""
+    rows = daily_weekly[(daily_weekly['Year'] == year) & (daily_weekly['Team ID'] == team_id)]
+    totals = rows.groupby('Player ID').agg({'MIN': 'sum', 'Fantasy Starts': 'sum'})
+    return totals['MIN'] / totals['Fantasy Starts'].replace(0, pd.NA)
+
+
 def summary(players, league, activity, team_id):
     rows = players[players['Team ID'] == team_id]
     roster = rows.groupby('Player ID')['FPTS'].sum().reset_index().sort_values('FPTS', ascending=False)
@@ -154,7 +177,7 @@ def summary(players, league, activity, team_id):
     return {'records': record_output, 'roster': output}
 
 
-def season_roster(players, daily, activity, team_id, year, quality=None):
+def season_roster(players, daily, activity, team_id, year, quality=None, daily_weekly=None):
     rows = players[(players['Year'] == year) & (players['Team ID'] == team_id)]
     if rows.empty:
         return None
@@ -172,6 +195,9 @@ def season_roster(players, daily, activity, team_id, year, quality=None):
     # Preserve Dash's name-based PPM join and latest-action ordering, including ties.
     merged = merged.merge(ppm[['Player Name', 'PPM']], on='Player Name', how='left')
     merged = merged.merge(games, on='Player ID', how='left')
+    if daily_weekly is not None:
+        mpg = roster_mpg(daily_weekly, team_id, year).rename('MPG')
+        merged = merged.merge(mpg, left_on='Player ID', right_index=True, how='left')
     merged['Action'] = merged['Action'].fillna('KEEPER')
     merged['Date'] = merged['Date'].fillna('—')
     merged['Games'] = merged['Games'].fillna(0).astype(int)
@@ -187,6 +213,7 @@ def season_roster(players, daily, activity, team_id, year, quality=None):
              **quality.get(int(r['Player ID']), {'fptsPercentile': None, 'fppmPercentile': None}),
              'current': r['Action'] not in INACTIVE_ACTIONS,
              'ppm': f"{r['PPM']:.3f}" if pd.notna(r['PPM']) else 'N/A', 'action': r['Action'],
+             'mpg': f"{r['MPG']:.1f}" if 'MPG' in r and pd.notna(r['MPG']) else 'N/A',
              'date': r['Date'], 'contribution': f"{r['Contribution']:.2f}%"} for _, r in merged.iterrows()]
 
 
@@ -285,13 +312,14 @@ def build(source, output):
     teams = [dict(team_info(row, config), owner=row['Team Owner']) for _, row in latest.iterrows()]
     rankings = {year: stat_values(players, daily, year) for year in years}
     quality = {year: player_percentiles(players, daily, year) for year in years}
-    rosters = {year: {team['teamId']: season_roster(players, daily, activity, team['teamId'], year, quality[year])
+    rosters = {year: {team['teamId']: season_roster(players, daily, activity, team['teamId'], year, quality[year], daily_weekly)
                       for team in teams} for year in years}
     physicals = {year: physical_metrics(rosters[year], metadata, season_metadata, year) for year in years}
     # Match the site's regular-season standings snapshots; playoff placement is not
     # the Team page's standings rank.
     regular_rows = league[league['Type'] == 'Regular'].to_dict('records')
     standings = {year: build_standings(regular_rows, year) for year in years}
+    point_ranks = {year: point_rank_captions(table['teams']) for year, table in standings.items()}
     for year, table in standings.items():
         season_rows = league[league['Year'] == year].sort_values('Week', ascending=False).drop_duplicates('Team ID')
         identities = {int(row['Team ID']): team_info(row, config) for _, row in season_rows.iterrows()}
@@ -308,8 +336,9 @@ def build(source, output):
                 'physicals': physicals[year][tid],
                 'weeklyPerformance': weekly_performance(daily_weekly, tid, year),
                 'snapshot': None if standing is None else {
-                    key: standing[key] for key in ('rank', 'record', 'wins', 'losses', 'pointsFor',
-                                                   'pointsAgainst', 'pointsForDisplay', 'pointsAgainstDisplay')
+                    **{key: standing[key] for key in ('rank', 'record', 'wins', 'losses', 'pointsFor',
+                                                       'pointsAgainst', 'pointsForDisplay', 'pointsAgainstDisplay')},
+                    **point_ranks[year][tid],
                 }
             }
         write_json(output / 'team-stats' / f'{tid}.json', {'schemaVersion': 1, 'team': team,

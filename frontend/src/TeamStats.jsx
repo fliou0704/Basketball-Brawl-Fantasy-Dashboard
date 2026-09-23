@@ -4,12 +4,13 @@ import { TeamLogo } from './components/Standings';
 import { Card, PageShell, Section, TableCard } from './components/Layout';
 import PlayerIdentity from './components/PlayerIdentity';
 import { latestTeamSeason } from './site-data';
+import { defaultTeamTab, TEAM_TABS, selectTeamTab } from './team-tabs';
 import './team-stats.css';
 
 function Roster({ rows, summary, qualityMetric = 'fpts' }) {
   const columns = summary
     ? [['name','Player Name'],['fpts','Total FPTS'],['action','Last Action'],['date','Last Action Date']]
-    : [['name','Player'],['quality','League %ile'],['fpts','FPTS'],['ppm','FPPM'],['games','GP'],['points','PTS'],['rebounds','REB'],['assists','AST'],['steals','STL'],['blocks','BLK'],['turnovers','TO'],['threePointers','3PM'],['fieldGoalPct','FG%'],['freeThrowPct','FT%']];
+    : [['name','Player'],['quality','League %ile'],['fpts','FPTS'],['ppm','FPPM'],['mpg','MPG'],['games','GP'],['points','PTS'],['rebounds','REB'],['assists','AST'],['steals','STL'],['blocks','BLK'],['turnovers','TO'],['threePointers','3PM'],['fieldGoalPct','FG%'],['freeThrowPct','FT%']];
   return <table className={`team-roster ${summary?'summary-roster':'season-roster'}`}><caption className="sr-only">{summary?'All-Time Roster':'Roster'}</caption>
     <thead><tr>{columns.map(([key,label])=><th key={key} scope="col">{label}</th>)}</tr></thead>
     <tbody>{rows.map((row,index)=><tr key={`${row.playerId}-${index}`} className={summary?(row.inactive?'roster-inactive':'roster-active'):''}>
@@ -53,6 +54,10 @@ function Physicals({ metrics }) {
   return <Section title="Physicals"><Card><dl className="team-physicals">{metrics.map(metric=><div key={metric.key}><dt>{metric.label}</dt><dd>{metric.value}</dd><dd className="physical-rank">{metric.caption}</dd></div>)}</dl></Card></Section>;
 }
 
+function TeamTabs({ active, onChange }) {
+  return <nav className="team-tabs" aria-label="Team sections" role="tablist">{TEAM_TABS.map(({key,label})=><button key={key} type="button" role="tab" aria-selected={active===key} aria-controls={`team-tab-${key}`} onClick={()=>onChange(selectTeamTab(key))}>{label}</button>)}</nav>;
+}
+
 function ordinal(rank) {
   if(rank == null) return 'N/A';
   const mod100=rank%100;
@@ -64,9 +69,10 @@ export default function TeamStats({ teamId }) {
   const [year,setYear] = useState('');
   const [data,setData] = useState(null);
   const [error,setError] = useState(false);
+  const [activeTab,setActiveTab] = useState(defaultTeamTab());
   useEffect(()=>{let active=true;getData('team-stats.json').then(d=>{if(active)setManifest(d);}).catch(()=>{if(active)setError(true);});return()=>{active=false;};},[]);
   useEffect(()=>{
-    let active=true;setData(null);setError(false);setYear('');
+    let active=true;setData(null);setError(false);setYear('');setActiveTab(defaultTeamTab());
     if(teamId)getData(`team-stats/${teamId}.json`).then(d=>{if(active){setData(d);setYear(latestTeamSeason(d));}}).catch(()=>{if(active)setError(true);});
     return()=>{active=false;};
   },[teamId]);
@@ -83,11 +89,12 @@ export default function TeamStats({ teamId }) {
         {isSummary?<><Section title="All-Time Record"><Card><dl className="team-records">{data.summary.records.map(r=><div key={r.label}><dt>{r.label}</dt><dd>{r.value}</dd></div>)}</dl></Card></Section>
           <Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>
           :!season?<p>No data for {data.team.teamName} in {year}</p>:<>
-            <Section title="Overview" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd></div></dl></Card></Section>
-            <Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div className="ranking-item" key={stat.label}>{stat.rankImage?<img className="rank-image" src={`${import.meta.env.BASE_URL}${stat.rankImage}`} alt={ordinal(stat.rank)}/>:<span className="rank-unavailable">N/A</span>}<div className="ranking-copy"><dt>{stat.label}</dt><dd><strong>{stat.value}</strong></dd></div><div className="relative-track" role="img" aria-label={`${stat.label}: rank position ${stat.relativePercent ?? 0}%`}><span style={{width:`${stat.relativePercent ?? 0}%`}}/></div></div>)}</dl></Card></Section>
-            <Physicals metrics={season.physicals}/>
-            <WeeklyPerformance data={season.weeklyPerformance}/>
-            <Section title="Roster"><SeasonRoster rows={season.roster}/></Section>
+            <Section title="Overview" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsForRankCaption}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsAgainstRankCaption}</dd></div></dl></Card></Section>
+            <TeamTabs active={activeTab} onChange={setActiveTab}/>
+            {activeTab==='roster'&&<div id="team-tab-roster" role="tabpanel"><Section title="Roster"><SeasonRoster rows={season.roster}/></Section></div>}
+            {activeTab==='rankings'&&<div id="team-tab-rankings" role="tabpanel"><Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div className="ranking-item" key={stat.label}>{stat.rankImage?<img className="rank-image" src={`${import.meta.env.BASE_URL}${stat.rankImage}`} alt={ordinal(stat.rank)}/>:<span className="rank-unavailable">N/A</span>}<div className="ranking-copy"><dt>{stat.label}</dt><dd><strong>{stat.value}</strong></dd></div><div className="relative-track" role="img" aria-label={`${stat.label}: rank position ${stat.relativePercent ?? 0}%`}><span style={{width:`${stat.relativePercent ?? 0}%`}}/></div></div>)}</dl></Card></Section></div>}
+            {activeTab==='weekly'&&<div id="team-tab-weekly" role="tabpanel"><WeeklyPerformance data={season.weeklyPerformance}/></div>}
+            {activeTab==='physicals'&&<div id="team-tab-physicals" role="tabpanel"><Physicals metrics={season.physicals}/></div>}
           </>}
       </div>}
     </PageShell></>;
