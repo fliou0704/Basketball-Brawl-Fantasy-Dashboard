@@ -14,7 +14,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from build_homepage import logo_config, team_info, write_json
-from playerDailyAggregation import active_slots_by_year, credited_daily_rows, load_season_metadata
+from playerDailyAggregation import credited_daily_rows, load_season_metadata
 
 STAT_DIVISORS = {"FGM": 2, "FGA": -1, "FTA": -1, "AST": 2, "STL": 4, "BLK": 4, "TO": -2}
 STAT_KEYS = ("FPTS", "PTS", "REB", "AST", "STL", "BLK", "3PM", "TO", "FGM", "FGA", "FTM", "FTA")
@@ -100,27 +100,33 @@ def aggregate_career(daily: pd.DataFrame, team_lookup: dict[int, dict]) -> tuple
     return display_rows, career
 
 
-def game_log(daily: pd.DataFrame, season_metadata: dict, config: dict) -> tuple[list[dict], list[int]]:
+def game_log(daily: pd.DataFrame, extra_seasons=()) -> tuple[list[dict], list[int]]:
     """Export every reliably played saved NBA game, independent of fantasy lineup credit."""
     rows = daily[pd.to_numeric(daily["MIN"], errors="coerce").fillna(0) > 0].copy()
     if rows.empty:
-        return [], []
-    active_by_year = active_slots_by_year(season_metadata)
+        return [], sorted({int(year) for year in extra_seasons}, reverse=True)
     rows["_date"] = pd.to_datetime(rows["Date"], errors="raise")
     rows = rows.sort_values(["_date", "Scoring Period"], ascending=[False, False], kind="stable")
     games = []
     for _, row in rows.iterrows():
-        slot = str(row["Player Slot"])
-        context = "START" if slot in active_by_year.get(int(row["Year"]), set()) else "BENCH" if slot == "BE" else "INACTIVE"
         stats = {"FPTS": number(row["FPTS"]), "MIN": number(row["MIN"])}
         for stat in ("PTS", "REB", "AST", "STL", "BLK", "3PM", "TO", "FGM", "FGA", "FTM", "FTA"):
             stats[stat] = number(row[stat] / BOX_SCORE_DIVISORS[stat])
         games.append({
             "date": row["_date"].date().isoformat(), "season": int(row["Year"]),
-            "scoringPeriod": int(row["Scoring Period"]), "context": context, "slot": slot,
-            "team": team_info(row, config), **stats,
+            "scoringPeriod": int(row["Scoring Period"]), **stats,
         })
-    return games, sorted({game["season"] for game in games}, reverse=True)
+    return games, sorted({game["season"] for game in games} | {int(year) for year in extra_seasons}, reverse=True)
+
+
+def supported_zero_game_seasons(player, activity: pd.DataFrame, season_metadata: dict) -> list[int]:
+    """Conservatively expose the latest season when current NBA and league records agree."""
+    latest = max(int(season["season"]) for season in season_metadata["seasons"])
+    debut = player.get("Debut Year")
+    current_nba_player = bool(player.get("Active")) and player.get("Team Relationship") == "current"
+    debuted_before_season = pd.isna(debut) or int(debut) < latest
+    tracked_that_season = not activity[activity["Year"] == latest].empty
+    return [latest] if current_nba_player and debuted_before_season and tracked_that_season else []
 
 
 def transaction_history(activity: pd.DataFrame, config: dict) -> list[dict]:
@@ -169,8 +175,10 @@ def build(source: Path, output: Path) -> dict:
         record = search_record(player_id, row, player_eligibility, fantasy_team)
         players.append(record)
         career_rows, career = aggregate_career(credited[credited["Player ID"] == player_id], teams)
-        games, game_seasons = game_log(daily[daily["Player ID"] == player_id], season_metadata, config)
-        transactions = transaction_history(activity[activity["Player ID"] == player_id], config)
+        player_activity = activity[activity["Player ID"] == player_id]
+        extra_seasons = supported_zero_game_seasons(row, player_activity, season_metadata)
+        games, game_seasons = game_log(daily[daily["Player ID"] == player_id], extra_seasons)
+        transactions = transaction_history(player_activity, config)
         exported_games += len(games)
         write_json(output / "players" / f"{int(player_id)}.json", {
             "schemaVersion": 1, "playerId": int(player_id), "fantasyEligibility": player_eligibility,

@@ -3,7 +3,7 @@ import { getData, Header } from './App';
 import { PageShell, Section, TableCard } from './components/Layout';
 import PlayerSearch from './components/PlayerSearch';
 import { TeamLogo } from './components/Standings';
-import { ageOnDate, defaultPlayerTab, formatHeight, latestPlayerGameSeason, recentPlayerGames, selectPlayerTab } from './player-data';
+import { ageOnDate, defaultPlayerTab, formatHeight, formatPlayerGameDate, latestPlayerGameSeason, PLAYER_GAME_STATS, recentPlayerGames, selectPlayerTab } from './player-data';
 import './players.css';
 
 const base=import.meta.env.BASE_URL;
@@ -11,8 +11,6 @@ const stats=['starts','FPTS','fpPerStart','mpg','fppm','PTS','REB','AST','STL','
 const rateStats=new Set(['fpPerStart','mpg','fppm']);
 const labels={starts:'GP',FPTS:'FPTS',fpPerStart:'FP/Start',mpg:'MPG',fppm:'FPPM',PTS:'PTS',REB:'REB',AST:'AST',STL:'STL',BLK:'BLK','3PM':'3PM',TO:'TO',FGM:'FGM',FGA:'FGA',FTM:'FTM',FTA:'FTA'};
 const statTitles={starts:'Credited fantasy starts',fpPerStart:'Fantasy points per credited start',mpg:'Minutes per credited game',fppm:'Fantasy points per minute'};
-const gameStats=['FPTS','MIN','PTS','REB','AST','STL','BLK','3PM','TO'];
-const fullGameStats=[...gameStats,'FGM','FGA','FTM','FTA'];
 const tabLabels={career:'Career','game-log':'Game Log',transactions:'Transactions'};
 const clean=value=>value!==null&&value!==undefined&&value!=='';
 
@@ -47,13 +45,11 @@ function PlayerTabs({active,onChange}) {
   return <nav className="player-tabs" aria-label="Player sections" role="tablist">{Object.entries(tabLabels).map(([tab,label])=><button key={tab} type="button" role="tab" aria-selected={active===tab} aria-controls={`player-tab-${tab}`} onClick={()=>onChange(selectPlayerTab(tab))}>{label}</button>)}</nav>;
 }
 
-function gameDate(value) { return new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(new Date(`${value}T12:00:00Z`)); }
+function transactionDate(value) { return new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(new Date(`${value}T12:00:00Z`)); }
 function gameValue(game,stat) { const value=game[stat]; return value==null?'—':Number(value).toLocaleString(undefined,{maximumFractionDigits:2}); }
-function GameContext({game}) { return <span className="game-context"><TeamLogo team={game.team} size={24}/><span><strong>{game.context}</strong><small>{game.slot}</small></span></span>; }
-function GameTable({games,full=false,label}) {
-  const columns=full?fullGameStats:gameStats;
-  if(!games.length) return <div className="player-tab-empty">No played games recorded for this season.</div>;
-  return <TableCard className="game-log-card"><div className="game-log-scroll"><table className="game-log-table"><caption className="sr-only">{label}</caption><thead><tr><th>Date</th><th>Fantasy context</th>{columns.map(stat=><th className="numeric" key={stat}>{stat}</th>)}</tr></thead><tbody>{games.map(game=><tr key={`${game.date}-${game.scoringPeriod}`}><th scope="row">{gameDate(game.date)}</th><td><GameContext game={game}/></td>{columns.map(stat=><td className={`numeric ${stat==='FPTS'?'game-fpts':''}`} key={stat}>{gameValue(game,stat)}</td>)}</tr>)}</tbody></table></div></TableCard>;
+function GameTable({games,label,emptyMessage='No games played.'}) {
+  if(!games.length) return <div className="player-tab-empty">{emptyMessage}</div>;
+  return <TableCard className="game-log-card"><div className="game-log-scroll"><table className="game-log-table"><caption className="sr-only">{label}</caption><thead><tr><th>Date</th>{PLAYER_GAME_STATS.map(stat=><th className="numeric" key={stat}>{stat}</th>)}</tr></thead><tbody>{games.map(game=><tr key={`${game.date}-${game.scoringPeriod}`}><th scope="row">{formatPlayerGameDate(game.date)}</th>{PLAYER_GAME_STATS.map(stat=><td className={`numeric ${stat==='FPTS'?'game-fpts':''}`} key={stat}>{gameValue(game,stat)}</td>)}</tr>)}</tbody></table></div></TableCard>;
 }
 
 function GameLogTab({career}) {
@@ -63,7 +59,7 @@ function GameLogTab({career}) {
   const selected=games.filter(game=>String(game.season)===season);
   return <div id="player-tab-game-log" role="tabpanel" className="player-tab-panel">
     <Section title="Recent Games" meta="Latest 5 played games"><GameTable games={recentPlayerGames(games)} label="Recent games"/></Section>
-    <Section title="Complete Game Log" className="complete-game-log"><label className="player-season-selector">Season<select aria-label="Game Log season" value={season} onChange={event=>setSeason(event.target.value)}>{(career.gameSeasons||[]).map(year=><option key={year} value={year}>{year}</option>)}</select></label><GameTable games={selected} full label={`${season} complete game log`}/></Section>
+    <Section title="Complete Game Log" className="complete-game-log"><label className="player-season-selector">Season<select aria-label="Game Log season" value={season} onChange={event=>setSeason(event.target.value)}>{(career.gameSeasons||[]).map(year=><option key={year} value={year}>{year}</option>)}</select></label><GameTable games={selected} label={`${season} complete game log`} emptyMessage={`No games played in ${season}.`}/></Section>
   </div>;
 }
 
@@ -75,7 +71,7 @@ function TransactionTeams({transaction}) {
   return <span className="transaction-trade"><TransactionTeam team={from}/><span aria-hidden="true">→</span><TransactionTeam team={to}/></span>;
 }
 function TransactionsTab({transactions}) {
-  return <div id="player-tab-transactions" role="tabpanel" className="player-tab-panel"><Section title="Basketball Brawl Transactions" meta="Most recent first">{transactions.length?<ol className="transaction-list">{transactions.map((transaction,index)=><li key={`${transaction.date}-${transaction.time}-${transaction.type}-${index}`}><time dateTime={transaction.date}>{gameDate(transaction.date)}</time><div><strong>{transaction.type}</strong><span>{transaction.season} season</span></div><TransactionTeams transaction={transaction}/></li>)}</ol>:<div className="player-tab-empty">No Basketball Brawl transactions recorded for this player.</div>}</Section></div>;
+  return <div id="player-tab-transactions" role="tabpanel" className="player-tab-panel"><Section title="Basketball Brawl Transactions" meta="Most recent first">{transactions.length?<ol className="transaction-list">{transactions.map((transaction,index)=><li key={`${transaction.date}-${transaction.time}-${transaction.type}-${index}`}><time dateTime={transaction.date}>{transactionDate(transaction.date)}</time><div><strong>{transaction.type}</strong><span>{transaction.season} season</span></div><TransactionTeams transaction={transaction}/></li>)}</ol>:<div className="player-tab-empty">No Basketball Brawl transactions recorded for this player.</div>}</Section></div>;
 }
 
 export function PlayerPage({playerId}) {

@@ -6,7 +6,7 @@ from unittest.mock import patch
 
 import pandas as pd
 
-from generate_players import aggregate_career, build, current_ownership, game_log, latest_eligibility, transaction_history
+from generate_players import aggregate_career, build, current_ownership, game_log, latest_eligibility, supported_zero_game_seasons, transaction_history
 
 
 class PlayerCareerExportTests(unittest.TestCase):
@@ -77,10 +77,9 @@ class PlayerCareerExportTests(unittest.TestCase):
             self.assertEqual(career["fantasyTeam"]["teamId"],1)
             self.assertEqual(career["gameSeasons"],[2026])
             self.assertEqual([game["date"] for game in career["gameLog"]],["2025-10-21","2025-10-20"])
-            self.assertEqual([game["context"] for game in career["gameLog"]],["BENCH","START"])
             self.assertEqual(career["gameLog"][0]["FPTS"],10)
             self.assertEqual(career["gameLog"][0]["AST"],1)
-            self.assertEqual(career["gameLog"][0]["team"]["logo"],"logos/One.png")
+            self.assertFalse(any(key in career["gameLog"][0] for key in ("context","slot","team")))
             self.assertEqual(career["transactions"][0]["type"],"DRAFTED")
             self.assertEqual(career["transactions"][0]["season"],2026)
             self.assertEqual(career["transactions"][0]["team"]["teamName"],"One")
@@ -92,13 +91,19 @@ class PlayerCareerExportTests(unittest.TestCase):
             {"Year":2026,"Scoring Period":2,"Date":"2025-10-22","Team Name":"Two","Team ID":2,"Player Slot":"IR","FPTS":30,"MIN":31,"PTS":14,"REB":6,"AST":10,"STL":8,"BLK":4,"3PM":3,"TO":-2,"FGM":12,"FGA":-22,"FTM":4,"FTA":-5},
             {"Year":2026,"Scoring Period":3,"Date":"2025-10-23","Team Name":"Two","Team ID":2,"Player Slot":"BE","FPTS":0,"MIN":0,"PTS":0,"REB":0,"AST":0,"STL":0,"BLK":0,"3PM":0,"TO":0,"FGM":0,"FGA":0,"FTM":0,"FTA":0},
         ])
-        metadata={"seasons":[{"season":2025,"lineupSlots":["PG"]},{"season":2026,"lineupSlots":["PG"]}]}
-        config={"team_logo_paths":{"One":"assets/logos/One.png","Two":"assets/logos/Two.png"},"default_logo_path":"assets/logos/Default.png","team_colors":{1:"#111",2:"#222"}}
-        games,seasons=game_log(daily,metadata,config)
+        games,seasons=game_log(daily)
         self.assertEqual(seasons,[2026,2025])
         self.assertEqual([game["date"] for game in games],["2025-10-22","2024-10-20"])
-        self.assertEqual(games[0]["context"],"INACTIVE")
         self.assertEqual((games[0]["FPTS"],games[0]["AST"],games[0]["STL"],games[0]["FGM"]),(30,5,2,6))
+        self.assertFalse(any(key in games[0] for key in ("context","slot","team")))
+
+    def test_latest_zero_game_season_requires_current_nba_and_activity_evidence(self):
+        metadata={"seasons":[{"season":2025},{"season":2026}]}
+        player=pd.Series({"Active":True,"Team Relationship":"current","Debut Year":2012})
+        activity=pd.DataFrame([{"Year":2026}])
+        self.assertEqual(supported_zero_game_seasons(player,activity,metadata),[2026])
+        self.assertEqual(supported_zero_game_seasons(player,activity.iloc[0:0],metadata),[])
+        self.assertEqual(supported_zero_game_seasons(pd.Series({**player.to_dict(),"Active":False}),activity,metadata),[])
 
     def test_transactions_are_newest_first_and_pair_trade_teams(self):
         activity=pd.DataFrame([

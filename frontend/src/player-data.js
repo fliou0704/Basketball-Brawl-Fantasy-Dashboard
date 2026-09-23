@@ -11,10 +11,12 @@ export function searchPlayers(players, query, limit=8) {
 export function clearPlayerSearch() { return ''; }
 
 export const PLAYER_TABS=['career','game-log','transactions'];
+export const PLAYER_GAME_STATS=['FPTS','MIN','PTS','REB','AST','STL','BLK','3PM','TO','FGM','FGA','FTM','FTA'];
 export function defaultPlayerTab() { return PLAYER_TABS[0]; }
 export function selectPlayerTab(tab) { return PLAYER_TABS.includes(tab)?tab:defaultPlayerTab(); }
 export function recentPlayerGames(games,limit=5) { return [...games].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,limit); }
 export function latestPlayerGameSeason(seasons) { return [...seasons].map(Number).sort((a,b)=>b-a)[0]??null; }
+export function formatPlayerGameDate(value) { const [year,month,day]=String(value).split('-'); return `${month}/${day}/${year.slice(-2)}`; }
 
 export function playerHref(playerId, base='/') {
   const value=String(playerId??'');
