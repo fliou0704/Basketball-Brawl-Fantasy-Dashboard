@@ -1,5 +1,41 @@
 # Stage 2: homepage
 
+## Current in-season Home (October 2026)
+
+The current snapshot takes precedence over the original completed-day selector
+described below. `generate_all.py` now ends with `generate_home_current.py`, which
+exports `home-current.json` from canonical `currentLeague.json`,
+`seasonMetadata.json`, `scoringPeriodMatchupMap.csv`, and the existing daily CSV.
+Its active season/week is selected by ESPN's current scoring period and mapping,
+independently of the existence of player records or completed NBA days.
+
+Active Home shows all assigned current-week matchups first, including zero scores,
+then the five highest individual player-game performances from mapped current-week
+periods. Scores come from ESPN's per-period matchup totals, not player sums or
+cumulative season standings. Player-games require recorded minutes, retain their
+game dates, and are never labeled final. Existing recaps, standings, highlights,
+and playoff brackets follow. A week with no performances has an explicit empty
+state. Preseason and dates after the season retain archive fallback.
+
+`home-version.json` contains a deterministic hash covering the current Home payload,
+the Home manifest, and seasonal payloads. Home checks this small file with
+`cache: no-store` every five minutes while visible, on date rollover, and when
+returning to the tab (at most once a minute). Unchanged versions reuse downloaded
+payloads; new versions clear only the Home client's cache and use versioned URLs.
+Other pages' data/cache behavior is unchanged. Failed refreshes keep the last
+successful screen and show a warning. The HTTP `Last-Modified` header supplies a
+publication timestamp when available; it is not claimed to be ingestion time.
+
+An older scoring-date snapshot remains visible with an explicit warning that its
+period/week may have advanced. Home never extrapolates a new week from weekdays.
+Snapshots published over six hours ago are also flagged. Refreshes resolve a newer
+period only from the next exported ESPN snapshot. Historical `?date=` previews
+use the original date-bounded archive unless the requested date exactly matches
+the current snapshot's scoring date, preventing future-score leakage.
+
+Regression coverage: `scripts/test_home_current.py` and
+`tests/home-data.test.js`. The historical selector and its tests remain in place.
+
 ## Scope and commands
 
 Everything lives under `frontend/` except the dedicated Pages workflow. Dash,

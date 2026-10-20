@@ -36,6 +36,26 @@ export function Scoreboard({ recap, week }) {
   if (!recap?.scoreboard?.length || recap.week !== week) return null;
   return <Section title="Current Matchups" meta={`Week ${week} · through ${dateLabel(recap.date)}`}><Card><div className="scoreboard">{recap.scoreboard.map((m,i)=><Match key={i} match={m} completed={false}/>)}</div></Card></Section>;
 }
+export function CurrentWeek({ snapshot, publishedAt, stale, refreshFailed }) {
+  const timestamp = publishedAt && !Number.isNaN(Date.parse(publishedAt))
+    ? new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}).format(new Date(publishedAt)) : null;
+  return <>
+    <Section title="Current Fantasy Scoreboard" meta={`${snapshot.season} · Week ${snapshot.week} · Week in Progress${stale?' · Older snapshot':''}`}>
+      <Card><p className="current-week-context">Latest available · {dateLabel(snapshot.asOfDate)} · Scoring Period {snapshot.scoringPeriod}{timestamp && <> · Published <time dateTime={new Date(publishedAt).toISOString()}>{timestamp}</time></>}</p>
+        {(stale || refreshFailed) && <p className="source-note" role="status">{refreshFailed?'Unable to check for newer data. ':''}Showing the latest available snapshot. {stale?'The scoring period or week may have advanced since this update.':''}</p>}
+        <div className="scoreboard">{snapshot.matchups.map((match,index)=><Match key={index} match={match} completed={false}/>)}</div>
+        {!snapshot.matchups.length && <p className="source-note">Matchup assignments are not available in the latest snapshot.</p>}
+      </Card>
+    </Section>
+    <Section title="Best Player Performances" meta={`Week ${snapshot.week} · Individual games`}>
+      <Card>{snapshot.players.length ? <div className="performances">{snapshot.players.map((player,index)=><article className="performance" key={`${player.playerId}-${player.scoringPeriod}`}>
+        <span className="performance-rank">{index+1}</span><div className="performance-body"><div className="performance-heading"><div><h4><PlayerIdentity playerId={player.playerId} name={player.name} showHeadshot/></h4><p>{player.team.teamName} · <time dateTime={player.date}>{dateLabel(player.date)}</time></p></div><strong>{player.pointsDisplay}<small>FPTS</small></strong></div></div>
+      </article>)}</div> : <p className="current-week-empty">No player performances are available for this week yet.</p>}
+        <p className="source-note">Latest available individual-game scores; performances may still be in progress.</p>
+      </Card>
+    </Section>
+  </>;
+}
 export function Around({ recap }) {
   if (!recap?.insights?.length) return null;
   return <Section title="Around the League" meta={`Through Week ${recap.week}`}><Card><div className="insights">{recap.insights.map(card=><article key={card.title}><h3>{card.title}</h3><Team team={card.team}/><p>{card.value}</p></article>)}</div></Card></Section>;

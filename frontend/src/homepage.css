@@ -1,4 +1,7 @@
 .homepage { padding-top: 28px; }
+.current-week-context { margin: 0 0 16px; color: var(--color-ink-muted); font-size: .8rem; line-height: 1.6; }
+.current-week-context + .source-note { margin: -6px 0 16px; }
+.current-week-empty { margin: 0; font-size: .9rem; }
 .home-section { margin: 0 0 42px; }
 .section-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 3px solid var(--color-brand); }
 .section-title h2 { margin: 0; font-size: 1.28rem; line-height: 1.1; letter-spacing: -.035em; font-weight: 900; text-transform: uppercase; }

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Standings from './components/Standings';
 import Playoffs from './components/Playoffs';
-import { Daily, Weekly, Scoreboard, Around } from './components/Recaps';
+import { Daily, Weekly, Scoreboard, Around, CurrentWeek } from './components/Recaps';
 import { SeasonLeaders, SeasonHistory } from './components/SeasonHistory';
 import { PageHeader, PageShell } from './components/Layout';
+import { createHomeClient, HOME_REFRESH_MS, leagueDate } from './home-data';
 import './homepage.css';
 
 const base = import.meta.env.BASE_URL;
@@ -15,11 +16,7 @@ export function getData(path) {
   }).then(d=>{if(d.schemaVersion!==1) throw new Error('Unsupported data'); return d;}).catch(e=>{cache.delete(path);throw e;}));
   return cache.get(path);
 }
-function today() { return new Intl.DateTimeFormat('en-CA',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date()); }
-function chooseState(manifest, requested) {
-  if(manifest.states[requested]) return manifest.states[requested];
-  return manifest.offseasons.filter(s=>s.after<requested).at(-1)?.state ?? {phase:'offseason',season:null};
-}
+const homeClient = createHomeClient(base);
 export function Header({ active = 'home' }) {
   const [open,setOpen] = useState(false);
   const [teamsOpen,setTeamsOpen] = useState(false);
@@ -39,23 +36,33 @@ export function Header({ active = 'home' }) {
 }
 export default function App() {
   const override = new URLSearchParams(window.location.search).get('date');
-  const [realDate,setRealDate] = useState(today);
+  const [realDate,setRealDate] = useState(leagueDate);
   const requested = override || realDate;
   const [page,setPage] = useState(null);
   const [error,setError] = useState(false);
-  useEffect(()=>{const timer=setInterval(()=>setRealDate(today()),60000);return()=>clearInterval(timer);},[]);
+  const [refreshFailed,setRefreshFailed] = useState(false);
+  const hasPage = useRef(false);
+  useEffect(()=>{const timer=setInterval(()=>setRealDate(leagueDate()),60000);return()=>clearInterval(timer);},[]);
   useEffect(()=>{
-    let cancelled=false; setPage(null);setError(false);
+    let cancelled=false, loading=false, lastCheck=0;
+    setError(false);
     if(!/^\d{4}-\d{2}-\d{2}$/.test(requested) || Number.isNaN(Date.parse(`${requested}T12:00:00Z`)) || new Date(`${requested}T12:00:00Z`).toISOString().slice(0,10)!==requested) {setError(true);return;}
-    getData('homepage.json').then(async manifest=>{
-      const state=chooseState(manifest,requested);
-      if(!state.season) return {state};
-      const names=state.phase==='offseason'?['standings','playoffs','season-leaders','history']:state.phase==='playoffs'?['standings','daily-recap','weekly-recap','playoffs']:['standings','daily-recap','weekly-recap'];
-      const entries=await Promise.all(names.map(async name=>[name,(await getData(`${state.season}/${name}.json`)).data]));
-      return {state,...Object.fromEntries(entries)};
-    }).then(data=>{if(!cancelled)setPage(data);}).catch(()=>{if(!cancelled)setError(true);});
-    return()=>{cancelled=true;};
-  },[requested]);
+    async function update() {
+      if (loading) return;
+      loading=true; lastCheck=Date.now();
+      try {
+        const data=await homeClient.load(requested,{preview:Boolean(override)});
+        if(!cancelled) {hasPage.current=true;setPage(data);setError(false);setRefreshFailed(false);}
+      } catch {
+        if(!cancelled) {setRefreshFailed(true);if(!hasPage.current)setError(true);}
+      } finally {loading=false;}
+    }
+    const resume=()=>{if(document.visibilityState==='visible' && Date.now()-lastCheck>60000)update();};
+    update();
+    const timer=setInterval(()=>{if(document.visibilityState==='visible')update();},HOME_REFRESH_MS);
+    window.addEventListener('focus',resume);document.addEventListener('visibilitychange',resume);
+    return()=>{cancelled=true;clearInterval(timer);window.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',resume);};
+  },[requested,override]);
   const state=page?.state;
   const offseason=state?.phase==='offseason';
   const daily=page?.['daily-recap']?.[state?.dailyDate];
@@ -64,15 +71,16 @@ export default function App() {
   const bracket=page?.playoffs?.[state?.playoffKey];
   return <><a className="skip" href="#home">Skip to content</a><Header/><PageShell id="home" className="homepage">
     <PageHeader title={state?.season ? `${state.season} ${offseason?'Season':state.phase==='playoffs'?'Playoffs':'Season'}`:'Basketball Brawl'} meta={state?.season && (offseason?'Season complete':`Week ${state.week}`)}/>
+    {!error && page?.current && <CurrentWeek snapshot={page.current} publishedAt={page.publishedAt} stale={page.stale} refreshFailed={refreshFailed}/>}
     {error?<section className="message" role="alert"><h2>Homepage unavailable</h2><p>{override?'Check the date (YYYY-MM-DD) and try again.':'Please try again.'}</p><button onClick={()=>window.location.reload()}>Try again</button></section>:!page?<p role="status">Loading…</p>:!state.season?<p className="archive-note">No completed season is available for this date.</p>:offseason?<>
       <Playoffs bracket={bracket}/><Standings data={standings} final/>
       <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
     </>:state.phase==='playoffs'?<>
       <Playoffs bracket={bracket}/><Weekly recap={weekly} playoffOnly/>
-      <Scoreboard recap={daily} week={state.week}/><Standings data={standings} final/>
+      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings} final/>
     </>:<>
       {state.weeklyFirst?<><Weekly recap={weekly}/><Daily recap={daily}/></>:<><Daily recap={daily}/><Weekly recap={weekly}/></>}
-      <Scoreboard recap={daily} week={state.week}/><Standings data={standings}/><Around recap={weekly}/>
+      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings}/><Around recap={weekly}/>
     </>}
   </PageShell></>;
 }
