@@ -249,12 +249,19 @@ def build_activity_candidate(existing, league, year, manual_source, recent_start
     manual_ids = set(manual_source.loc[
         pd.to_numeric(manual_source["Year"], errors="coerce") == year, "ESPN Trade ID"
     ].dropna().astype(str)) - {""}
+    checked_manual_ids = manual_ids
+    if recent_start is not None:
+        # A bounded transaction response cannot disprove an older trade.
+        checked_manual_ids = set(manual_source.loc[
+            (pd.to_numeric(manual_source['Year'], errors='coerce') == year)
+            & (manual_source['Date'].astype(str) >= cutoff), 'ESPN Trade ID'
+        ].dropna().astype(str)) - {''}
     report = {
         "counts": current["Action"].value_counts().to_dict(),
         "finalized_espn_trade_accepts": len(executed_ids),
         "manual_player_movements": len(manual) // 2,
         "unreconciled_espn_trade_accepts": sorted(executed_ids - manual_ids),
-        "supplement_ids_not_finalized": sorted(manual_ids - executed_ids),
+        "supplement_ids_not_finalized": sorted(checked_manual_ids - executed_ids),
     }
     return candidate, current, report
 

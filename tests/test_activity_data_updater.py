@@ -3,13 +3,14 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 import pandas as pd
 
 from activityDataUpdater import (
     SCHEMA, TRADE_COLUMNS, build_automated_rows, build_draft_rows,
     build_manual_trade_rows, build_not_kept_rows, fetch_transactions,
-    prepare_activity_update, write_activity_update,
+    prepare_activity_update, write_activity_update, build_activity_candidate,
 )
 from dataUpdateSafety import DataValidationError
 
@@ -40,6 +41,22 @@ class Response:
 
 
 class ActivityUpdaterTests(unittest.TestCase):
+    def test_bounded_fetch_does_not_mark_old_manual_trades_unfinalized(self):
+        existing = pd.DataFrame([activity_row(0, 2026)])
+        draft = pd.DataFrame([{k: v for k, v in activity_row(1, 2027, date='2026-10-20').items() if k != 'Unnamed: 0'}])
+        manual = pd.DataFrame([
+            [2027, '2026-10-20', '12:00', 101, 1, 2, 'old'],
+            [2027, '2026-11-03', '12:00', 202, 1, 2, 'recent'],
+        ], columns=TRADE_COLUMNS)
+        league = SimpleNamespace(scoringPeriodId=20, teams=[SimpleNamespace(team_id=k, team_name=v) for k, v in TEAMS.items()],
+                                 player_map=PLAYERS)
+        with patch('activityDataUpdater.draft_is_complete', return_value=(True, 1)), \
+             patch('activityDataUpdater.fetch_transactions', return_value=([], [])), \
+             patch('activityDataUpdater.build_draft_rows', return_value=draft):
+            _, _, report = build_activity_candidate(existing, league, 2027, manual,
+                                                     recent_start=14, date_anchor='2026-10-19')
+        self.assertEqual(report['supplement_ids_not_finalized'], ['recent'])
+
     def test_recent_transaction_overlap_fetches_only_explicit_partitions(self):
         league = SimpleNamespace(scoringPeriodId=100,
             espn_request=SimpleNamespace(LEAGUE_ENDPOINT='endpoint', cookies={}))

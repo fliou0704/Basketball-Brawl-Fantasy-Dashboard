@@ -122,8 +122,13 @@ were retained and were not repaired by rewriting old data.
 
 ## Verification
 
-84 backend/safety tests, 74 frontend exporter/freshness tests, and 15 React contract
+85 backend/safety tests, 74 frontend exporter/freshness tests, and 15 React contract
 tests passed across the final full suites and focused freshness check. Vite built
 successfully. YAML parsed and `git diff --check` passed. The ESPN client version is
 pinned to the locally validated 0.41.0 for reproducible scheduled runs. User changes
 to Dash files and existing generated frontend snapshots were left unstaged.
+
+The codex Pages build/deployment succeeded on October 20. The public manifest was
+verified as `latestSeason: 2027`, the Team manifest includes 2027, and the published
+export fingerprint is present. The Pages environment already permits deployments
+from both `codex` and `main`; no environment-policy change is required.
