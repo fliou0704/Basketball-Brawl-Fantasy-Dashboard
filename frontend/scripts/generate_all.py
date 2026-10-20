@@ -1,6 +1,7 @@
 """Regenerate every static data payload consumed by the React frontend."""
 from pathlib import Path
 import argparse
+import os
 
 from build_homepage import build as build_homepage
 from generate_historical_h2h import build as build_historical_h2h
@@ -14,12 +15,20 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 def build_all(source: Path, output: Path) -> None:
-    build_homepage(source, output)
+    if (source / 'seasonMetadata.json').exists():
+        os.environ['BRAWL_REFERENCE_DIR'] = str(source.resolve())
+    metadata = source / 'seasonMetadata.json'
+    if metadata.exists():
+        build_homepage(source, output, metadata=metadata)
+    else:
+        build_homepage(source, output)
     build_team_stats(source, output)
     build_historical_h2h(source, output)
     build_record_book(source, output)
     build_player_metadata(source, output)
     build_players(source, output)
+    from generate_current import build as build_current
+    build_current(source, output)
 
 
 if __name__ == "__main__":

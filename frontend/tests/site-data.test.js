@@ -1,9 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 import { latestTeamSeason, selectSeasonView, teamIdFromRoute } from '../src/site-data.js';
 
-const dataUrl=new URL('../public/data/',import.meta.url);
+const dataUrl=process.env.FRONTEND_TEST_OUTPUT?pathToFileURL(`${process.env.FRONTEND_TEST_OUTPUT}/`):new URL('../public/data/',import.meta.url);
 const json=async path=>JSON.parse(await readFile(new URL(path,dataUrl),'utf8'));
 
 test('stable team routes resolve IDs and reject landing routes',()=>{

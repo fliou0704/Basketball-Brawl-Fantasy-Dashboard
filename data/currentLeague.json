@@ -1,0 +1,2289 @@
+{
+  "schemaVersion": 1,
+  "scoringPeriod": 1,
+  "season": 2027,
+  "teams": [
+    {
+      "abbreviation": "OOPS",
+      "losses": 0,
+      "owner": "Frank",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 10,
+      "roster": [
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Victor Wembanyama",
+          "playerId": 5104157
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Nikola Jokic",
+          "playerId": 3112335
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Walker Kessler",
+          "playerId": 4433136
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Domantas Sabonis",
+          "playerId": 3155942
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jamal Murray",
+          "playerId": 3936299
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Mikal Bridges",
+          "playerId": 3147657
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Matas Buzelis",
+          "playerId": 4711294
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Norman Powell",
+          "playerId": 2595516
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Karl-Anthony Towns",
+          "playerId": 3136195
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "De'Aaron Fox",
+          "playerId": 4066259
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Scottie Barnes",
+          "playerId": 4433134
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Evan Mobley",
+          "playerId": 4432158
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Immanuel Quickley",
+          "playerId": 4395724
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Ace Bailey",
+          "playerId": 4873138
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Scotty Pippen Jr.",
+          "playerId": 4431785
+        }
+      ],
+      "teamId": 1,
+      "teamName": "Wembarrassingggg",
+      "wins": 0
+    },
+    {
+      "abbreviation": "TURK",
+      "losses": 0,
+      "owner": "Eren",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 9,
+      "roster": [
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Alperen Sengun",
+          "playerId": 4871144
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Dylan Harper",
+          "playerId": 5037871
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Stephen Curry",
+          "playerId": 3975
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Joel Embiid",
+          "playerId": 3059318
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Darius Garland",
+          "playerId": 4396907
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Keyonte George",
+          "playerId": 4433627
+        },
+        {
+          "eligibility": [
+            "PF",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Pascal Siakam",
+          "playerId": 3149673
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jalen Brunson",
+          "playerId": 3934672
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Desmond Bane",
+          "playerId": 4066320
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Damian Lillard",
+          "playerId": 6606
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Alex Sarr",
+          "playerId": 5160992
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Giannis Antetokounmpo",
+          "playerId": 3032977
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Darius Acuff Jr.",
+          "playerId": 5142620
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Yaxel Lendeborg",
+          "playerId": 5175737
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Rui Hachimura",
+          "playerId": 4066648
+        }
+      ],
+      "teamId": 2,
+      "teamName": "New Jersey Eren",
+      "wins": 0
+    },
+    {
+      "abbreviation": "WONG",
+      "losses": 0,
+      "owner": "Johnson",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 8,
+      "roster": [
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Tyrese Haliburton",
+          "playerId": 4396993
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "OG Anunoby",
+          "playerId": 3934719
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jaden McDaniels",
+          "playerId": 4431671
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Nickeil Alexander-Walker",
+          "playerId": 4278039
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Andrew Wiggins",
+          "playerId": 3059319
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kel'el Ware",
+          "playerId": 5105623
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Trey Murphy III",
+          "playerId": 4397688
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Paul George",
+          "playerId": 4251
+        },
+        {
+          "eligibility": [
+            "PF",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Aaron Gordon",
+          "playerId": 3064290
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Derrick White",
+          "playerId": 3078576
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jayson Tatum",
+          "playerId": 4065648
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Nikola Vucevic",
+          "playerId": 6478
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Brandin Podziemski",
+          "playerId": 4709138
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Ayo Dosunmu",
+          "playerId": 4397002
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Peyton Watson",
+          "playerId": 4576087
+        }
+      ],
+      "teamId": 5,
+      "teamName": "Big Wong",
+      "wins": 0
+    },
+    {
+      "abbreviation": "JS",
+      "losses": 0,
+      "owner": "Jooahn",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 7,
+      "roster": [
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Josh Giddey",
+          "playerId": 4871145
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "LaMelo Ball",
+          "playerId": 4432816
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Chet Holmgren",
+          "playerId": 4433255
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Dyson Daniels",
+          "playerId": 4869342
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jared McCain",
+          "playerId": 4683778
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Franz Wagner",
+          "playerId": 4566434
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Anthony Edwards",
+          "playerId": 4594268
+        },
+        {
+          "eligibility": [
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "VJ Edgecombe",
+          "playerId": 5124612
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Ryan Rollins",
+          "playerId": 4591725
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Paolo Banchero",
+          "playerId": 4432573
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Stephon Castle",
+          "playerId": 4845367
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Reed Sheppard",
+          "playerId": 4711272
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR",
+            "Rookie"
+          ],
+          "name": "Aday Mara",
+          "playerId": 5174983
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Cedric Coward",
+          "playerId": 4903027
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Keaton Wagler",
+          "playerId": 5254165
+        }
+      ],
+      "teamId": 7,
+      "teamName": "Who Invited This Kid?",
+      "wins": 0
+    },
+    {
+      "abbreviation": "JMH",
+      "losses": 0,
+      "owner": "Jonathan",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 6,
+      "roster": [
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Donovan Clingan",
+          "playerId": 5105565
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Ja Morant",
+          "playerId": 4279888
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Amen Thompson",
+          "playerId": 4684740
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jalen Duren",
+          "playerId": 4433621
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Naz Reid",
+          "playerId": 4396971
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "RJ Barrett",
+          "playerId": 4395625
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kyrie Irving",
+          "playerId": 6442
+        },
+        {
+          "eligibility": [
+            "PF",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Julius Randle",
+          "playerId": 3064514
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Tyrese Maxey",
+          "playerId": 4431678
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Devin Booker",
+          "playerId": 3136193
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Tyler Herro",
+          "playerId": 4395725
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Zion Williamson",
+          "playerId": 4395628
+        },
+        {
+          "eligibility": [
+            "SF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "AJ Dybantsa",
+          "playerId": 5142718
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Zach LaVine",
+          "playerId": 3064440
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Myles Turner",
+          "playerId": 3133628
+        }
+      ],
+      "teamId": 8,
+      "teamName": "Paulie Gee's",
+      "wins": 0
+    },
+    {
+      "abbreviation": "FAD",
+      "losses": 0,
+      "owner": "Shayan",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 5,
+      "roster": [
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Zach Edey",
+          "playerId": 4600663
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kawhi Leonard",
+          "playerId": 6450
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jakob Poeltl",
+          "playerId": 3134908
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Bennedict Mathurin",
+          "playerId": 4683634
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jalen Suggs",
+          "playerId": 4432165
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "John Collins",
+          "playerId": 3908845
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "James Harden",
+          "playerId": 3992
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Scoot Henderson",
+          "playerId": 4683678
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Deni Avdija",
+          "playerId": 4683021
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "DeMar DeRozan",
+          "playerId": 3978
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jimmy Butler III",
+          "playerId": 6430
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Cooper Flagg",
+          "playerId": 5041939
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Darryn Peterson",
+          "playerId": 5041955
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jeremiah Fears",
+          "playerId": 5144091
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kyshawn George",
+          "playerId": 5174563
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Devin Vassell",
+          "playerId": 4395630
+        }
+      ],
+      "teamId": 10,
+      "teamName": "For All the bullDawgs",
+      "wins": 0
+    },
+    {
+      "abbreviation": "SMN",
+      "losses": 0,
+      "owner": "Semanto",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 4,
+      "roster": [
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Coby White",
+          "playerId": 4395651
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Deandre Ayton",
+          "playerId": 4278129
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Trae Young",
+          "playerId": 4277905
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kevin Durant",
+          "playerId": 3202
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Nic Claxton",
+          "playerId": 4278067
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Onyeka Okongwu",
+          "playerId": 4431680
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Quentin Grimes",
+          "playerId": 4397014
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Shai Gilgeous-Alexander",
+          "playerId": 4278073
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Tobias Harris",
+          "playerId": 6440
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jaren Jackson Jr.",
+          "playerId": 4277961
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Josh Hart",
+          "playerId": 3062679
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Ty Jerome",
+          "playerId": 4065733
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Derik Queen",
+          "playerId": 4869780
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jaime Jaquez Jr.",
+          "playerId": 4432848
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Anthony Black",
+          "playerId": 4712849
+        }
+      ],
+      "teamId": 12,
+      "teamName": "Pooh Shaisty",
+      "wins": 0
+    },
+    {
+      "abbreviation": "13",
+      "losses": 0,
+      "owner": "Arian",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 3,
+      "roster": [
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Miles Bridges",
+          "playerId": 4066383
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Collin Sexton",
+          "playerId": 4277811
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Anthony Davis",
+          "playerId": 6583
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kevin Porter Jr.",
+          "playerId": 4397140
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Malik Monk",
+          "playerId": 4066262
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Michael Porter Jr.",
+          "playerId": 4278104
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Anfernee Simons",
+          "playerId": 4351851
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jrue Holiday",
+          "playerId": 3995
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Payton Pritchard",
+          "playerId": 4066354
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kristaps Porzingis",
+          "playerId": 3102531
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Lauri Markkanen",
+          "playerId": 4066336
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Rudy Gobert",
+          "playerId": 3032976
+        },
+        {
+          "eligibility": [
+            "SF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Caleb Wilson",
+          "playerId": 5095151
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jalen Green",
+          "playerId": 4437244
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Collin Gillespie",
+          "playerId": 4278585
+        }
+      ],
+      "teamId": 13,
+      "teamName": "The Bronx Orthodox Church",
+      "wins": 0
+    },
+    {
+      "abbreviation": "JJJ",
+      "losses": 0,
+      "owner": "Allen",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 2,
+      "roster": [
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "CJ McCollum",
+          "playerId": 2490149
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Dejounte Murray",
+          "playerId": 3907497
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Donovan Mitchell",
+          "playerId": 3908809
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Andrew Nembhard",
+          "playerId": 4395712
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Cade Cunningham",
+          "playerId": 4432166
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Austin Reaves",
+          "playerId": 4066457
+        },
+        {
+          "eligibility": [
+            "PF",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jalen Johnson",
+          "playerId": 4701230
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Kon Knueppel",
+          "playerId": 5061575
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jaylen Brown",
+          "playerId": 3917376
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Bam Adebayo",
+          "playerId": 4066261
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Isaiah Hartenstein",
+          "playerId": 4222252
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jalen Williams",
+          "playerId": 4593803
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Egor Demin",
+          "playerId": 5175643
+        },
+        {
+          "eligibility": [
+            "PF",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Oso Ighodaro",
+          "playerId": 4601023
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Daniel Gafford",
+          "playerId": 4278049
+        }
+      ],
+      "teamId": 16,
+      "teamName": "Jalen Jalen and Jaylen",
+      "wins": 0
+    },
+    {
+      "abbreviation": "SEE",
+      "losses": 0,
+      "owner": "Luke",
+      "pointsAgainst": 0.0,
+      "pointsFor": 0.0,
+      "rank": 1,
+      "roster": [
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Ivica Zubac",
+          "playerId": 4017837
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Ausar Thompson",
+          "playerId": 4684742
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Brandon Ingram",
+          "playerId": 3913176
+        },
+        {
+          "eligibility": [
+            "PG",
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Fred VanVleet",
+          "playerId": 2991230
+        },
+        {
+          "eligibility": [
+            "SG",
+            "SF",
+            "G",
+            "F",
+            "SG/SF",
+            "G/F",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Brandon Miller",
+          "playerId": 4433287
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Luka Doncic",
+          "playerId": 3945274
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jarrett Allen",
+          "playerId": 4066328
+        },
+        {
+          "eligibility": [
+            "SG",
+            "G",
+            "SG/SF",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Tre Johnson",
+          "playerId": 5238230
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Cameron Johnson",
+          "playerId": 3138196
+        },
+        {
+          "eligibility": [
+            "PF",
+            "C",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jabari Smith Jr.",
+          "playerId": 4432639
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "LeBron James",
+          "playerId": 1966
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "P.J. Washington",
+          "playerId": 4278078
+        },
+        {
+          "eligibility": [
+            "PF",
+            "F",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Cameron Boozer",
+          "playerId": 5041935
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Keegan Murray",
+          "playerId": 4594327
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Mikel Brown Jr.",
+          "playerId": 5101761
+        }
+      ],
+      "teamId": 17,
+      "teamName": "I Watch Basketbal",
+      "wins": 0
+    }
+  ],
+  "week": 1
+}

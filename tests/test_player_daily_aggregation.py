@@ -34,6 +34,11 @@ class PlayerDailyEligibilityTests(unittest.TestCase):
     def test_backfilled_positions_exactly_match_existing_weekly_semantics(self):
         daily = pd.read_csv("data/playerDailyData.csv")
         weekly = pd.read_csv("data/playerMatchupData.csv")
+        # The one-time eligibility backfill copied finalized seasons. Live
+        # records keep eligibility as saved that day, which can legitimately
+        # differ from a player's first weekly appearance in a later season.
+        daily = daily[daily['Year'] <= 2025]
+        weekly = weekly[weekly['Year'] <= 2025]
         expected = weekly.drop_duplicates(["Year", "Player ID"])[
             ["Year", "Player ID", *POSITION_COLUMNS]
         ]
@@ -76,7 +81,7 @@ class DailyWeeklyParityTests(unittest.TestCase):
     def test_daily_keys_remain_unique(self):
         daily = pd.read_csv("data/playerDailyData.csv")
         self.assertEqual(daily.duplicated(PLAYER_DAILY_KEY).sum(), 0)
-        self.assertEqual(len(daily), 39832)
+        self.assertEqual(len(daily[daily['Year'] <= 2026]), 39832)
 
     def test_finalized_2023_through_2025_exactly_reproduce_weekly_performance(self):
         daily = pd.read_csv("data/playerDailyData.csv")

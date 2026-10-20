@@ -150,20 +150,20 @@ def bracket_view(league, calendar, teams, active_week=None):
 
 
 def build_season(year, league, daily, weekly, calendar, config, output):
-    teams = {int(r['Team ID']): team_info(r, config) for r in league}
+    teams = {int(r['Team ID']): team_info(r, config) for r in (league or calendar.get('teams', []))}
     by_week, by_day, players_by_week = defaultdict(list), defaultdict(list), defaultdict(list)
     for row in league: by_week[int(row['Week'])].append(row)
     for row in daily: by_day[row['Date']].append(row)
     for row in weekly: players_by_week[int(row['Week'])].append(row)
     end = (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=calendar['finalPeriod'])).isoformat()
-    weeks = normalize_calendar(calendar['weeks'], end)
+    weeks = normalize_calendar(calendar['weeks'], calendar.get('calendarThrough', end))
     calendar = dict(calendar, weeks=weeks)
-    if not weeks or max(by_week) > max(w['week'] for w in weeks):
+    if not weeks or max(by_week, default=0) > max(w['week'] for w in weeks):
         raise ValueError(f'{year} needs refreshed ESPN season metadata')
     # Complete seasons require the terminal day and the terminal league week.
     end = (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=calendar['finalPeriod'])).isoformat()
-    complete = max(by_day) >= end and max(by_week) >= weeks[-1]['week']
-    available_end = min(max(by_day), end)
+    complete = max(by_day, default='') >= end and max(by_week, default=0) >= weeks[-1]['week']
+    available_end = min(max(by_day, default=weeks[0]['start']), end)
     completed_weeks = [w['week'] for w in weeks if w['end'] <= available_end and w['week'] in by_week]
     descriptor = {'season': year, 'start': weeks[0]['start'], 'end': end, 'complete': complete,
                   'regularWeeks': calendar['regularWeeks'], 'weeks': weeks,
@@ -292,7 +292,7 @@ def build(source, output=PUBLIC / 'data', metadata=ROOT / 'frontend/source/seaso
     config = logo_config()
     league, daily, weekly = [read_csv(source / name) for name in ('basketballBrawlLeagueData.csv','playerDailyData.csv','playerMatchupData.csv')]
     calendars = json.loads(metadata.read_text())['seasons']
-    years = sorted({int(r['Year']) for r in league})
+    years = sorted({int(r['Year']) for r in league + daily})
     if not set(years).issubset({s['season'] for s in calendars}):
         raise ValueError('New season detected: refresh season metadata before building')
     descriptors, audits = [], {}
@@ -319,7 +319,8 @@ def build(source, output=PUBLIC / 'data', metadata=ROOT / 'frontend/source/seaso
     # Keep the Stage 1 data contract, now with consistent final regular-season ranks.
     latest = descriptors[-1]
     snap = json.loads((output / str(latest['season']) / 'standings.json').read_text())['data']
-    write_json(output / 'standings.json', snap[str(max(map(int,snap)))])
+    if snap:
+        write_json(output / 'standings.json', snap[str(max(map(int,snap)))])
     (PUBLIC / 'logos').mkdir(exist_ok=True)
     for relative in set(config['team_logo_paths'].values()) | {config['default_logo_path']}:
         logo = ROOT / relative

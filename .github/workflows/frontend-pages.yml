@@ -10,6 +10,9 @@ on:
       - 'data/playerMatchupData.csv'
       - 'data/activityData.csv'
       - 'data/playerMetadata.csv'
+      - 'data/seasonMetadata.json'
+      - 'data/scoringPeriodMatchupMap.csv'
+      - 'data/currentLeague.json'
       - 'dataStore.py'
       - 'assets/logos/**'
       - 'assets/placements/**'
@@ -19,8 +22,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: frontend-pages
-  cancel-in-progress: true
+  group: basketball-brawl-pages
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -40,13 +43,23 @@ jobs:
             data/playerMatchupData.csv
             data/activityData.csv
             data/playerMetadata.csv
+            data/seasonMetadata.json
+            data/scoringPeriodMatchupMap.csv
+            data/currentLeague.json
           sparse-checkout-cone-mode: false
           persist-credentials: false
-      - name: Use codex metadata until the updater is merged to main
+      - name: Use validated codex snapshots until the updater is activated on main
         run: |
-          if [ ! -f frontend/.league-source/data/playerMetadata.csv ]; then
-            cp data/playerMetadata.csv frontend/.league-source/data/playerMetadata.csv
+          if [ ! -f frontend/.league-source/data/seasonMetadata.json ] && [ -f data/seasonMetadata.json ]; then
+            for file in basketballBrawlLeagueData.csv playerMatchupData.csv playerDailyData.csv activityData.csv playerMetadata.csv scoringPeriodMatchupMap.csv seasonMetadata.json currentLeague.json; do
+              cp "data/$file" "frontend/.league-source/data/$file"
+            done
           fi
+          for file in playerMetadata.csv seasonMetadata.json currentLeague.json; do
+            if [ ! -f "frontend/.league-source/data/$file" ] && [ -f "data/$file" ]; then
+              cp "data/$file" "frontend/.league-source/data/$file"
+            fi
+          done
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -61,6 +74,7 @@ jobs:
       - run: python frontend/scripts/generate_all.py --source-dir frontend/.league-source/data
       - run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
         env:
+          BRAWL_REFERENCE_DIR: ${{ github.workspace }}/frontend/.league-source/data
           H2H_TEST_SOURCE: frontend/.league-source/data
           RECORD_BOOK_TEST_SOURCE: frontend/.league-source/data
           TEAM_STATS_TEST_SOURCE: frontend/.league-source/data
@@ -68,6 +82,8 @@ jobs:
           STANDINGS_TEST_SOURCE: frontend/.league-source/data/basketballBrawlLeagueData.csv
       - run: npm test
         working-directory: frontend
+      - name: Mark deployed export fingerprint
+        run: python frontend/scripts/export_fingerprint.py --data-dir frontend/public/data --deployed-url https://fliou0704.github.io/Basketball-Brawl-Fantasy-Dashboard/data/pipeline.json
       - run: npm run build
         working-directory: frontend
       - uses: actions/upload-pages-artifact@v3

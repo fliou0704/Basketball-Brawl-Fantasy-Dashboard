@@ -11,6 +11,7 @@ from dataUpdateSafety import (
     merge_refreshable_daily_rows,
     require_espn_credentials,
     validate_player_daily_data,
+    DataValidationError,
 )
 from playerDailyAggregation import eligible_position_fields
 
@@ -87,7 +88,14 @@ def fetch_daily_rows(league, year, start_period, end_period, columns):
     """Fetch only an inclusive missing scoring-period range from a supplied league."""
     records = []
     for scoring_period in range(start_period, end_period + 1):
-        for box_score in league.box_scores(scoring_period=scoring_period, matchup_total=False):
+        boxes = league.box_scores(scoring_period=scoring_period, matchup_total=False)
+        if hasattr(league, 'teams'):
+            expected = {int(t.team_id) for t in league.teams}
+            returned = {int(team.team_id) for box in boxes for team in (box.home_team, box.away_team)
+                        if team and hasattr(team, 'team_id')}
+            if returned != expected:
+                raise DataValidationError(f'incomplete ESPN lineup response for {year} scoring period {scoring_period}')
+        for box_score in boxes:
             for player in box_score.home_lineup:
                 record = _record_for_player(year, scoring_period, box_score.home_team, player)
                 if record:

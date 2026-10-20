@@ -2,5 +2,5 @@ dash
 pandas==2.2.3
 plotly
 gunicorn
-espn-api
+espn-api==0.41.0
 python-dotenv

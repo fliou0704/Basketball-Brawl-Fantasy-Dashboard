@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -60,11 +61,17 @@ def build_scoring_period_map(metadata: dict) -> pd.DataFrame:
 
 
 def load_season_metadata(path: Path = SEASON_METADATA_PATH) -> dict:
+    if path == SEASON_METADATA_PATH and os.environ.get('BRAWL_REFERENCE_DIR'):
+        path = Path(os.environ['BRAWL_REFERENCE_DIR']) / 'seasonMetadata.json'
+    elif path == SEASON_METADATA_PATH and (ROOT / 'data/seasonMetadata.json').exists():
+        path = ROOT / 'data/seasonMetadata.json'
     with path.open() as handle:
         return json.load(handle)
 
 
 def load_scoring_period_map(path: Path = SCORING_PERIOD_MAP_PATH) -> pd.DataFrame:
+    if path == SCORING_PERIOD_MAP_PATH and os.environ.get('BRAWL_REFERENCE_DIR'):
+        path = Path(os.environ['BRAWL_REFERENCE_DIR']) / 'scoringPeriodMatchupMap.csv'
     mapping = pd.read_csv(path)
     validate_scoring_period_map(mapping)
     return mapping

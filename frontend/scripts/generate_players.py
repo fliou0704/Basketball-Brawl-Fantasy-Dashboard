@@ -167,6 +167,14 @@ def build(source: Path, output: Path) -> dict:
     eligibility = latest_eligibility(daily)
     activity = pd.read_csv(source / "activityData.csv")
     ownership = current_ownership(activity, teams)
+    live_path = source / 'currentLeague.json'
+    if live_path.exists():
+        import json
+        live = json.loads(live_path.read_text())
+        ownership = {p['playerId']: team_info({'Team ID': team['teamId'], 'Team Name': team['teamName']}, config)
+                     for team in live['teams'] for p in team['roster']}
+        eligibility.update({p['playerId']: [position for position in p['eligibility'] if position in ('PG', 'SG', 'SF', 'PF', 'C')]
+                            for team in live['teams'] for p in team['roster']})
     players = []
     exported_games = 0
     for player_id, row in metadata.sort_values("Full Name").iterrows():

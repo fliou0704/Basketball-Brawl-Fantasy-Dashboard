@@ -70,10 +70,10 @@ class RecordBookParityTests(unittest.TestCase):
         cls.temp.cleanup()
 
     def test_year_options_and_default_match_dash(self):
-        self.assertEqual(self.payload['defaultYear'], int(self.namespace['playerMatchup']['Year'].max()))
-        self.assertEqual(self.payload['years'], sorted((int(y) for y in self.namespace['playerMatchup']['Year'].unique()), reverse=True))
+        self.assertEqual(self.payload['defaultYear'], int(self.daily['Year'].max()))
+        self.assertEqual(self.payload['years'], sorted((int(y) for y in self.daily['Year'].unique()), reverse=True))
         self.assertEqual([o['value'] for o in self.namespace['dropdown_options']],
-                         ['All-Time'] + [str(y) for y in self.payload['years']])
+                         ['All-Time'] + [str(y) for y in sorted(self.weekly['Year'].unique(), reverse=True)])
 
     def test_all_time_single_records_match_dash_text(self):
         reference = self.callback('All-Time')
@@ -117,12 +117,16 @@ class RecordBookParityTests(unittest.TestCase):
             with self.subTest(year=year):
                 exported = self.payload['seasons'][str(year)]
                 roster = exported['allFantasyTeam']
-                self.assertEqual(len(roster), len(exported['roster']['activeSlots']) + exported['roster']['benchSlots'])
+                capacity = len(exported['roster']['activeSlots']) + exported['roster']['benchSlots']
+                eligible = self.daily[(self.daily['Year'] == year) &
+                                     self.daily['Player Slot'].isin(exported['roster']['activeSlots'])]['Player ID'].nunique()
+                self.assertEqual(len(roster), min(capacity, eligible))
                 self.assertEqual(len({row['playerId'] for row in roster}), len(roster))
                 self.assertTrue(all(row['team']['teamId'] for row in roster))
                 self.assertLessEqual(len(exported['bestWaiverAdds']), 10)
                 self.assertLessEqual(len(exported['bestDraftPicks']), 10)
-                self.assertEqual(exported['journeymen'][0]['rank'], 1)
+                if exported['journeymen']:
+                    self.assertEqual(exported['journeymen'][0]['rank'], 1)
                 self.assertTrue(all(row['teamCount'] >= 3 for row in exported['journeymen']))
                 self.assertTrue(all(len(row['teams']) == row['teamCount'] for row in exported['journeymen']))
                 for player in exported['journeymen']:

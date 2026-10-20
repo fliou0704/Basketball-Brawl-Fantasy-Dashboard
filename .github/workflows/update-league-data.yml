@@ -1,120 +1,114 @@
-name: Weekly League Data Update
+name: League Data and Pages
 
 on:
   schedule:
-    - cron: "0 13 * * 3"   # Wednesdays 9am ET
+    - cron: '17 */3 * 1-6,10-12 *'
+    - cron: '17 13 * 7-9 *'
   workflow_dispatch:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
+
+# Shared with frontend-pages.yml: serialize source updates and Pages builds.
+concurrency:
+  group: basketball-brawl-pages
+  cancel-in-progress: false
 
 jobs:
   update-data:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     outputs:
-      changed: ${{ steps.changes.outputs.changed }}
-
+      deploy: ${{ steps.exports.outputs.changed }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
         with:
-          python-version: "3.11"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run automated tests
-        run: python -m unittest discover -s tests -v
-
-      - name: Run data updaters
-        env:
-          ESPN_S2: ${{ secrets.ESPN_S2 }}
-          SWID: ${{ secrets.SWID }}
-        run: |
-          python dataUpdater.py
-          python activityDataUpdater.py --write
-          # Re-run discovery after activity updates. Fresh profiles are cached,
-          # so this only calls ESPN if activity introduced a new player ID.
-          python playerMetadataUpdater.py
-
-      - name: Validate updated data
-        run: >-
-          python -c "import pandas as pd; from activityDataUpdater import validate_activity; from dataUpdateSafety import validate_league_data, validate_player_matchup_data, validate_player_daily_data; from playerMetadataUpdater import discover_player_ids, validate_metadata; validate_league_data(pd.read_csv('data/basketballBrawlLeagueData.csv')); validate_player_matchup_data(pd.read_csv('data/playerMatchupData.csv')); validate_player_daily_data(pd.read_csv('data/playerDailyData.csv')); validate_activity(pd.read_csv('data/activityData.csv')); metadata=pd.read_csv('data/playerMetadata.csv'); discovered=discover_player_ids('data'); validate_metadata(metadata, discovered, discovered-set(pd.to_numeric(metadata['ESPN Player ID']).astype(int))); print('Updated CSV validation passed.')"
-
-      - name: Check for data changes
-        id: changes
-        run: |
-          if git diff --quiet -- data/*.csv; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Commit and push changes
-        if: steps.changes.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git add data/*.csv
-          git commit -m "Weekly league data update"
-          git push
-
-      # Build codex here because GITHUB_TOKEN data pushes do not start the
-      # push-triggered Pages workflow.
-      - name: Checkout codex frontend
-        if: steps.changes.outputs.changed == 'true'
-        uses: actions/checkout@v4
+          ref: main
+      - uses: actions/checkout@v4
         with:
           ref: codex
           path: site
           persist-credentials: false
-
-      - name: Set up Node
-        if: steps.changes.outputs.changed == 'true'
-        uses: actions/setup-node@v4
+      - uses: actions/setup-python@v5
         with:
-          node-version: "22"
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: |
+            site/requirements.txt
+            site/frontend/requirements-build.txt
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
           cache: npm
           cache-dependency-path: site/frontend/package-lock.json
-
-      - name: Install frontend dependencies
-        if: steps.changes.outputs.changed == 'true'
+      - name: Install dependencies
         run: |
-          pip install -r site/frontend/requirements-build.txt
+          pip install -r site/requirements.txt -r site/frontend/requirements-build.txt
           npm ci --prefix site/frontend
-
-      - name: Regenerate and test all frontend data
-        if: steps.changes.outputs.changed == 'true'
-        env:
-          H2H_TEST_SOURCE: data
-          RECORD_BOOK_TEST_SOURCE: data
-          TEAM_STATS_TEST_SOURCE: data
-          HOMEPAGE_TEST_SOURCE: data
-          STANDINGS_TEST_SOURCE: data/basketballBrawlLeagueData.csv
+      - name: Offline safety tests
+        working-directory: site
+        run: python -m unittest discover -s tests -v
+      - name: Seed existing metadata until it is canonical on main
         run: |
-          python site/frontend/scripts/generate_all.py --source-dir data --output-dir site/frontend/public/data
-          python -m unittest discover -s site/frontend/scripts -p 'test_*.py' -v
-          npm test --prefix site/frontend
-
-      - name: Build frontend
-        if: steps.changes.outputs.changed == 'true'
+          if [ ! -f data/playerMetadata.csv ]; then
+            cp site/data/playerMetadata.csv data/playerMetadata.csv
+          fi
+      - name: Stage and validate bounded ESPN updates
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+        run: python site/nearLiveUpdater.py --data-dir data --write
+      - name: Regenerate frontend payloads
+        run: python site/frontend/scripts/generate_all.py --source-dir data --output-dir site/frontend/public/data
+      - name: Test generated data
+        working-directory: site
+        env:
+          BRAWL_REFERENCE_DIR: ${{ github.workspace }}/data
+          H2H_TEST_SOURCE: ${{ github.workspace }}/data
+          RECORD_BOOK_TEST_SOURCE: ${{ github.workspace }}/data
+          TEAM_STATS_TEST_SOURCE: ${{ github.workspace }}/data
+          HOMEPAGE_TEST_SOURCE: ${{ github.workspace }}/data
+          STANDINGS_TEST_SOURCE: ${{ github.workspace }}/data/basketballBrawlLeagueData.csv
+        run: |
+          python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
+          npm test --prefix frontend
+      - name: Compare exports with deployed Pages
+        id: exports
+        run: python site/frontend/scripts/export_fingerprint.py --data-dir site/frontend/public/data --deployed-url https://fliou0704.github.io/Basketball-Brawl-Fantasy-Dashboard/data/pipeline.json >> "$GITHUB_OUTPUT"
+      - name: Build changed Pages payload
+        if: steps.exports.outputs.changed == 'true'
         run: npm run build --prefix site/frontend
-
-      - name: Upload Pages artifact
-        if: steps.changes.outputs.changed == 'true'
-        uses: actions/upload-pages-artifact@v3
+      - name: Commit validated canonical inputs
+        run: |
+          for file in basketballBrawlLeagueData.csv playerMatchupData.csv playerDailyData.csv activityData.csv playerMetadata.csv scoringPeriodMatchupMap.csv seasonMetadata.json currentLeague.json; do
+            if [ -f "data/$file" ]; then git add "data/$file"; fi
+          done
+          if ! git diff --cached --quiet; then
+            git config user.name github-actions
+            git config user.email actions@github.com
+            git commit -m "Refresh league data and recent ESPN corrections"
+            git push origin HEAD:main
+          fi
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.exports.outputs.changed == 'true'
         with:
           path: site/frontend/dist
+      - name: Run summary
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          DEPLOY: ${{ steps.exports.outputs.changed }}
+        run: |
+          echo "Update status: $JOB_STATUS; changed Pages payload: ${DEPLOY:-not reached}" >> "$GITHUB_STEP_SUMMARY"
 
   deploy:
     needs: update-data
-    if: needs.update-data.outputs.changed == 'true'
+    if: needs.update-data.outputs.deploy == 'true'
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

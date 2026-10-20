@@ -213,9 +213,10 @@ def update_player_metadata(
     output_path: str | Path = DEFAULT_OUTPUT,
     fetch_player: Callable[[int, datetime], dict] | None = None,
     now: datetime | None = None,
+    additional_ids: set[int] | None = None,
 ) -> UpdateReport:
     moment = now or datetime.now(timezone.utc)
-    discovered = discover_player_ids(data_dir)
+    discovered = discover_player_ids(data_dir) | (additional_ids or set())
     existing = load_metadata(output_path)
     records = player_metadata_by_id(existing) if not existing.empty else {}
     new_ids = discovered.difference(records)
@@ -231,7 +232,7 @@ def update_player_metadata(
             changed = True
         except Exception as error:  # isolate one ESPN profile from the full cache
             unresolved.append(player_id)
-            print(f"WARNING: unresolved ESPN Player ID {player_id}: {type(error).__name__}: {error}")
+            print(f"WARNING: unresolved ESPN Player ID {player_id}: {type(error).__name__}")
 
     candidate = pd.DataFrame([records[player_id] for player_id in sorted(records)], columns=METADATA_COLUMNS)
     validate_metadata(candidate, discovered, set(unresolved))

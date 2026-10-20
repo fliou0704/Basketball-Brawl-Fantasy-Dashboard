@@ -25,8 +25,8 @@ def all_time(league, weekly, daily, activity, config):
     top_team = league.sort_values('Points For', ascending=False).iloc[0]
     top_player = weekly.sort_values('FPTS', ascending=False).iloc[0]
     top_daily = daily.sort_values('FPTS', ascending=False).iloc[0]
-    teams_by_season = {int(year): season_teams(league, int(year), config)
-                       for year in league['Year'].unique()}
+    teams_by_season = {int(year): season_teams(league, int(year), config, daily)
+                       for year in set(league['Year']) | set(daily['Year'])}
     team_for = lambda row: teams_by_season.get(int(row['Year']), {}).get(int(row['Team ID']))
     hundred = daily[daily['FPTS'] >= 100].copy().sort_values('Date', ascending=False)
     hundred = hundred[['Year', 'Date', 'Player ID', 'Player Name', 'Team Name', 'Team ID', 'FPTS']]
@@ -68,9 +68,11 @@ def all_time(league, weekly, daily, activity, config):
     }
 
 
-def season_teams(league, year, config):
+def season_teams(league, year, config, daily=None):
     from build_homepage import team_info
     rows = league[league['Year'] == year].sort_values('Week').drop_duplicates('Team ID', keep='last')
+    if rows.empty and daily is not None:
+        rows = daily[daily['Year'] == year].sort_values('Scoring Period').drop_duplicates('Team ID', keep='last')
     return {int(row['Team ID']): team_info(row, config) for _, row in rows.iterrows()}
 
 
@@ -158,7 +160,7 @@ def champion_for(league, year, teams):
 def season_awards(league, weekly, daily, activity, metadata, config, year):
     settings = next(item for item in metadata['seasons'] if int(item['season']) == year)
     slots = settings['lineupSlots']
-    teams = season_teams(league, year, config)
+    teams = season_teams(league, year, config, daily)
     players = player_totals(daily, year, slots, teams, weekly)
     team_scores = (daily[(daily['Year'] == year) & daily['Player Slot'].isin(slots)]
                    .groupby(['Player ID', 'Team ID'], as_index=False)['FPTS'].sum())

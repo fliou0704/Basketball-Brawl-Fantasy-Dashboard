@@ -75,6 +75,15 @@ class PlayerMetadataTests(unittest.TestCase):
         self.assertEqual(fetched, [3989, 5104157])
         self.assertEqual(report.records, 3)
 
+    def test_roster_only_new_player_is_discovered_before_first_game(self):
+        self.write(profile(1966), profile(3989), profile(5104157))
+        fetched = []
+        report = update_player_metadata(self.directory, self.output,
+            lambda pid, now: fetched.append(pid) or profile(pid, fetched_at=now), NOW,
+            additional_ids={999999})
+        self.assertEqual(fetched, [999999])
+        self.assertEqual(report.fetched, 1)
+
     def test_active_player_refreshes_when_due(self):
         self.write(profile(1966, fetched_at=NOW - timedelta(days=8)), profile(3989, active=False), profile(5104157))
         fetched = []

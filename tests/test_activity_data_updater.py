@@ -40,6 +40,17 @@ class Response:
 
 
 class ActivityUpdaterTests(unittest.TestCase):
+    def test_recent_transaction_overlap_fetches_only_explicit_partitions(self):
+        league = SimpleNamespace(scoringPeriodId=100,
+            espn_request=SimpleNamespace(LEAGUE_ENDPOINT='endpoint', cookies={}))
+        seen = []
+        def requester(url, params, cookies, timeout):
+            seen.append(params['scoringPeriodId'])
+            return Response([tx('delayed', 'WAIVER', items=[add()])])
+        transactions, _ = fetch_transactions(league, requester, periods=[0, 1, 94, 95, 96, 97, 98, 99, 100])
+        self.assertEqual(seen, [0, 1, 94, 95, 96, 97, 98, 99, 100])
+        self.assertEqual(len(transactions), 1)
+
     def test_executed_waiver_add_and_associated_drop(self):
         rows = build_automated_rows(2026, [tx("w", "WAIVER", items=[add(), drop()])], TEAMS, PLAYERS)
         self.assertEqual(rows.Action.tolist(), ["WAIVER ADDED", "DROPPED"])

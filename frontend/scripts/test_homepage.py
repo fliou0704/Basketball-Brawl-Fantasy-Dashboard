@@ -144,7 +144,7 @@ class HomepageMetricTests(unittest.TestCase):
 
 class GeneratedHomepageTests(unittest.TestCase):
     def setUp(self):
-        self.output=ROOT/'frontend/public/data'
+        self.output=Path(os.environ.get('FRONTEND_TEST_OUTPUT', ROOT/'frontend/public/data'))
 
     def load(self, name):
         return json.loads((self.output/name).read_text())
@@ -187,7 +187,7 @@ class GeneratedHomepageTests(unittest.TestCase):
         manifest=self.load('homepage.json')
         seasonal={str(year):{name:self.load(f'{year}/{name}.json')['data']
                             for name in ('daily-recap','weekly-recap','standings','playoffs')}
-                  for year in (2023,2024,2025,2026)}
+                  for year in [calendar['season'] for calendar in manifest['calendars']]}
         for day,state in manifest['states'].items():
             if state['season'] is None: continue
             data=seasonal[str(state['season'])]

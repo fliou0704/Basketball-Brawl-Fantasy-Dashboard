@@ -33,12 +33,13 @@ def write_league_update(existing_data, new_rows, destination=LEAGUE_DATA_PATH, t
     atomic_write_csv(candidate, destination)
     return True
 
-def update_league_data():
+def update_league_data(data_path=LEAGUE_DATA_PATH, active_year=None, league_factory=League, refresh_from_by_year=None):
+    League = league_factory
     league_id = 609694684
     swid, espn_s2 = require_espn_credentials()
 
     current_year = datetime.now().year
-    current_year = current_year + 1
+    current_year = active_year or current_year + 1
     leagueYear = current_year
     try:
         league = League(league_id=league_id, year=leagueYear, espn_s2=espn_s2, swid=swid)
@@ -47,7 +48,10 @@ def update_league_data():
         league = League(league_id=league_id, year=year, espn_s2=espn_s2, swid=swid)
         leagueYear = year
 
-    data = pd.read_csv(LEAGUE_DATA_PATH)
+    data = pd.read_csv(data_path)
+    original = data.copy(deep=True)
+    for year, first_week in (refresh_from_by_year or {}).items():
+        data = data[~((data['Year'] == year) & (data['Week'] >= first_week))].copy()
 
     maxyear = data["Year"].max()
     maxweek = data[data["Year"] == maxyear]["Week"].max()
@@ -307,7 +311,20 @@ def update_league_data():
     if not new_data_frames:
         return False
     new_rows = pd.concat(new_data_frames, ignore_index=True)
-    return write_league_update(data, new_rows, terminal_week_by_year=terminal_week_by_year)
+    if refresh_from_by_year:
+        from nearLiveSafety import replace_partitions
+        candidate = prepare_league_update(data, new_rows, terminal_week_by_year)
+        partitions = {(int(y), int(w)) for y, w in original[['Year', 'Week']].itertuples(index=False, name=None)
+                      if y in refresh_from_by_year and w >= refresh_from_by_year[y]}
+        stored_partitions = set(original[['Year', 'Week']].itertuples(index=False, name=None))
+        partitions.update(set(new_rows[['Year', 'Week']].itertuples(index=False, name=None)) - stored_partitions)
+        rows = candidate[[tuple(x) in partitions for x in candidate[['Year', 'Week']].itertuples(index=False, name=None)]]
+        candidate = replace_partitions(original, rows, partitions, 'Week', LEAGUE_KEY, validate_league_data)
+        if candidate.equals(original):
+            return False
+        atomic_write_csv(candidate, data_path)
+        return True
+    return write_league_update(data, new_rows, destination=data_path, terminal_week_by_year=terminal_week_by_year)
 
 
 if __name__ == "__main__":
