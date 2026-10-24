@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "scoringPeriod": 4,
+  "scoringPeriod": 5,
   "season": 2027,
   "teams": [
     {
       "abbreviation": "OOPS",
       "losses": 0,
       "owner": "Frank",
-      "pointsAgainst": 321.0,
-      "pointsFor": 467.0,
-      "rank": 5,
+      "pointsAgainst": 589.0,
+      "pointsFor": 835.0,
+      "rank": 2,
       "roster": [
         {
           "eligibility": [
@@ -232,8 +232,8 @@
       "abbreviation": "TURK",
       "losses": 0,
       "owner": "Eren",
-      "pointsAgainst": 358.0,
-      "pointsFor": 458.0,
+      "pointsAgainst": 620.0,
+      "pointsFor": 773.0,
       "rank": 6,
       "roster": [
         {
@@ -445,8 +445,8 @@
       "abbreviation": "WONG",
       "losses": 0,
       "owner": "Johnson",
-      "pointsAgainst": 472.0,
-      "pointsFor": 379.0,
+      "pointsAgainst": 800.0,
+      "pointsFor": 715.0,
       "rank": 7,
       "roster": [
         {
@@ -678,9 +678,9 @@
       "abbreviation": "JS",
       "losses": 0,
       "owner": "Jooahn",
-      "pointsAgainst": 174.0,
-      "pointsFor": 565.0,
-      "rank": 1,
+      "pointsAgainst": 249.0,
+      "pointsFor": 785.0,
+      "rank": 5,
       "roster": [
         {
           "eligibility": [
@@ -906,9 +906,9 @@
       "abbreviation": "JMH",
       "losses": 0,
       "owner": "Jonathan",
-      "pointsAgainst": 529.0,
-      "pointsFor": 523.0,
-      "rank": 3,
+      "pointsAgainst": 808.0,
+      "pointsFor": 893.0,
+      "rank": 1,
       "roster": [
         {
           "eligibility": [
@@ -1129,8 +1129,8 @@
       "abbreviation": "FAD",
       "losses": 0,
       "owner": "Shayan",
-      "pointsAgainst": 467.0,
-      "pointsFor": 321.0,
+      "pointsAgainst": 835.0,
+      "pointsFor": 589.0,
       "rank": 9,
       "roster": [
         {
@@ -1379,8 +1379,8 @@
       "abbreviation": "SMN",
       "losses": 0,
       "owner": "Semanto",
-      "pointsAgainst": 379.0,
-      "pointsFor": 472.0,
+      "pointsAgainst": 715.0,
+      "pointsFor": 800.0,
       "rank": 4,
       "roster": [
         {
@@ -1636,8 +1636,8 @@
       "abbreviation": "13",
       "losses": 0,
       "owner": "Arian",
-      "pointsAgainst": 565.0,
-      "pointsFor": 174.0,
+      "pointsAgainst": 785.0,
+      "pointsFor": 249.0,
       "rank": 10,
       "roster": [
         {
@@ -1865,9 +1865,9 @@
       "abbreviation": "JJJ",
       "losses": 0,
       "owner": "Allen",
-      "pointsAgainst": 523.0,
-      "pointsFor": 529.0,
-      "rank": 2,
+      "pointsAgainst": 893.0,
+      "pointsFor": 808.0,
+      "rank": 3,
       "roster": [
         {
           "eligibility": [
@@ -2089,8 +2089,8 @@
       "abbreviation": "SEE",
       "losses": 0,
       "owner": "Luke",
-      "pointsAgainst": 458.0,
-      "pointsFor": 358.0,
+      "pointsAgainst": 773.0,
+      "pointsFor": 620.0,
       "rank": 8,
       "roster": [
         {
