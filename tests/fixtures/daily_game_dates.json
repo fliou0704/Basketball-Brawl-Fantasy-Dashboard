@@ -1,0 +1,9 @@
+{
+  "source": "Allowlisted ESPN proTeamSchedules_wl timestamps and player.stats dates, observed 2026-10-24 under TZ=UTC",
+  "samples": [
+    {"year": 2026, "period": 161, "playerId": 2490149, "gameId": 401810947, "utc": "2026-03-30T23:30:00+00:00", "leagueDate": "2026-03-30"},
+    {"year": 2026, "period": 161, "playerId": 3908809, "gameId": 401810951, "utc": "2026-03-31T01:00:00+00:00", "leagueDate": "2026-03-30"},
+    {"year": 2027, "period": 1, "playerId": 3147657, "gameId": 401909089, "utc": "2026-10-20T23:00:00+00:00", "leagueDate": "2026-10-20"},
+    {"year": 2027, "period": 1, "playerId": 5104157, "gameId": 401909090, "utc": "2026-10-21T01:30:00+00:00", "leagueDate": "2026-10-20"}
+  ]
+}

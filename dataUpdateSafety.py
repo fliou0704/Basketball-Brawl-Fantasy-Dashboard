@@ -7,6 +7,7 @@ already-fetched rows, validates the proposed dataset, and writes it atomically.
 from __future__ import annotations
 
 import math
+import json
 import os
 import tempfile
 from collections.abc import Callable, Iterable
@@ -145,7 +146,20 @@ def validate_player_matchup_data(frame: pd.DataFrame) -> None:
         raise DataValidationError("player matchup data contains an invalid week")
 
 
-def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dict[int, int] | None = None) -> None:
+def daily_date_conflicts(frame: pd.DataFrame, source: str = 'candidate') -> list[dict]:
+    """Return only safe identifiers/counts for inconsistent daily partitions."""
+    conflicts = []
+    for (year, period), rows in frame.groupby(['Year', 'Scoring Period'], sort=True):
+        if rows['Date'].nunique() > 1:
+            conflicts.append({'source': source, 'year': int(year), 'period': int(period), 'records': len(rows),
+                'dates': [{'date': str(day), 'records': len(group),
+                           'playerIds': group['Player ID'].astype(int).drop_duplicates().head(3).tolist()}
+                          for day, group in rows.groupby('Date', sort=True)]})
+    return conflicts
+
+
+def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dict[int, int] | None = None,
+                               source: str = 'candidate') -> None:
     """Validate daily-player data without altering its dashboard-compatible schema."""
     _require_columns(frame, PLAYER_DAILY_REQUIRED_COLUMNS, "player daily data")
     _require_unique_keys(frame, PLAYER_DAILY_KEY, "player daily data")
@@ -166,7 +180,8 @@ def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dic
     # ESPN scoring periods represent individual dates in this export.
     dates_per_period = data.groupby(["Year", "Scoring Period"])["Date"].nunique()
     if (dates_per_period > 1).any():
-        raise DataValidationError("player daily data maps a scoring period to multiple dates")
+        raise DataValidationError("player daily data maps a scoring period to multiple dates: "
+                                  + json.dumps(daily_date_conflicts(data, source), separators=(',', ':')))
 
     if terminal_period_by_year:
         years = sorted(int(year) for year in data["Year"].unique())

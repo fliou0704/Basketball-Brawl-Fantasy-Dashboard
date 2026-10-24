@@ -1,6 +1,7 @@
 """Incremental, validated updates for the dashboard's daily-player dataset."""
 
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 from espn_api.basketball import League
@@ -66,7 +67,11 @@ def _record_for_player(year, scoring_period, team, player):
     if not day_stats or "total" not in day_stats:
         return None
     date_played = day_stats.get("date")
-    date_played = date_played.date().isoformat() if date_played else None
+    # espn-api 0.41 creates this datetime with fromtimestamp(): a naive value
+    # in the host timezone, not a UTC date or a canonical scoring-period date.
+    # Convert the instant before truncating so UTC runners match league-local
+    # Game Log dates, including games starting after midnight UTC.
+    date_played = date_played.astimezone(ZoneInfo('America/New_York')).date().isoformat() if date_played else None
     record = {
         "Year": year,
         "Scoring Period": scoring_period,

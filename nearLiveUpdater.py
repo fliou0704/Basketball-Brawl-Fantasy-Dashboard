@@ -184,6 +184,8 @@ def run(data_dir=ROOT / 'data', write=False):
     metadata_path = data_dir / 'seasonMetadata.json'
     metadata = json.loads((metadata_path if metadata_path.exists() else ROOT / 'frontend/source/season-metadata.json').read_text())
     before = {name: pd.read_csv(data_dir / name) for name in KEYS}
+    validate_player_daily_data(before['playerDailyData.csv'], source='existing canonical')
+    print(f"Daily dates: existing canonical, {len(before['playerDailyData.csv'])} rows, no conflicts", flush=True)
     # A temporary directory holds every candidate. A later failure never promotes
     # a partially updated set of CSVs into the caller's canonical directory.
     with tempfile.TemporaryDirectory(prefix='brawl-update-') as temporary:
@@ -208,6 +210,8 @@ def run(data_dir=ROOT / 'data', write=False):
                 if now.date() > final_date + timedelta(days=7):
                     continue
             fetched = fetch_daily_rows(league, season, first, available, daily.columns.tolist())
+            validate_player_daily_data(fetched, source=f'fresh ESPN season {season}')
+            print(f'Daily dates: fresh ESPN season {season}, periods {first}-{available}, {len(fetched)} rows, no conflicts', flush=True)
             missing = set(stored_rows.loc[stored_rows['Scoring Period'].between(first, available), 'Scoring Period']) - set(fetched['Scoring Period'])
             if missing:
                 schedule = retry(league._get_all_pro_schedule)
@@ -224,10 +228,11 @@ def run(data_dir=ROOT / 'data', write=False):
             if touched:
                 refresh_weeks[season] = min(touched)
         fetched = pd.concat(frames, ignore_index=True) if frames else daily.iloc[0:0].copy()
-        candidate = replace_partitions(daily, fetched, partitions, 'Scoring Period', PLAYER_DAILY_KEY, validate_player_daily_data)
+        candidate = replace_partitions(daily, fetched, partitions, 'Scoring Period', PLAYER_DAILY_KEY,
+                                       lambda rows: validate_player_daily_data(rows, source='merged candidate'))
         # Check terminal completion before adding any later season.
         terminals = {s: int(get(s).finalScoringPeriod) for s in years if s < year}
-        validate_player_daily_data(candidate, terminals)
+        validate_player_daily_data(candidate, terminals, source='merged candidate')
         atomic_write_csv(candidate, stage / 'playerDailyData.csv')
         print('Daily authorized partitions:', sorted(partitions))
         print('Daily changes:', changes(daily, candidate, PLAYER_DAILY_KEY))
