@@ -37,12 +37,39 @@ with sync_playwright() as p:
   page.get_by_text('This season or week is unavailable.',exact=False).wait_for()
   print('PASS',width,'default, future, refresh, back/forward, season transition, byes, unavailable, overflow')
  fixture=page.request.get(base+'data/scoreboard.json').json()
+ fixture['updatedAt']='2026-10-24T12:34:56Z'
+ weeks=next(s for s in fixture['seasons'] if s['season']==2027)['weeks']
+ weeks[0].update(start='2026-10-20',end='2026-10-25',calendarPartial=False)
+ weeks[1].update(start='2026-10-26',end='2026-11-08',calendarPartial=False)
+ page.route('**/data/scoreboard.json',lambda route:route.fulfill(json=fixture))
+ for width in (1280,390,320):
+  page.set_viewport_size({'width':width,'height':1000})
+  page.goto(base+'#/scoreboard?season=2027&week=1')
+  page.reload()
+  page.get_by_text('Last updated:',exact=False).wait_for()
+  assert page.locator('.scoreboard-context time').get_attribute('datetime')==fixture['updatedAt']
+  assert '10/24/26 08:34:56 AM ET' in page.locator('.scoreboard-context').inner_text()
+  assert '2026-10-20 – 2026-10-25' in page.locator('.scoreboard-context').inner_text()
+  assert 'Fantasy points shown are actual scores' not in page.locator('main').inner_text()
+  assert page.evaluate('document.documentElement.scrollWidth')<=width
+  page.screenshot(path=f'/tmp/scoreboard-polish-{width}.png',full_page=True)
+  page.get_by_label('Next week',exact=True).click()
+  page.get_by_role('heading',name='Week 2',exact=True).wait_for()
+  assert '2026-10-26 – 2026-11-08' in page.locator('.scoreboard-context').inner_text()
+  assert 'Last updated' not in page.locator('main').inner_text()
+  page.goto(base+'#/scoreboard?season=2026&week=23')
+  page.get_by_role('heading',name='Week 23 · Playoffs',exact=True).wait_for()
+  assert 'Last updated' not in page.locator('main').inner_text()
+  print('PASS polish',width,'recorded timestamp only in progress, scheduled dates, disclaimer removed')
  future=next(s for s in fixture['seasons'] if s['season']==2027)['weeks'][1]
  future['matchups']=[]
+ page.unroute('**/data/scoreboard.json')
+ future.update(start=None,end=None)
  page.route('**/data/scoreboard.json',lambda route:route.fulfill(json=fixture))
  page.goto(base+'#/scoreboard?season=2027&week=2')
  page.reload()
  page.get_by_text('Matchup assignments are unavailable or have not been published for this week.').wait_for()
  assert page.locator('.match-team').count()==0
+ assert 'Schedule dates unavailable.' in page.locator('.scoreboard-context').inner_text()
  assert not errors,errors
  browser.close()

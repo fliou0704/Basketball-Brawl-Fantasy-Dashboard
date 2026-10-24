@@ -28,6 +28,7 @@ from playerMatchupDataUpdater import update_playerMatchup_data
 from playerDailyDataUpdater import available_scoring_period, fetch_daily_rows, with_raw_three_point_attempts
 from playerDailyAggregation import build_scoring_period_map, validate_scoring_period_map
 from playerMetadataUpdater import update_player_metadata
+from scoreboardCalendar import scheduled_weeks, dated_snapshot
 from nearLiveSafety import refresh_start, replace_partitions, changes, change_details
 
 ROOT = Path(__file__).resolve().parent
@@ -146,6 +147,8 @@ def current_calendar(league, daily, previous, refresh_from=None):
                           for i in settings['scoringSettings']['scoringItems']}, 'matchups': matches,
         'teams': [{'Team ID': t.team_id, 'Team Name': t.team_name, 'Team Abbreviation': t.team_abbrev,
                    'Team Owner': t.owners[0]['firstName']} for t in league.teams]}
+    result['scheduledWeeks'] = scheduled_weeks(settings['scheduleSettings'], anchor.isoformat(),
+                                              result['firstPeriod'], result['finalPeriod'])
     if available_scoring_period(league) < int(league.finalScoringPeriod):
         result['calendarThrough'] = (anchor + timedelta(days=available_scoring_period(league))).isoformat()
     return result
@@ -273,6 +276,14 @@ def run(data_dir=ROOT / 'data', write=False):
             details = change_details(before[name], after, key)
             if details['corrected'] or details['removedKeys']:
                 print('Correction details:', details)
+        # Only a fully validated candidate can acquire a data-update timestamp.
+        old_snapshot_path = data_dir / 'currentLeague.json'
+        old_snapshot = json.loads(old_snapshot_path.read_text()) if old_snapshot_path.exists() else None
+        old_calendar = next((s for s in json.loads(metadata_path.read_text())['seasons']
+                             if int(s['season']) == year), None) if metadata_path.exists() else None
+        snapshot = dated_snapshot(snapshot, calendar, old_snapshot, old_calendar,
+                                  datetime.now(timezone.utc).isoformat())
+        atomic_json(snapshot, stage / 'currentLeague.json')
         changed = []
         for name in [*KEYS, 'playerMetadata.csv', 'scoringPeriodMatchupMap.csv', 'seasonMetadata.json', 'currentLeague.json']:
             target, source = data_dir / name, stage / name

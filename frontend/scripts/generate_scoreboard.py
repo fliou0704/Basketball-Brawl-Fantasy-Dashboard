@@ -13,7 +13,7 @@ def project(current, calendars, mapping, league, config):
     week = mapped.get(period, int(current['week']))
     if period in mapped and week != int(current['week']):
         raise ValueError('ESPN status and scoring-period mapping disagree')
-    payload = {'schemaVersion': 1, 'current': {'season': year, 'week': week, 'scoringPeriod': period}, 'seasons': []}
+    payload = {'schemaVersion': 1, 'current': {'season': year, 'week': week, 'scoringPeriod': period}, 'updatedAt': current.get('updatedAt'), 'seasons': []}
     for calendar in sorted(calendars, key=lambda c: c['season']):
         season = int(calendar['season'])
         rows = [r for r in league if int(r['Year']) == season]
@@ -22,9 +22,11 @@ def project(current, calendars, mapping, league, config):
         if season == year:
             identities.update({int(t['teamId']): team_info({'Team ID': t['teamId'], 'Team Name': t['teamName']}, config) for t in current['teams']})
             payload['current']['asOfDate'] = (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=period)).isoformat()
-        dates = {int(w['week']): w for w in calendar['weeks']}
+        # Legacy weeks/map endpoints were observed from points, not scheduled
+        # boundaries. Only the separately captured ESPN settings are reliable.
+        dates = {int(w['week']): w for w in calendar.get('scheduledWeeks', [])}
         assignments = calendar['matchups']
-        numbers = sorted(({week} if season == year else set()) | set(dates) | {int(m['week']) for m in assignments} | {int(r['Week']) for r in rows})
+        numbers = sorted(({week} if season == year else set()) | {int(w['week']) for w in calendar['weeks']} | set(dates) | {int(m['week']) for m in assignments} | {int(r['Week']) for r in rows})
         exported = []
         for selected in numbers:
             state = 'final' if season < year or (season == year and selected < week) else 'current' if season == year and selected == week else 'future'
@@ -77,8 +79,8 @@ def project(current, calendars, mapping, league, config):
                                     'winnerId': ids[scores.index(max(scores))] if scores and scores[0] != scores[1] else None})
             exported.append({'week': selected, 'phase': 'playoffs' if selected > calendar['regularWeeks'] else 'regular',
                              'state': state, 'start': dates.get(selected, {}).get('start'), 'end': dates.get(selected, {}).get('end'),
-                             'calendarPartial': bool(calendar.get('calendarThrough')), 'matchups': matches})
-        payload['seasons'].append({'season': season, 'weeks': exported, 'unpublishedPlayoffs': not any(w['phase'] == 'playoffs' for w in exported)})
+                             'calendarPartial': selected not in dates, 'matchups': matches})
+        payload['seasons'].append({'season': season, 'weeks': exported, 'unpublishedPlayoffs': not any(w['phase'] == 'playoffs' and w['matchups'] for w in exported)})
     return payload
 
 

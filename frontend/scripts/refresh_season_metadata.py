@@ -12,6 +12,7 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
+from scoreboardCalendar import scheduled_weeks
 
 
 def refresh(source, output):
@@ -68,6 +69,8 @@ def refresh(source, output):
                   'scoringWeights': {STATS_MAP.get(str(item['statId']), str(item['statId'])): item['points']
                                      for item in settings['scoringSettings']['scoringItems']},
                   'matchups': matchups}
+        season['scheduledWeeks'] = scheduled_weeks(settings['scheduleSettings'], anchor.isoformat(),
+                                                    season['firstPeriod'], season['finalPeriod'])
         seasons.append(season)
         print(f'{year}: {len(calendar)} weeks; {len(matchups)} matchup records; {len(slots)} active roster slots')
     output.parent.mkdir(parents=True, exist_ok=True)

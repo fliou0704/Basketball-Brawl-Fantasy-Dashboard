@@ -26,5 +26,5 @@ export async function loadScoreboard(base, fetcher = fetch) {
   if (!response.ok) throw new Error('Scoreboard unavailable');
   const data = await response.json();
   if (data.schemaVersion !== 1) throw new Error('Unsupported scoreboard');
-  return {data, publishedAt:response.headers.get('last-modified')};
+  return {data};
 }

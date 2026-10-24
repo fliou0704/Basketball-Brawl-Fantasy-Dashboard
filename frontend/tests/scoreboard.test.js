@@ -25,12 +25,12 @@ test('arrows cross season boundaries and stop at known endpoints',()=>{
   assert.equal(adjacentWeek(data,2027,20,1),null);
   assert.equal(selectScoreboard(data,{season:2026}).selected.week,23);
 });
-test('client bypasses stale cache and preserves publication metadata',async()=>{
+test('client bypasses stale cache and uses stored data-update time instead of publication metadata',async()=>{
   const loaded=await loadScoreboard('/brawl/',async(url,options)=>{
     assert.equal(url,'/brawl/data/scoreboard.json');assert.equal(options.cache,'no-cache');
-    return {ok:true,json:async()=>({schemaVersion:1,...data}),headers:new Map([['last-modified','Sat, 24 Oct 2026 12:00:00 GMT']])};
+    return {ok:true,json:async()=>({schemaVersion:1,...data,updatedAt:'2026-10-23T12:34:56Z'}),headers:new Map([['last-modified','Sat, 24 Oct 2026 12:00:00 GMT']])};
   });
-  assert.equal(loaded.data.current.week,1);assert.ok(loaded.publishedAt);
+  assert.equal(loaded.data.current.week,1);assert.equal(loaded.data.updatedAt,'2026-10-23T12:34:56Z');assert.equal(loaded.publishedAt,undefined);
   await assert.rejects(loadScoreboard('/',async()=>({ok:false})));
 });
 test('routing updates selection through the existing hashchange listener',async()=>{
