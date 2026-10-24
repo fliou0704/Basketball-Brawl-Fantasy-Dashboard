@@ -1,0 +1,32 @@
+.scoreboard-controls { display:flex; align-items:end; flex-wrap:wrap; gap:12px; margin-bottom:28px; }
+.scoreboard-controls label { display:grid; gap:4px; font-size:.8125rem; font-weight:700; }
+.scoreboard-controls select, .scoreboard-controls button { min-height:42px; border:1px solid var(--color-border-strong); border-radius:var(--radius-small); background:var(--color-surface); color:var(--color-ink); padding:8px 12px; font:inherit; }
+.scoreboard-controls button { cursor:pointer; }
+.scoreboard-controls button:hover:enabled { border-color:var(--color-brand); color:var(--color-brand-strong); }
+.scoreboard-controls button:disabled { opacity:.4; cursor:default; }
+.scoreboard-arrows { display:flex; gap:6px; }
+.scoreboard-context { color:var(--color-ink-muted); font-size:.8125rem; margin:0 0 12px; }
+.scoreboard-context p { margin:4px 0; }
+.scoreboard-match { padding:16px 0; border-bottom:1px solid var(--color-border); }
+.scoreboard-match:first-child { padding-top:0; }
+.scoreboard-match:last-child { border:0; padding-bottom:0; }
+.scoreboard-match .match { max-width:780px; }
+.match-status { margin:0 0 10px; font-size:.75rem; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--color-ink-muted); }
+.match-status.current { color:var(--color-brand-strong); }
+.scoreboard-page .match-team { min-width:0; }
+.scoreboard-page .team { min-width:0; }
+.scoreboard-page .team-name { overflow-wrap:anywhere; }
+@media(max-width:420px) { .scoreboard-controls { gap:8px; } .scoreboard-controls label { flex:1; min-width:0; } .scoreboard-controls select { width:100%; min-width:0; } .scoreboard-controls > button { flex:1; } }
+.scoreboard-match .match { max-width:none; padding:0; border:0; border-radius:0; background:transparent; }
+.scoreboard-page .match-team .team-name { font-size:.875rem; }
+.scoreboard-page .match-team strong { font-size:1.125rem; }
+@media(min-width:720px) {
+  .scoreboard-match { display:grid; grid-template-columns:110px minmax(0,1fr); align-items:center; gap:20px; }
+  .scoreboard-match .match { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px; }
+  .scoreboard-match .match-team + .match-team { border-top:0; border-left:1px solid var(--color-border); padding-left:24px; }
+  .scoreboard-match .match-status { margin:0; }
+}
+@media(max-width:420px) {
+  .scoreboard-controls { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+  .scoreboard-arrows button { flex:1; }
+}
