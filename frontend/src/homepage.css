@@ -1,6 +1,5 @@
 .homepage { padding-top: 28px; }
 .current-week-context { margin: 0 0 16px; color: var(--color-ink-muted); font-size: .8rem; line-height: 1.6; }
-.current-week-context + .source-note { margin: -6px 0 16px; }
 .current-week-empty { margin: 0; font-size: .9rem; }
 .home-section { margin: 0 0 42px; }
 .section-title { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 20px; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 3px solid var(--color-brand); }
@@ -14,6 +13,8 @@ h3 { font-size: .9rem; margin: 0 0 12px; line-height: 1.4; }
 h4 { font-size: .9rem; line-height: 1.35; margin: 0; }
 small { display: block; margin-top: 3px; color: var(--color-ink-muted); font-size: .62rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
 .daily-grid, .recap-highlights, .history-grid { display: grid; gap: 16px; }
+.daily-grid { grid-template-columns: minmax(0, 1fr); }
+.daily-recap > .section-title > span { font-size: .95rem; font-weight: 850; }
 .daily-winner { background: var(--color-surface); border-top: 4px solid var(--color-brand); }
 .team-highlight { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; }
 .team-highlight + .team-highlight { border-top: 1px solid var(--color-border); }
@@ -100,7 +101,7 @@ figure { margin: 0; min-width: 0; }
   .section-title h2 { font-size: 1.48rem; }
   .content-card { padding: 20px; }
   .table-card { padding: 0; }
-  .daily-grid { grid-template-columns: minmax(260px, .78fr) minmax(0, 1.65fr); gap: 20px; align-items: start; }
+  .daily-grid { gap: 20px; }
   .recap-highlights { grid-template-columns: 1fr 1.18fr; gap: 20px; }
   .lineup { grid-template-columns: 1fr 1fr; column-gap: 22px; }
   .stat-line { grid-template-columns: repeat(8, minmax(0,1fr)); }
@@ -118,5 +119,4 @@ figure { margin: 0; min-width: 0; }
 @media (min-width: 960px) {
   .content-card { padding: 22px 24px; }
   .table-card { padding: 0; }
-  .daily-grid { grid-template-columns: minmax(280px, .72fr) minmax(0, 1.8fr); }
 }

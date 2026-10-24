@@ -1,5 +1,14 @@
 export const HOME_REFRESH_MS = 5 * 60 * 1000;
 
+export function formatPublicationTime(value) {
+  if (!value || Number.isNaN(Date.parse(value))) return null;
+  const parts = Object.fromEntries(new Intl.DateTimeFormat('en-US', {
+    timeZone:'America/New_York', month:'2-digit', day:'2-digit', year:'2-digit',
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:true
+  }).formatToParts(new Date(value)).map(part => [part.type, part.value]));
+  return `${parts.month}/${parts.day}/${parts.year} ${parts.hour}:${parts.minute}:${parts.second} ${parts.dayPeriod}`;
+}
+
 export function leagueDate(now = new Date()) {
   return new Intl.DateTimeFormat('en-CA', {timeZone:'America/New_York', year:'numeric', month:'2-digit', day:'2-digit'}).format(now);
 }

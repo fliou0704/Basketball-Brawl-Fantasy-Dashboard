@@ -5,6 +5,7 @@ import unittest
 from unittest.mock import patch
 
 from generate_home_current import build, project
+from build_homepage import raw_stats
 
 
 class CurrentHomeTests(unittest.TestCase):
@@ -89,6 +90,18 @@ class CurrentHomeTests(unittest.TestCase):
         self.mapping.append({'Year':'2027','Scoring Period':'2','Week':'1'})
         self.assertTrue(self.render()['active'])
         self.assertEqual(len(self.render()['matchups']), 5)
+
+    def test_weekly_individual_games_export_the_same_raw_stats_as_daily(self):
+        self.calendar['scoringWeights']={'PTS':1,'AST':2,'FGM':2,'FGA':-1,'3PM':1}
+        row=self.player(1,1,60)
+        row.update({'PTS':'25','AST':'14','FGM':'16','FGA':'-20','3PM':'4','3PA':'11'})
+        self.daily=[row]
+        player=self.render()['players'][0]
+        self.assertEqual(player['stats'],raw_stats(row,self.calendar['scoringWeights']))
+        self.assertEqual((player['stats']['3PA'],player['stats']['AST'],player['points']),(11,7,60))
+        self.assertIsNone(raw_stats({'3PM':'4'}, {'3PM':1})['3PA'])
+        self.assertEqual(raw_stats({'3PA':'0'}, {})['3PA'],0)
+        self.assertNotIn('gameStatus',player)
 
     def test_version_is_stable_and_changes_with_scores_or_recaps(self):
         with tempfile.TemporaryDirectory() as directory:

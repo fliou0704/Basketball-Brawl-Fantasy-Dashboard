@@ -23,18 +23,37 @@ the Home manifest, and seasonal payloads. Home checks this small file with
 returning to the tab (at most once a minute). Unchanged versions reuse downloaded
 payloads; new versions clear only the Home client's cache and use versioned URLs.
 Other pages' data/cache behavior is unchanged. Failed refreshes keep the last
-successful screen and show a warning. The HTTP `Last-Modified` header supplies a
+successful screen. The HTTP `Last-Modified` header supplies a
 publication timestamp when available; it is not claimed to be ingestion time.
 
-An older scoring-date snapshot remains visible with an explicit warning that its
-period/week may have advanced. Home never extrapolates a new week from weekdays.
-Snapshots published over six hours ago are also flagged. Refreshes resolve a newer
+An older scoring-date snapshot remains visible with its original publication
+timestamp. Home never extrapolates a new week from weekdays. Refreshes resolve a newer
 period only from the next exported ESPN snapshot. Historical `?date=` previews
 use the original date-bounded archive unless the requested date exactly matches
 the current snapshot's scoring date, preventing future-score leakage.
 
 Regression coverage: `scripts/test_home_current.py` and
 `tests/home-data.test.js`. The historical selector and its tests remain in place.
+
+### Home polish and raw attempts
+
+Daily Recap and Best Week N Performances share `PlayerStatLine`, including the
+3PM/A shooting line. The existing updater now captures raw ESPN stat 18 (`3PA`)
+from the already-fetched daily player's `stats[period].total`, independently of
+fantasy scoring contributions. `3PA` is an optional nullable daily CSV column.
+It is added in the staged updater candidate; old rows stay unknown until a normal
+bounded refresh captures their raw attempts. No FPTS formula or scored column is
+changed, and unavailable historical attempts remain `—`.
+
+The only scoreboard freshness copy is `Last updated: MM/DD/YY HH:MM:SS AM/PM`,
+formatted in America/New_York from the publication header, never the visitor's
+clock. It is omitted when the header is unavailable. Daily Recap cards stack at
+all widths and its date has a larger type treatment.
+
+No player LIVE indicator is emitted. Stored daily records contain no verified
+NBA game status, and espn-api's `game_played` uses elapsed scheduled time rather
+than an official status. A future indicator would require a verified game-ID to
+player mapping, official per-game status, and a recent observation timestamp.
 
 ## Scope and commands
 
@@ -136,13 +155,9 @@ fantasy scoring contributions. They are converted back using ESPN's season
 scoring weights: e.g. AST / 2, TO / -2, FGM / 2, FGA / -1 for the current rules.
 The raw counts are precomputed in JSON, never calculated by React.
 
-**3PA is missing.** The updater saves scoring breakdown fields, and 3PA has no
-scoring weight or CSV column. Library inspection showed how raw stat blocks could
-be accessed; a bounded daily endpoint check did not return usable daily roster
-entries. No unsupported historical 3PA values or zero placeholders were invented.
-The UI shows `3PM/—` and explains the missing field. A future isolated raw-stat
-backfill would be needed for a complete shooting line. No production schema was
-changed in this stage.
+**Historical 3PA may be missing.** Raw attempts are now captured from daily ESPN
+stats independently of the scoring weights. Older uncaptured rows show `3PM/—`;
+no historical zero placeholders or inferred attempt totals are invented.
 
 **The scoreboard is not live.** ESPN exposes reliable scoring-period team totals;
 we show the active fantasy week's cumulative scores **through the previous

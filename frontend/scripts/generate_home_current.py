@@ -38,7 +38,7 @@ def project(current, calendar, mapping, daily, manifest, seasonal, league, confi
     for row in sorted(rows, key=lambda r: (-number(r['FPTS']), -int(r['Scoring Period']),
                                            int(r['Player ID']), int(r['Team ID']))):
         unique.setdefault((int(row['Player ID']), int(row['Scoring Period'])), row)
-    result['players'] = [dict(player_info(r, teams), date=r['Date'], scoringPeriod=int(r['Scoring Period']))
+    result['players'] = [dict(player_info(r, teams, calendar.get('scoringWeights', {})), date=r['Date'], scoringPeriod=int(r['Scoring Period']))
                          for r in list(unique.values())[:5]]
     descriptor = next((s for s in manifest['calendars'] if s['season'] == year), {})
     prior = [w for w in descriptor.get('completedWeeks', []) if w < week]

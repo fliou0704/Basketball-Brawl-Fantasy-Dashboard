@@ -164,6 +164,13 @@ def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dic
     _require_columns(frame, PLAYER_DAILY_REQUIRED_COLUMNS, "player daily data")
     _require_unique_keys(frame, PLAYER_DAILY_KEY, "player daily data")
     _numeric(frame, PLAYER_DAILY_NUMERIC_COLUMNS, "player daily data")
+    if '3PA' in frame:
+        # Older archived rows legitimately have no attempts. Known raw attempts
+        # must be nonnegative integer counts; missing is never treated as zero.
+        known = frame.loc[frame['3PA'].notna() & frame['3PA'].ne(''), '3PA']
+        attempts = pd.to_numeric(known, errors='coerce')
+        if attempts.isna().any() or (attempts < 0).any() or not attempts.map(lambda n: float(n).is_integer()).all():
+            raise DataValidationError('player daily data contains invalid raw 3PA')
 
     data = frame.copy()
     data["Year"] = pd.to_numeric(data["Year"])

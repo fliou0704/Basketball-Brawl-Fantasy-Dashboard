@@ -56,7 +56,12 @@ def raw_stats(row, weights):
     for field in ('PTS', 'REB', 'AST', 'FGM', 'FGA', '3PM', '3PA', 'BLK', 'STL', 'TO'):
         weight = weights.get(field)
         value = row.get(field)
-        result[field] = round(number(value) / weight) if value not in (None, '') and weight else None
+        if value in (None, ''):
+            result[field] = None
+        elif field == '3PA':
+            result[field] = round(number(value))  # New optional column is raw, not scored.
+        else:
+            result[field] = round(number(value) / weight) if weight else None
     return result
 
 
@@ -64,7 +69,7 @@ def player_info(row, teams, weights=None):
     result = {'playerId': int(row['Player ID']), 'name': row['Player Name'],
               'team': teams[int(row['Team ID'])], 'points': number(row['FPTS']),
               'pointsDisplay': display(number(row['FPTS']))}
-    if weights:
+    if weights is not None:
         result['stats'] = raw_stats(row, weights)
         result['bench'] = row.get('Player Slot') in ('BE', 'IR')
     return result
@@ -181,7 +186,8 @@ def build_season(year, league, daily, weekly, calendar, config, output):
             for period, points in side['pointsByPeriod'].items():
                 authoritative[int(period)][side['teamId']] = points
     daily_recaps = {}
-    audit = {'comparedTeamDays': 0, 'activeRosterMismatches': 0, 'missing3PA': True}
+    audit = {'comparedTeamDays': 0, 'activeRosterMismatches': 0,
+             'missing3PA': any(r.get('3PA') in (None, '') for r in daily)}
     for day, rows in sorted(by_day.items()):
         period = int(rows[0]['Scoring Period'])
         week = next((w for w in weeks if w['firstPeriod'] <= period <= w['lastPeriod']), None)
@@ -314,7 +320,7 @@ def build(source, output=PUBLIC / 'data', metadata=ROOT / 'frontend/source/seaso
     write_json(output / 'homepage.json', {'schemaVersion': VERSION, 'timezone': 'America/New_York',
                'states': states, 'offseasons': completed, 'earliestDate': descriptors[0]['start'],
                'latestSeason': descriptors[-1]['season'], 'calendars': descriptors,
-               'limitations': {'raw3PA': 'Not recorded in the source CSV.', 'scoreboard': 'Completed-day snapshots only; not live.'}})
+               'limitations': {'raw3PA': 'Raw attempts are nullable on older, unrefreshed rows.', 'scoreboard': 'Completed-day snapshots only; not live.'}})
     write_json(output / 'data-quality.json', {'schemaVersion': VERSION, 'seasons': audits})
     # Keep the Stage 1 data contract, now with consistent final regular-season ranks.
     latest = descriptors[-1]

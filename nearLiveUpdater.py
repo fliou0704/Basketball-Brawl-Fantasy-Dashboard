@@ -25,7 +25,7 @@ from dataUpdateSafety import (DataValidationError, PLAYER_DAILY_KEY, LEAGUE_KEY,
     validate_league_data, validate_player_daily_data, validate_player_matchup_data)
 from leagueDataUpdater import update_league_data
 from playerMatchupDataUpdater import update_playerMatchup_data
-from playerDailyDataUpdater import available_scoring_period, fetch_daily_rows
+from playerDailyDataUpdater import available_scoring_period, fetch_daily_rows, with_raw_three_point_attempts
 from playerDailyAggregation import build_scoring_period_map, validate_scoring_period_map
 from playerMetadataUpdater import update_player_metadata
 from nearLiveSafety import refresh_start, replace_partitions, changes, change_details
@@ -184,6 +184,7 @@ def run(data_dir=ROOT / 'data', write=False):
     metadata_path = data_dir / 'seasonMetadata.json'
     metadata = json.loads((metadata_path if metadata_path.exists() else ROOT / 'frontend/source/season-metadata.json').read_text())
     before = {name: pd.read_csv(data_dir / name) for name in KEYS}
+    before['playerDailyData.csv'] = with_raw_three_point_attempts(before['playerDailyData.csv'])
     validate_player_daily_data(before['playerDailyData.csv'], source='existing canonical')
     print(f"Daily dates: existing canonical, {len(before['playerDailyData.csv'])} rows, no conflicts", flush=True)
     # A temporary directory holds every candidate. A later failure never promotes

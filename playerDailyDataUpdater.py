@@ -21,6 +21,14 @@ PLAYER_DAILY_DATA_PATH = "data/playerDailyData.csv"
 DAILY_STAT_COLUMNS = ["FPTS", "MIN", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB", "TO", "FGM", "FGA", "FTM"]
 
 
+def with_raw_three_point_attempts(frame):
+    """Add nullable raw attempts without changing any historical scored fields."""
+    result = frame.copy()
+    if '3PA' not in result:
+        result['3PA'] = float('nan')
+    return result
+
+
 def available_scoring_period(league):
     """Return the latest ESPN period that belongs to the fantasy season."""
     return min(int(league.scoringPeriodId), int(league.finalScoringPeriod))
@@ -86,6 +94,9 @@ def _record_for_player(year, scoring_period, team, player):
     }
     record.update(eligible_position_fields(player.eligibleSlots))
     record.update(player.points_breakdown)
+    # Attempts have no fantasy scoring weight. Read the raw ESPN stat (ID 18),
+    # never appliedStats or a value inferred from three-pointers made.
+    record['3PA'] = day_stats['total'].get('3PA')
     return record
 
 
@@ -117,6 +128,8 @@ def fetch_daily_rows(league, year, start_period, end_period, columns):
     rows["Date"] = rows["Date"].fillna(rows["Scoring Period"].map(period_dates))
     for column in DAILY_STAT_COLUMNS:
         rows[column] = pd.to_numeric(rows[column], errors="coerce")
+    if '3PA' in rows:
+        rows['3PA'] = pd.to_numeric(rows['3PA'], errors='coerce')
     return rows
 
 
@@ -133,7 +146,7 @@ def update_player_daily_data():
         swid, espn_s2 = require_espn_credentials()
         active_league = League(league_id=league_id, year=active_year, espn_s2=espn_s2, swid=swid)
 
-    existing_data = pd.read_csv(PLAYER_DAILY_DATA_PATH)
+    existing_data = with_raw_three_point_attempts(pd.read_csv(PLAYER_DAILY_DATA_PATH))
     max_year = int(existing_data["Year"].max())
     max_period = int(existing_data.loc[existing_data["Year"] == max_year, "Scoring Period"].max())
     terminal_period_by_year = {}
