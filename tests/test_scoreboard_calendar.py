@@ -11,41 +11,35 @@ from scoreboardCalendar import scheduled_weeks, dated_snapshot
 
 
 class ScoreboardCalendarTests(unittest.TestCase):
-    def test_explicit_current_future_extended_and_playoff_periods(self):
-        settings = {'matchupPeriods': {'1': list(range(1, 7)), '2': list(range(7, 14)),
-                                       '3': list(range(14, 28)), '4': list(range(28, 42))}}
-        weeks = scheduled_weeks(settings, '2026-12-20', 1, 41)
-        self.assertEqual([(w['start'], w['end']) for w in weeks], [
-            ('2026-12-21', '2026-12-26'), ('2026-12-27', '2027-01-02'),
-            ('2027-01-03', '2027-01-16'), ('2027-01-17', '2027-01-30')])
-        self.assertEqual(weeks[-1]['lastPeriod'], 41)
+    def test_real_weekly_settings_are_never_daily_boundaries(self):
+        import json
+        from pathlib import Path
+        raw = json.loads((Path(__file__).parent / 'fixtures/scoreboard_calendar.json').read_text())
+        self.assertEqual(raw['observedWeek1Periods'], [1,2,3,4,5,6])
+        self.assertEqual(raw['scheduleSettings']['matchupPeriods']['1'], [1])
+        self.assertEqual(scheduled_weeks(raw['scheduleSettings'], '2026-10-19', 1, 167), [])
 
-    def test_unpublished_invalid_and_overlapping_schedules_are_unavailable(self):
-        for periods in (None, {}, [], {'1': []}, {'1': [1, 2], '2': [2, 3]},
-                        {'1': [0]}, {'1': [5]}, {'1': [1.5]}, {'1': [True]}, {'1': ['bad']}):
-            with self.subTest(periods=periods):
-                self.assertEqual(scheduled_weeks({'matchupPeriods':periods}, '2026-10-19', 1, 4), [])
+    def test_even_plausible_arrays_without_verified_daily_semantics_are_rejected(self):
+        for periods in (None, {}, {'1':[1]}, {'1':list(range(1,8)), '2':list(range(8,22))}):
+            self.assertEqual(scheduled_weeks({'matchupPeriods':periods}, '2026-10-19', 1, 167), [])
 
-    def test_current_calendar_keeps_scheduled_dates_separate_without_new_requests(self):
+    def test_current_calendar_keeps_observations_separate_without_new_requests(self):
         raw = {'status': {'firstScoringPeriod': 1}, 'teams': [],
-               'settings': {'scheduleSettings': {'matchupPeriodCount': 1, 'playoffTeamCount': 2,
-                                                 'matchupPeriods': {'1': [1,2,3,4,5,6], '2':[7,8,9,10]}},
+               'settings': {'scheduleSettings': {'matchupPeriodCount':20, 'playoffTeamCount':6,
+                                                 'periodTypeId':2, 'matchupPeriods':{'1':[1], '2':[2]}},
                             'rosterSettings': {'lineupSlotCounts': {}}, 'scoringSettings': {'scoringItems': []}},
-               'schedule': [{'id':1,'matchupPeriodId':1,'home':{'teamId':1,'pointsByScoringPeriod':{'1':5}}}]}
+               'schedule': [{'id':1,'matchupPeriodId':1,'home':{'teamId':1,'pointsByScoringPeriod':{str(p):0 for p in range(1,7)}}}]}
         calls = []
         def fetch(**kwargs):
             calls.append(kwargs)
             return raw
-        league = SimpleNamespace(year=2027, scoringPeriodId=1, finalScoringPeriod=10, currentMatchupPeriod=1,
+        league = SimpleNamespace(year=2027, scoringPeriodId=6, finalScoringPeriod=167, currentMatchupPeriod=1,
                                  teams=[],espn_request=SimpleNamespace(league_get=fetch))
         daily = pd.DataFrame([{'Year':2027,'Date':'2026-10-20','Scoring Period':1}])
         calendar = current_calendar(league, daily, {'seasons':[]})
-        self.assertEqual(len(calls), 1)  # Same existing mSettings/mMatchupScore/mTeam call.
-        self.assertEqual(calendar['weeks'][0]['end'], '2026-10-20')  # Observations unchanged.
-        self.assertEqual(calendar['scheduledWeeks'][0]['end'], '2026-10-25')
-        self.assertEqual(calendar['scheduledWeeks'][1]['start'], '2026-10-26')
-        self.assertEqual(calendar['scheduledWeeks'][1]['end'], '2026-10-29')
-        self.assertEqual(calendar['matchups'][0]['sides'][0]['pointsByPeriod'], {'1':5.0})
+        self.assertEqual(len(calls), 1)
+        self.assertEqual((calendar['weeks'][0]['firstPeriod'], calendar['weeks'][0]['lastPeriod']), (1,6))
+        self.assertEqual(calendar['scheduledWeeks'], [])
 
     def test_update_time_tracks_validated_data_and_survives_unchanged_refresh(self):
         snapshot, calendar = {'season':2027,'week':1}, {'matchups':[]}

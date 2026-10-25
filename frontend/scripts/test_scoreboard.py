@@ -15,24 +15,19 @@ class ScoreboardTests(unittest.TestCase):
     def build(self):
         return project(self.current,[self.calendar],self.mapping,self.rows,logo_config())
 
-    def test_dates_use_full_settings_schedule_not_observed_points_or_map(self):
-        self.calendar['calendarThrough']='2026-10-27'
-        self.calendar['scheduledWeeks']=[
-            {'week':1,'start':'2026-10-20','end':'2026-10-26'},
-            {'week':2,'start':'2026-10-27','end':'2026-11-02'},
-            {'week':3,'start':'2026-11-03','end':'2026-11-16'}]
-        weeks=self.build()['seasons'][0]['weeks']
-        self.assertEqual((weeks[1]['start'], weeks[1]['end']),('2026-10-27','2026-11-02'))
-        self.assertFalse(weeks[1]['calendarPartial'])
-        self.assertEqual((weeks[2]['start'], weeks[2]['end']),('2026-11-03','2026-11-16'))
-        self.assertEqual(weeks[2]['phase'],'playoffs')
-        self.assertIsNone(weeks[2]['matchups'][0]['actualScores'])
-
-    def test_unpublished_schedule_does_not_reuse_observed_endpoints(self):
-        week=self.build()['seasons'][0]['weeks'][1]
+    def test_legacy_singleton_schedule_is_not_used(self):
+        self.calendar['scheduledWeeks'] = [
+            {'week':2,'firstPeriod':2,'lastPeriod':2,'start':'2026-10-21','end':'2026-10-21'}]
+        week = self.build()['seasons'][0]['weeks'][1]
         self.assertIsNone(week['start'])
-        self.assertIsNone(week['end'])
-        self.assertTrue(week['calendarPartial'])
+        self.assertEqual(week['dateRangeKind'], 'unavailable')
+
+    def test_current_and_future_do_not_reuse_observed_endpoints(self):
+        weeks = self.build()['seasons'][0]['weeks']
+        for week in weeks[1:]:
+            self.assertIsNone(week['start'])
+            self.assertIsNone(week['end'])
+            self.assertTrue(week['calendarPartial'])
 
     def test_export_preserves_recorded_update_time_and_does_not_invent_one(self):
         self.assertIsNone(self.build()['updatedAt'])

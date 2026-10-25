@@ -6,6 +6,24 @@ from pathlib import Path
 from build_homepage import display, logo_config, read_csv, team_info, write_json
 
 
+def observed_dates(calendar, selected, period_map):
+    """Validate retained observations without completing missing endpoints."""
+    saved = next((w for w in calendar.get('weeks', []) if int(w['week']) == selected), {})
+    try:
+        first, last = int(saved['firstPeriod']), int(saved['lastPeriod'])
+        origin = date.fromisoformat(calendar['dateAnchor'])
+        known = {p for p, week in period_map.items() if week == selected}
+        if (not known or first != min(known) or last != max(known)
+                or first < calendar.get('firstPeriod', 1) or last > calendar['finalPeriod']
+                or any(period_map.get(p, selected) != selected for p in range(first, last + 1))
+                or saved['start'] != (origin + timedelta(days=first)).isoformat()
+                or saved['end'] != (origin + timedelta(days=last)).isoformat()):
+            return {}
+        return {k: saved[k] for k in ('firstPeriod', 'lastPeriod', 'start', 'end')}
+    except (KeyError, ValueError, TypeError, OverflowError):
+        return {}
+
+
 def project(current, calendars, mapping, league, config):
     year, period = int(current['season']), int(current['scoringPeriod'])
     mapped = {int(r['Scoring Period']): int(r['Week']) for r in mapping if int(r['Year']) == year}
@@ -22,11 +40,10 @@ def project(current, calendars, mapping, league, config):
         if season == year:
             identities.update({int(t['teamId']): team_info({'Team ID': t['teamId'], 'Team Name': t['teamName']}, config) for t in current['teams']})
             payload['current']['asOfDate'] = (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=period)).isoformat()
-        # Legacy weeks/map endpoints were observed from points, not scheduled
-        # boundaries. Only the separately captured ESPN settings are reliable.
-        dates = {int(w['week']): w for w in calendar.get('scheduledWeeks', [])}
+        # Ignore legacy scheduledWeeks: db225a0 misread weekly IDs as daily IDs.
+        # Completed observations are useful history, never future boundaries.
         assignments = calendar['matchups']
-        numbers = sorted(({week} if season == year else set()) | {int(w['week']) for w in calendar['weeks']} | set(dates) | {int(m['week']) for m in assignments} | {int(r['Week']) for r in rows})
+        numbers = sorted(({week} if season == year else set()) | {int(w['week']) for w in calendar['weeks']} | {int(m['week']) for m in assignments} | {int(r['Week']) for r in rows})
         exported = []
         for selected in numbers:
             state = 'final' if season < year or (season == year and selected < week) else 'current' if season == year and selected == week else 'future'
@@ -36,6 +53,7 @@ def project(current, calendars, mapping, league, config):
             # only once ESPN has completed the season; status can retain that week.
             if state == 'current' and period >= calendar['finalPeriod'] and results:
                 state = 'final'
+            dates = observed_dates(calendar, selected, period_map) if state == 'final' else {}
             matches = []
             for match in assignments:
                 if int(match['week']) != selected:
@@ -78,8 +96,11 @@ def project(current, calendars, mapping, league, config):
                                     'scoreDisplay': list(map(display,scores)) if scores else None,
                                     'winnerId': ids[scores.index(max(scores))] if scores and scores[0] != scores[1] else None})
             exported.append({'week': selected, 'phase': 'playoffs' if selected > calendar['regularWeeks'] else 'regular',
-                             'state': state, 'start': dates.get(selected, {}).get('start'), 'end': dates.get(selected, {}).get('end'),
-                             'calendarPartial': selected not in dates, 'matchups': matches})
+                             'state': state, 'start': dates.get('start'), 'end': dates.get('end'),
+                             'firstPeriod': dates.get('firstPeriod'), 'lastPeriod': dates.get('lastPeriod'),
+                             'dateRangeKind': 'observed' if dates else 'unavailable',
+                             'dateRangeSource': 'seasonMetadata.weeks+canonical-period-map' if dates else None,
+                             'calendarPartial': True, 'matchups': matches})
         payload['seasons'].append({'season': season, 'weeks': exported, 'unpublishedPlayoffs': not any(w['phase'] == 'playoffs' and w['matchups'] for w in exported)})
     return payload
 

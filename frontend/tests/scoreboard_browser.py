@@ -36,6 +36,13 @@ with sync_playwright() as p:
   page.goto(base+'#/scoreboard?season=2027&week=999')
   page.get_by_text('This season or week is unavailable.',exact=False).wait_for()
   print('PASS',width,'default, future, refresh, back/forward, season transition, byes, unavailable, overflow')
+ for width in (1280,390,320):
+  page.set_viewport_size({'width':width,'height':1000})
+  for week,dates in ((11,'2025-12-29 – 2026-01-04'),(17,'2026-02-09 – 2026-02-22'),(21,'2026-03-16 – 2026-03-22')):
+   page.goto(base+f'#/scoreboard?season=2026&week={week}')
+   page.get_by_text('Observed dates: '+dates,exact=True).wait_for()
+   assert page.evaluate('document.documentElement.scrollWidth')<=width
+  print('PASS observed history',width,'cross-year, extended, playoffs')
  fixture=page.request.get(base+'data/scoreboard.json').json()
  fixture['updatedAt']='2026-10-24T12:34:56Z'
  weeks=next(s for s in fixture['seasons'] if s['season']==2027)['weeks']

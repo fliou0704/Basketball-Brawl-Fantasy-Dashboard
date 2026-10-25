@@ -35,3 +35,8 @@ test('Scoreboard removes the disclaimer without replacement and keeps existing s
   assert.ok(!source.includes('Last published:'));
   assert.ok(source.includes('matchupStatus[match.status]'));
 });
+
+test('historical observed dates are explicitly identified',()=>{
+  const html=render('final',null,{start:'2025-12-29',end:'2026-01-04',dateRangeKind:'observed'});
+  assert.ok(html.includes('Observed dates: 2025-12-29 – 2026-01-04'));
+});

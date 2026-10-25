@@ -11,7 +11,7 @@ export function ScoreboardContext({selected, current, updatedAt}) {
   const timestamp=formatPublicationTime(updatedAt);
   return (
     <div className="scoreboard-context">
-          {selected.start && selected.end ? <p>{selected.start}{selected.end!==selected.start?` – ${selected.end}`:''}</p> : <p>Schedule dates unavailable.</p>}
+          {selected.start && selected.end ? <p>{selected.dateRangeKind==='observed'?'Observed dates: ':''}{selected.start}{selected.end!==selected.start?` – ${selected.end}`:''}</p> : <p>Schedule dates unavailable.</p>}
           {selected.state==='current' && <p>ESPN snapshot through {current.asOfDate}.{current.asOfDate < leagueDate()?' A newer scoring-period snapshot is not yet available.':''}</p>}
           {selected.matchups.some(match=>match.status==='current') && timestamp && <p>Last updated: <time dateTime={updatedAt}>{timestamp} ET</time></p>}
     </div>
