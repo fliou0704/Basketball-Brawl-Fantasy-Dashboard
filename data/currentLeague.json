@@ -1,15 +1,15 @@
 {
   "schemaVersion": 1,
-  "scoringPeriod": 5,
+  "scoringPeriod": 6,
   "season": 2027,
   "teams": [
     {
       "abbreviation": "OOPS",
       "losses": 0,
       "owner": "Frank",
-      "pointsAgainst": 589.0,
-      "pointsFor": 835.0,
-      "rank": 2,
+      "pointsAgainst": 753.0,
+      "pointsFor": 1210.0,
+      "rank": 1,
       "roster": [
         {
           "eligibility": [
@@ -211,17 +211,18 @@
         },
         {
           "eligibility": [
-            "PG",
-            "SG",
-            "G",
-            "SG/SF",
+            "PF",
+            "C",
+            "F",
             "G/F",
+            "PF/C",
+            "F/C",
             "UT",
             "BE",
             "IR"
           ],
-          "name": "Scotty Pippen Jr.",
-          "playerId": 4431785
+          "name": "Moussa Diabate",
+          "playerId": 4433249
         }
       ],
       "teamId": 1,
@@ -232,8 +233,8 @@
       "abbreviation": "TURK",
       "losses": 0,
       "owner": "Eren",
-      "pointsAgainst": 620.0,
-      "pointsFor": 773.0,
+      "pointsAgainst": 791.0,
+      "pointsFor": 995.0,
       "rank": 6,
       "roster": [
         {
@@ -435,6 +436,30 @@
           ],
           "name": "Yves Missi",
           "playerId": 5061589
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Wendell Carter Jr.",
+          "playerId": 4277847
+        },
+        {
+          "eligibility": [
+            "PG",
+            "G",
+            "G/F",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Davion Mitchell",
+          "playerId": 4278053
         }
       ],
       "teamId": 2,
@@ -445,8 +470,8 @@
       "abbreviation": "WONG",
       "losses": 0,
       "owner": "Johnson",
-      "pointsAgainst": 800.0,
-      "pointsFor": 715.0,
+      "pointsAgainst": 1003.0,
+      "pointsFor": 905.0,
       "rank": 7,
       "roster": [
         {
@@ -678,9 +703,9 @@
       "abbreviation": "JS",
       "losses": 0,
       "owner": "Jooahn",
-      "pointsAgainst": 249.0,
-      "pointsFor": 785.0,
-      "rank": 5,
+      "pointsAgainst": 373.0,
+      "pointsFor": 1034.0,
+      "rank": 4,
       "roster": [
         {
           "eligibility": [
@@ -896,6 +921,22 @@
           ],
           "name": "Cason Wallace",
           "playerId": 4683692
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Naji Marshall",
+          "playerId": 4278594
         }
       ],
       "teamId": 7,
@@ -906,9 +947,9 @@
       "abbreviation": "JMH",
       "losses": 0,
       "owner": "Jonathan",
-      "pointsAgainst": 808.0,
-      "pointsFor": 893.0,
-      "rank": 1,
+      "pointsAgainst": 1145.0,
+      "pointsFor": 1163.0,
+      "rank": 2,
       "roster": [
         {
           "eligibility": [
@@ -1129,8 +1170,8 @@
       "abbreviation": "FAD",
       "losses": 0,
       "owner": "Shayan",
-      "pointsAgainst": 835.0,
-      "pointsFor": 589.0,
+      "pointsAgainst": 1210.0,
+      "pointsFor": 753.0,
       "rank": 9,
       "roster": [
         {
@@ -1379,9 +1420,9 @@
       "abbreviation": "SMN",
       "losses": 0,
       "owner": "Semanto",
-      "pointsAgainst": 715.0,
-      "pointsFor": 800.0,
-      "rank": 4,
+      "pointsAgainst": 905.0,
+      "pointsFor": 1003.0,
+      "rank": 5,
       "roster": [
         {
           "eligibility": [
@@ -1636,8 +1677,8 @@
       "abbreviation": "13",
       "losses": 0,
       "owner": "Arian",
-      "pointsAgainst": 785.0,
-      "pointsFor": 249.0,
+      "pointsAgainst": 1034.0,
+      "pointsFor": 373.0,
       "rank": 10,
       "roster": [
         {
@@ -1865,8 +1906,8 @@
       "abbreviation": "JJJ",
       "losses": 0,
       "owner": "Allen",
-      "pointsAgainst": 893.0,
-      "pointsFor": 808.0,
+      "pointsAgainst": 1163.0,
+      "pointsFor": 1145.0,
       "rank": 3,
       "roster": [
         {
@@ -2089,8 +2130,8 @@
       "abbreviation": "SEE",
       "losses": 0,
       "owner": "Luke",
-      "pointsAgainst": 773.0,
-      "pointsFor": 620.0,
+      "pointsAgainst": 995.0,
+      "pointsFor": 791.0,
       "rank": 8,
       "roster": [
         {
@@ -2308,6 +2349,30 @@
           ],
           "name": "Mikel Brown Jr.",
           "playerId": 5101761
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jaxson Hayes",
+          "playerId": 4397077
+        },
+        {
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Brook Lopez",
+          "playerId": 3448
         }
       ],
       "teamId": 17,
@@ -2315,6 +2380,6 @@
       "wins": 0
     }
   ],
-  "updatedAt": "2026-10-25T04:42:12.186438+00:00",
+  "updatedAt": "2026-10-25T11:30:12.743779+00:00",
   "week": 1
 }
