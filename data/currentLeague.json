@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
-  "scoringPeriod": 6,
+  "scoringPeriod": 7,
   "season": 2027,
   "teams": [
     {
       "abbreviation": "OOPS",
       "losses": 0,
       "owner": "Frank",
-      "pointsAgainst": 753.0,
-      "pointsFor": 1210.0,
+      "pointsAgainst": 827.0,
+      "pointsFor": 1401.0,
       "rank": 1,
       "roster": [
         {
@@ -227,15 +227,15 @@
       ],
       "teamId": 1,
       "teamName": "Wembarrassingggg",
-      "wins": 0
+      "wins": 1
     },
     {
       "abbreviation": "TURK",
       "losses": 0,
       "owner": "Eren",
-      "pointsAgainst": 791.0,
-      "pointsFor": 995.0,
-      "rank": 6,
+      "pointsAgainst": 976.0,
+      "pointsFor": 1246.0,
+      "rank": 3,
       "roster": [
         {
           "eligibility": [
@@ -464,14 +464,14 @@
       ],
       "teamId": 2,
       "teamName": "New Jersey Eren",
-      "wins": 0
+      "wins": 1
     },
     {
       "abbreviation": "WONG",
-      "losses": 0,
+      "losses": 1,
       "owner": "Johnson",
-      "pointsAgainst": 1003.0,
-      "pointsFor": 905.0,
+      "pointsAgainst": 1159.0,
+      "pointsFor": 1051.0,
       "rank": 7,
       "roster": [
         {
@@ -703,8 +703,8 @@
       "abbreviation": "JS",
       "losses": 0,
       "owner": "Jooahn",
-      "pointsAgainst": 373.0,
-      "pointsFor": 1034.0,
+      "pointsAgainst": 420.0,
+      "pointsFor": 1220.0,
       "rank": 4,
       "roster": [
         {
@@ -941,15 +941,15 @@
       ],
       "teamId": 7,
       "teamName": "Who Invited This Kid?",
-      "wins": 0
+      "wins": 1
     },
     {
       "abbreviation": "JMH",
-      "losses": 0,
+      "losses": 1,
       "owner": "Jonathan",
-      "pointsAgainst": 1145.0,
-      "pointsFor": 1163.0,
-      "rank": 2,
+      "pointsAgainst": 1348.0,
+      "pointsFor": 1344.0,
+      "rank": 6,
       "roster": [
         {
           "eligibility": [
@@ -1160,6 +1160,22 @@
           ],
           "name": "Keaton Wagler",
           "playerId": 5254165
+        },
+        {
+          "eligibility": [
+            "SF",
+            "PF",
+            "F",
+            "SG/SF",
+            "G/F",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "name": "Jonathan Kuminga",
+          "playerId": 4433247
         }
       ],
       "teamId": 8,
@@ -1168,10 +1184,10 @@
     },
     {
       "abbreviation": "FAD",
-      "losses": 0,
+      "losses": 1,
       "owner": "Shayan",
-      "pointsAgainst": 1210.0,
-      "pointsFor": 753.0,
+      "pointsAgainst": 1401.0,
+      "pointsFor": 827.0,
       "rank": 9,
       "roster": [
         {
@@ -1420,8 +1436,8 @@
       "abbreviation": "SMN",
       "losses": 0,
       "owner": "Semanto",
-      "pointsAgainst": 905.0,
-      "pointsFor": 1003.0,
+      "pointsAgainst": 1051.0,
+      "pointsFor": 1159.0,
       "rank": 5,
       "roster": [
         {
@@ -1671,14 +1687,14 @@
       ],
       "teamId": 12,
       "teamName": "Pooh Shaisty",
-      "wins": 0
+      "wins": 1
     },
     {
       "abbreviation": "13",
-      "losses": 0,
+      "losses": 1,
       "owner": "Arian",
-      "pointsAgainst": 1034.0,
-      "pointsFor": 373.0,
+      "pointsAgainst": 1220.0,
+      "pointsFor": 420.0,
       "rank": 10,
       "roster": [
         {
@@ -1906,9 +1922,9 @@
       "abbreviation": "JJJ",
       "losses": 0,
       "owner": "Allen",
-      "pointsAgainst": 1163.0,
-      "pointsFor": 1145.0,
-      "rank": 3,
+      "pointsAgainst": 1344.0,
+      "pointsFor": 1348.0,
+      "rank": 2,
       "roster": [
         {
           "eligibility": [
@@ -2124,14 +2140,14 @@
       ],
       "teamId": 16,
       "teamName": "Jalen Jalen and Jaylen",
-      "wins": 0
+      "wins": 1
     },
     {
       "abbreviation": "SEE",
-      "losses": 0,
+      "losses": 1,
       "owner": "Luke",
-      "pointsAgainst": 995.0,
-      "pointsFor": 791.0,
+      "pointsAgainst": 1246.0,
+      "pointsFor": 976.0,
       "rank": 8,
       "roster": [
         {
@@ -2380,6 +2396,6 @@
       "wins": 0
     }
   ],
-  "updatedAt": "2026-10-26T04:47:53.891822+00:00",
-  "week": 1
+  "updatedAt": "2026-10-26T13:48:38.322174+00:00",
+  "week": 2
 }
