@@ -16,7 +16,7 @@ function Lineup({ players, playoffs }) {
 }
 export function Weekly({ recap, playoffOnly = false }) {
   if (!recap || (playoffOnly && !recap.playoffs)) return null;
-  return <Section className="weekly-recap" title={recap.playoffs ? 'Playoff Recap' : 'Weekly Recap'} meta={`Week ${recap.week} · ${dateLabel(recap.end)}`}>
+  return <Section className="weekly-recap" title={`Week ${recap.week} Recap`} meta={`Week ${recap.week} · ${dateLabel(recap.end)}`}>
     <div className="recap-highlights"><Card title={`Top Team${recap.leaders.length>1?'s':''}`}>{recap.leaders.map(t=><div className="team-highlight" key={t.teamId}><Team team={t} /><strong>{t.pointsDisplay}<small>FPTS</small></strong></div>)}</Card>
     {!!recap.closest.length && <Card title={`Closest Matchup · ${recap.closest[0].marginDisplay} point margin`}>{recap.closest.map((m,i)=><Match key={i} match={m}/>)}</Card>}</div>
     {recap.playoffs && <Card className="playoff-results" title="Round Results">{recap.matches.map((m,i)=><Match key={i} match={m}/>)}</Card>}
@@ -46,15 +46,11 @@ export function CurrentWeek({ snapshot, publishedAt }) {
         {!snapshot.matchups.length && <p className="source-note">Matchup assignments are not available in the latest snapshot.</p>}
       </Card>
     </Section>
-    <Section title={`Best Week ${snapshot.week} Performances`} meta="Individual games">
-      <Card>{snapshot.players.length ? <div className="performances">{snapshot.players.map((player,index)=><article className="performance" key={`${player.playerId}-${player.scoringPeriod}`}>
+    {snapshot.players.length > 0 && <Section title={`Best Week ${snapshot.week} Performances`} meta="Individual games">
+      <Card><div className="performances">{snapshot.players.map((player,index)=><article className="performance" key={`${player.playerId}-${player.scoringPeriod}`}>
         <span className="performance-rank">{index+1}</span><div className="performance-body"><div className="performance-heading"><div><h4><PlayerIdentity playerId={player.playerId} name={player.name} showHeadshot/></h4><p>{player.team.teamName} · <time dateTime={player.date}>{dateLabel(player.date)}</time></p></div><strong>{player.pointsDisplay}<small>FPTS</small></strong></div><PlayerStatLine stats={player.stats}/></div>
-      </article>)}</div> : <p className="current-week-empty">No player performances are available for this week yet.</p>}
+      </article>)}</div>
       </Card>
-    </Section>
+    </Section>}
   </>;
-}
-export function Around({ recap }) {
-  if (!recap?.insights?.length) return null;
-  return <Section title="Around the League" meta={`Through Week ${recap.week}`}><Card><div className="insights">{recap.insights.map(card=><article key={card.title}><h3>{card.title}</h3><Team team={card.team}/><p>{card.value}</p></article>)}</div></Card></Section>;
 }

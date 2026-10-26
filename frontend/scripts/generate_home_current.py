@@ -48,7 +48,9 @@ def project(current, calendar, mapping, daily, manifest, seasonal, league, confi
     result['state'] = {'season': year, 'week': week, 'phase': 'playoffs' if playoff else 'regular',
                        'dailyDate': daily_date, 'weeklyWeek': max(prior, default=None),
                        'standingsWeek': standings_week,
-                       'weeklyFirst': bool(prior and period == min(p for p, w in periods.items() if w == week)),
+                       # Retained period ranges are observations, not verified boundaries.
+                       'verifiedWeekStart': None,
+                       'weeklyFirst': False,
                        'playoffKey': str(week) if playoff else None}
     if playoff:
         result['bracket'] = seasonal.get('playoffs', {}).get(str(week)) or bracket_view(

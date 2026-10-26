@@ -105,10 +105,21 @@ def project(current, calendars, mapping, league, config):
     return payload
 
 
+def attach_recaps(payload, output):
+    # Reuse the Home exporter; retain recaps only for played, completed weeks.
+    for season in payload['seasons']:
+        path = output / str(season['season']) / 'weekly-recap.json'
+        recaps = json.loads(path.read_text())['data'] if path.exists() else {}
+        for week in season['weeks']:
+            week['recap'] = recaps.get(str(week['week'])) if (
+                week['state'] == 'final' and any(m['status'] == 'final' for m in week['matchups'])) else None
+
+
 def build(source, output):
     payload = project(json.loads((source / 'currentLeague.json').read_text()),
                       json.loads((source / 'seasonMetadata.json').read_text())['seasons'],
                       read_csv(source / 'scoringPeriodMatchupMap.csv'), read_csv(source / 'basketballBrawlLeagueData.csv'), logo_config())
+    attach_recaps(payload, output)
     write_json(output / 'scoreboard.json', payload)
 
 

@@ -60,6 +60,17 @@ class CurrentHomeTests(unittest.TestCase):
         self.assertEqual(view['state']['week'], 2)
         self.assertEqual(view['players'], [])
 
+    def test_first_valid_record_reveals_new_week_even_with_zero_points(self):
+        self.current.update(week=2, scoringPeriod=8)
+        self.mapping.append({'Year': '2027', 'Scoring Period': '8', 'Week': '2'})
+        self.daily = [self.player(1, 1, 999), self.player(2, 8, 0, 1)]
+        players = self.render()['players']
+        self.assertEqual(len(players), 1)
+        self.assertEqual(players[0]['playerId'], 2)
+        self.assertEqual(players[0]['scoringPeriod'], 8)
+        self.assertEqual(players[0]['points'], 0)
+        self.assertIsNone(self.render()['state']['verifiedWeekStart'])
+
     def test_current_week_games_filter_sort_deduplicate_and_keep_dates(self):
         self.current.update(week=2, scoringPeriod=9)
         self.mapping += [{'Year':'2027','Scoring Period':str(p),'Week':'2'} for p in (8, 9, 10)]

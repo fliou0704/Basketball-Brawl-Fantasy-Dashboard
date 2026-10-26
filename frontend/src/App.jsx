@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Standings from './components/Standings';
 import Playoffs from './components/Playoffs';
-import { Daily, Weekly, Scoreboard, Around, CurrentWeek } from './components/Recaps';
+import { Daily, Weekly, Scoreboard, CurrentWeek } from './components/Recaps';
 import { SeasonLeaders, SeasonHistory } from './components/SeasonHistory';
 import { PageHeader, PageShell } from './components/Layout';
-import { createHomeClient, HOME_REFRESH_MS, leagueDate } from './home-data';
+import { createHomeClient, HOME_REFRESH_MS, leagueDate, showHomeRecap } from './home-data';
 import './homepage.css';
 
 const base = import.meta.env.BASE_URL;
@@ -66,7 +66,7 @@ export default function App() {
   const state=page?.state;
   const offseason=state?.phase==='offseason';
   const daily=page?.['daily-recap']?.[state?.dailyDate];
-  const weekly=page?.['weekly-recap']?.[state?.weeklyWeek];
+  const weekly=showHomeRecap(state, requested) ? page?.['weekly-recap']?.[state?.weeklyWeek] : null;
   const standings=page?.standings?.[state?.standingsWeek];
   const bracket=page?.playoffs?.[state?.playoffKey];
   return <><a className="skip" href="#home">Skip to content</a><Header/><PageShell id="home" className="homepage">
@@ -76,11 +76,11 @@ export default function App() {
       <Playoffs bracket={bracket}/><Standings data={standings} final/>
       <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
     </>:state.phase==='playoffs'?<>
-      <Playoffs bracket={bracket}/><Weekly recap={weekly} playoffOnly/>
+      <Playoffs bracket={bracket}/><Weekly recap={weekly}/><Daily recap={daily}/>
       {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings} final/>
     </>:<>
       {state.weeklyFirst?<><Weekly recap={weekly}/><Daily recap={daily}/></>:<><Daily recap={daily}/><Weekly recap={weekly}/></>}
-      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings}/><Around recap={weekly}/>
+      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings}/>
     </>}
   </PageShell></>;
 }

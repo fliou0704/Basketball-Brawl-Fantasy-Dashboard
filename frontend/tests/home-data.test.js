@@ -78,3 +78,14 @@ test('failed deployment read can retry rather than caching a rejected request',a
   fails=false;
   assert.equal((await client.load('2026-10-20')).state.season,2027);
 });
+
+test('recap window counts two New York calendar dates and expires without new games',async()=>{
+  const {showHomeRecap}=await import('../src/home-data.js');
+  const state={phase:'regular',week:12,weeklyWeek:11,verifiedWeekStart:'2026-12-28'};
+  for(const day of ['2026-12-28','2026-12-29']) assert.equal(showHomeRecap(state,day),true);
+  for(const day of ['2026-12-27','2026-12-30','2027-01-04']) assert.equal(showHomeRecap(state,day),false);
+  assert.equal(showHomeRecap({...state,phase:'playoffs'},'2026-12-29'),true);
+  assert.equal(showHomeRecap({...state,verifiedWeekStart:null},'2026-12-29'),false);
+  assert.equal(showHomeRecap({...state,week:1,weeklyWeek:null},'2026-12-28'),false);
+  assert.equal(showHomeRecap({...state,phase:'offseason'},'2026-12-28'),false);
+});

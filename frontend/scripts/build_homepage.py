@@ -237,10 +237,6 @@ def build_season(year, league, daily, weekly, calendar, config, output):
             movers = [(prior_ranks.get(int(r['Team ID']), int(r['Rank']))-int(r['Rank']), r) for r in rows]
             rise, riser = max(movers, key=lambda item: item[0])
             if rise > 0: insights.append({'title': 'Biggest riser', 'team': teams[int(riser['Team ID'])], 'value': f'Up {rise} places'})
-            losing = [r for r in rows if number(r['Points For']) < number(r['Points Against'])]
-            if losing:
-                tough = max(losing,key=lambda r: number(r['Points For']))
-                insights.append({'title': 'Toughest loss', 'team': teams[int(tough['Team ID'])], 'value': display(number(tough['Points For'])) + ' points'})
             streaks = []
             for tid in teams:
                 streak = 0

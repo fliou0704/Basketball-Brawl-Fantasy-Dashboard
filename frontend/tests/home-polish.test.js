@@ -58,3 +58,31 @@ test('Daily Recap uses one full-width column and a larger date without changing 
   assert.match(css,/\.daily-recap > \.section-title > span \{ font-size: \.95rem;/);
   assert.equal([...css.matchAll(/\.daily-grid \{[^}]*grid-template-columns/g)].length,1);
 });
+
+test('empty current-week performances hide the entire section and first game reveals it',()=>{
+  const empty=renderToStaticMarkup(React.createElement(CurrentWeek,{snapshot:{...snapshot,players:[]}}));
+  assert.ok(!empty.includes('Best Week'));
+  assert.ok(!empty.includes('No player performances'));
+  assert.ok(empty.includes('Current Fantasy Scoreboard'));
+  assert.ok(renderToStaticMarkup(React.createElement(CurrentWeek,{snapshot})).includes('Best Week 7 Performances'));
+});
+
+test('shared recap renders its own week and preserves lineup',async()=>{
+  const {Weekly}=await jsx('../src/components/Recaps.jsx','Weekly',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime});
+  const recap={week:12,end:'2026-12-27',leaders:[],closest:[],lineup:[{...player,slot:'PG'}]};
+  const html=renderToStaticMarkup(React.createElement(Weekly,{recap}));
+  assert.ok(html.includes('Week 12 Recap'));
+  assert.ok(html.includes('Fixture player'));
+  assert.ok(!html.includes('Weekly Recap'));
+});
+
+test('Home regular and playoff branches end with standings and omit removed sections',async()=>{
+  const app=await readFile(new URL('../src/App.jsx',import.meta.url),'utf8');
+  assert.match(app,/<Standings data=\{standings\} final\/>\s*<\/>:<>/);
+  assert.match(app,/<Standings data=\{standings\}\/>\s*<\/>\}/);
+  assert.ok(!app.includes('Around'));
+  const recaps=await readFile(new URL('../src/components/Recaps.jsx',import.meta.url),'utf8');
+  assert.ok(!recaps.includes('Around the League'));
+  assert.ok(!recaps.includes('Toughest'));
+  assert.ok(recaps.includes('Closest Matchup'));
+});

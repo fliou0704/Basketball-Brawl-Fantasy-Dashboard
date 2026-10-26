@@ -67,3 +67,14 @@ export function createHomeClient(base, fetcher = (...args) => fetch(...args)) {
     }
   };
 }
+
+// Only a verified scheduled start may open this window. Observed player dates
+// and weekly cadence cannot establish a matchup boundary.
+export function showHomeRecap(state, requested) {
+  if (!state || !['regular', 'playoffs'].includes(state.phase)
+      || !state.weeklyWeek || state.weeklyWeek >= state.week
+      || !state.verifiedWeekStart) return false;
+  const start = Date.parse(`${state.verifiedWeekStart}T00:00:00Z`);
+  const day = Date.parse(`${requested}T00:00:00Z`);
+  return Number.isFinite(start) && day >= start && day < start + 2 * 86400000;
+}
