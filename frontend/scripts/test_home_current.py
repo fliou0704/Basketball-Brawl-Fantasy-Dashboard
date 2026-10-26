@@ -22,10 +22,12 @@ class CurrentHomeTests(unittest.TestCase):
         self.mapping = [{'Year': '2027', 'Scoring Period': '1', 'Week': '1'}]
         self.config = {'team_logo_paths': {}, 'default_logo_path': 'assets/logos/Default.png', 'team_colors': {}}
         self.daily = []
+        self.manifest = {'calendars': []}
+        self.seasonal = {}
 
     def render(self):
         return project(self.current, self.calendar, self.mapping, self.daily,
-                       {'calendars': []}, {}, [], self.config)
+                       self.manifest, self.seasonal, [], self.config)
 
     def player(self, pid, period, points, minutes=10):
         return {'Year': '2027', 'Scoring Period': str(period), 'Date': f'2026-10-{19+period:02}',
@@ -40,6 +42,8 @@ class CurrentHomeTests(unittest.TestCase):
         self.assertTrue(all(m['scoreDisplay'] == ['0', '0'] for m in view['matchups']))
         self.assertEqual(view['players'], [])
         self.assertIsNone(view['state']['dailyDate'])
+        self.assertEqual(view['scoringStatus'], 'zero')
+        self.assertIsNone(view['state']['weeklyWeek'])
 
     def test_partial_scores_are_authoritative_and_never_marked_final(self):
         self.calendar['matchups'][0]['sides'][1]['pointsByPeriod']['1'] = 12.5
@@ -48,6 +52,7 @@ class CurrentHomeTests(unittest.TestCase):
         self.assertEqual(view['matchups'][0]['scoreDisplay'], ['0', '12.5'])
         self.assertNotIn('winnerId', view['matchups'][0])
         self.assertNotIn('final', view['players'][0])
+        self.assertEqual(view['scoringStatus'], 'started')
 
     def test_first_day_of_next_week_uses_period_mapping_not_calendar_or_previous_games(self):
         self.current.update(week=2, scoringPeriod=8)
@@ -69,7 +74,69 @@ class CurrentHomeTests(unittest.TestCase):
         self.assertEqual(players[0]['playerId'], 2)
         self.assertEqual(players[0]['scoringPeriod'], 8)
         self.assertEqual(players[0]['points'], 0)
-        self.assertIsNone(self.render()['state']['verifiedWeekStart'])
+        self.assertEqual(self.render()['state']['scoringPeriod'], 8)
+
+    def recap_fixture(self, week, period):
+        # A short opening week and an extended next week; no seven-day cadence.
+        sequence = {1: [1, 2, 3], 2: list(range(4, 15)), 3: [15, 16, 17, 18]}
+        self.mapping = [{'Year': '2027', 'Scoring Period': str(p), 'Week': str(w)}
+                        for w, periods in sequence.items() for p in periods]
+        self.current.update(week=week, scoringPeriod=period)
+        self.manifest = {'calendars': [{'season': 2027, 'completedWeeks': list(range(1, week))}]}
+        self.seasonal = {'weekly-recap': {str(w): {'week': w, 'end': '2026-10-25',
+            'leaders': [{'teamId': 1}], 'matches': [{'teams': []}], 'closest': [], 'lineup': []}
+            for w in range(1, week)}}
+        for match in self.calendar['matchups']:
+            match['week'] = week
+            for side in match['sides']:
+                side['pointsByPeriod'] = {str(p): 0 for p in sequence[week] if p <= period}
+
+    def test_first_two_actual_periods_of_each_week_with_no_player_rows(self):
+        for week, period, visible in [(1, 1, False), (2, 4, True), (2, 5, True),
+                                      (2, 6, False), (2, 14, False),
+                                      (3, 15, True), (3, 16, True), (3, 17, False)]:
+            with self.subTest(week=week, period=period):
+                self.recap_fixture(week, period)
+                view = self.render()
+                self.assertEqual(view['state']['weeklyFirst'], visible)
+                self.assertEqual(view['state']['weeklyWeek'], week - 1 if week > 1 else None)
+                self.assertEqual(view['players'], [])
+                self.assertEqual(view['scoringStatus'], 'zero')
+
+    def test_missing_incomplete_or_uncompleted_recap_never_uses_an_older_week(self):
+        for invalid in (None, {}, {'week': 2}, {'week': 1},
+                        {'week': 2, 'end': '2026-10-25', 'leaders': [], 'matches': []}):
+            self.recap_fixture(3, 15)
+            self.seasonal['weekly-recap']['2'] = invalid
+            self.assertIsNone(self.render()['state']['weeklyWeek'])
+        self.recap_fixture(3, 15)
+        self.manifest['calendars'][0]['completedWeeks'] = [1]
+        self.assertIsNone(self.render()['state']['weeklyWeek'])
+
+    def test_missing_scoring_period_is_safe(self):
+        self.current.pop('scoringPeriod')
+        self.assertFalse(self.render()['active'])
+
+    def test_missing_scores_are_unknown_and_prior_week_scores_do_not_start_current_week(self):
+        self.recap_fixture(2, 4)
+        self.calendar['matchups'][0]['sides'][0]['pointsByPeriod'] = {'3': 999}
+        view = self.render()
+        self.assertEqual(view['scoringStatus'], 'unavailable')
+        self.assertEqual(view['matchups'][0]['scoreDisplay'][0], '—')
+        self.calendar['matchups'][0]['sides'][1]['pointsByPeriod']['4'] = 5
+        self.assertEqual(self.render()['scoringStatus'], 'started')
+
+    def test_invalid_scores_and_missing_matchups_are_not_zero(self):
+        for value in ('', None, 'nan', 'inf'):
+            self.calendar['matchups'][0]['sides'][0]['pointsByPeriod']['1'] = value
+            self.assertEqual(self.render()['scoringStatus'], 'unavailable')
+        self.calendar['matchups'] = []
+        self.assertEqual(self.render()['scoringStatus'], 'unavailable')
+
+    def test_nonzero_periods_that_net_to_zero_still_establish_scoring(self):
+        self.recap_fixture(2, 5)
+        self.calendar['matchups'][0]['sides'][0]['pointsByPeriod'] = {'4': 10, '5': -10}
+        self.assertEqual(self.render()['scoringStatus'], 'started')
 
     def test_current_week_games_filter_sort_deduplicate_and_keep_dates(self):
         self.current.update(week=2, scoringPeriod=9)

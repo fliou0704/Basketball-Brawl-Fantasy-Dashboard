@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Standings from './components/Standings';
 import Playoffs from './components/Playoffs';
-import { Daily, Weekly, Scoreboard, CurrentWeek } from './components/Recaps';
+import { Daily, Weekly, Scoreboard } from './components/Recaps';
+import HomeSections from './components/HomeSections';
 import { SeasonLeaders, SeasonHistory } from './components/SeasonHistory';
 import { PageHeader, PageShell } from './components/Layout';
 import { createHomeClient, HOME_REFRESH_MS, leagueDate, showHomeRecap } from './home-data';
@@ -66,16 +67,15 @@ export default function App() {
   const state=page?.state;
   const offseason=state?.phase==='offseason';
   const daily=page?.['daily-recap']?.[state?.dailyDate];
-  const weekly=showHomeRecap(state, requested) ? page?.['weekly-recap']?.[state?.weeklyWeek] : null;
+  const weekly=showHomeRecap(state) ? page?.['weekly-recap']?.[state?.weeklyWeek] : null;
   const standings=page?.standings?.[state?.standingsWeek];
   const bracket=page?.playoffs?.[state?.playoffKey];
   return <><a className="skip" href="#home">Skip to content</a><Header/><PageShell id="home" className="homepage">
     <PageHeader title={state?.season ? `${state.season} ${offseason?'Season':state.phase==='playoffs'?'Playoffs':'Season'}`:'Basketball Brawl'} meta={state?.season && (offseason?'Season complete':`Week ${state.week}`)}/>
-    {!error && page?.current && <CurrentWeek snapshot={page.current} publishedAt={page.publishedAt} stale={page.stale} refreshFailed={refreshFailed}/>}
     {error?<section className="message" role="alert"><h2>Homepage unavailable</h2><p>{override?'Check the date (YYYY-MM-DD) and try again.':'Please try again.'}</p><button onClick={()=>window.location.reload()}>Try again</button></section>:!page?<p role="status">Loading…</p>:!state.season?<p className="archive-note">No completed season is available for this date.</p>:offseason?<>
       <Playoffs bracket={bracket}/><Standings data={standings} final/>
       <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
-    </>:state.phase==='playoffs'?<>
+    </>:page.current?<HomeSections snapshot={page.current} publishedAt={page.publishedAt} daily={daily} weekly={weekly} bracket={bracket} standings={standings}/>:state.phase==='playoffs'?<>
       <Playoffs bracket={bracket}/><Weekly recap={weekly}/><Daily recap={daily}/>
       {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings} final/>
     </>:<>

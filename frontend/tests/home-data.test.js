@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {createHomeClient, selectHomeState, leagueDate} from '../src/home-data.js';
+import {createHomeClient, selectHomeState, leagueDate, showHomeRecap} from '../src/home-data.js';
 
 const offseason={phase:'offseason',season:2026,standingsWeek:20,playoffKey:'final'};
 const manifest={states:{'2026-10-20':offseason,'2026-10-21':offseason},offseasons:[{after:'2026-04-05',state:offseason}]};
@@ -79,13 +79,32 @@ test('failed deployment read can retry rather than caching a rejected request',a
   assert.equal((await client.load('2026-10-20')).state.season,2027);
 });
 
-test('recap window counts two New York calendar dates and expires without new games',async()=>{
+test('new published scoring periods advance the recap window without player games',async()=>{
+  let period=7;
+  const client=createHomeClient('/',async url=>({ok:true,headers:{get:()=>null},json:async()=>{
+    if(url.includes('home-version'))return {schemaVersion:1,version:String(period)};
+    if(url.includes('homepage'))return {schemaVersion:1,...manifest};
+    if(url.includes('home-current'))return {schemaVersion:1,...snapshot,week:2,scoringPeriod:period,
+      state:{...snapshot.state,week:2,weeklyWeek:1,scoringPeriod:period,weekScoringPeriods:[7,8,9]}};
+    return {schemaVersion:1,data:{}};
+  }}));
+  for(period=7;period<=9;period++) {
+    const page=await client.load('2026-10-28');
+    assert.equal(showHomeRecap(page.state),period<9);
+    assert.deepEqual(page.current.players,[]);
+  }
+});
+
+test('recap window follows the published period sequence, never the visitor clock',async()=>{
   const {showHomeRecap}=await import('../src/home-data.js');
-  const state={phase:'regular',week:12,weeklyWeek:11,verifiedWeekStart:'2026-12-28'};
-  for(const day of ['2026-12-28','2026-12-29']) assert.equal(showHomeRecap(state,day),true);
-  for(const day of ['2026-12-27','2026-12-30','2027-01-04']) assert.equal(showHomeRecap(state,day),false);
-  assert.equal(showHomeRecap({...state,phase:'playoffs'},'2026-12-29'),true);
-  assert.equal(showHomeRecap({...state,verifiedWeekStart:null},'2026-12-29'),false);
-  assert.equal(showHomeRecap({...state,week:1,weeklyWeek:null},'2026-12-28'),false);
-  assert.equal(showHomeRecap({...state,phase:'offseason'},'2026-12-28'),false);
+  for(const [week, periods] of [[2,[4,5,6,7,8,9,10,11,12,13,14]],[3,[15,16,17,18]]]) {
+    const state={phase:'regular',week,weeklyWeek:week-1,weekScoringPeriods:periods};
+    periods.forEach((scoringPeriod,index)=>assert.equal(showHomeRecap({...state,scoringPeriod}),index<2));
+    assert.equal(showHomeRecap({...state,scoringPeriod:periods[0]},'2027-01-04'),true);
+    assert.equal(showHomeRecap({...state,scoringPeriod:periods[1],phase:'playoffs'}),true);
+    for(const patch of [{scoringPeriod:null},{scoringPeriod:999},{weekScoringPeriods:[]},
+      {weeklyWeek:null},{weeklyWeek:week},{weeklyWeek:week-2},{week:1},{phase:'offseason'}]) {
+      assert.equal(showHomeRecap({...state,scoringPeriod:periods[0],...patch}),false);
+    }
+  }
 });

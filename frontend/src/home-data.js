@@ -68,13 +68,13 @@ export function createHomeClient(base, fetcher = (...args) => fetch(...args)) {
   };
 }
 
-// Only a verified scheduled start may open this window. Observed player dates
-// and weekly cadence cannot establish a matchup boundary.
-export function showHomeRecap(state, requested) {
+// Visibility follows the published ESPN period, even if the visitor's clock
+// advances while no newer snapshot is available. The exporter verifies the recap.
+export function showHomeRecap(state) {
   if (!state || !['regular', 'playoffs'].includes(state.phase)
-      || !state.weeklyWeek || state.weeklyWeek >= state.week
-      || !state.verifiedWeekStart) return false;
-  const start = Date.parse(`${state.verifiedWeekStart}T00:00:00Z`);
-  const day = Date.parse(`${requested}T00:00:00Z`);
-  return Number.isFinite(start) && day >= start && day < start + 2 * 86400000;
+      || state.week <= 1 || state.weeklyWeek !== state.week - 1
+      || !Number.isInteger(state.scoringPeriod)
+      || !Array.isArray(state.weekScoringPeriods)) return false;
+  const periods = [...new Set(state.weekScoringPeriods)].filter(Number.isInteger).sort((a,b)=>a-b);
+  return periods.slice(0,2).includes(state.scoringPeriod);
 }

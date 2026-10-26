@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {transformWithOxc} from 'vite';
-import {formatPublicationTime} from '../src/home-data.js';
+import {formatPublicationTime,showHomeRecap} from '../src/home-data.js';
 
 // Exercise the actual JSX without adding a browser/test-framework dependency.
 async function jsx(path, exports, bindings) {
@@ -18,7 +18,9 @@ const Section=({title,meta,children})=>React.createElement('section',{},React.cr
 const Card=({title,children})=>React.createElement('div',{},title,children);
 const PlayerIdentity=({name})=>React.createElement('span',{},name);
 const Team=({team})=>React.createElement('span',{},team.teamName);
-const {Daily,CurrentWeek}=await jsx('../src/components/Recaps.jsx','Daily,CurrentWeek',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime});
+const {Daily,Weekly,CurrentWeek,CurrentWeekPerformances}=await jsx('../src/components/Recaps.jsx','Daily,Weekly,CurrentWeek,CurrentWeekPerformances',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime});
+const {HomeSections}=await jsx('../src/components/HomeSections.jsx','HomeSections',{React,Daily,Weekly,CurrentWeek,CurrentWeekPerformances,
+  Standings:()=>React.createElement('h2',{},'Standings'),Playoffs:()=>React.createElement('h2',{},'Playoffs')});
 const player={playerId:1,name:'Fixture player',team:{teamId:1,teamName:'One'},pointsDisplay:'70',date:'2026-10-23',scoringPeriod:4,
   stats:{PTS:30,REB:10,AST:7,BLK:1,STL:2,TO:3,FGM:10,FGA:20,'3PM':4,'3PA':11}};
 const snapshot={season:2027,week:7,players:[player],matchups:[]};
@@ -42,20 +44,27 @@ test('daily and weekly leaderboards render exactly the same breakdown including 
 test('week heading is dynamic and obsolete or unverified live text is absent even when stale',()=>{
   const html=renderToStaticMarkup(React.createElement(CurrentWeek,{snapshot,publishedAt:'2026-10-24T04:14:00Z',stale:true,refreshFailed:true}));
   assert.ok(html.includes('Best Week 7 Performances'));
-  assert.ok(html.includes('2027 · Week 7 · Week in Progress'));
+  assert.ok(html.includes('2027 Week 7 Scoreboard'));
   assert.ok(html.includes('Last updated: <time'));
   assert.ok(html.includes('10/24/26 12:14:00 AM'));
-  for(const obsolete of ['Older snapshot','Latest available','Scoring Period','Published','may still be in progress','LIVE','Showing the latest'])assert.ok(!html.includes(obsolete),obsolete);
+  for(const obsolete of ['Current Fantasy Scoreboard','Week in Progress','Older snapshot','Latest available','Scoring Period','Published','may still be in progress','LIVE','Showing the latest'])assert.ok(!html.includes(obsolete),obsolete);
+  assert.ok(renderToStaticMarkup(React.createElement(CurrentWeek,{snapshot:{...snapshot,season:2028,week:12}})).includes('2028 Week 12 Scoreboard'));
 });
 
 test('unknown publication time is omitted rather than fabricated',()=>{
   assert.ok(!renderToStaticMarkup(React.createElement(CurrentWeek,{snapshot})).includes('Last updated:'));
 });
 
-test('Daily Recap uses one full-width column and a larger date without changing card styling',async()=>{
+test('daily title uses its actual New York recap date with no redundant badge',async()=>{
+  const html=renderToStaticMarkup(React.createElement(Daily,{recap:{date:'2026-10-25',leaders:[],players:[player]}}));
+  assert.ok(html.includes('<h2>October 25, 2026 Recap</h2>'));
+  assert.ok(!html.includes('Oct 25'));
+  assert.ok(!html.includes('Daily Recap'));
+  const winter=renderToStaticMarkup(React.createElement(Daily,{recap:{date:'2027-01-01',leaders:[],players:[player]}}));
+  assert.ok(winter.includes('January 1, 2027 Recap'));
+  assert.equal(renderToStaticMarkup(React.createElement(Daily,{recap:{players:[]}})),'');
   const css=await readFile(new URL('../src/homepage.css',import.meta.url),'utf8');
   assert.match(css,/\.daily-grid \{ grid-template-columns: minmax\(0, 1fr\); \}/);
-  assert.match(css,/\.daily-recap > \.section-title > span \{ font-size: \.95rem;/);
   assert.equal([...css.matchAll(/\.daily-grid \{[^}]*grid-template-columns/g)].length,1);
 });
 
@@ -63,7 +72,7 @@ test('empty current-week performances hide the entire section and first game rev
   const empty=renderToStaticMarkup(React.createElement(CurrentWeek,{snapshot:{...snapshot,players:[]}}));
   assert.ok(!empty.includes('Best Week'));
   assert.ok(!empty.includes('No player performances'));
-  assert.ok(empty.includes('Current Fantasy Scoreboard'));
+  assert.ok(empty.includes('2027 Week 7 Scoreboard'));
   assert.ok(renderToStaticMarkup(React.createElement(CurrentWeek,{snapshot})).includes('Best Week 7 Performances'));
 });
 
@@ -85,4 +94,23 @@ test('Home regular and playoff branches end with standings and omit removed sect
   assert.ok(!recaps.includes('Around the League'));
   assert.ok(!recaps.includes('Toughest'));
   assert.ok(recaps.includes('Closest Matchup'));
+});
+
+test('Home orders real sections by canonical score coverage without duplicates or empty cards',()=>{
+  const state={phase:'regular',week:2,weeklyWeek:1,scoringPeriod:7,weekScoringPeriods:[7,8,9]};
+  const daily={date:'2026-10-25',leaders:[],players:[player]};
+  const recap={week:1,end:'2026-10-25',leaders:[],closest:[],lineup:[]};
+  const titles=(status,{eligible=true,players=[player],phase='regular'}={})=>{
+    const selected={...state,phase,scoringPeriod:eligible?7:9};
+    const html=renderToStaticMarkup(React.createElement(HomeSections,{
+      snapshot:{...snapshot,week:2,scoringStatus:status,players,state:selected},daily,
+      weekly:showHomeRecap(selected)?recap:null}));
+    return [...html.matchAll(/<h2>(.*?)<\/h2>/g)].map(match=>match[1]);
+  };
+  assert.deepEqual(titles('zero'),['Week 1 Recap','October 25, 2026 Recap','2027 Week 2 Scoreboard','Standings']);
+  assert.deepEqual(titles('started'),['2027 Week 2 Scoreboard','Best Week 2 Performances','October 25, 2026 Recap','Week 1 Recap','Standings']);
+  assert.deepEqual(titles('started',{eligible:false}),['2027 Week 2 Scoreboard','Best Week 2 Performances','October 25, 2026 Recap','Standings']);
+  assert.deepEqual(titles('zero',{eligible:false,players:[]}),['October 25, 2026 Recap','2027 Week 2 Scoreboard','Standings']);
+  assert.deepEqual(titles('unavailable',{players:[]}),['2027 Week 2 Scoreboard','October 25, 2026 Recap','Week 1 Recap','Standings']);
+  assert.deepEqual(titles('started',{phase:'playoffs'}).slice(-2),['Playoffs','Standings']);
 });

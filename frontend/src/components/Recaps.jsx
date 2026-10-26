@@ -25,7 +25,8 @@ export function Weekly({ recap, playoffOnly = false }) {
 }
 export function Daily({ recap }) {
   if (!recap?.players?.length) return null;
-  return <Section className="daily-recap" title="Daily Recap" meta={dateLabel(recap.date)}>
+  const title = new Intl.DateTimeFormat('en-US', {month:'long',day:'numeric',year:'numeric',timeZone:'America/New_York'}).format(new Date(`${recap.date}T12:00:00Z`));
+  return <Section className="daily-recap" title={`${title} Recap`}>
     <div className="daily-grid">{!!recap.leaders.length && <Card className="daily-winner" title={`Top Team${recap.leaders.length>1?'s':''}`}>{recap.leaders.map(t=><div className="team-highlight" key={t.teamId}><Team team={t}/><strong>{t.pointsDisplay}<small>FPTS</small></strong></div>)}</Card>}
     <Card className="performances-card" title="Top Performances"><div className="performances">{recap.players.map((p,index)=><article className="performance" key={`${p.playerId}-${p.team.teamId}`}>
       <span className="performance-rank">{index+1}</span><div className="performance-body"><div className="performance-heading"><div><h4><PlayerIdentity playerId={p.playerId} name={p.name} showHeadshot/></h4><p>{p.team.teamName}{p.bench?' · Bench / IR':''}</p></div><strong>{p.pointsDisplay}<small>FPTS</small></strong></div>
@@ -37,20 +38,24 @@ export function Scoreboard({ recap, week }) {
   if (!recap?.scoreboard?.length || recap.week !== week) return null;
   return <Section title="Current Matchups" meta={`Week ${week} · through ${dateLabel(recap.date)}`}><Card><div className="scoreboard">{recap.scoreboard.map((m,i)=><Match key={i} match={m} completed={false}/>)}</div></Card></Section>;
 }
-export function CurrentWeek({ snapshot, publishedAt }) {
+export function CurrentWeek({ snapshot, publishedAt, showPerformances = true }) {
   const timestamp = formatPublicationTime(publishedAt);
   return <>
-    <Section title="Current Fantasy Scoreboard" meta={`${snapshot.season} · Week ${snapshot.week} · Week in Progress`}>
+    <Section title={`${snapshot.season} Week ${snapshot.week} Scoreboard`}>
       <Card>{timestamp && <p className="current-week-context">Last updated: <time dateTime={new Date(publishedAt).toISOString()}>{timestamp}</time></p>}
         <div className="scoreboard">{snapshot.matchups.map((match,index)=><Match key={index} match={match} completed={false}/>)}</div>
         {!snapshot.matchups.length && <p className="source-note">Matchup assignments are not available in the latest snapshot.</p>}
       </Card>
     </Section>
-    {snapshot.players.length > 0 && <Section title={`Best Week ${snapshot.week} Performances`} meta="Individual games">
+    {showPerformances && <CurrentWeekPerformances snapshot={snapshot}/>}
+  </>;
+}
+export function CurrentWeekPerformances({ snapshot }) {
+  if (!snapshot.players.length) return null;
+  return <Section title={`Best Week ${snapshot.week} Performances`} meta="Individual games">
       <Card><div className="performances">{snapshot.players.map((player,index)=><article className="performance" key={`${player.playerId}-${player.scoringPeriod}`}>
         <span className="performance-rank">{index+1}</span><div className="performance-body"><div className="performance-heading"><div><h4><PlayerIdentity playerId={player.playerId} name={player.name} showHeadshot/></h4><p>{player.team.teamName} · <time dateTime={player.date}>{dateLabel(player.date)}</time></p></div><strong>{player.pointsDisplay}<small>FPTS</small></strong></div><PlayerStatLine stats={player.stats}/></div>
       </article>)}</div>
       </Card>
-    </Section>}
-  </>;
+    </Section>;
 }

@@ -1,62 +1,69 @@
 # Home and Scoreboard recap lifecycle
 
-Scoreboard embeds the existing seasonal weekly recap exports only for completed
-weeks with at least one final matchup. It renders the shared `Weekly` component
-below matchups using the selected season/week. Missing historical recaps stay
-absent; future and unplayed weeks never acquire a recap. Export ordering in
-`generate_all.py` already generates seasonal recaps before Scoreboard.
+Home uses the published `currentLeague.json` season, matchup week, and ESPN
+scoring period. `generate_home_current.py` exports the sorted canonical
+`scoringPeriodMatchupMap.csv` sequence for that week as `state.weekScoringPeriods`.
+`showHomeRecap` admits only the first two entries of that sequence. It never uses
+the visitor's date, a 48-hour timer, observed player-game dates, Monday boundaries,
+or a fixed week length. A stale snapshot retains its published period until a
+newer deployment is detected by the existing five-minute version check.
 
-Home uses authoritative `currentLeague.json` season/week through the existing
-current snapshot exporter. The current leaderboard still uses canonical daily
-records mapped to that fantasy matchup week with MIN > 0, including partial
-and zero-FPTS games. An empty player list now suppresses the whole leaderboard.
-No previous-week fallback or scoring change was added.
+Only week N−1 is eligible in week N. It must appear in the existing Home
+exporter's completed weeks and have valid weekly recap data (matching week,
+end date, leaders, matchups, and the shared component's expected arrays).
+Week 1, an unavailable current period, a missing recap, or an incomplete previous
+week produces no Home recap. Older completed weeks never substitute. No current
+player-game rows are required. The canonical mapping is used as published;
+missing future entries or calendar boundaries are never extrapolated.
 
-## Calendar limitation and conservative fallback
+This replaces the former `verifiedWeekStart: null` gate, which prevented every
+production Home recap from appearing. Verified calendar boundaries are no longer
+needed for this scoring-period-based rule. Scoreboard remains the permanent
+home for completed recaps: it embeds existing seasonal exports only for final
+weeks with at least one final matchup. Its exporter and route are unchanged.
 
-`scoreboardCalendar.scheduled_weeks` and
-`docs/scoreboard-calendar-investigation.md` document that inspected ESPN views do
-not supply verified daily matchup boundaries. `seasonMetadata.weeks` and the
-canonical period map retain observed scoring, which may omit no-game days.
-`matchupPeriods` groups weekly base periods; those IDs are not daily periods.
-Neither a last player game, inferred weekly cadence, nor an observed first game
-is a valid scheduled boundary. No extra ESPN requests were added.
+## Current-week scoring and Home order
 
-Accordingly the current exporter explicitly emits `verifiedWeekStart: null`.
-**Production Home hides its temporary recap while that boundary is unknown.**
-This is the requested conservative fallback; Scoreboard remains the permanent
-home for Week 1 and historical recaps. A verified scheduled date source must be
-established before production can open the two-day Home window. No currently
-available observed or legacy `scheduledWeeks` value is promoted to that field.
+`scoringStatus` uses only finite ESPN matchup contributions whose periods map to
+the current week and do not exceed the published period. A known nonzero value
+means `started`, including partial updates. `zero` requires all current league
+teams exactly once and explicit zero values for every published mapped period
+of the current week. Missing assignments, absent values, or invalid values yield
+`unavailable`, unless a known nonzero contribution already establishes scoring.
+Previous-week points and player rows never establish this signal. Available
+score totals retain the existing calculation; absent totals display an em dash.
 
-`showHomeRecap` requires an active season, a completed earlier week, and that
-verified start. It compares the requested New York calendar date with the start
-and the following calendar date, excluding day 3. It does not assume a matchup
-length. Home already refreshes its New York date every minute, independently of
-new games or publication versions. Deterministic fixtures exercise the verified
-window, playoffs, extended periods, missing dates, season start, and clock aging.
+- **Confirmed zero:** eligible previous weekly recap → available daily recap →
+  current scoreboard → standings. Current-week performances are suppressed.
+- **Started:** current scoreboard → available current-week performances → daily
+  recap → eligible previous weekly recap → standings.
+- **Unavailable:** scoreboard-first order, displaying available performances
+  only; unknown coverage is never presented as a confirmed zero week.
 
-During the active season, Home order is: current scoreboard, current-week player
-performances if present, playoff bracket when applicable, daily/temporary weekly
-recaps, archive current matchups when applicable, standings last. Around the
-League is removed, including its component, and Toughest Loss is no longer
-exported. Closest Matchup and Team of the Week remain in the shared recap.
+Playoffs retain their bracket after the recap/scoreboard content and before
+standings. Empty sections render nothing. Offseason content and historical
+snapshot selection retain their existing behavior. The shared daily heading
+formats the recap's date as `October 25, 2026 Recap`, using New York and a
+date-only value anchored at noon UTC. The current scoreboard heading is
+`2027 Week 2 Scoreboard`, with the existing publication timestamp retained.
+Scores, weekly recap calculations, 3PA/stat breakdowns, player identities, and
+all ingestion/persistence code are unchanged.
 
 ## Validation
 
-Use the same source selection as the existing Pages workflow (production main
-CSV/metadata copied into `frontend/.league-source/data`). Run the exporter before
-its tests, with the workflow's source environment variables:
+Use the same production source selection as the existing Pages workflow. Export
+into a temporary directory when local public data contains unrelated edits.
 
-- `python frontend/scripts/generate_all.py --source-dir frontend/.league-source/data`
-- `python -m unittest discover -s tests -v`
+- `python frontend/scripts/generate_all.py --source-dir SOURCE --output-dir OUTPUT`
 - `python -m unittest discover -s frontend/scripts -p 'test_*.py' -v`
 - `npm --prefix frontend test`
 - `npm --prefix frontend run build`
 - With Vite running: `python frontend/tests/recap_browser.py`
 
-The browser check uses deterministic dates and tests desktop, 390px, and 320px,
-recap selection, missing-date fallback, first scoring, zero-FPTS participation,
-standings order, and automatic clock expiration without new player games.
-No updater, deployment workflow, canonical scoring, main branch, or Dash code
-was changed.
+Exporter tests use `FRONTEND_TEST_OUTPUT`, `BRAWL_REFERENCE_DIR`, and the existing
+`*_TEST_SOURCE` variables to select temporary exports and their canonical source.
+The optional browser check accepts `BRAWL_URL`, `BRAWL_DATA_DIR`, and
+`CHROMIUM_PATH`; it requires Playwright. It checks deterministic period windows,
+both score-based orders, stale clocks, the permanent Scoreboard recap, and
+desktop/390px/320px overflow. No updater or deployment workflow changes are
+required.
