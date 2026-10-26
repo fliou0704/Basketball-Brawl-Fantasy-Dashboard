@@ -1,0 +1,11 @@
+Year,Week,Type,Team Name,Team Abbreviation,Team ID,Team Owner,Home/Away,Points For,Points Against,Win,Loss,Opponent Team Name,Opponent Team ID,Opponent Owner,Cumulative Points For,Cumulative Points Against,Cumulative Wins,Cumulative Losses,Weekly Rank,Rank
+2027,1,Regular,Fixture Team Name 1,Fixture Team Abbreviation 1,1,Fixture Team Owner 1,Home,1401.0,827.0,1,0,Fixture Team Name 10,10.0,Fixture Team Owner 10,1401.0,827.0,1,0,1,1
+2027,1,Regular,Fixture Team Name 16,Fixture Team Abbreviation 16,16,Fixture Team Owner 16,Away,1348.0,1344.0,1,0,Fixture Team Name 8,8.0,Fixture Team Owner 8,1348.0,1344.0,1,0,2,2
+2027,1,Regular,Fixture Team Name 2,Fixture Team Abbreviation 2,2,Fixture Team Owner 2,Home,1246.0,976.0,1,0,Fixture Team Name 17,17.0,Fixture Team Owner 17,1246.0,976.0,1,0,4,3
+2027,1,Regular,Fixture Team Name 7,Fixture Team Abbreviation 7,7,Fixture Team Owner 7,Home,1220.0,420.0,1,0,Fixture Team Name 13,13.0,Fixture Team Owner 13,1220.0,420.0,1,0,5,4
+2027,1,Regular,Fixture Team Name 12,Fixture Team Abbreviation 12,12,Fixture Team Owner 12,Home,1159.0,1051.0,1,0,Fixture Team Name 5,5.0,Fixture Team Owner 5,1159.0,1051.0,1,0,6,5
+2027,1,Regular,Fixture Team Name 8,Fixture Team Abbreviation 8,8,Fixture Team Owner 8,Home,1344.0,1348.0,0,1,Fixture Team Name 16,16.0,Fixture Team Owner 16,1344.0,1348.0,0,1,3,6
+2027,1,Regular,Fixture Team Name 5,Fixture Team Abbreviation 5,5,Fixture Team Owner 5,Away,1051.0,1159.0,0,1,Fixture Team Name 12,12.0,Fixture Team Owner 12,1051.0,1159.0,0,1,7,7
+2027,1,Regular,Fixture Team Name 17,Fixture Team Abbreviation 17,17,Fixture Team Owner 17,Away,976.0,1246.0,0,1,Fixture Team Name 2,2.0,Fixture Team Owner 2,976.0,1246.0,0,1,8,8
+2027,1,Regular,Fixture Team Name 10,Fixture Team Abbreviation 10,10,Fixture Team Owner 10,Away,827.0,1401.0,0,1,Fixture Team Name 1,1.0,Fixture Team Owner 1,827.0,1401.0,0,1,9,9
+2027,1,Regular,Fixture Team Name 13,Fixture Team Abbreviation 13,13,Fixture Team Owner 13,Away,420.0,1220.0,0,1,Fixture Team Name 7,7.0,Fixture Team Owner 7,420.0,1220.0,0,1,10,10

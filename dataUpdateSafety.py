@@ -199,6 +199,35 @@ def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dic
                     raise DataValidationError(f"season {year} is incomplete before a later season begins")
 
 
+def require_csv_schema(existing, incoming, source="incoming rows"):
+    """Reject missing, unexpected, duplicate, or reordered CSV fields explicitly."""
+    persisted, received = list(existing.columns), list(incoming.columns)
+    if persisted == received and incoming.columns.is_unique:
+        return
+    missing = [c for c in persisted if c not in received]
+    unexpected = [c for c in received if c not in persisted]
+    order = [(i, a, b) for i, (a, b) in enumerate(zip(persisted, received)) if a != b]
+    raise DataValidationError(
+        f"{source}: new rows do not match the persisted CSV schema; "
+        f"persisted columns={persisted}; incoming columns={received}; "
+        f"missing columns={missing}; unexpected columns={unexpected}; "
+        f"order differences={order}; duplicate columns={incoming.columns[incoming.columns.duplicated()].tolist()}"
+    )
+
+
+def order_generated_csv_columns(existing, incoming, source):
+    """Give locally constructed rows canonical order only after checking every field.
+
+    First-week builders assemble fields in assignment order, without an existing
+    season prefix to supply column order. This is a producer concern: persistence
+    continues to reject reordered input, and unknown/missing fields always fail.
+    """
+    if (set(existing.columns) != set(incoming.columns)
+            or not incoming.columns.is_unique):
+        require_csv_schema(existing, incoming, source)
+    return incoming.loc[:, existing.columns].copy()
+
+
 def merge_refreshable_daily_rows(
     existing: pd.DataFrame,
     fetched_rows: pd.DataFrame,
@@ -213,8 +242,7 @@ def merge_refreshable_daily_rows(
     """
     original = existing.copy(deep=True)
     validate_player_daily_data(existing)
-    if list(existing.columns) != list(fetched_rows.columns):
-        raise DataValidationError("new rows do not match the persisted CSV schema")
+    require_csv_schema(existing, fetched_rows, "daily refresh")
 
     existing_years = pd.to_numeric(existing["Year"])
     existing_periods = pd.to_numeric(existing["Scoring Period"])
@@ -255,8 +283,7 @@ def merge_incremental_rows(
     validator(existing, *validator_args)
     if new_rows.empty:
         return existing.copy(deep=True)
-    if list(existing.columns) != list(new_rows.columns):
-        raise DataValidationError("new rows do not match the persisted CSV schema")
+    require_csv_schema(existing, new_rows, validator.__name__)
     overlap = existing.merge(new_rows[key], on=key, how="inner")
     if not overlap.empty:
         raise DataValidationError("new rows overlap existing logical records")

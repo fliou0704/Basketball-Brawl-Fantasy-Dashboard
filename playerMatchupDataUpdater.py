@@ -6,6 +6,7 @@ from dataUpdateSafety import (
     PLAYER_MATCHUP_KEY,
     atomic_write_csv,
     merge_incremental_rows,
+    order_generated_csv_columns,
     require_espn_credentials,
     validate_player_matchup_data,
 )
@@ -162,7 +163,9 @@ def update_playerMatchup_data(data_path=PLAYER_MATCHUP_DATA_PATH, active_year=No
 
     if not new_data_frames:
         return False
-    new_rows = pd.concat(new_data_frames, ignore_index=True)
+    new_rows = order_generated_csv_columns(
+        original, pd.concat(new_data_frames, ignore_index=True),
+        "playerMatchupDataUpdater.py generated weeks")
     if refresh_from_by_year:
         from nearLiveSafety import replace_partitions
         partitions = {(int(y), int(w)) for y, w in original[['Year', 'Week']].itertuples(index=False, name=None)

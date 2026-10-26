@@ -6,6 +6,7 @@ from dataUpdateSafety import (
     LEAGUE_KEY,
     atomic_write_csv,
     merge_incremental_rows,
+    order_generated_csv_columns,
     require_espn_credentials,
     validate_league_data,
 )
@@ -310,7 +311,9 @@ def update_league_data(data_path=LEAGUE_DATA_PATH, active_year=None, league_fact
 
     if not new_data_frames:
         return False
-    new_rows = pd.concat(new_data_frames, ignore_index=True)
+    new_rows = order_generated_csv_columns(
+        original, pd.concat(new_data_frames, ignore_index=True),
+        "leagueDataUpdater.py generated weeks")
     if refresh_from_by_year:
         from nearLiveSafety import replace_partitions
         candidate = prepare_league_update(data, new_rows, terminal_week_by_year)

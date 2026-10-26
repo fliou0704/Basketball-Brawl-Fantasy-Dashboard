@@ -177,7 +177,20 @@ class TeamStatsParityTests(unittest.TestCase):
                                      (self.daily['Player ID'] == player['playerId']) & (self.daily['MIN'] > 0)]['Date'].nunique()
             self.assertEqual(player['games'], appearances)
         self.assertTrue(any(row['current'] for row in roster))
-        self.assertTrue(any(not row['current'] for row in roster))
+        snapshot_path = self.source / 'currentLeague.json'
+        snapshot = json.loads(snapshot_path.read_text()) if snapshot_path.exists() else None
+        if snapshot and snapshot['season'] == year:
+            team = next(t for t in snapshot['teams'] if t['teamId'] == 16)
+            # A new season can legitimately have no former players yet.
+            current_ids = {p['playerId'] for p in team['roster']}
+            # This exporter covers players with recorded performances; the full
+            # pipeline adds roster-only newcomers (tested in test_pipeline_freshness).
+            self.assertEqual({r['playerId'] for r in roster if r['current']},
+                             current_ids & {r['playerId'] for r in roster})
+            self.assertEqual({r['playerId'] for r in roster if not r['current']},
+                             {r['playerId'] for r in roster} - current_ids)
+        else:
+            self.assertTrue(any(not row['current'] for row in roster))
         self.assertTrue(all(row['current'] == (row['action'] not in ('DROPPED','TRADED','NOT KEPT')) for row in roster))
         for row in roster:
             for key in ('fptsPercentile', 'fppmPercentile'):

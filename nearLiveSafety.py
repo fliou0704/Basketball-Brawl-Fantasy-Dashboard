@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import pandas as pd
 
-from dataUpdateSafety import DataValidationError
+from dataUpdateSafety import DataValidationError, require_csv_schema
 
 RECONCILE_PERIODS = 7
 
@@ -15,8 +15,7 @@ def refresh_start(stored, available, first=1, window=RECONCILE_PERIODS):
 
 def replace_partitions(existing, fetched, partitions, period_column, key, validator):
     """Replace only enumerated (season, period) partitions, including deletions."""
-    if list(existing.columns) != list(fetched.columns):
-        raise DataValidationError('refresh schema differs from canonical data')
+    require_csv_schema(existing, fetched, f'{period_column} partition refresh')
     authorized = set(partitions)
     identities = list(zip(fetched['Year'].astype(int), fetched[period_column].astype(int)))
     if not set(identities).issubset(authorized):

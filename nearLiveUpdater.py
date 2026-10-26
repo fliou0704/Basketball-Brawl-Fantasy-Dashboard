@@ -11,6 +11,7 @@ import shutil
 import sys
 import tempfile
 import time
+import traceback
 from zoneinfo import ZoneInfo
 
 import pandas as pd
@@ -312,6 +313,10 @@ if __name__ == '__main__':
     except Exception as error:
         # Never dump authenticated library exceptions or request details.
         print(f'Update failed: {type(error).__name__}', file=sys.stderr)
+        if isinstance(error, DataValidationError):
+            # Stack locations only: never expose library/request locals or headers.
+            for frame in traceback.extract_tb(error.__traceback__):
+                print(f"  {Path(frame.filename).name}:{frame.lineno} in {frame.name}", file=sys.stderr)
         if isinstance(error, DataValidationError) or (isinstance(error, RuntimeError) and str(error).startswith('Missing ESPN credentials')):
             print(str(error), file=sys.stderr)
         sys.exit(1)
