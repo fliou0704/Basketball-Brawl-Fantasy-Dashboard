@@ -56,6 +56,7 @@ Body copy is 1rem/1.55. Labels and metadata are 0.75–0.8125rem with deliberate
 - Complementary cards may sit side by side, with a maximum of two content cards in one row.
 - Never place three or more content cards across in one row.
 - Mobile stacks cards naturally into one column.
+- Weekly Recap is always stacked, including on Home: each primary card spans the content width and each Team of the Week player occupies a separate full-width row. Statistics may form columns within a player row; players never sit side by side.
 
 ### All other pages
 

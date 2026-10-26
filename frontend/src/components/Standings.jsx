@@ -2,7 +2,8 @@ import React from 'react';
 import { Section, TableCard } from './Layout';
 const base = import.meta.env.BASE_URL;
 export function TeamLogo({ team, size = 36 }) {
-  return <img src={`${base}${team.logo}`} width={size} height={size} alt="" />;
+  const fallback = `${base}logos/Default.png`;
+  return <img src={team.logo ? `${base}${team.logo}` : fallback} width={size} height={size} alt="" onError={event=>{event.currentTarget.onerror=null;event.currentTarget.src=fallback;}}/>;
 }
 export function Team({ team, link = false }) {
   const content=<><TeamLogo team={team}/><span className="team-name">{team.teamName}</span></>;

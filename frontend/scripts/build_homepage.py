@@ -7,6 +7,7 @@ from datetime import date, timedelta
 import json
 from pathlib import Path
 import shutil
+import sys
 
 from generate_standings import build_standings
 from homepage_state import select_state, normalize_calendar
@@ -111,6 +112,43 @@ def choose_lineup(rows, slots, teams):
     return [dict(player_info(row, teams), slot=slots[i], mvp=row is mvp) for i, row in picks]
 
 
+def lineup_week_stats(daily, mapping, calendar):
+    """Box scores from the same played fantasy starts credited by the weekly CSV.
+
+    Reuse canonical week attachment and eligibility, then the existing weighted
+    stat decoder. Missing attempts (notably historical 3PA) remain unknown.
+    """
+    if not daily:
+        return {}
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
+    import pandas as pd
+    from playerDailyAggregation import attach_matchup_weeks, credited_daily_rows
+    rows = pd.DataFrame(daily)
+    for key in ('Year', 'Scoring Period', 'Team ID', 'Player ID'):
+        rows[key] = rows[key].astype(int)
+    rows = credited_daily_rows(rows, {'seasons': [calendar]})
+    periods = pd.DataFrame(mapping, columns=['Year', 'Scoring Period', 'Week']).astype(int)
+    rows = attach_matchup_weeks(rows, periods).drop_duplicates(['Year', 'Scoring Period', 'Team ID', 'Player ID'])
+    result = {}
+    for (week, team, player), games in rows.groupby(['Week', 'Team ID', 'Player ID']):
+        decoded = [raw_stats({k: None if pd.isna(v) else v for k, v in row.items()}, calendar['scoringWeights'])
+                   for row in games.to_dict('records')]
+        totals = {}
+        for key in decoded[0]:
+            values = [stats[key] for stats in decoded]
+            totals[key] = sum(values) if all(v is not None for v in values) else None
+        gp = len(games)
+        percentage = lambda made, attempted: round(totals[made] / totals[attempted] * 100, 1) if (
+            totals[made] is not None and totals[attempted] is not None and totals[attempted] > 0) else None
+        result[(int(week), int(team), int(player))] = {
+            'gamesPlayed': gp, 'totals': totals,
+            'perGame': {key: round(totals[key] / gp, 1) if totals[key] is not None else None
+                        for key in ('PTS', 'REB', 'AST', 'BLK', 'STL', 'TO')},
+            'shooting': {'FG%': percentage('FGM', 'FGA'), '3P%': percentage('3PM', '3PA')}}
+    return result
+
+
 def matchup_rows(rows, teams, championship_only=False):
     seen, matches = set(), []
     for row in rows:
@@ -154,7 +192,7 @@ def bracket_view(league, calendar, teams, active_week=None):
     return {'rounds': rounds, 'champion': champion}
 
 
-def build_season(year, league, daily, weekly, calendar, config, output):
+def build_season(year, league, daily, weekly, calendar, config, output, mapping):
     teams = {int(r['Team ID']): team_info(r, config) for r in (league or calendar.get('teams', []))}
     by_week, by_day, players_by_week = defaultdict(list), defaultdict(list), defaultdict(list)
     for row in league: by_week[int(row['Week'])].append(row)
@@ -219,6 +257,7 @@ def build_season(year, league, daily, weekly, calendar, config, output):
                              'players': [player_info(r, teams, calendar['scoringWeights']) for r in performances],
                              'scoreboard': scoreboard, 'scoreboardLabel': f'Week {week["week"]} · through {day}'}
     weekly_recaps = {}
+    game_stats = lineup_week_stats(daily, mapping, calendar)
     for w in completed_weeks:
         rows = by_week[w]
         championship = {int(r['Team ID']) for r in rows if r['Type'] == 'Playoffs'}
@@ -247,9 +286,15 @@ def build_season(year, league, daily, weekly, calendar, config, output):
                 streaks.append((streak,tid))
             streak, tid = max(streaks)
             if streak >= 2: insights.append({'title': 'Longest win streak', 'team': teams[tid], 'value': f'{streak} straight wins'})
+        lineup = choose_lineup(pool, calendar['lineupSlots'], teams)
+        for player in lineup:
+            player['weeklyStats'] = game_stats.get((w, player['team']['teamId'], player['playerId']))
+            historical = next(r for r in pool if int(r['Player ID']) == player['playerId']
+                              and int(r['Team ID']) == player['team']['teamId'])
+            player['team'] = team_info(historical, config)
         weekly_recaps[str(w)] = {'week': w, 'end': next(x['end'] for x in weeks if x['week'] == w),
                                  'playoffs': playoff, 'leaders': leaders, 'closest': closest,
-                                 'matches': matches, 'insights': insights, 'lineup': choose_lineup(pool, calendar['lineupSlots'], teams)}
+                                 'matches': matches, 'insights': insights, 'lineup': lineup}
     # Season player totals use weekly FPTS, avoiding daily-row double counting.
     # A transferred player's points are attributed to each owning team by week.
     player_totals = {}
@@ -294,13 +339,14 @@ def build(source, output=PUBLIC / 'data', metadata=ROOT / 'frontend/source/seaso
     config = logo_config()
     league, daily, weekly = [read_csv(source / name) for name in ('basketballBrawlLeagueData.csv','playerDailyData.csv','playerMatchupData.csv')]
     calendars = json.loads(metadata.read_text())['seasons']
+    mapping = read_csv(source / 'scoringPeriodMatchupMap.csv')
     years = sorted({int(r['Year']) for r in league + daily})
     if not set(years).issubset({s['season'] for s in calendars}):
         raise ValueError('New season detected: refresh season metadata before building')
     descriptors, audits = [], {}
     for year in years:
         selected = [[r for r in rows if int(r['Year']) == year] for rows in (league,daily,weekly)]
-        descriptor, audit = build_season(year, *selected, next(s for s in calendars if s['season']==year), config, output)
+        descriptor, audit = build_season(year, *selected, next(s for s in calendars if s['season']==year), config, output, mapping)
         descriptors.append(descriptor); audits[str(year)] = audit
     # A dated lookup keeps statistical/state logic out of React.
     states = {}

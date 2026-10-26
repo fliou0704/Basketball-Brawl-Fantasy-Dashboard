@@ -11,8 +11,19 @@ export function Match({ match, completed = true }) {
 function Lineup({ players, playoffs }) {
   if (!players?.length) return null;
   return <Card className="lineup-section" title={playoffs ? 'Playoff Team of the Week' : 'Team of the Week'}><div className="lineup">{players.map((p,i)=><article key={`${p.playerId}-${i}`} className={p.mvp?'lineup-player mvp':'lineup-player'}>
-    <span className="slot">{p.slot}</span><div><h4><PlayerIdentity playerId={p.playerId} name={p.name} showHeadshot/>{p.mvp && <span className="mvp-label"> · MVP</span>}</h4><p>{p.team.teamName}</p></div><strong>{p.pointsDisplay}<small>FPTS</small></strong>
-  </article>)}</div></Card>;
+    <span className="slot">{p.slot}</span><div className="lineup-identity"><h4><PlayerIdentity playerId={p.playerId} name={p.name} showHeadshot/>{p.mvp && <span className="mvp-label"> · MVP</span>}</h4><p className="lineup-fantasy-team"><Team team={p.team}/></p></div><strong>{p.pointsDisplay}<small>FPTS</small></strong>
+    <WeeklyPlayerStats stats={p.weeklyStats}/>
+  </article>)}</div><p className="source-note">Statistics reflect played fantasy starts for this team and week.</p></Card>;
+}
+export function WeeklyPlayerStats({ stats }) {
+  const value = n => n == null ? '—' : String(n);
+  const average = n => n == null ? '—' : n.toFixed(1);
+  const shooting = (made, attempted, pct) => `${value(made)}/${value(attempted)} (${pct == null ? '—' : `${pct.toFixed(1)}%`})`;
+  return <div className="weekly-player-stats"><dl className="weekly-averages">
+    <div><dt>GP</dt><dd>{value(stats?.gamesPlayed)}</dd></div>
+    {['PTS','REB','AST','BLK','STL','TO'].map(key=><div key={key}><dt>{key}/G</dt><dd>{average(stats?.perGame?.[key])}</dd></div>)}
+    </dl><dl className="weekly-shooting"><div><dt>FG</dt><dd>{shooting(stats?.totals?.FGM,stats?.totals?.FGA,stats?.shooting?.['FG%'])}</dd></div>
+    <div><dt>3PT</dt><dd>{shooting(stats?.totals?.['3PM'],stats?.totals?.['3PA'],stats?.shooting?.['3P%'])}</dd></div></dl></div>;
 }
 export function Weekly({ recap, playoffOnly = false }) {
   if (!recap || (playoffOnly && !recap.playoffs)) return null;

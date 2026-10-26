@@ -34,6 +34,18 @@ with sync_playwright() as p:
         assert page.evaluate('document.documentElement.scrollWidth') <= page.viewport_size['width']
         return page.locator('main section > .section-title h2').all_text_contents()
 
+    def verify_weekly():
+        recap = page.locator('.weekly-recap')
+        for selector in ('.content-card', '.lineup-player'):
+            boxes = [item.bounding_box() for item in recap.locator(selector).all()]
+            assert boxes
+            for previous, following in zip(boxes, boxes[1:]):
+                assert following['y'] >= previous['y'] + previous['height'] - 1, boxes
+                assert abs(following['x'] - previous['x']) < 1, boxes
+                assert abs(following['width'] - previous['width']) < 1, boxes
+        assert recap.locator('.lineup-fantasy-team img').count() == recap.locator('.lineup-player').count()
+        return recap.locator('.weekly-player-stats').all_text_contents()
+
     for width in (1280, 390, 320):
         page.set_viewport_size({'width': width, 'height': 1000})
         current.update(scoringStatus='zero', players=[])
@@ -44,6 +56,8 @@ with sync_playwright() as p:
                 'October 25, 2026 Recap', '2027 Week 2 Scoreboard', 'Standings']
             assert titles == expected, titles
             assert not page.get_by_role('heading', name='Best Week 2 Performances').count()
+            if visible:
+                home_stats = verify_weekly()
         current['scoringPeriod'] = current['state']['scoringPeriod'] = 7
         current.update(scoringStatus='started', players=[player])
         current['matchups'][0]['scoreDisplay'][0] = '12'
@@ -68,6 +82,7 @@ with sync_playwright() as p:
         page.goto(base + '#/scoreboard?season=2027&week=1')
         page.get_by_role('heading', name='Week 1 Recap', exact=True).wait_for()
         assert page.locator('.lineup-player').count() > 0
+        assert verify_weekly() == home_stats
         assert page.evaluate('document.documentElement.scrollWidth') <= width
         page.goto(base + '#/scoreboard?season=2027&week=2')
         page.get_by_role('heading', name='Week 2', exact=True).wait_for()

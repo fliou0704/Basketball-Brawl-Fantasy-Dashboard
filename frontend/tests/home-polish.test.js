@@ -8,7 +8,7 @@ import {formatPublicationTime,showHomeRecap} from '../src/home-data.js';
 
 // Exercise the actual JSX without adding a browser/test-framework dependency.
 async function jsx(path, exports, bindings) {
-  const source=await readFile(new URL(path,import.meta.url),'utf8');
+  const source=(await readFile(new URL(path,import.meta.url),'utf8')).replaceAll('import.meta.env.BASE_URL',JSON.stringify('/'));
   const {code}=await transformWithOxc(source,path,{lang:'jsx',jsx:{runtime:'classic'}});
   const body=code.replace(/^import .*;$/gm,'').replace(/export default /g,'').replace(/export /g,'');
   return new Function(...Object.keys(bindings),`${body}; return {${exports}};`)(...Object.values(bindings));
@@ -18,7 +18,7 @@ const Section=({title,meta,children})=>React.createElement('section',{},React.cr
 const Card=({title,children})=>React.createElement('div',{},title,children);
 const PlayerIdentity=({name})=>React.createElement('span',{},name);
 const Team=({team})=>React.createElement('span',{},team.teamName);
-const {Daily,Weekly,CurrentWeek,CurrentWeekPerformances}=await jsx('../src/components/Recaps.jsx','Daily,Weekly,CurrentWeek,CurrentWeekPerformances',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime});
+const {Daily,Weekly,WeeklyPlayerStats,CurrentWeek,CurrentWeekPerformances}=await jsx('../src/components/Recaps.jsx','Daily,Weekly,WeeklyPlayerStats,CurrentWeek,CurrentWeekPerformances',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime});
 const {HomeSections}=await jsx('../src/components/HomeSections.jsx','HomeSections',{React,Daily,Weekly,CurrentWeek,CurrentWeekPerformances,
   Standings:()=>React.createElement('h2',{},'Standings'),Playoffs:()=>React.createElement('h2',{},'Playoffs')});
 const player={playerId:1,name:'Fixture player',team:{teamId:1,teamName:'One'},pointsDisplay:'70',date:'2026-10-23',scoringPeriod:4,
@@ -113,4 +113,39 @@ test('Home orders real sections by canonical score coverage without duplicates o
   assert.deepEqual(titles('zero',{eligible:false,players:[]}),['October 25, 2026 Recap','2027 Week 2 Scoreboard','Standings']);
   assert.deepEqual(titles('unavailable',{players:[]}),['2027 Week 2 Scoreboard','October 25, 2026 Recap','Week 1 Recap','Standings']);
   assert.deepEqual(titles('started',{phase:'playoffs'}).slice(-2),['Playoffs','Standings']);
+});
+
+test('weekly stats render GP, one-decimal averages, cumulative shooting and safe unknowns',()=>{
+  const stats={gamesPlayed:2,perGame:{PTS:20,REB:5,AST:4,BLK:1,STL:2,TO:3},
+    totals:{FGM:4,FGA:20,'3PM':2,'3PA':10},shooting:{'FG%':20,'3P%':20}};
+  const html=renderToStaticMarkup(React.createElement(WeeklyPlayerStats,{stats}));
+  assert.ok(html.includes('<dt>GP</dt><dd>2</dd>'));
+  assert.ok(html.includes('<dt>PTS/G</dt><dd>20.0</dd>'));
+  assert.ok(html.includes('4/20 (20.0%)'));
+  assert.ok(html.includes('2/10 (20.0%)'));
+  const empty=renderToStaticMarkup(React.createElement(WeeklyPlayerStats,{}));
+  assert.ok(empty.includes('—/— (—)'));
+  assert.ok(!/NaN|Infinity/.test(empty));
+});
+
+test('weekly recap cards and players stay single-column at every breakpoint',async()=>{
+  const css=await readFile(new URL('../src/homepage.css',import.meta.url),'utf8');
+  assert.match(css,/\.weekly-recap \.recap-highlights, \.weekly-recap \.lineup \{ grid-template-columns: minmax\(0, 1fr\); \}/);
+  assert.ok(!/\.lineup \{[^}]*1fr 1fr/.test(css));
+  const score=await readFile(new URL('../src/ScoreboardPage.jsx',import.meta.url),'utf8');
+  const home=await readFile(new URL('../src/components/HomeSections.jsx',import.meta.url),'utf8');
+  assert.ok(score.includes("<Weekly recap={selected.state === 'final' ? selected.recap : null}"));
+  assert.ok(home.includes('<Weekly recap={weekly}'));
+});
+
+test('team logos use the shared asset path and a safe fallback for missing or broken images',async()=>{
+  const {TeamLogo}=await jsx('../src/components/Standings.jsx','TeamLogo',{React,Section,TableCard:Card});
+  const historical=TeamLogo({team:{logo:'logos/Old.png'},size:20});
+  assert.equal(historical.props.src,'/logos/Old.png');
+  assert.equal(historical.props.width,20);
+  assert.equal(TeamLogo({team:{}}).props.src,'/logos/Default.png');
+  const target={src:'broken',onerror:()=>{}};
+  historical.props.onError({currentTarget:target});
+  assert.equal(target.src,'/logos/Default.png');
+  assert.equal(target.onerror,null);
 });

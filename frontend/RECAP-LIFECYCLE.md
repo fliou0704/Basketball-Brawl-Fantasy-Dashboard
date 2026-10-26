@@ -49,6 +49,14 @@ date-only value anchored at noon UTC. The current scoreboard heading is
 Scores, weekly recap calculations, 3PA/stat breakdowns, player identities, and
 all ingestion/persistence code are unchanged.
 
+Completed recap lineup entries also contain `weeklyStats`: actual played fantasy
+starts for that historical team/week, decoded cumulative box scores, one-decimal
+per-game averages, and shooting percentages from summed makes/attempts. The
+existing canonical weekly FPTS and lineup selection remain authoritative.
+Missing source fields propagate as null, including historical 3PA; zero attempts
+have no percentage. Home and Scoreboard render this through the same `Weekly`
+component, with stacked cards and one full-width player per row.
+
 ## Validation
 
 Use the same production source selection as the existing Pages workflow. Export
