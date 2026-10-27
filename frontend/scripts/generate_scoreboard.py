@@ -120,14 +120,18 @@ def attach_recaps(payload, output):
 
 def build(source, output):
     current = json.loads((source / 'currentLeague.json').read_text())
-    calendars = json.loads((source / 'seasonMetadata.json').read_text())['seasons']
+    metadata = json.loads((source / 'seasonMetadata.json').read_text())
+    calendars = metadata['seasons']
     mapping = read_csv(source / 'scoringPeriodMatchupMap.csv')
     from generate_fantasy_calendar import attach
     daily = read_csv(source / 'playerDailyData.csv')
     scheduled = attach(calendars, daily, mapping, output)
     payload = project(current, calendars, mapping, read_csv(source / 'basketballBrawlLeagueData.csv'), logo_config(), scheduled)
     # Enrich daily labels only; observed period membership and scores stay intact.
-    calendars = [dict(c, scheduledDates={d['period']: d['date'] for d in scheduled.get(c['season'], {}).get('days', [])}) for c in calendars]
+    calendars = [dict(c, scheduledDates={d['period']: d['date'] for d in scheduled.get(c['season'], {}).get('days', [])},
+                      scheduledDays=scheduled.get(c['season'], {}).get('days', [])) for c in calendars]
+    from generate_nba_schedule import build as build_nba_schedule
+    build_nba_schedule(metadata, current, calendars, payload, daily, output)
     from generate_matchup_details import build_details
     build_details(payload, calendars, current, mapping, daily, output)
     attach_recaps(payload, output)

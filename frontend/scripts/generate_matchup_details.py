@@ -5,6 +5,8 @@ independent of current roster membership. No scoring formula is recalculated.
 """
 from collections import defaultdict
 from datetime import date, timedelta
+import hashlib
+import json
 from build_homepage import number, raw_stats, write_json
 
 
@@ -12,83 +14,13 @@ def stable_key(teams):
     return '-'.join(str(t['teamId']) for t in sorted(teams, key=lambda t: t['teamId']))
 
 
-def potential_starts(players, slots):
-    """Maximum bipartite matching: one player per active slot per day."""
-    assigned = {}
-    def place(index, seen):
-        for slot, name in enumerate(slots):
-            if name not in players[index].get('eligibility', []) or slot in seen:
-                continue
-            seen.add(slot)
-            if slot not in assigned or place(assigned[slot], seen):
-                assigned[slot] = index
-                return True
-        return False
-    for index, player in enumerate(players):
-        if player.get('slot') not in ('IR', 'IR+', 'IL'):
-            place(index, set())
-    return len(assigned)
+from fantasyOpportunities import potential_starts, remaining as calculate_remaining
 
 
 def remaining_opportunities(current, calendar, week, team_id):
-    schedule = current.get('nbaSchedule')
-    result = {'games': None, 'potentialStarts': None, 'days': [], 'players': [],
-              'reason': 'Verified matchup end and NBA schedule are required.'}
-    # Observed endpoints never certify an unfinished matchup's end.
-    if week['state'] == 'final':
-        return dict(result, games=0, potentialStarts=0, reason='Matchup complete.')
-    roster = next((t.get('roster', []) for t in current['teams'] if t['teamId'] == team_id), [])
-    result['players'] = [{'playerId': p['playerId'], 'name': p['name'], 'slot': p.get('slot'), 'injuryStatus': p.get('injuryStatus'), 'games': None} for p in roster]
-    if not week.get('remainingOpportunitiesEnabled', False):
-        return dict(result, reason='Remaining games and potential starts are unavailable.')
-    # Calendar integration alone does not activate the experimental estimator.
-    # This flag is never published by the production exporter.
-    if week.get('dateRangeKind') != 'scheduled' or not schedule or not current.get('updatedAt'):
-        return result
-    if schedule.get('complete') is not True:
-        return dict(result, reason='NBA schedule is incomplete.')
-    from datetime import datetime
-    from zoneinfo import ZoneInfo
-    snapshot = datetime.fromisoformat(current['updatedAt'].replace('Z', '+00:00'))
-    team = next((t for t in current['teams'] if t['teamId'] == team_id), {})
-    if 'roster' not in team:
-        return dict(result, reason='Current roster is unavailable.')
-    result['players'] = []
-    by_period = defaultdict(list)
-    in_progress = defaultdict(set)
-    for player in team.get('roster', []):
-        games, seen = [], set()
-        for game in schedule.get('games', []):
-            if game['proTeamId'] != player.get('proTeamId') or game['id'] in seen:
-                continue
-            seen.add(game['id'])
-            p = int(game['period'])
-            if not week['firstPeriod'] <= p <= week['lastPeriod']:
-                continue
-            start = datetime.fromisoformat(game['start'].replace('Z', '+00:00'))
-            if start.astimezone(ZoneInfo('America/New_York')).date() != date.fromisoformat(calendar['dateAnchor']) + timedelta(days=p):
-                return dict(result, reason='NBA schedule dates disagree with the fantasy scoring-period calendar.')
-            if game['state'] == 'completed':
-                continue
-            if game['state'] == 'in-progress' or start <= snapshot:
-                in_progress[p].add(player['playerId'])
-                continue
-            by_period[p].append(player)
-            games.append(game)
-        result['players'].append({'playerId': player['playerId'], 'name': player['name'], 'slot': player.get('slot'), 'games': games})
-    if any(p.get('proTeamId') is None for p in team.get('roster', [])):
-        return dict(result, reason='NBA team identity is missing for a rostered player.')
-    for p in range(week['firstPeriod'], week['lastPeriod'] + 1):
-        day = (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=p)).isoformat()
-        if day < snapshot.astimezone(ZoneInfo('America/New_York')).date().isoformat():
-            continue
-        players = list({v['playerId']: v for v in by_period[p]}.values())
-        estimate = potential_starts(players, calendar['lineupSlots']) if current.get('lineupConstraints', {}).get('daily') is True else None
-        result['days'].append({'period': p, 'date': day, 'games': len(by_period[p]), 'potentialStarts': estimate, 'inProgress': len(in_progress[p])})
-    result['games'] = sum(d['games'] for d in result['days'])
-    result['potentialStarts'] = sum(d['potentialStarts'] for d in result['days']) if all(d['potentialStarts'] is not None for d in result['days']) else None
-    result['reason'] = 'Upper bound using current roster and eligible active slots; excludes IR and games already started. Health, future moves, locks and season game limits may reduce starts.'
-    return result
+    if week['state']=='final':
+        return {'games':0,'potentialStarts':0,'days':[],'players':[],'reason':'Matchup complete.'}
+    return calculate_remaining(current, calendar, week, team_id, current.get('nbaSchedule'))
 
 
 def matchup_detail(match, week, calendar, current, mapping, rows):
@@ -182,4 +114,17 @@ def build_details(payload, calendars, current, mapping, daily, output):
             path = f"matchups/{year}/{week['week']}.json"
             week['detailPath'] = path
             matches = [matchup_detail(m, week, calendar, current, period_map, by_week[week['week']]) for m in week['matchups']]
-            write_json(output / path, {'schemaVersion': 1, 'season': year, 'week': week['week'], 'updatedAt': payload['updatedAt'], 'matchups': matches})
+            result = {'schemaVersion': 1, 'season': year, 'week': week['week'], 'updatedAt': payload['updatedAt'], 'matchups': matches}
+            if week['state']=='final':
+                # Finished data has its own content identity. A new roster/NBA
+                # checkpoint must not rewrite every historical detail artifact.
+                result['updatedAt'] = None
+                result['detailVersion'] = hashlib.sha256(json.dumps(result,sort_keys=True).encode()).hexdigest()
+                week['detailVersion'] = result['detailVersion']
+            if year==current['season'] and week['state']!='final':
+                result['opportunitiesPath'] = 'matchup-opportunities.json'
+                for detail, match in zip(matches, week['matchups']):
+                    detail['teamIds'] = [t['teamId'] for t in match['teams']]
+            target = output / path
+            if not target.exists() or json.loads(target.read_text())!=result:
+                write_json(target, result)

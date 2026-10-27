@@ -55,13 +55,26 @@ def retry(call):
 
 class LeagueCache:
     """Reuse league construction, scoreboards, and daily boxes during one run."""
-    def __init__(self):
+    def __init__(self, schedule_provider=None):
         self.leagues = {}
+        self.schedule_provider = schedule_provider
 
     def __call__(self, league_id, year, **kwargs):
         year = int(year)
         if year not in self.leagues:
-            league = retry(lambda: League(league_id=league_id, year=year, **kwargs))
+            def construct():
+                league = League(league_id=league_id, year=year, fetch_league=False, **kwargs)
+                if self.schedule_provider:
+                    league.espn_request.get_pro_schedule = lambda: self.schedule_provider(year)
+                original = league.espn_request.get_pro_players
+                def players():
+                    rows = original()
+                    league._brawl_affiliations = {str(p['id']):p.get('proTeamId') for p in rows}
+                    return rows
+                league.espn_request.get_pro_players = players
+                league.fetch_league()
+                return league
+            league = retry(construct)
             for name in ('box_scores', 'scoreboard'):
                 method = getattr(league, name)
                 cache = {}
@@ -88,7 +101,7 @@ def atomic_json(payload, path):
 
 def current_calendar(league, daily, previous, refresh_from=None):
     """Store allowlisted settings and observed boundaries, never invent future weeks."""
-    raw = retry(lambda: league.espn_request.league_get(params={'view': ['mSettings', 'mMatchupScore', 'mTeam']}))
+    raw = retry(lambda: league.espn_request.league_get(params={'view': ['mSettings', 'mMatchupScore', 'mTeam', 'mRoster']}))
     league._brawl_raw = raw
     year = int(league.year)
     old = next((s for s in previous['seasons'] if int(s['season']) == year), None)
@@ -170,10 +183,26 @@ def live_rosters(league):
                 'eligibility': list(p.eligibleSlots)} for p in t.roster]} for t in league.teams]}
 
 
-def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False):
+def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False, force_nba_refresh=False):
     started = time.monotonic()
     swid, s2 = require_espn_credentials()
-    factory = LeagueCache()
+    data_dir = Path(data_dir).resolve()
+    metadata_path = data_dir / 'seasonMetadata.json'
+    metadata = json.loads((metadata_path if metadata_path.exists() else ROOT / 'frontend/source/season-metadata.json').read_text())
+    from nbaSchedule import refresh as refresh_nba, wrapper_schedule, recent_status
+    schedules = dict(metadata.get('nbaSchedules', {}))
+    resolved_schedules = {}
+    schedule_active_year = []
+    def schedule_provider(season):
+        if season not in resolved_schedules:
+            if not schedule_active_year:
+                schedule_active_year.append(season)
+            schedules[str(season)] = refresh_nba(schedules.get(str(season)), season,
+                datetime.now(timezone.utc), force=force_nba_refresh and season==schedule_active_year[0],
+                parser_only=season<schedule_active_year[0])
+            resolved_schedules[season] = wrapper_schedule(schedules[str(season)])
+        return resolved_schedules[season]
+    factory = LeagueCache(schedule_provider=schedule_provider)
     def get(year):
         return factory(609694684, year, espn_s2=s2, swid=swid)
     now = datetime.now(ZoneInfo('America/New_York'))
@@ -187,9 +216,6 @@ def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False):
     if not complete:
         print(f'ESPN {year} draft is incomplete; saved canonical snapshots retained.')
         return []
-    data_dir = Path(data_dir).resolve()
-    metadata_path = data_dir / 'seasonMetadata.json'
-    metadata = json.loads((metadata_path if metadata_path.exists() else ROOT / 'frontend/source/season-metadata.json').read_text())
     before = {name: pd.read_csv(data_dir / name) for name in KEYS}
     before['playerDailyData.csv'] = with_raw_three_point_attempts(before['playerDailyData.csv'])
     validate_player_daily_data(before['playerDailyData.csv'], source='existing canonical')
@@ -262,6 +288,10 @@ def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False):
             mapping=build_scoring_period_map({'seasons': [calendar]}).to_dict('records'),
             through=available_scoring_period(active), now=now,
             force=force_calendar_refresh)
+        from espnFantasyCalendar import verified
+        if str(year) in schedules:
+            schedules[str(year)] = recent_status(schedules[str(year)], now, verified(calendar))
+            metadata['nbaSchedules'] = schedules
         has_activity = bool((before['activityData.csv']['Year'] == year).any())
         activity, _, report = retry(lambda: build_activity_candidate(before['activityData.csv'], active, year,
             pd.read_csv(stage / 'activityTradeSupplement.csv'),
@@ -273,7 +303,10 @@ def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False):
         snapshot = live_rosters(active)
         from matchupSchedule import enrich_roster_snapshot
         try:
-            snapshot = retry(lambda: enrich_roster_snapshot(active, snapshot, active._brawl_raw, now))
+            previous_snapshot_path = data_dir / 'currentLeague.json'
+            previous_rosters = json.loads(previous_snapshot_path.read_text()) if previous_snapshot_path.exists() else None
+            snapshot = retry(lambda: enrich_roster_snapshot(active, snapshot, active._brawl_raw, now,
+                schedule=schedules.get(str(year)), previous=previous_rosters))
         except RuntimeError:
             # Optional schedule availability must not prevent canonical scoring updates.
             snapshot['nbaSchedule'] = {'complete': False, 'games': [], 'reason': 'ESPN NBA schedule unavailable'}
@@ -327,9 +360,10 @@ if __name__ == '__main__':
     parser.add_argument('--write', action='store_true')
     parser.add_argument('--force-calendar-refresh', action='store_true',
                         help='Bypass the persistent 24-hour calendar refresh/cooldown once')
+    parser.add_argument('--force-nba-refresh', action='store_true', help='Refresh the full NBA fixture cache once, bypassing cooldown')
     args = parser.parse_args()
     try:
-        run(args.data_dir, args.write, args.force_calendar_refresh)
+        run(args.data_dir, args.write, args.force_calendar_refresh, args.force_nba_refresh)
     except Exception as error:
         # Never dump authenticated library exceptions or request details.
         print(f'Update failed: {type(error).__name__}', file=sys.stderr)

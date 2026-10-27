@@ -1,6 +1,6 @@
 import copy
 import unittest
-from generate_matchup_details import matchup_detail, potential_starts, remaining_opportunities, stable_key
+from generate_matchup_details import matchup_detail, potential_starts, remaining_opportunities, stable_key, build_details
 
 
 class DetailTests(unittest.TestCase):
@@ -96,19 +96,40 @@ class DetailTests(unittest.TestCase):
         self.rows.append(self.rows[0])
         with self.assertRaisesRegex(ValueError,'Duplicate'):self.detail()
 
+    def test_finished_detail_content_is_stable_across_schedule_checkpoints(self):
+        import tempfile
+        from pathlib import Path
+        calendar=dict(self.calendar,season=2026)
+        week=dict(self.week,matchups=[self.match])
+        rows=[dict(r,Year=2026)for r in self.rows]
+        mapping=[{'Year':2026,'Scoring Period':p,'Week':1}for p in (1,2,3)]
+        payload={'updatedAt':'first','seasons':[{'season':2026,'weeks':[week]}]}
+        with tempfile.TemporaryDirectory() as directory:
+            out=Path(directory);build_details(payload,[calendar],self.current,mapping,rows,out)
+            target=out/'matchups/2026/1.json';original=target.read_bytes();version=week['detailVersion']
+            payload['updatedAt']='later NBA update';build_details(payload,[calendar],self.current,mapping,rows,out)
+            self.assertEqual(target.read_bytes(),original);self.assertEqual(week['detailVersion'],version)
+            rows[0]['FPTS']+=1;self.match['actualScores'][0]+=1
+            build_details(payload,[calendar],self.current,mapping,rows,out)
+            self.assertNotEqual(week['detailVersion'],version)
+
 
 class RemainingTests(unittest.TestCase):
     def setUp(self):
-        self.week={'remainingOpportunitiesEnabled':True,'state':'current','dateRangeKind':'scheduled','firstPeriod':7,'lastPeriod':10}
-        self.calendar={'dateAnchor':'2026-10-19','lineupSlots':['PG']}
-        self.current={'updatedAt':'2026-10-26T16:00:00Z','lineupConstraints':{'daily':True},
+        from datetime import date,timedelta
+        self.week={'week':2,'state':'current','dateRangeKind':'scheduled','firstPeriod':7,'lastPeriod':10,'start':'2026-10-26','end':'2026-10-29'}
+        self.calendar={'season':2027,'lineupSlots':['PG'],'scheduledDays':[{'period':p,'week':2,'date':(date(2026,10,19)+timedelta(days=p)).isoformat()}for p in range(7,11)]}
+        fixtures=[]
+        for gid,p,hour,status in [(1,7,12,'completed'),(2,7,15,'unknown'),(3,8,23,'scheduled'),(4,10,23,'scheduled'),(5,11,23,'scheduled')]:
+            day=(date(2026,10,19)+timedelta(days=p)).isoformat()
+            fixtures.append({'id':gid,'home':1,'away':2,'period':p,'date':day,'start':f'{day}T{hour:02d}:00:00Z','status':status,'regularSeason':True,'timeTBD':False})
+        self.current={'updatedAt':'2026-10-26T16:00:00Z','lineupConstraints':{'daily':True,'rosterLock':'FIRSTGAME_SCORINGPERIOD','slotStatLimits':{}},
                       'teams':[{'teamId':1,'roster':[{'playerId':1,'name':'One','proTeamId':1,'eligibility':['PG']},{'playerId':2,'name':'Two','proTeamId':1,'eligibility':['PG']}]}],
-                      'nbaSchedule':{'complete':True,'games':[
-                          {'id':1,'proTeamId':1,'period':7,'start':'2026-10-26T12:00:00Z','state':'completed'},
-                          {'id':2,'proTeamId':1,'period':7,'start':'2026-10-26T15:00:00Z','state':'started-unconfirmed'},
-                          {'id':3,'proTeamId':1,'period':8,'start':'2026-10-27T23:00:00Z','state':'scheduled'},
-                          {'id':4,'proTeamId':1,'period':10,'start':'2026-10-29T23:00:00Z','state':'scheduled'},
-                          {'id':5,'proTeamId':1,'period':11,'start':'2026-10-30T23:00:00Z','state':'scheduled'}]}}
+                      'nbaSchedule':{'season':2027,'publishedComplete':True,'verifiedAt':'2026-10-26T12:00:00Z',
+                          'teams':[{'id':t}for t in (1,2,9)],'rules':{'expectedTeamGames':5,'cupWindow':['2026-12-04','2026-12-10']},'fixtures':fixtures}}
+
+        for p in self.current['teams'][0]['roster']:
+            p.update(nbaTeamSince='2026-10-20T00:00:00Z',rosterSince='2026-10-20T00:00:00Z')
 
     def result(self):return remaining_opportunities(self.current,self.calendar,self.week,1)
 
@@ -117,11 +138,11 @@ class RemainingTests(unittest.TestCase):
         self.assertEqual(result['games'],4)
         self.assertEqual(result['potentialStarts'],2)
         self.assertEqual([d['games'] for d in result['days']],[0,2,0,2])
-        self.assertEqual(result['days'][0]['inProgress'],2)
-        self.assertEqual(len(result['players'][0]['games']),2)
+        self.assertEqual(result['startedUnconfirmed'],2)
+        self.assertEqual(len(result['players'][0]['gameIds']),2)
 
     def test_dedup_ir_and_zero_game_roster_members(self):
-        self.current['nbaSchedule']['games'].append(copy.deepcopy(self.current['nbaSchedule']['games'][2]))
+        self.current['nbaSchedule']['fixtures'].append(copy.deepcopy(self.current['nbaSchedule']['fixtures'][2]))
         self.current['teams'][0]['roster'][0]['slot']='IR'
         self.assertEqual(self.result()['games'],4)
         self.assertEqual(self.result()['potentialStarts'],2)
@@ -134,9 +155,9 @@ class RemainingTests(unittest.TestCase):
             self.week['dateRangeKind']=kind
             self.assertIsNone(self.result()['games'])
         self.week['dateRangeKind']='scheduled'
-        self.current['nbaSchedule']['complete']=False
+        self.current['nbaSchedule']['publishedComplete']=False
         self.assertIsNone(self.result()['games'])
-        self.current['nbaSchedule']['complete']=True
+        self.current['nbaSchedule']['publishedComplete']=True
         self.current['lineupConstraints']['daily']=False
         self.assertIsNone(self.result()['potentialStarts'])
         self.current['teams'][0]['roster'][0].pop('proTeamId')

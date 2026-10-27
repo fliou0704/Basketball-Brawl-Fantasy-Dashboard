@@ -1,3 +1,4 @@
+import {loadOpportunities} from './nba-schedule.js';
 export const matchupStatus = {final:'Final', current:'In progress', future:'Not started', bye:'Bye', 'opponent-unavailable':'Opponent unavailable', unavailable:'Final score unavailable'};
 export function scoreboardRoute(route) {
   const match = route.match(/^#\/?scoreboard(?:\?(.*))?$/);
@@ -31,10 +32,35 @@ export async function loadScoreboard(base, fetcher = fetch) {
 
 export function matchupKey(match) { return match.teams.map(t=>t.teamId).sort((a,b)=>a-b).join('-'); }
 export function matchupLink(season, week, match) { return `${scoreboardLink(season,week)}&match=${matchupKey(match)}`; }
-export async function loadMatchupWeek(base, path, updatedAt, fetcher=fetch) {
+export async function loadMatchupWeek(base, path, updatedAt, fetcher=fetch, detailVersion=null) {
   const response=await fetcher(`${base}data/${path}`,{cache:'no-cache'});
   if(!response.ok) throw new Error('Matchup details unavailable');
   const data=await response.json();
-  if(data.schemaVersion!==1 || data.updatedAt!==updatedAt) throw new Error('Matchup snapshot changed; refresh the scoreboard.');
+  if(data.schemaVersion!==1 || (detailVersion ? data.detailVersion!==detailVersion : data.updatedAt!==updatedAt)) throw new Error('Matchup snapshot changed; refresh the scoreboard.');
+  if(data.opportunitiesPath) {
+    try {
+    const {opportunities,schedule}=await loadOpportunities(base,data.opportunitiesPath,updatedAt,fetcher);
+    const games=new Map(schedule.fixtures.map(g=>[g.id,g]));
+    const names=new Map(schedule.teams.map(t=>[t.id,t.abbrev]));
+    for(const match of data.matchups) {
+      match.scheduleVerifiedAt=opportunities.verifiedAt;
+      match.opportunitiesUpdatedAt=opportunities.updatedAt;
+      match.remaining=match.teamIds.map(id=>{
+        const result=opportunities.weeks[String(data.week)]?.[String(id)];
+        if(!result) throw new Error('Matchup opportunities unavailable');
+        return {...result,players:result.players.map(p=>({...p,games:p.gameIds==null?null:p.gameIds.map(gid=>{
+          const g=games.get(gid);if(!g) throw new Error('Schedule snapshot changed');
+          return {...g,opponent:names.get(g.home===p.proTeamId?g.away:g.home)};
+        })}))};
+      });
+    }
+    } catch {
+      // Optional schedule failures must not hide canonical actual scores.
+      for(const match of data.matchups) {
+        match.scheduleError='Remaining schedule unavailable. Reload to try the latest schedule.';
+        match.remaining=match.remaining.map(r=>({...r,games:null,potentialStarts:null,days:[],players:[],reason:match.scheduleError}));
+      }
+    }
+  }
   return data;
 }
