@@ -92,6 +92,28 @@ class DetailTests(unittest.TestCase):
         self.assertTrue(d['days'][-1]['partial'])
         self.assertEqual(d['insights']['comebacks'],[0,5])
 
+    def test_recorded_daily_lineup_preserves_real_slots_bench_ir_and_team_membership(self):
+        self.rows += [self.row(1,1,44,100,'BE'), self.row(1,2,55,80,'IR'), self.row(2,2,11,4,'PG')]
+        detail=self.detail()
+        first=detail['days'][0]
+        self.assertEqual(first['lineupCoverage'], 'recorded-games-only')
+        bench=next(p for p in first['lineup'] if p['playerId']==44)
+        self.assertFalse(bench['eligible']);self.assertEqual(bench['points'],0);self.assertEqual(bench['gamePoints'],100)
+        self.assertEqual(next(p for p in first['lineup'] if p['playerId']==55)['slot'],'IR')
+        self.assertEqual(next(p for p in detail['days'][1]['lineup'] if p['playerId']==11)['teamId'],2)
+        summary=detail['summaryLineup']
+        self.assertEqual(sum(p['points'] for p in summary if p['teamId']==1),15)
+        self.assertEqual(sum(p['points'] for p in summary if p['teamId']==2),19)
+        self.assertEqual((detail['awayTeamId'],detail['homeTeamId']),(2,1))
+
+    def test_verified_calendar_exports_upcoming_dates_without_lineups_or_scores(self):
+        self.week['state']='current'
+        self.calendar['scheduledDays']=[{'period':p,'week':1,'date':f'2026-10-{19+p}'} for p in range(1,6)]
+        detail=self.detail()
+        self.assertEqual(len(detail['calendarDays']),5)
+        self.assertTrue(detail['calendarDays'][-1]['future'])
+        self.assertEqual(len(detail['days']),3)
+
     def test_duplicate_daily_rows_fail(self):
         self.rows.append(self.rows[0])
         with self.assertRaisesRegex(ValueError,'Duplicate'):self.detail()

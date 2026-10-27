@@ -23,11 +23,13 @@ def remaining_opportunities(current, calendar, week, team_id):
     return calculate_remaining(current, calendar, week, team_id, current.get('nbaSchedule'))
 
 
-def matchup_detail(match, week, calendar, current, mapping, rows):
+def matchup_detail(match, week, calendar, current, mapping, rows, player_metadata=None):
     ids = [t['teamId'] for t in match['teams']]
     periods = sorted(p for p, w in mapping.items() if w == week['week'] and (calendar['season'] != current['season'] or p <= current['scoringPeriod'])) if week['state'] != 'future' else []
     source_match = next((m for m in calendar['matchups'] if str(m['id']) == str(match['id'])), {})
     explicit = {s['teamId']: s['pointsByPeriod'] for s in source_match.get('sides', [])}
+    player_metadata = player_metadata or {}
+    lineup_records = defaultdict(list)
     groups = defaultdict(list)
     seen = set()
     for r in rows:
@@ -35,8 +37,15 @@ def matchup_detail(match, week, calendar, current, mapping, rows):
         if key in seen:
             raise ValueError('Duplicate canonical daily player key')
         seen.add(key)
-        if key[0] in periods and key[1] in ids and r['Player Slot'] in calendar['lineupSlots']:
-            groups[(key[0], key[1])].append(r)
+        if key[0] in periods and key[1] in ids:
+            active = r['Player Slot'] in calendar['lineupSlots']
+            positions = [r.get(k) for k in ('Position', 'Position2', 'Position3') if r.get(k)]
+            lineup_records[key[0]].append({'teamId': key[1], 'playerId': key[2], 'name': r['Player Name'],
+                'slot': r['Player Slot'], 'positions': positions, 'eligible': active,
+                'points': number(r['FPTS']) if active else 0, 'gamePoints': number(r['FPTS']),
+                'played': number(r['MIN']) > 0})
+            if active:
+                groups[(key[0], key[1])].append(r)
     days, players, totals, valid = [], {}, [0.0] * len(ids), [True] * len(ids)
     starts = [0] * len(ids)
     daily_consistent = True
@@ -65,7 +74,7 @@ def matchup_detail(match, week, calendar, current, mapping, rows):
                 if played or number(r['FPTS']):
                     contributors.append(dict(game, teamId=team, playerId=pid, name=r['Player Name']))
         days.append({'period': period, 'date': calendar.get('scheduledDates', {}).get(period) or (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=period)).isoformat(),
-                     'partial': week['state'] == 'current' and period == current['scoringPeriod'], 'points': points, 'cumulative': [round(totals[i], 4) if valid[i] else None for i in range(len(ids))], 'contributors': contributors})
+                     'lineup': lineup_records[period], 'lineupCoverage': 'recorded-games-only', 'partial': week['state'] == 'current' and period == current['scoringPeriod'], 'points': points, 'cumulative': [round(totals[i], 4) if valid[i] else None for i in range(len(ids))], 'contributors': contributors})
     scores = match['actualScores']
     reconciled = bool(days and daily_consistent and periods == list(range(periods[0], periods[-1]+1)) and scores is not None and all(valid) and all(abs(a-b) < .01 for a,b in zip(totals,scores)))
     insight = None
@@ -93,13 +102,44 @@ def matchup_detail(match, week, calendar, current, mapping, rows):
         roster = next((t['roster'] for t in current['teams'] if t['teamId'] == p['teamId']), [])
         p['currentRoster'] = any(r['playerId'] == p['playerId'] for r in roster) if calendar['season'] == current['season'] and week['state'] == 'current' else None
         p['perStart'] = p['points']/p['starts'] if p['starts'] else None
-    return {'key': stable_key(match['teams']), 'days': days, 'players': sorted(players.values(), key=lambda p: -p['points']),
+    # No full-roster snapshots are persisted: players without game stats can be absent.
+    # Keep those unknown slots explicit rather than substituting today's roster.
+    summary = {}
+    for entries in lineup_records.values():
+        for entry in entries:
+            group = 'starters' if entry['eligible'] else 'reserves'
+            key = (entry['teamId'], entry['playerId'], group)
+            player = summary.setdefault(key, dict(entry, points=0, gamePoints=0, starts=0, slots=[]))
+            player['points'] += entry['points']
+            player['gamePoints'] += entry['gamePoints']
+            player['starts'] += int(entry['eligible'] and entry['played'])
+            if entry['slot'] not in player['slots']:
+                player['slots'].append(entry['slot'])
+    # Metadata NBA affiliation is current, never advertised as historical game-day identity.
+    for entry in [p for entries in lineup_records.values() for p in entries] + list(summary.values()):
+        meta = player_metadata.get(entry['playerId'], {})
+        entry['nbaTeam'] = meta.get('NBA Team Name') or None
+        entry['nbaTeamKind'] = 'current-profile' if entry['nbaTeam'] else 'unavailable'
+    calendar_days = calendar.get('scheduledDays', [])
+    dates = [{'period': int(d['period']), 'date': d['date'],
+              'future': week['state']=='future' or (calendar['season']==current['season'] and int(d['period'])>current['scoringPeriod'])}
+             for d in calendar_days if int(d['week'])==week['week']]
+    if not dates:
+        dates = [{'period': d['period'], 'date': d['date'], 'future': False} for d in days]
+    home = match.get('homeTeamId')
+    away = match.get('awayTeamId')
+    if home is None and len(source_match.get('sides', []))==2:
+        home, away = [s['teamId'] for s in source_match['sides']]
+    return {'homeTeamId': home, 'awayTeamId': away, 'calendarDays': dates,
+            'lineupSlots': calendar['lineupSlots'], 'summaryLineup': list(summary.values()),
+            'key': stable_key(match['teams']), 'days': days, 'players': sorted(players.values(), key=lambda p: -p['points']),
             'completedStarts': starts, 'reconciled': reconciled, 'insights': insight,
             'coverage': 'Daily totals reconcile to the scoreboard snapshot.' if reconciled else 'Daily history is incomplete or differs from the scoreboard snapshot. Cumulative totals may be partial; insights are withheld.',
             'remaining': [remaining_opportunities(current, calendar, week, t) for t in ids]}
 
 
-def build_details(payload, calendars, current, mapping, daily, output):
+def build_details(payload, calendars, current, mapping, daily, output, metadata=None):
+    player_metadata = {int(r['ESPN Player ID']): r for r in metadata or []}
     by_season = defaultdict(list)
     for row in daily:
         by_season[int(row['Year'])].append(row)
@@ -113,7 +153,7 @@ def build_details(payload, calendars, current, mapping, daily, output):
         for week in season['weeks']:
             path = f"matchups/{year}/{week['week']}.json"
             week['detailPath'] = path
-            matches = [matchup_detail(m, week, calendar, current, period_map, by_week[week['week']]) for m in week['matchups']]
+            matches = [matchup_detail(m, week, calendar, current, period_map, by_week[week['week']], player_metadata) for m in week['matchups']]
             result = {'schemaVersion': 1, 'season': year, 'week': week['week'], 'updatedAt': payload['updatedAt'], 'matchups': matches}
             if week['state']=='final':
                 # Finished data has its own content identity. A new roster/NBA

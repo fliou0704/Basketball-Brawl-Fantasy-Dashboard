@@ -2,13 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Header, getData } from './App';
 import { Card, PageHeader, PageShell, Section, TableCard } from './components/Layout';
 import { nextExpandedId } from './site-data';
-import PlayerIdentity from './components/PlayerIdentity';
+import { TeamMark, PlayerSide, PlayerSides } from './components/H2HBreakdown';
 import './historical-h2h.css';
-
-const base = import.meta.env.BASE_URL;
-function TeamMark({ team, size = 48 }) {
-  return team ? <img src={`${base}${team.logo}`} width={size} height={size} alt={`${team.teamName} logo`}/> : <span className="h2h-logo-placeholder" aria-hidden="true"/>;
-}
 
 function MatchupSelector({ teams, first, second, setFirst, setSecond }) {
   const selected = [teams.find(t=>String(t.teamId)===first), teams.find(t=>String(t.teamId)===second)];
@@ -18,13 +13,9 @@ function MatchupSelector({ teams, first, second, setFirst, setSecond }) {
   </React.Fragment>)}</Card>;
 }
 
-function PlayerSide({ team, players }) {
-  return <div className="player-side" style={{'--side-color':team.color}}><header><TeamMark team={team}/><div><span>{team.teamName}</span><strong>{Math.round(players.reduce((sum,p)=>sum+(p.fpts||0),0))} FPTS</strong></div></header><div className="player-list">{players.map((p,index)=><div className="player-row" key={`${p.name}-${index}`}><strong><PlayerIdentity playerId={p.playerId} name={p.name}/></strong><span>{p.fpts==null?'—':Math.round(p.fpts)} FPTS</span></div>)}</div></div>;
-}
-
 function MatchupDetails({ details, teams }) {
   const sides=details.teamIds.map((id,index)=>({team:teams.find(t=>t.teamId===id)||{teamId:id,teamName:details.teams[index],color:'#666',logo:'logos/defaultLogo.png'},players:details.players[index]}));
-  return <div className="matchup-details" aria-label={`Player breakdown for ${details.year}, week ${details.week}`}><div className="details-heading"><strong>Player breakdown</strong><span>{details.year} · Week {details.week}</span></div><div className="player-sides">{sides.map(side=><PlayerSide key={side.team.teamId} {...side}/>)}</div></div>;
+  return <div className="matchup-details" aria-label={`Player breakdown for ${details.year}, week ${details.week}`}><div className="details-heading"><strong>Player breakdown</strong><span>{details.year} · Week {details.week}</span></div><PlayerSides>{sides.map(side=><PlayerSide key={side.team.teamId} {...side}/>)}</PlayerSides></div>;
 }
 
 function ResultRecord({ mode, view, teams, record }) {

@@ -75,7 +75,7 @@ def project(current, calendars, mapping, league, config, scheduled=None):
                 elif not single and state == 'current':
                     scores = [sum(float(v) for p,v in side['pointsByPeriod'].items() if int(p) <= period and period_map.get(int(p)) == selected) for side in sides]
                 winner = ids[scores.index(max(scores))] if state == 'final' and scores and scores[0] != scores[1] else None
-                matches.append({'id': match['id'], 'teams': [identities[t] for t in ids], 'bye': bye,
+                matches.append({'id': match['id'], 'homeTeamId': ids[0] if len(ids)==2 else None, 'awayTeamId': ids[1] if len(ids)==2 else None, 'teams': [identities[t] for t in ids], 'bye': bye,
                                 'status': 'bye' if bye else 'opponent-unavailable' if single else state if scores is not None or state == 'future' else 'unavailable',
                                 'actualScores': scores, 'scoreDisplay': list(map(display, scores)) if scores is not None else None,
                                 'winnerId': winner})
@@ -94,7 +94,7 @@ def project(current, calendars, mapping, league, config, scheduled=None):
                     if not opponent and not bye:
                         continue
                     scores = [float(results[i]['Points For']) for i in ids] if not bye else None
-                    matches.append({'id': f'archive-{t}', 'teams': [identities[i] for i in ids], 'bye': bye,
+                    matches.append({'id': f'archive-{t}', 'homeTeamId': next((i for i in ids if results[i].get('Home/Away')=='Home'), None), 'awayTeamId': next((i for i in ids if results[i].get('Home/Away')=='Away'), None), 'teams': [identities[i] for i in ids], 'bye': bye,
                                     'status': 'bye' if bye else 'final', 'actualScores': scores,
                                     'scoreDisplay': list(map(display,scores)) if scores else None,
                                     'winnerId': ids[scores.index(max(scores))] if scores and scores[0] != scores[1] else None})
@@ -133,7 +133,7 @@ def build(source, output):
     from generate_nba_schedule import build as build_nba_schedule
     build_nba_schedule(metadata, current, calendars, payload, daily, output)
     from generate_matchup_details import build_details
-    build_details(payload, calendars, current, mapping, daily, output)
+    build_details(payload, calendars, current, mapping, daily, output, read_csv(source / 'playerMetadata.csv'))
     attach_recaps(payload, output)
     write_json(output / 'scoreboard.json', payload)
 

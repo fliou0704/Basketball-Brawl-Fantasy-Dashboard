@@ -39,14 +39,14 @@ export default function ScoreboardPage({requested}) {
   const next=view && adjacentWeek(data,view.season.season,view.selected.week,1);
   const selected=view?.selected;
   return <><a className="skip" href="#scoreboard" onClick={event=>{event.preventDefault();const main=document.getElementById('scoreboard');main.setAttribute('tabindex','-1');main.focus();}}>Skip to content</a><Header active="scoreboard"/><PageShell id="scoreboard" className="scoreboard-page">
-    <PageHeader title="Scoreboard" meta={view && `${view.season.season} · Week ${selected.week}`}/>
+    {!requested.match && <PageHeader title="Scoreboard" meta={view && `${view.season.season} · Week ${selected.week}`}/>}
     {!data ? <p role={failed?'alert':'status'}>{failed?'Scoreboard unavailable. Please reload to try again.':'Loading scoreboard…'}</p> : <>
-      <div className="scoreboard-controls" aria-label="Scoreboard selection">
+      {!requested.match && <div className="scoreboard-controls" aria-label="Scoreboard selection">
         <label>Season<select aria-label="Season" value={view?.season.season ?? ''} onChange={event=>{const season=Number(event.target.value);const target=selectScoreboard(data,{season});if(target)go(season,target.selected.week);}}><option value="" disabled>Select season</option>{[...data.seasons].reverse().map(s=><option key={s.season} value={s.season}>{s.season}</option>)}</select></label>
         <label>Week<select aria-label="Week" value={selected?.week ?? ''} disabled={!view} onChange={event=>go(view.season.season,Number(event.target.value))}><option value="" disabled>Select week</option>{view?.season.weeks.map(w=><option key={w.week} value={w.week}>Week {w.week}{w.phase==='playoffs'?' · Playoffs':''}{w.start&&w.end?` · ${formatCalendarRange(w.start,w.end)}`:''}</option>)}</select></label>
         <div className="scoreboard-arrows"><button aria-label="Previous week" disabled={!previous} onClick={()=>go(previous.season,previous.week)}>←</button><button aria-label="Next week" disabled={!next} onClick={()=>go(next.season,next.week)}>→</button></div>
         <button onClick={()=>go(data.current.season,data.current.week)}>Current week</button>
-      </div>
+      </div>}
       {failed && <p role="status">Refresh failed. Showing the last loaded snapshot.</p>}
       {!view ? <Card><p role="status">This season or week is unavailable. Choose a season or return to the current week.</p></Card> : <>{requested.match ? <MatchupDetail key={`${view.season.season}-${selected.week}-${requested.match}`} season={view.season.season} week={selected} match={selected.matchups.find(m=>matchupKey(m)===requested.match)} updatedAt={data.updatedAt}/> : <><Section title={`Week ${selected.week}${selected.phase==='playoffs'?' · Playoffs':''}`} meta={`${view.season.season} · ${matchupStatus[selected.state]}`}>
         <ScoreboardContext selected={selected} current={data.current} updatedAt={data.updatedAt}/>
