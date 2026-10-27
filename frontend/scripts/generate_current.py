@@ -3,6 +3,7 @@ import json
 import pandas as pd
 
 from build_homepage import logo_config, team_info, write_json
+from teamPerformance import combine_performance
 
 
 def build(source, output):
@@ -69,6 +70,12 @@ def build(source, output):
             season = {'rankings': [{'label': k, 'rank': None, 'rankImage': None, 'relativePercent': None, 'value': 'N/A'} for k in STAT_LABELS],
                       'weeklyPerformance': None, 'physicals': []}
         payload['seasons'][year] = dict(season, roster=roster, snapshot=snapshot)
+        payload['summary']['performance'] = combine_performance(
+            item.get('performance', {}).get('season', {
+                'available': False, 'starts': None,
+                'fpts': item.get('snapshot', {}).get('pointsFor', 0),
+            }) for item in payload['seasons'].values() if item is not None
+        )
         if identity['teamId'] in rankings:
             payload['seasons'][year]['rankings'] = rankings[identity['teamId']]
             payload['seasons'][year]['weeklyPerformance'] = weekly_performance(daily_weekly, identity['teamId'], int(year))
