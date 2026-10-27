@@ -14808,7 +14808,7 @@
     },
     {
       "benchSlots": 5,
-      "calendarThrough": "2026-10-26",
+      "calendarThrough": "2026-10-27",
       "dateAnchor": "2026-10-19",
       "finalPeriod": 167,
       "firstPeriod": 1,
@@ -14970,13 +14970,15 @@
           "sides": [
             {
               "pointsByPeriod": {
-                "7": 44.0
+                "7": 129.0,
+                "8": 0.0
               },
               "teamId": 13
             },
             {
               "pointsByPeriod": {
-                "7": 67.0
+                "7": 217.0,
+                "8": 0.0
               },
               "teamId": 5
             }
@@ -14988,13 +14990,15 @@
           "sides": [
             {
               "pointsByPeriod": {
-                "7": 54.0
+                "7": 239.0,
+                "8": 0.0
               },
               "teamId": 17
             },
             {
               "pointsByPeriod": {
-                "7": 61.0
+                "7": 306.0,
+                "8": 0.0
               },
               "teamId": 1
             }
@@ -15006,13 +15010,15 @@
           "sides": [
             {
               "pointsByPeriod": {
-                "7": 43.0
+                "7": 240.0,
+                "8": 0.0
               },
               "teamId": 16
             },
             {
               "pointsByPeriod": {
-                "7": 41.0
+                "7": 205.0,
+                "8": 0.0
               },
               "teamId": 10
             }
@@ -15024,13 +15030,15 @@
           "sides": [
             {
               "pointsByPeriod": {
-                "7": 64.0
+                "7": 368.0,
+                "8": 0.0
               },
               "teamId": 2
             },
             {
               "pointsByPeriod": {
-                "7": 72.0
+                "7": 275.0,
+                "8": 0.0
               },
               "teamId": 7
             }
@@ -15042,13 +15050,15 @@
           "sides": [
             {
               "pointsByPeriod": {
-                "7": 54.0
+                "7": 169.0,
+                "8": 0.0
               },
               "teamId": 8
             },
             {
               "pointsByPeriod": {
-                "7": 31.0
+                "7": 221.0,
+                "8": 0.0
               },
               "teamId": 12
             }
@@ -16404,9 +16414,9 @@
           "week": 1
         },
         {
-          "end": "2026-10-26",
+          "end": "2026-10-27",
           "firstPeriod": 7,
-          "lastPeriod": 7,
+          "lastPeriod": 8,
           "start": "2026-10-26",
           "week": 2
         }
