@@ -38,3 +38,14 @@ class TeamPerformanceTests(unittest.TestCase):
         self.assertIsNone(combine_performance([])['fpPerStart'])
         self.assertEqual(combine_performance([{'available':True,'fpts':20,'starts':1},
                                               {'available':True,'fpts':90,'starts':3}])['fpPerStart'],27.5)
+
+    def test_zero_scoring_played_start_still_counts(self):
+        rows = pd.DataFrame([{'Year':2026,'Scoring Period':1,'Team ID':7,'Player ID':1,
+                              'Player Slot':'PG','MIN':10,'FPTS':0}])
+        mapping = pd.DataFrame([{'Year':2026,'Scoring Period':1,'Week':1}])
+        metadata = {'seasons':[{'season':2026,'lineupSlots':['PG']}]}
+        league = pd.DataFrame([{'Year':2026,'Week':1,'Team ID':7,'Points For':0}])
+        metric = team_performance(rows,mapping,metadata,league)[(2026,7)]['season']
+        self.assertEqual((metric['starts'],metric['fpPerStart']),(1,0))
+        duplicated = team_performance(pd.concat([rows,rows]),mapping,metadata,league)
+        self.assertFalse(duplicated[(2026,7)]['season']['available'])

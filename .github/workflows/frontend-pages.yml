@@ -14,6 +14,7 @@ on:
       - 'data/scoringPeriodMatchupMap.csv'
       - 'data/currentLeague.json'
       - 'dataStore.py'
+      - 'teamPerformance.py'
       - 'assets/logos/**'
       - 'assets/placements/**'
       - '.github/workflows/frontend-pages.yml'
