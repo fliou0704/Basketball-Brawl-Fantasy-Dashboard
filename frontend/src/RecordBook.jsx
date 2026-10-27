@@ -26,6 +26,7 @@ function Record({ record }) {
 
 function AllTime({ data }) {
   return <div className="all-time-record-book">
+    <p>{data.scopeNote}</p>
     <Section title="Championship History"><Card className="championship-timeline"><ol>{data.champions.map(champion=><li key={champion.year}><span className="timeline-year">{champion.year}</span><span className="timeline-crown" aria-hidden="true">♛</span><TeamLogo team={champion.team} size={48}/><strong>{champion.team.teamName}</strong></li>)}</ol></Card></Section>
     <Section title="Most Points"><div className="all-time-records">{data.records.map(record=><Record key={record.label} record={record}/>)}</div></Section>
     <ExpandableTable title="Players with 100+ Point Days" rows={data.hundredPointDays} fields={columns.days}><p className="record-counts">{data.hundredPointCounts.map((row,index)=><React.Fragment key={row['Player ID']??row['Player Name']}>{index>0?', ':''}<PlayerLinkIdentity playerId={row['Player ID']} name={row['Player Name']}/>: {row.Count}</React.Fragment>)}</p></ExpandableTable>

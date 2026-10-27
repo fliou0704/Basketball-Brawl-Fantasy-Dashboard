@@ -42,7 +42,7 @@
 .journeyman-logos { display: flex; flex: none; gap: 4px; }
 .journeyman-logos img { object-fit: contain; }
 
-.all-time-record-book { display: grid; gap: 56px; }
+.all-time-record-book { display: grid; grid-template-columns: minmax(0, 1fr); gap: 56px; }
 .all-time-record-book .home-section { margin: 0; }
 .championship-timeline { overflow-x: auto; padding: 18px 20px; }
 .championship-timeline ol { position: relative; display: flex; justify-content: space-around; min-width: 520px; margin: 0; padding: 0; list-style: none; }

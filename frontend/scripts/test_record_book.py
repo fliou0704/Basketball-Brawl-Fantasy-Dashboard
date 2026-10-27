@@ -12,7 +12,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from generate_record_book import (ROOT, all_fantasy_team, all_time, build,
-                                  player_totals, transaction_rankings)
+                                  completed_season_years, player_totals, transaction_rankings)
 from test_team_stats import Element, Html
 
 
@@ -49,6 +49,31 @@ def table_data(element):
     return element.find('DataTable')[0].props['data']
 
 
+class CompletedSeasonTests(unittest.TestCase):
+    def test_active_completed_future_and_automatic_completion(self):
+        metadata = {'seasons': [
+            {'season': year, 'finalPeriod': 167, 'regularWeeks': 20,
+             'weeks': [{'week': 22, 'lastPeriod': 160}, {'week': 23, 'lastPeriod': 167}]}
+            for year in (2026, 2027, 2028)]}
+        daily = pd.DataFrame([{'Year': 2026, 'Scoring Period': 167},
+                              {'Year': 2027, 'Scoring Period': 160}])
+        league = pd.DataFrame([{'Year': 2026, 'Week': 23, 'Type': 'Playoffs', 'Win': 1},
+                               {'Year': 2027, 'Week': 22, 'Type': 'Playoffs', 'Win': 1}])
+        self.assertEqual(completed_season_years(league, daily, metadata), [2026])
+        # Reaching the last day alone does not finalize championship honors.
+        daily.loc[len(daily)] = [2027, 167]
+        self.assertEqual(completed_season_years(league, daily, metadata), [2026])
+        league.loc[len(league)] = [2027, 23, 'Playoffs', 1]
+        self.assertEqual(completed_season_years(league, daily, metadata), [2027, 2026])
+
+    def test_unknown_or_partial_espn_calendar_is_not_completion(self):
+        daily = pd.DataFrame([{'Year': 2027, 'Scoring Period': 167}])
+        league = pd.DataFrame([{'Year': 2027, 'Week': 21, 'Type': 'Playoffs', 'Win': 1}])
+        metadata = {'seasons': [{'season': 2027, 'finalPeriod': 167, 'regularWeeks': 20,
+                                'weeks': [{'week': 21, 'lastPeriod': 153}]}]}
+        self.assertEqual(completed_season_years(league, daily, metadata), [])
+
+
 class RecordBookParityTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -69,11 +94,13 @@ class RecordBookParityTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.temp.cleanup()
 
-    def test_year_options_and_default_match_dash(self):
-        self.assertEqual(self.payload['defaultYear'], int(self.daily['Year'].max()))
-        self.assertEqual(self.payload['years'], sorted((int(y) for y in self.daily['Year'].unique()), reverse=True))
-        self.assertEqual([o['value'] for o in self.namespace['dropdown_options']],
-                         ['All-Time'] + [str(y) for y in sorted(self.weekly['Year'].unique(), reverse=True)])
+    def test_year_options_and_default_require_completed_seasons(self):
+        from playerDailyAggregation import load_season_metadata
+        years = completed_season_years(self.league, self.daily, load_season_metadata())
+        self.assertEqual(self.payload['years'], years)
+        self.assertEqual(self.payload['defaultYear'], years[0] if years else 'All-Time')
+        self.assertEqual(set(self.payload['seasons']), {str(year) for year in years})
+        self.assertIn('including seasons in progress', self.payload['allTime']['scopeNote'])
 
     def test_all_time_single_records_match_dash_text(self):
         reference = self.callback('All-Time')

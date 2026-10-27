@@ -188,17 +188,48 @@ def season_awards(league, weekly, daily, activity, metadata, config, year):
     }
 
 
+def completed_season_years(league, daily, metadata):
+    """Require ESPN's terminal scoring period and the final playoff result.
+
+    Calendar years and a win in an earlier playoff round are not evidence of
+    season completion. Production CSVs contain finished daily/weekly results.
+    """
+    completed = []
+    for season in metadata['seasons']:
+        year = int(season['season'])
+        final_period = int(season['finalPeriod'])
+        final_weeks = [week for week in season['weeks']
+                       if int(week['lastPeriod']) == final_period]
+        if not final_weeks:
+            continue
+        final_week = max(int(week['week']) for week in final_weeks)
+        if final_week <= int(season['regularWeeks']):
+            continue
+        terminal_days = daily[(daily['Year'] == year) &
+                              (daily['Scoring Period'] == final_period)]
+        final = league[(league['Year'] == year) & (league['Week'] == final_week) &
+                       (league['Type'] == 'Playoffs')]
+        if not terminal_days.empty and (final['Win'] == 1).any():
+            completed.append(year)
+    return sorted(completed, reverse=True)
+
+
 def build(source, output):
     from build_homepage import logo_config, write_json
     from playerDailyAggregation import load_season_metadata
     league, weekly, daily, activity = [pd.read_csv(source / name) for name in
         ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
     metadata, config = load_season_metadata(), logo_config()
-    years = sorted((int(year) for year in daily['Year'].unique()), reverse=True)
-    payload = {'schemaVersion': 1, 'defaultYear': years[0], 'years': years,
+    years = completed_season_years(league, daily, metadata)
+    payload = {'schemaVersion': 1, 'defaultYear': years[0] if years else 'All-Time', 'years': years,
                'allTime': all_time(league, weekly, daily, activity, config),
                'seasons': {str(year): season_awards(league, weekly, daily, activity, metadata, config, year)
                            for year in years}}
+    payload['allTime']['champions'] = [champion for champion in payload['allTime']['champions']
+                                       if champion['year'] in years]
+    payload['allTime']['scopeNote'] = (
+        'Performance and transaction records include all available data, including seasons in progress. '
+        'Championship history and individual season honors include completed fantasy seasons only.')
     write_json(output / 'record-book.json', payload)
     print(f'Record Book: all-time plus {len(years)} season honor sets')
     return payload
