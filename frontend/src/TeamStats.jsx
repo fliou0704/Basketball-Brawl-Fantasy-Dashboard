@@ -54,6 +54,10 @@ function Physicals({ metrics }) {
   return <Section title="Physicals"><Card><dl className="team-physicals">{metrics.map(metric=><div key={metric.key}><dt>{metric.label}</dt><dd>{metric.value}</dd><dd className="physical-rank">{metric.caption}</dd></div>)}</dl></Card></Section>;
 }
 
+function PerformanceSummary({ metric }) {
+  return <div className="team-fp-start"><span title="Fantasy points divided by scoring-eligible played player-games, across all recorded matchups in this scope">FP/Start</span><strong>{metric?.fpPerStart==null?'Unavailable':Number(metric.fpPerStart).toFixed(2)}</strong><small>{metric?.available?`${metric.starts.toLocaleString()} credited starts · all recorded matchups`:'Incomplete credited player-game coverage'}</small></div>;
+}
+
 function TeamTabs({ active, onChange }) {
   return <nav className="team-tabs" aria-label="Team sections" role="tablist">{TEAM_TABS.map(({key,label})=><button key={key} type="button" role="tab" aria-selected={active===key} aria-controls={`team-tab-${key}`} onClick={()=>onChange(selectTeamTab(key))}>{label}</button>)}</nav>;
 }
@@ -87,10 +91,10 @@ export default function TeamStats({ teamId }) {
           <label className="season-selector">Season<select aria-label="Season" value={year} onChange={event=>setYear(event.target.value)}><option value="Summary">Summary</option>{Object.keys(data.seasons).filter(y=>data.seasons[y]).sort((a,b)=>b-a).map(y=><option key={y} value={y}>{y}</option>)}</select></label>
         </header>
         {isSummary?<><Section title="All-Time Record"><Card><dl className="team-records">{data.summary.records.map(r=><div key={r.label}><dt>{r.label}</dt><dd>{r.value}</dd></div>)}</dl></Card></Section>
-          <Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>
+          <PerformanceSummary metric={data.summary.performance}/><Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>
           :!season?<p>No data for {data.team.teamName} in {year}</p>:<>
             <Section title="Overview" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsForRankCaption}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsAgainstRankCaption}</dd></div></dl></Card></Section>
-            <TeamTabs active={activeTab} onChange={setActiveTab}/>
+            <PerformanceSummary metric={season.performance?.season}/><TeamTabs active={activeTab} onChange={setActiveTab}/>
             {activeTab==='roster'&&<div id="team-tab-roster" role="tabpanel"><Section title="Roster"><SeasonRoster rows={season.roster}/></Section></div>}
             {activeTab==='rankings'&&<div id="team-tab-rankings" role="tabpanel"><Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div className="ranking-item" key={stat.label}>{stat.rankImage?<img className="rank-image" src={`${import.meta.env.BASE_URL}${stat.rankImage}`} alt={ordinal(stat.rank)}/>:<span className="rank-unavailable">N/A</span>}<div className="ranking-copy"><dt>{stat.label}</dt><dd><strong>{stat.value}</strong></dd></div><div className="relative-track" role="img" aria-label={`${stat.label}: rank position ${stat.relativePercent ?? 0}%`}><span style={{width:`${stat.relativePercent ?? 0}%`}}/></div></div>)}</dl></Card></Section></div>}
             {activeTab==='weekly'&&<div id="team-tab-weekly" role="tabpanel"><WeeklyPerformance data={season.weeklyPerformance}/></div>}

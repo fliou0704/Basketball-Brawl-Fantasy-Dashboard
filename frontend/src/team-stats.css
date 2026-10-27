@@ -2,6 +2,9 @@
 .season-view .section-title { border-bottom-color: var(--team-color, var(--color-brand)); }
 .team-identity > img { width: 72px; height: 72px; object-fit: contain; }
 .team-identity-copy { min-width: 0; }
+.team-fp-start { margin: -22px 0 32px; padding: 14px 18px; border: 1px solid var(--color-border); border-left: 3px solid var(--team-color, var(--color-brand)); border-radius: var(--radius-small); background: var(--color-surface); }
+.team-fp-start > span { font-size: .75rem; font-weight: 800; }
+.team-fp-start > strong { margin-left: 16px; font-size: 1.2rem; font-variant-numeric: tabular-nums; }
 .team-identity h1 { font-size: clamp(1.75rem,6vw,2.6rem); overflow-wrap: anywhere; }
 .team-owner { margin: 8px 0 0; color: var(--color-ink-muted); font-size: .82rem; font-weight: 650; }
 .team-identity .season-selector { grid-column: 1 / -1; }

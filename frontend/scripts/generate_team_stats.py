@@ -15,6 +15,7 @@ if str(ROOT) not in sys.path:
 
 from playerDailyAggregation import (aggregate_daily_to_weekly, load_scoring_period_map,
                                     load_season_metadata)
+from teamPerformance import team_performance, combine_performance
 
 STAT_LABELS = ('FG%', 'FT%', '3PM', 'REB', 'AST/TO', 'STL', 'BLK', 'PTS', 'FPTS', 'PPM')
 RANK_NAMES = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth')
@@ -298,6 +299,7 @@ def build(source, output):
         ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
     players = prepare_players(weekly)
     season_metadata = load_season_metadata()
+    performance = team_performance(daily, load_scoring_period_map(), season_metadata, league)
     daily_weekly = aggregate_daily_to_weekly(
         daily, load_scoring_period_map(), season_metadata, active_only=True
     )
@@ -333,6 +335,7 @@ def build(source, output):
             standing = next((row for row in standings[year]['teams'] if row['teamId'] == tid), None)
             seasons[str(year)] = None if roster is None else {
                 'rankings': rankings[year][tid], 'roster': roster,
+                'performance': performance[(year, tid)],
                 'physicals': physicals[year][tid],
                 'weeklyPerformance': weekly_performance(daily_weekly, tid, year),
                 'snapshot': None if standing is None else {
@@ -342,7 +345,9 @@ def build(source, output):
                 }
             }
         write_json(output / 'team-stats' / f'{tid}.json', {'schemaVersion': 1, 'team': team,
-                   'summary': summary(players, league, activity, tid), 'seasons': seasons})
+                   'summary': {**summary(players, league, activity, tid),
+                               'performance': combine_performance(value['season'] for (year, team_id), value in performance.items() if team_id == tid)},
+                   'seasons': seasons})
     write_json(output / 'team-stats.json', {'schemaVersion': 1, 'years': years, 'teams': teams,
                                              'standings': {str(year): standings[year] for year in years}})
     print(f'Team Stats: {len(teams)} teams, {len(years)} seasons, all-time summaries')
