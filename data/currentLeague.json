@@ -19955,7 +19955,7 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "ACTIVE",
+          "injuryStatus": "DAY_TO_DAY",
           "name": "Derrick White",
           "playerId": 3078576,
           "proTeamId": 2,
@@ -20668,7 +20668,7 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "DAY_TO_DAY",
+          "injuryStatus": "OUT",
           "name": "Kawhi Leonard",
           "playerId": 6450,
           "proTeamId": 28,
@@ -22086,6 +22086,6 @@
       "wins": 0
     }
   ],
-  "updatedAt": "2026-10-27T15:22:30.083028+00:00",
+  "updatedAt": "2026-10-27T17:34:22.196633+00:00",
   "week": 2
 }
