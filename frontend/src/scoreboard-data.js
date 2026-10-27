@@ -64,3 +64,8 @@ export async function loadMatchupWeek(base, path, updatedAt, fetcher=fetch, deta
   }
   return data;
 }
+
+// Unchanged static exports should not trigger another detail fetch/render cycle.
+export function retainSnapshot(previous, next) {
+  return previous && JSON.stringify(previous)===JSON.stringify(next) ? previous : next;
+}

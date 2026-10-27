@@ -7,7 +7,7 @@ import { formatPublicationTime } from './home-data';
 import { loadMatchupWeek, matchupKey, scoreboardLink } from './scoreboard-data';
 import { formatCalendarDate, formatCalendarRange } from './fantasy-calendar';
 import { gameTime } from './nba-schedule';
-import { orientMatchup, comparisonDays, dailyAdvantage, lineupPairs } from './matchup-box-score';
+import { orientMatchup, comparisonDays, dailyAdvantage, lineupPairs, summaryPairs } from './matchup-box-score';
 
 const base=import.meta.env.BASE_URL;
 const fmt=n=>n==null?'—':n.toLocaleString('en-US',{maximumFractionDigits:1});
@@ -42,11 +42,12 @@ export function ScoringBreakdown({detail,teams}) {
   const [selected,setSelected]=useState('summary');
   const dates=comparisonDays(detail),day=dates.find(d=>d.date===selected),summary=selected==='summary';
   const players=summary?detail.summaryLineup || []:day?.lineup || [];
-  const starters=lineupPairs(players,teams,detail.lineupSlots || []),reserves=lineupPairs(players,teams,detail.lineupSlots || [],true);
+  const starters=summary?summaryPairs(players,teams):lineupPairs(players,teams,detail.lineupSlots || []);
+  const reserves=summary?summaryPairs(players,teams,true):lineupPairs(players,teams,detail.lineupSlots || [],true);
   return <Section title="Head-to-head scoring breakdown"><Card className="box-breakdown">
     <label className="box-lineup-select">Lineup view<select aria-label="Lineup view" value={selected} onChange={e=>setSelected(e.target.value)}><option value="summary">Summary</option>{dates.map(d=><option key={d.date} value={d.date}>{formatCalendarDate(d.date,'long')}{d.future?' · Upcoming':''}</option>)}</select></label>
     <PlayerSides className="box-lineup-headings">{teams.map((team,i)=><div className={`player-side ${i===1?'home':''}`} style={{'--side-color':team.color}} key={team.teamId}><header><TeamLogo team={team} size={36}/><div><span>{team.teamName}</span><strong>{players.some(p=>p.teamId===team.teamId)?`${fmt(players.filter(p=>p.teamId===team.teamId).reduce((n,p)=>n+p.points,0))} recorded FPTS`:'Recorded points unavailable'}</strong></div></header></div>)}</PlayerSides>
-    <p className="source-note">{summary?'Summary aggregates scoring-eligible contributions across recorded days. Slots list the positions actually used; this is not a single historical lineup.':day?.future?'Future lineup unavailable. No planned lineup is assumed.':'Complete daily lineup unavailable. These are verified slot assignments for players with recorded stats; players without stat records may be missing.'} NBA affiliations are from the current player profile; historical NBA teams are unavailable.</p>
+    <p className="source-note">{summary?'Summary ranks each team independently by contributed FPTS. Slots list the positions actually used; this is not a single historical lineup.':day?.future?'Future lineup unavailable. No planned lineup is assumed.':'Complete daily lineup unavailable. These are verified slot assignments for players with recorded stats; players without stat records may be missing.'} NBA affiliations are from the current player profile; historical NBA teams are unavailable.</p>
     {[['Scoring starters',starters],['Bench / IR · excluded from fantasy totals',reserves]].map(([label,pairs])=><div className="box-lineup-group" key={label}><h3>{label}</h3>{pairs.length?pairs.map((pair,index)=><PlayerSides className="box-lineup-row" key={`${pair.label}-${index}`}>{pair.players.map((p,i)=><LineupPlayer key={teams[i].teamId} player={p} home={i===1} summary={summary}/>)}</PlayerSides>):<p className="source-note">{day?.future?'Lineup not available yet.':'No recorded players available.'}</p>}</div>)}
   </Card></Section>;
 }
@@ -57,17 +58,36 @@ function Opportunities({detail,teams}) {
 function PlayerOpportunities({detail,teams}) {
   return <div className="opportunity-player-details">{detail.remaining.map((r,i)=>!!r.players.length&&<details key={teams[i].teamId}><summary>{teams[i].teamName} · Player opportunities</summary>{r.players.map(p=><div className="opportunity-player" key={p.playerId}><PlayerIdentity playerId={p.playerId} name={p.name} showHeadshot/><p>{p.games==null?'Remaining schedule unavailable':`${p.games.length} confirmed scheduled games`}{p.slot?` · ${p.slot}`:''}{p.injuryStatus?` · ${p.injuryStatus}`:''}</p>{p.additionalTBD&&<p className="source-note">Additional NBA Cup or postponed games: TBD.</p>}{p.games?.map(g=><p key={g.id}>{formatCalendarDate(g.date)} · {gameTime(g)} · vs {g.opponent ?? 'Opponent unavailable'}</p>)}</div>)}</details>)}</div>;
 }
-export default function MatchupDetail({season,week,match,updatedAt}) {
-  const [detail,setDetail]=useState(null),[error,setError]=useState(false);
-  useEffect(()=>{let alive=true;setDetail(null);setError(false);if(match&&week.detailPath)loadMatchupWeek(base,week.detailPath,updatedAt,fetch,week.detailVersion).then(data=>{if(alive){const found=data.matchups.find(m=>m.key===matchupKey(match));setDetail(found);setError(!found);}}).catch(()=>{if(alive)setError(true);});else setError(true);return()=>{alive=false;};},[week.detailPath,week.detailVersion,match,updatedAt]);
-  const oriented=match?orientMatchup(match,detail):null;
+export default function MatchupDetail({season,week,match,updatedAt,refreshCount=0}) {
+  const [snapshot,setSnapshot]=useState(null),[error,setError]=useState(false);
+  const matchVersion=JSON.stringify(match);
+  const detailPath=week.detailPath,detailVersion=week.detailVersion;
+  const checkpoint=detailVersion?null:updatedAt;
+  const requestVersion=JSON.stringify([detailPath,detailVersion,matchVersion,checkpoint]);
+  // A successful manifest check retries a failed detail, but leaves loaded versions alone.
+  useEffect(()=>{
+    if(snapshot?.version===requestVersion && !error)return;
+    let alive=true;
+    setError(false);
+    if(match&&detailPath)loadMatchupWeek(base,detailPath,checkpoint,fetch,detailVersion).then(data=>{
+      if(!alive)return;
+      const found=data.matchups.find(m=>m.key===matchupKey(match));
+      if(found)setSnapshot({detail:found,match,updatedAt,version:requestVersion});
+      setError(!found);
+    }).catch(()=>{if(alive)setError(true);});
+    else setError(true);
+    return()=>{alive=false;};
+  },[requestVersion,refreshCount]);
+  const detail=snapshot?.detail;
+  const oriented=match?orientMatchup(snapshot?.match || match,detail):null;
   return <div className="matchup-box-score"><h1 className="sr-only">{season} Week {week.week} matchup</h1><a className="matchup-back" href={scoreboardLink(season,week.week)}>← {season} Week {week.week} Matchups</a>
     {!match?<Card><p role="status">This matchup is unavailable. Return to the scoreboard to choose a matchup.</p></Card>:<>
-      <Scorecard match={oriented.match} rolesVerified={oriented.rolesVerified} season={season} week={week} updatedAt={updatedAt}/>
+      <Scorecard match={oriented.match} rolesVerified={oriented.rolesVerified} season={season} week={week} updatedAt={snapshot?.updatedAt ?? updatedAt}/>
       {!detail?<Card><p role={error?'alert':'status'}>{error?'Matchup details unavailable. Reload to retrieve the latest snapshot.':'Loading matchup details…'}</p></Card>:<>
         <DailyComparison detail={oriented.detail} match={oriented.match}/>
         <ScoringBreakdown detail={oriented.detail} teams={oriented.match.teams}/>
         <Opportunities detail={oriented.detail} teams={oriented.match.teams}/>
+        {error&&<p className="source-note" role="status">Refresh failed. Showing the last complete matchup snapshot; updates will retry automatically.</p>}
       </>}
     </>}
   </div>;

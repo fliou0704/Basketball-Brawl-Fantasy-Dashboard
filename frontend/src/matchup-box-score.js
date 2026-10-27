@@ -21,11 +21,19 @@ export function dailyAdvantage(day) {
 }
 export function lineupPairs(players, teams, slots, reserves=false) {
   const rows=players.filter(p=>Boolean(p.eligible)!==reserves);
-  const position=p=>p.slots?.join(' / ') || p.slot || 'Unknown slot';
-  const rank=p=>{const slot=p.slots?.[0] || p.slot;const index=slots.indexOf(slot);return index<0?slots.length:index;};
+  const position=p=>p.slot || 'Unknown slot';
+  const ordered=[...new Set([...(slots.length?slots:['PG','SG','SF','PF','C','G','F','UT']), 'BE', 'IR'])];
+  const rank=p=>{const index=ordered.indexOf(p.slot==='UTIL'?'UT':p.slot);return index<0?ordered.length:index;};
   const labels=[...new Set(rows.sort((a,b)=>rank(a)-rank(b)||position(a).localeCompare(position(b))).map(position))];
   return labels.flatMap(label=>{
-    const sides=teams.map(t=>rows.filter(p=>p.teamId===t.teamId&&position(p)===label).sort((a,b)=>b.points-a.points||a.playerId-b.playerId));
+    const sides=teams.map(t=>rows.filter(p=>p.teamId===t.teamId&&position(p)===label).sort((a,b)=>a.playerId-b.playerId));
     return Array.from({length:Math.max(...sides.map(s=>s.length))},(_,i)=>({label,players:sides.map(s=>s[i] || null)}));
   });
+}
+
+// Summary is a pair of independently ranked lists, never a fantasy-slot lineup.
+export function summaryPairs(players, teams, reserves=false) {
+  const sides=teams.map(t=>players.filter(p=>p.teamId===t.teamId && Boolean(p.eligible)!==reserves)
+    .sort((a,b)=>b.points-a.points || a.playerId-b.playerId));
+  return Array.from({length:Math.max(0,...sides.map(s=>s.length))},(_,i)=>({label:String(i),players:sides.map(s=>s[i] || null)}));
 }

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {orientMatchup,comparisonDays,dailyAdvantage,lineupPairs} from '../src/matchup-box-score.js';
+import {orientMatchup,comparisonDays,dailyAdvantage,lineupPairs,summaryPairs} from '../src/matchup-box-score.js';
 
 test('away stays left even when home wins; all positional data follows team IDs',()=>{
  const match={homeTeamId:1,awayTeamId:2,teams:[{teamId:1},{teamId:2}],actualScores:[300,200],scoreDisplay:['300','200']};
@@ -48,7 +48,7 @@ async function views(selected='summary') {
  const Box=({children,title})=>React.createElement('div',null,title&&React.createElement('h2',null,title),children);
  const bindings={React,useState:()=>[selected,()=>{}],useEffect:()=>{},Section:Box,Card:Box,TableCard:Box,
   TeamLogo:({team})=>React.createElement('img',{'data-team':team.teamId}),PlayerIdentity:({name})=>React.createElement('span',null,name),PlayerSides:Box,
-  formatCalendarDate,formatCalendarRange,formatPublicationTime:()=>'',comparisonDays,dailyAdvantage,lineupPairs};
+  formatCalendarDate,formatCalendarRange,formatPublicationTime:()=>'',comparisonDays,dailyAdvantage,lineupPairs,summaryPairs};
  return new Function(...Object.keys(bindings),`${body};return {Scorecard,DailyComparison,ScoringBreakdown};`)(...Object.values(bindings));
 }
 const teams=[{teamId:2,teamName:'Away',color:'#111111'},{teamId:1,teamName:'Home',color:'#222222'}];
@@ -65,4 +65,28 @@ test('date breakdown labels incomplete lineups and never credits bench fantasy p
  const markup=renderToStaticMarkup(React.createElement(ScoringBreakdown,{detail,teams}));
  assert.match(markup,/Complete daily lineup unavailable/);assert.match(markup,/99 game FPTS excluded/);assert.match(markup,/0 recorded FPTS/);
  assert.doesNotMatch(markup,/99 recorded FPTS/);
+});
+
+test('summary independently ranks credited FPTS with stable player-ID ties and reserve separation',()=>{
+ const rows=[{teamId:2,playerId:6,slot:'PG',slots:['PG'],points:10,eligible:true},{teamId:2,playerId:4,slot:'UT',slots:['UT'],points:90,eligible:true},{teamId:2,playerId:3,slot:'C',slots:['C'],points:90,eligible:true},{teamId:1,playerId:8,slot:'PG',slots:['PG'],points:200,eligible:true},{teamId:1,playerId:7,slot:'C',slots:['C'],points:50,eligible:true},{teamId:2,playerId:9,slot:'BE',slots:['BE'],points:0,gamePoints:300,eligible:false}];
+ const pairs=summaryPairs(rows,teams);
+ assert.deepEqual(pairs.map(p=>p.players[0]?.playerId),[3,4,6]);
+ assert.deepEqual(pairs.map(p=>p.players[1]?.playerId),[8,7,undefined]);
+ assert.equal(summaryPairs(rows,teams,true)[0].players[0].points,0);
+ assert.equal(rows[0].playerId,6);
+});
+test('daily order uses recorded slots, duplicates and BE/IR, independent of eligibility and FPTS',()=>{
+ const rows=[{teamId:2,playerId:6,slot:'UT',positions:['PG'],points:400,eligible:true},{teamId:2,playerId:4,slot:'PG',positions:['C'],points:1,eligible:true},{teamId:2,playerId:3,slot:'UT',points:10,eligible:true},{teamId:1,playerId:5,slot:'PG',points:100,eligible:true},{teamId:2,playerId:10,slot:'IR',points:0,eligible:false},{teamId:2,playerId:9,slot:'BE',points:0,eligible:false}];
+ const pairs=lineupPairs(rows,teams,['PG','SG','C','UT','UT']);
+ assert.deepEqual(pairs.map(p=>p.label),['PG','UT','UT']);
+ assert.deepEqual(pairs.map(p=>p.players[0].playerId),[4,3,6]);
+ assert.equal(pairs[0].players[1].playerId,5);
+ assert.deepEqual(lineupPairs(rows,teams,['PG','UT'],true).map(p=>p.label),['BE','IR']);
+});
+test('Summary markup ranks total contributions instead of lineup positions',async()=>{
+ const {ScoringBreakdown}=await views();
+ const detail={lineupSlots:['PG','UT'],days:[],summaryLineup:[{teamId:2,playerId:1,name:'Low PG',slot:'PG',slots:['PG'],points:1,eligible:true},{teamId:2,playerId:2,name:'High UT',slot:'UT',slots:['UT'],points:100,eligible:true}]};
+ const html=renderToStaticMarkup(React.createElement(ScoringBreakdown,{detail,teams}));
+ assert.ok(html.indexOf('High UT')<html.indexOf('Low PG'));
+ assert.match(html,/101 recorded FPTS/);
 });

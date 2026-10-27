@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Header } from './App';
 import { PageShell, PageHeader, Section, Card } from './components/Layout';
 import { Match, Weekly } from './components/Recaps';
-import { adjacentWeek, loadScoreboard, matchupStatus, scoreboardLink, selectScoreboard } from './scoreboard-data';
+import { adjacentWeek, loadScoreboard, retainSnapshot, matchupStatus, scoreboardLink, selectScoreboard } from './scoreboard-data';
 import { formatPublicationTime, HOME_REFRESH_MS, leagueDate } from './home-data';
 import MatchupDetail from './MatchupDetail';
 import { matchupKey, matchupLink } from './scoreboard-data';
@@ -24,13 +24,22 @@ export function ScoreboardContext({selected, current, updatedAt}) {
 export default function ScoreboardPage({requested}) {
   const [snapshot,setSnapshot] = useState(null);
   const [failed,setFailed] = useState(false);
+  const [refreshCount,setRefreshCount] = useState(0);
   useEffect(()=>{
-    let alive=true;
-    const update=()=>loadScoreboard(base).then(value=>{if(alive){setSnapshot(value);setFailed(false);}}).catch(()=>{if(alive)setFailed(true);});
+    let alive=true, loading=false, lastCheck=0;
+    const update=async()=>{
+      if(loading)return;
+      loading=true;lastCheck=Date.now();
+      try {
+        const value=await loadScoreboard(base);
+        if(alive){setSnapshot(previous=>retainSnapshot(previous,value));setFailed(false);setRefreshCount(count=>count+1);}
+      } catch {if(alive)setFailed(true);} finally {loading=false;}
+    };
+    const resume=()=>{if(document.visibilityState==='visible' && Date.now()-lastCheck>=60000)update();};
     update();
-    const timer=setInterval(update,HOME_REFRESH_MS);
-    window.addEventListener('focus',update);
-    return()=>{alive=false;clearInterval(timer);window.removeEventListener('focus',update);};
+    const timer=setInterval(()=>{if(document.visibilityState==='visible')update();},HOME_REFRESH_MS);
+    window.addEventListener('focus',resume);document.addEventListener('visibilitychange',resume);
+    return()=>{alive=false;clearInterval(timer);window.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',resume);};
   },[]);
   const data=snapshot?.data;
   const view=data && selectScoreboard(data,requested);
@@ -47,8 +56,8 @@ export default function ScoreboardPage({requested}) {
         <div className="scoreboard-arrows"><button aria-label="Previous week" disabled={!previous} onClick={()=>go(previous.season,previous.week)}>←</button><button aria-label="Next week" disabled={!next} onClick={()=>go(next.season,next.week)}>→</button></div>
         <button onClick={()=>go(data.current.season,data.current.week)}>Current week</button>
       </div>}
-      {failed && <p role="status">Refresh failed. Showing the last loaded snapshot.</p>}
-      {!view ? <Card><p role="status">This season or week is unavailable. Choose a season or return to the current week.</p></Card> : <>{requested.match ? <MatchupDetail key={`${view.season.season}-${selected.week}-${requested.match}`} season={view.season.season} week={selected} match={selected.matchups.find(m=>matchupKey(m)===requested.match)} updatedAt={data.updatedAt}/> : <><Section title={`Week ${selected.week}${selected.phase==='playoffs'?' · Playoffs':''}`} meta={`${view.season.season} · ${matchupStatus[selected.state]}`}>
+      {failed && !requested.match && <p role="status">Refresh failed. Showing the last loaded snapshot.</p>}
+      {!view ? <Card><p role="status">This season or week is unavailable. Choose a season or return to the current week.</p></Card> : <>{requested.match ? <MatchupDetail key={`${view.season.season}-${selected.week}-${requested.match}`} season={view.season.season} week={selected} match={selected.matchups.find(m=>matchupKey(m)===requested.match)} updatedAt={data.updatedAt} refreshCount={refreshCount}/> : <><Section title={`Week ${selected.week}${selected.phase==='playoffs'?' · Playoffs':''}`} meta={`${view.season.season} · ${matchupStatus[selected.state]}`}>
         <ScoreboardContext selected={selected} current={data.current} updatedAt={data.updatedAt}/>
         <Card><div className="scoreboard-list" aria-live="polite">{selected.matchups.map(match=><a key={match.id} className="scoreboard-match matchup-link" href={matchupLink(view.season.season,selected.week,match)} aria-label={`Open matchup: ${match.teams.map(t=>t.teamName).join(' versus ')}`}><p className={`match-status ${match.status}`}>{matchupStatus[match.status]}</p><Match match={match} completed={match.status==='final'}/></a>)}</div>
           {!selected.matchups.length && <p role="status">Matchup assignments are unavailable or have not been published for this week.</p>}
@@ -56,5 +65,6 @@ export default function ScoreboardPage({requested}) {
         {view.season.unpublishedPlayoffs && <p className="source-note">Playoff assignments have not been published. They will appear when verified ESPN matchups become available.</p>}
       </Section><Weekly recap={selected.state === 'final' ? selected.recap : null}/></>}</>}
     </>}
+    {failed && requested.match && <p role="status">Refresh failed. Showing the last loaded snapshot.</p>}
   </PageShell></>;
 }
