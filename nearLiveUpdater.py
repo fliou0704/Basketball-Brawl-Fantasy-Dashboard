@@ -150,6 +150,9 @@ def current_calendar(league, daily, previous, refresh_from=None):
                    'Team Owner': t.owners[0]['firstName']} for t in league.teams]}
     result['scheduledWeeks'] = scheduled_weeks(settings['scheduleSettings'], anchor.isoformat(),
                                               result['firstPeriod'], result['finalPeriod'])
+    for key in ('fantasyCalendar', 'fantasyCalendarContext'):
+        if old and key in old:
+            result[key] = old[key]
     if available_scoring_period(league) < int(league.finalScoringPeriod):
         result['calendarThrough'] = (anchor + timedelta(days=available_scoring_period(league))).isoformat()
     return result
@@ -167,7 +170,7 @@ def live_rosters(league):
                 'eligibility': list(p.eligibleSlots)} for p in t.roster]} for t in league.teams]}
 
 
-def run(data_dir=ROOT / 'data', write=False):
+def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False):
     started = time.monotonic()
     swid, s2 = require_espn_credentials()
     factory = LeagueCache()
@@ -250,6 +253,15 @@ def run(data_dir=ROOT / 'data', write=False):
                 prior = current_calendar(get(season), candidate, metadata, starts[season])
                 metadata['seasons'] = [s for s in metadata['seasons'] if int(s['season']) != season] + [prior]
         calendar = current_calendar(active, candidate, metadata, starts.get(year, int(active.finalScoringPeriod) + 1))
+        from espnFantasyCalendar import context, refresh
+        calendar['fantasyCalendarContext'] = context(active._brawl_raw)
+        previous_calendar = next((s for s in metadata['seasons'] if int(s['season']) == year), {})
+        calendar['fantasyCalendar'] = refresh(
+            previous_calendar.get('fantasyCalendar'), calendar['fantasyCalendarContext'],
+            daily=candidate.to_dict('records'),
+            mapping=build_scoring_period_map({'seasons': [calendar]}).to_dict('records'),
+            through=available_scoring_period(active), now=now,
+            force=force_calendar_refresh)
         has_activity = bool((before['activityData.csv']['Year'] == year).any())
         activity, _, report = retry(lambda: build_activity_candidate(before['activityData.csv'], active, year,
             pd.read_csv(stage / 'activityTradeSupplement.csv'),
@@ -313,9 +325,11 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--data-dir', type=Path, default=ROOT / 'data')
     parser.add_argument('--write', action='store_true')
+    parser.add_argument('--force-calendar-refresh', action='store_true',
+                        help='Bypass the persistent 24-hour calendar refresh/cooldown once')
     args = parser.parse_args()
     try:
-        run(args.data_dir, args.write)
+        run(args.data_dir, args.write, args.force_calendar_refresh)
     except Exception as error:
         # Never dump authenticated library exceptions or request details.
         print(f'Update failed: {type(error).__name__}', file=sys.stderr)

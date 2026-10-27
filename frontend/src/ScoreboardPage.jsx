@@ -7,14 +7,15 @@ import { formatPublicationTime, HOME_REFRESH_MS, leagueDate } from './home-data'
 import MatchupDetail from './MatchupDetail';
 import { matchupKey, matchupLink } from './scoreboard-data';
 import './scoreboard.css';
+import { formatCalendarDate, formatCalendarRange } from './fantasy-calendar';
 
 const base = import.meta.env.BASE_URL;
 export function ScoreboardContext({selected, current, updatedAt}) {
   const timestamp=formatPublicationTime(updatedAt);
   return (
     <div className="scoreboard-context">
-          {selected.start && selected.end ? <p>{selected.dateRangeKind==='observed'?'Observed dates: ':''}{selected.start}{selected.end!==selected.start?` – ${selected.end}`:''}</p> : <p>Schedule dates unavailable.</p>}
-          {selected.state==='current' && <p>ESPN snapshot through {current.asOfDate}.{current.asOfDate < leagueDate()?' A newer scoring-period snapshot is not yet available.':''}</p>}
+          {selected.start && selected.end ? <p>{selected.dateRangeKind==='observed'?'Observed dates: ':''}{formatCalendarRange(selected.start,selected.end)}</p> : <p>Schedule dates unavailable.</p>}
+          {selected.state==='current' && <p>ESPN snapshot through {formatCalendarDate(current.asOfDate,'year')}.{current.asOfDate < leagueDate()?' A newer daily snapshot is not yet available.':''}</p>}
           {selected.matchups.some(match=>match.status==='current') && timestamp && <p>Last updated: <time dateTime={updatedAt}>{timestamp} ET</time></p>}
     </div>
   );
@@ -42,7 +43,7 @@ export default function ScoreboardPage({requested}) {
     {!data ? <p role={failed?'alert':'status'}>{failed?'Scoreboard unavailable. Please reload to try again.':'Loading scoreboard…'}</p> : <>
       <div className="scoreboard-controls" aria-label="Scoreboard selection">
         <label>Season<select aria-label="Season" value={view?.season.season ?? ''} onChange={event=>{const season=Number(event.target.value);const target=selectScoreboard(data,{season});if(target)go(season,target.selected.week);}}><option value="" disabled>Select season</option>{[...data.seasons].reverse().map(s=><option key={s.season} value={s.season}>{s.season}</option>)}</select></label>
-        <label>Week<select aria-label="Week" value={selected?.week ?? ''} disabled={!view} onChange={event=>go(view.season.season,Number(event.target.value))}><option value="" disabled>Select week</option>{view?.season.weeks.map(w=><option key={w.week} value={w.week}>Week {w.week}{w.phase==='playoffs'?' · Playoffs':''}</option>)}</select></label>
+        <label>Week<select aria-label="Week" value={selected?.week ?? ''} disabled={!view} onChange={event=>go(view.season.season,Number(event.target.value))}><option value="" disabled>Select week</option>{view?.season.weeks.map(w=><option key={w.week} value={w.week}>Week {w.week}{w.phase==='playoffs'?' · Playoffs':''}{w.start&&w.end?` · ${formatCalendarRange(w.start,w.end)}`:''}</option>)}</select></label>
         <div className="scoreboard-arrows"><button aria-label="Previous week" disabled={!previous} onClick={()=>go(previous.season,previous.week)}>←</button><button aria-label="Next week" disabled={!next} onClick={()=>go(next.season,next.week)}>→</button></div>
         <button onClick={()=>go(data.current.season,data.current.week)}>Current week</button>
       </div>

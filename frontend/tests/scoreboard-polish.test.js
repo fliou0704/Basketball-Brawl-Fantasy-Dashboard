@@ -5,11 +5,12 @@ import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
 import {transformWithOxc} from 'vite';
 import {formatPublicationTime} from '../src/home-data.js';
+import {formatCalendarDate,formatCalendarRange} from '../src/fantasy-calendar.js';
 
 const source=await readFile(new URL('../src/ScoreboardPage.jsx',import.meta.url),'utf8');
 const {code}=await transformWithOxc(source.replace('import.meta.env.BASE_URL',"'/brawl/'"),'ScoreboardPage.jsx',{lang:'jsx',jsx:{runtime:'classic'}});
 const body=code.replace(/^import .*;$/gm,'').replace(/export default /g,'').replace(/export /g,'');
-const Context=new Function('React','formatPublicationTime','leagueDate',`${body};return ScoreboardContext;`)(React,formatPublicationTime,()=> '2099-01-01');
+const Context=new Function('React','formatPublicationTime','leagueDate','formatCalendarDate','formatCalendarRange',`${body};return ScoreboardContext;`)(React,formatPublicationTime,()=> '2099-01-01',formatCalendarDate,formatCalendarRange);
 const render=(status,updatedAt='2026-10-24T12:34:56Z',dates={})=>renderToStaticMarkup(React.createElement(Context,{
   selected:{state:status,matchups:[{status}],...dates},current:{asOfDate:'2026-10-24'},updatedAt}));
 
@@ -24,7 +25,7 @@ test('only an in-progress matchup shows Last updated using recorded data time',(
 });
 test('scheduled full dates render for current and future weeks; absent dates are explicit',()=>{
   for(const state of ['current','future','final']) {
-    assert.ok(render(state,null,{start:'2026-12-28',end:'2027-01-10'}).includes('2026-12-28 – 2027-01-10'));
+    assert.ok(render(state,null,{start:'2026-12-28',end:'2027-01-10'}).includes('Dec 28, 2026 – Jan 10, 2027'));
   }
   assert.ok(render('future').includes('Schedule dates unavailable.'));
   assert.ok(!render('current').includes('Calendar observed'));
@@ -38,5 +39,5 @@ test('Scoreboard removes the disclaimer without replacement and keeps existing s
 
 test('historical observed dates are explicitly identified',()=>{
   const html=render('final',null,{start:'2025-12-29',end:'2026-01-04',dateRangeKind:'observed'});
-  assert.ok(html.includes('Observed dates: 2025-12-29 – 2026-01-04'));
+  assert.ok(html.includes('Observed dates: Dec 29, 2025 – Jan 4, 2026'));
 });

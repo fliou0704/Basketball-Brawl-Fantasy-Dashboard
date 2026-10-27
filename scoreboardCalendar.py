@@ -20,6 +20,10 @@ def dated_snapshot(snapshot, calendar, previous_snapshot, previous_calendar, upd
     """
     previous_snapshot = previous_snapshot or {}
     previous_data = {k: v for k, v in previous_snapshot.items() if k != 'updatedAt'}
-    unchanged = previous_data == snapshot and previous_calendar == calendar
+    # Optional calendar verification/cooldown timestamps are not score updates.
+    def scoring_metadata(value):
+        return {k: v for k, v in (value or {}).items()
+                if k not in ('fantasyCalendar', 'fantasyCalendarContext')}
+    unchanged = previous_data == snapshot and scoring_metadata(previous_calendar) == scoring_metadata(calendar)
     return dict(snapshot, updatedAt=previous_snapshot['updatedAt']
                 if unchanged and previous_snapshot.get('updatedAt') else updated_at)

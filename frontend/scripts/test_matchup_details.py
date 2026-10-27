@@ -99,7 +99,7 @@ class DetailTests(unittest.TestCase):
 
 class RemainingTests(unittest.TestCase):
     def setUp(self):
-        self.week={'state':'current','dateRangeKind':'scheduled','firstPeriod':7,'lastPeriod':10}
+        self.week={'remainingOpportunitiesEnabled':True,'state':'current','dateRangeKind':'scheduled','firstPeriod':7,'lastPeriod':10}
         self.calendar={'dateAnchor':'2026-10-19','lineupSlots':['PG']}
         self.current={'updatedAt':'2026-10-26T16:00:00Z','lineupConstraints':{'daily':True},
                       'teams':[{'teamId':1,'roster':[{'playerId':1,'name':'One','proTeamId':1,'eligibility':['PG']},{'playerId':2,'name':'Two','proTeamId':1,'eligibility':['PG']}]}],

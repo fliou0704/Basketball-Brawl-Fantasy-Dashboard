@@ -24,7 +24,8 @@ def observed_dates(calendar, selected, period_map):
         return {}
 
 
-def project(current, calendars, mapping, league, config):
+def project(current, calendars, mapping, league, config, scheduled=None):
+    scheduled = scheduled or {}
     year, period = int(current['season']), int(current['scoringPeriod'])
     mapped = {int(r['Scoring Period']): int(r['Week']) for r in mapping if int(r['Year']) == year}
     # ESPN status remains authoritative on day one, before any performance rows.
@@ -43,7 +44,9 @@ def project(current, calendars, mapping, league, config):
         # Ignore legacy scheduledWeeks: db225a0 misread weekly IDs as daily IDs.
         # Completed observations are useful history, never future boundaries.
         assignments = calendar['matchups']
-        numbers = sorted(({week} if season == year else set()) | {int(w['week']) for w in calendar['weeks']} | {int(m['week']) for m in assignments} | {int(r['Week']) for r in rows})
+        verified_calendar = scheduled.get(season, {})
+        scheduled_ranges = {w['week']: w for w in verified_calendar.get('weeks', [])}
+        numbers = sorted(set(scheduled_ranges) | ({week} if season == year else set()) | {int(w['week']) for w in calendar['weeks']} | {int(m['week']) for m in assignments} | {int(r['Week']) for r in rows})
         exported = []
         for selected in numbers:
             state = 'final' if season < year or (season == year and selected < week) else 'current' if season == year and selected == week else 'future'
@@ -53,7 +56,7 @@ def project(current, calendars, mapping, league, config):
             # only once ESPN has completed the season; status can retain that week.
             if state == 'current' and period >= calendar['finalPeriod'] and results:
                 state = 'final'
-            dates = observed_dates(calendar, selected, period_map) if state == 'final' else {}
+            dates = scheduled_ranges.get(selected) or (observed_dates(calendar, selected, period_map) if state == 'final' else {})
             matches = []
             for match in assignments:
                 if int(match['week']) != selected:
@@ -98,9 +101,9 @@ def project(current, calendars, mapping, league, config):
             exported.append({'week': selected, 'phase': 'playoffs' if selected > calendar['regularWeeks'] else 'regular',
                              'state': state, 'start': dates.get('start'), 'end': dates.get('end'),
                              'firstPeriod': dates.get('firstPeriod'), 'lastPeriod': dates.get('lastPeriod'),
-                             'dateRangeKind': 'observed' if dates else 'unavailable',
-                             'dateRangeSource': 'seasonMetadata.weeks+canonical-period-map' if dates else None,
-                             'calendarPartial': True, 'matchups': matches})
+                             'dateRangeKind': 'scheduled' if selected in scheduled_ranges else 'observed' if dates else 'unavailable',
+                             'dateRangeSource': verified_calendar.get('source') if selected in scheduled_ranges else 'seasonMetadata.weeks+canonical-period-map' if dates else None,
+                             'calendarPartial': selected not in scheduled_ranges, 'matchups': matches})
         payload['seasons'].append({'season': season, 'weeks': exported, 'unpublishedPlayoffs': not any(w['phase'] == 'playoffs' and w['matchups'] for w in exported)})
     return payload
 
@@ -119,9 +122,14 @@ def build(source, output):
     current = json.loads((source / 'currentLeague.json').read_text())
     calendars = json.loads((source / 'seasonMetadata.json').read_text())['seasons']
     mapping = read_csv(source / 'scoringPeriodMatchupMap.csv')
-    payload = project(current, calendars, mapping, read_csv(source / 'basketballBrawlLeagueData.csv'), logo_config())
+    from generate_fantasy_calendar import attach
+    daily = read_csv(source / 'playerDailyData.csv')
+    scheduled = attach(calendars, daily, mapping, output)
+    payload = project(current, calendars, mapping, read_csv(source / 'basketballBrawlLeagueData.csv'), logo_config(), scheduled)
+    # Enrich daily labels only; observed period membership and scores stay intact.
+    calendars = [dict(c, scheduledDates={d['period']: d['date'] for d in scheduled.get(c['season'], {}).get('days', [])}) for c in calendars]
     from generate_matchup_details import build_details
-    build_details(payload, calendars, current, mapping, read_csv(source / 'playerDailyData.csv'), output)
+    build_details(payload, calendars, current, mapping, daily, output)
     attach_recaps(payload, output)
     write_json(output / 'scoreboard.json', payload)
 

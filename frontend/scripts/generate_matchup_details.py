@@ -39,6 +39,10 @@ def remaining_opportunities(current, calendar, week, team_id):
         return dict(result, games=0, potentialStarts=0, reason='Matchup complete.')
     roster = next((t.get('roster', []) for t in current['teams'] if t['teamId'] == team_id), [])
     result['players'] = [{'playerId': p['playerId'], 'name': p['name'], 'slot': p.get('slot'), 'injuryStatus': p.get('injuryStatus'), 'games': None} for p in roster]
+    if not week.get('remainingOpportunitiesEnabled', False):
+        return dict(result, reason='Remaining games and potential starts are unavailable pending separate review.')
+    # Calendar integration alone does not activate the experimental estimator.
+    # This flag is never published by the production exporter.
     if week.get('dateRangeKind') != 'scheduled' or not schedule or not current.get('updatedAt'):
         return result
     if schedule.get('complete') is not True:
@@ -128,7 +132,7 @@ def matchup_detail(match, week, calendar, current, mapping, rows):
                 player['daily'].append(game)
                 if played or number(r['FPTS']):
                     contributors.append(dict(game, teamId=team, playerId=pid, name=r['Player Name']))
-        days.append({'period': period, 'date': (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=period)).isoformat(),
+        days.append({'period': period, 'date': calendar.get('scheduledDates', {}).get(period) or (date.fromisoformat(calendar['dateAnchor']) + timedelta(days=period)).isoformat(),
                      'partial': week['state'] == 'current' and period == current['scoringPeriod'], 'points': points, 'cumulative': [round(totals[i], 4) if valid[i] else None for i in range(len(ids))], 'contributors': contributors})
     scores = match['actualScores']
     reconciled = bool(days and daily_consistent and periods == list(range(periods[0], periods[-1]+1)) and scores is not None and all(valid) and all(abs(a-b) < .01 for a,b in zip(totals,scores)))
