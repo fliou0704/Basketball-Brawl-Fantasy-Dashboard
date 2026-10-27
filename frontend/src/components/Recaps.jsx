@@ -19,11 +19,11 @@ export function WeeklyPlayerStats({ stats }) {
   const value = n => n == null ? '—' : String(n);
   const average = n => n == null ? '—' : n.toFixed(1);
   const shooting = (made, attempted, pct) => `${value(made)}/${value(attempted)} (${pct == null ? '—' : `${pct.toFixed(1)}%`})`;
-  return <div className="weekly-player-stats"><dl className="weekly-averages">
+  return <dl className="weekly-player-stats">
     <div><dt>GP</dt><dd>{value(stats?.gamesPlayed)}</dd></div>
     {['PTS','REB','AST','BLK','STL','TO'].map(key=><div key={key}><dt>{key}/G</dt><dd>{average(stats?.perGame?.[key])}</dd></div>)}
-    </dl><dl className="weekly-shooting"><div><dt>FG</dt><dd>{shooting(stats?.totals?.FGM,stats?.totals?.FGA,stats?.shooting?.['FG%'])}</dd></div>
-    <div><dt>3PT</dt><dd>{shooting(stats?.totals?.['3PM'],stats?.totals?.['3PA'],stats?.shooting?.['3P%'])}</dd></div></dl></div>;
+    <div><dt>FG</dt><dd>{shooting(stats?.totals?.FGM,stats?.totals?.FGA,stats?.shooting?.['FG%'])}</dd></div>
+    <div><dt>3PT</dt><dd>{shooting(stats?.totals?.['3PM'],stats?.totals?.['3PA'],stats?.shooting?.['3P%'])}</dd></div></dl>;
 }
 export function Weekly({ recap, playoffOnly = false }) {
   if (!recap || (playoffOnly && !recap.playoffs)) return null;

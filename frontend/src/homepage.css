@@ -55,12 +55,10 @@ small { display: block; margin-top: 3px; color: var(--color-ink-muted); font-siz
 .lineup-fantasy-team .team { gap: 6px; }
 .lineup-fantasy-team .team img { width: 20px; height: 20px; object-fit: contain; flex-shrink: 0; }
 .lineup-fantasy-team .team-name { font-size: .7rem; font-weight: 500; }
-.weekly-player-stats { grid-column: 2 / -1; min-width: 0; color: var(--color-ink-muted); font-size: .72rem; font-variant-numeric: tabular-nums; }
-.weekly-averages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin: 0; }
+.weekly-player-stats { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0; min-width: 0; color: var(--color-ink-muted); font-size: .72rem; font-variant-numeric: tabular-nums; }
+.weekly-player-stats > div { display: flex; gap: 6px; align-items: baseline; }
 .weekly-player-stats dt { font-size: .62rem; font-weight: 750; }
 .weekly-player-stats dd { margin: 0; color: var(--color-ink); }
-.weekly-shooting { display: flex; flex-wrap: wrap; gap: 6px 20px; margin: 10px 0 0; }
-.weekly-shooting > div { display: flex; gap: 6px; align-items: baseline; }
 .slot { color: var(--color-brand-strong); font-size: .68rem; font-weight: 800; }
 .mvp { background: var(--color-gold-soft); border-left: 3px solid var(--color-gold); }
 .mvp-label { color: var(--color-gold); font-size: .68rem; white-space: nowrap; }
@@ -128,7 +126,6 @@ figure { margin: 0; min-width: 0; }
   .table-card { padding: 0; }
   .daily-grid { gap: 20px; }
   .recap-highlights { grid-template-columns: 1fr 1.18fr; gap: 20px; }
-  .weekly-averages { grid-template-columns: repeat(7, minmax(0, 1fr)); max-width: 700px; }
   .stat-line { grid-template-columns: repeat(8, minmax(0,1fr)); }
   .scoreboard { grid-template-columns: 1fr 1fr; }
   .insights { grid-template-columns: repeat(3,1fr); }

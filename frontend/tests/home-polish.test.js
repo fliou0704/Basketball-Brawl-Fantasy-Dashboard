@@ -123,6 +123,9 @@ test('weekly stats render GP, one-decimal averages, cumulative shooting and safe
   assert.ok(html.includes('<dt>PTS/G</dt><dd>20.0</dd>'));
   assert.ok(html.includes('4/20 (20.0%)'));
   assert.ok(html.includes('2/10 (20.0%)'));
+  assert.equal([...html.matchAll(/<dl/g)].length,1);
+  assert.deepEqual([...html.matchAll(/<dt>(.*?)<\/dt>/g)].map(match=>match[1]),
+    ['GP','PTS/G','REB/G','AST/G','BLK/G','STL/G','TO/G','FG','3PT']);
   const empty=renderToStaticMarkup(React.createElement(WeeklyPlayerStats,{}));
   assert.ok(empty.includes('—/— (—)'));
   assert.ok(!/NaN|Infinity/.test(empty));
