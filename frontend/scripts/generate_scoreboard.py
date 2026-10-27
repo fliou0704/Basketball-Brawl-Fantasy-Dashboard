@@ -116,9 +116,12 @@ def attach_recaps(payload, output):
 
 
 def build(source, output):
-    payload = project(json.loads((source / 'currentLeague.json').read_text()),
-                      json.loads((source / 'seasonMetadata.json').read_text())['seasons'],
-                      read_csv(source / 'scoringPeriodMatchupMap.csv'), read_csv(source / 'basketballBrawlLeagueData.csv'), logo_config())
+    current = json.loads((source / 'currentLeague.json').read_text())
+    calendars = json.loads((source / 'seasonMetadata.json').read_text())['seasons']
+    mapping = read_csv(source / 'scoringPeriodMatchupMap.csv')
+    payload = project(current, calendars, mapping, read_csv(source / 'basketballBrawlLeagueData.csv'), logo_config())
+    from generate_matchup_details import build_details
+    build_details(payload, calendars, current, mapping, read_csv(source / 'playerDailyData.csv'), output)
     attach_recaps(payload, output)
     write_json(output / 'scoreboard.json', payload)
 

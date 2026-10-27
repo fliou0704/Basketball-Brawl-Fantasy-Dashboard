@@ -259,6 +259,12 @@ def run(data_dir=ROOT / 'data', write=False):
         atomic_write_csv(activity, stage / 'activityData.csv')
         print('Activity reconciliation:', {k: v for k, v in report.items() if k != 'counts'})
         snapshot = live_rosters(active)
+        from matchupSchedule import enrich_roster_snapshot
+        try:
+            snapshot = retry(lambda: enrich_roster_snapshot(active, snapshot, active._brawl_raw, now))
+        except RuntimeError:
+            # Optional schedule availability must not prevent canonical scoring updates.
+            snapshot['nbaSchedule'] = {'complete': False, 'games': [], 'reason': 'ESPN NBA schedule unavailable'}
         atomic_json(snapshot, stage / 'currentLeague.json')
         metadata['seasons'] = [s for s in metadata['seasons'] if int(s['season']) != year] + [calendar]
         metadata['seasons'].sort(key=lambda s: int(s['season']))
