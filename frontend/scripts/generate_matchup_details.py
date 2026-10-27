@@ -40,7 +40,7 @@ def remaining_opportunities(current, calendar, week, team_id):
     roster = next((t.get('roster', []) for t in current['teams'] if t['teamId'] == team_id), [])
     result['players'] = [{'playerId': p['playerId'], 'name': p['name'], 'slot': p.get('slot'), 'injuryStatus': p.get('injuryStatus'), 'games': None} for p in roster]
     if not week.get('remainingOpportunitiesEnabled', False):
-        return dict(result, reason='Remaining games and potential starts are unavailable pending separate review.')
+        return dict(result, reason='Remaining games and potential starts are unavailable.')
     # Calendar integration alone does not activate the experimental estimator.
     # This flag is never published by the production exporter.
     if week.get('dateRangeKind') != 'scheduled' or not schedule or not current.get('updatedAt'):
