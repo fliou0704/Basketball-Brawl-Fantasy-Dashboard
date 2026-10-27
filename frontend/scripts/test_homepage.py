@@ -5,7 +5,8 @@ import os
 from pathlib import Path
 import unittest
 
-from build_homepage import ROOT, choose_lineup, raw_stats, matchup_rows, bracket_view, team_info, logo_config
+from build_homepage import (ROOT, choose_lineup, raw_stats, matchup_rows, bracket_view,
+                            standings_charts, team_info, logo_config)
 from homepage_state import select_state, normalize_calendar
 
 META = json.loads((ROOT / 'frontend/source/season-metadata.json').read_text())['seasons']
@@ -101,6 +102,16 @@ class SeasonStateTests(unittest.TestCase):
 
 
 class HomepageMetricTests(unittest.TestCase):
+    def test_standings_charts_use_only_complete_full_regular_weeks(self):
+        teams={1:{'teamId':1,'teamName':'One','color':'#111'},2:{'teamId':2,'teamName':'Two','color':'#222'}}
+        row=lambda week, team, rank, points: {'Week':week,'Team ID':team,'Type':'Regular','Rank':rank,'Points For':points}
+        by_week={1:[row(1,1,2,100),row(1,2,1,120)],2:[row(2,1,1,140)]}
+        charts=standings_charts(by_week,teams,[1,2])
+        self.assertEqual(charts['weeks'],[1])
+        self.assertEqual(charts['highWeeks'][0]['teamId'],2)
+        self.assertEqual(charts['highWeeks'][0]['points'],120)
+        self.assertEqual(charts['ranks'][0]['points'][0]['rank'],2)
+
     def test_scoring_contributions_convert_to_actual_stats(self):
         stats=raw_stats({'AST':'20','TO':'-8','FGM':'24','FGA':'-20','3PM':'3'}, {'AST':2,'TO':-2,'FGM':2,'FGA':-1,'3PM':1})
         self.assertEqual(stats['AST'],10);self.assertEqual(stats['TO'],4)

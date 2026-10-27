@@ -192,6 +192,40 @@ def bracket_view(league, calendar, teams, active_week=None):
     return {'rounds': rounds, 'champion': champion}
 
 
+def standings_charts(by_week, teams, regular_weeks):
+    """Precompute completed regular-season chart geometry for the Standings page."""
+    team_ids = set(teams)
+    weeks = [week for week in regular_weeks if {
+        int(row['Team ID']) for row in by_week[week] if row['Type'] == 'Regular'
+    } == team_ids]
+    if not weeks:
+        return {'ranks': [], 'weeks': [], 'highWeeks': [], 'rankTicks': [], 'viewBox': [0, 0, 800, 260]}
+    left, right, top, bottom = 54, 770, 24, 215
+    series = []
+    for team_id, team in teams.items():
+        points = []
+        for index, week in enumerate(weeks):
+            row = next(row for row in by_week[week] if row['Type'] == 'Regular' and int(row['Team ID']) == team_id)
+            x = left if len(weeks) == 1 else left + index * (right - left) / (len(weeks) - 1)
+            y = top + (int(row['Rank']) - 1) * (bottom - top) / max(1, len(teams) - 1)
+            points.append({'week': week, 'rank': int(row['Rank']), 'x': round(x, 2), 'y': round(y, 2)})
+        series.append(dict(team, points=points, path=' '.join(f"{point['x']},{point['y']}" for point in points)))
+    leaders = []
+    maximum = max(number(row['Points For']) for week in weeks for row in by_week[week] if row['Type'] == 'Regular')
+    band = (right - left) / len(weeks)
+    for index, week in enumerate(weeks):
+        winner = max((row for row in by_week[week] if row['Type'] == 'Regular'), key=lambda row: number(row['Points For']))
+        points = number(winner['Points For'])
+        height = points / maximum * (bottom - top) if maximum else 0
+        leaders.append(dict(teams[int(winner['Team ID'])], week=week, points=round(points, 2),
+                            pointsDisplay=display(points), x=round(left + index * band + band * .15, 2),
+                            width=round(band * .7, 2), y=round(bottom - height, 2), height=round(height, 2)))
+    return {'ranks': series, 'weeks': weeks, 'highWeeks': leaders,
+            'rankTicks': [{'rank': rank, 'y': round(top + (rank - 1) * (bottom - top) / max(1, len(teams) - 1), 2)}
+                          for rank in range(1, len(teams) + 1)],
+            'viewBox': [0, 0, 800, 260]}
+
+
 def build_season(year, league, daily, weekly, calendar, config, output, mapping):
     teams = {int(r['Team ID']): team_info(r, config) for r in (league or calendar.get('teams', []))}
     by_week, by_day, players_by_week = defaultdict(list), defaultdict(list), defaultdict(list)
@@ -328,7 +362,8 @@ def build_season(year, league, daily, weekly, calendar, config, output, mapping)
         high_weeks.append(dict(teams[int(top['Team ID'])], week=w, pointsDisplay=display(number(top['Points For'])),
                                width=f'{number(top["Points For"])/max_score*100:.2f}%'))
     charts = {'ranks': rank_series, 'weeks': regular_weeks, 'highWeeks': high_weeks,
-              'rankTicks': [{'rank': i, 'y': 20+(i-1)*180/max(1,len(teams)-1)} for i in range(1,len(teams)+1)]}
+              'rankTicks': [{'rank': i, 'y': 20+(i-1)*180/max(1,len(teams)-1)} for i in range(1,len(teams)+1)],
+              'standingsCharts': standings_charts(by_week, teams, regular_weeks)}
     for name, content in [('standings',standings), ('daily-recap',daily_recaps), ('weekly-recap',weekly_recaps),
                           ('playoffs',playoffs), ('season-leaders',leaders), ('history',charts)]:
         write_json(output / str(year) / f'{name}.json', {'schemaVersion': VERSION, 'season': year, 'data': content})
