@@ -55,8 +55,8 @@ function Physicals({ metrics }) {
   return <Section title="Physicals"><Card><dl className="team-physicals">{metrics.map(metric=><div key={metric.key}><dt>{metric.label}</dt><dd>{metric.value}</dd><dd className="physical-rank">{metric.caption}</dd></div>)}</dl></Card></Section>;
 }
 
-function PerformanceSummary({ metric }) {
-  return <div className="team-fp-start"><span title="Fantasy points divided by scoring-eligible played player-games, across all recorded matchups in this scope">FP/Start</span><strong>{metric?.fpPerStart==null?'Unavailable':Number(metric.fpPerStart).toFixed(2)}</strong><small>{metric?.available?`${metric.starts.toLocaleString()} credited starts · all recorded matchups`:'Incomplete credited player-game coverage'}</small></div>;
+function PerformanceSummary({ metric, partial = false }) {
+  return <div className="team-fp-start"><span title="Eligible player fantasy points divided by credited played player-games. Bench, IR and bye weeks are excluded; recorded scoreboard totals remain unchanged.">FP/Start</span><strong>{metric?.fpPerStart==null?'Unavailable':Number(metric.fpPerStart).toFixed(2)}</strong><small>{metric?.available?`${metric.starts.toLocaleString()} credited starts · bye weeks excluded`:'Incomplete credited player-game coverage'}{partial?' · Partial season':''}</small></div>;
 }
 
 function TeamTabs({ active, onChange }) {
@@ -94,7 +94,7 @@ export default function TeamStats({ teamId }) {
         {isSummary?<FranchiseProfile key={teamId} profile={data.franchise} records={data.summary.records} onSeason={setYear} roster={<><PerformanceSummary metric={data.summary.performance}/><Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>}/>
           :!season?<p>No data for {data.team.teamName} in {year}</p>:<>
             <Section title="Overview" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsForRankCaption}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsAgainstRankCaption}</dd></div></dl></Card></Section>
-            <PerformanceSummary metric={season.performance?.season}/><TeamTabs active={activeTab} onChange={setActiveTab}/>
+            <PerformanceSummary metric={season.performance?.season} partial={data.franchise?.history.some(row=>String(row.year)===year&&!row.complete)}/><TeamTabs active={activeTab} onChange={setActiveTab}/>
             {activeTab==='roster'&&<div id="team-tab-roster" role="tabpanel"><Section title="Roster"><SeasonRoster rows={season.roster}/></Section></div>}
             {activeTab==='rankings'&&<div id="team-tab-rankings" role="tabpanel"><Section title="Category Rankings"><Card><dl className="team-rankings">{season.rankings.map(stat=><div className="ranking-item" key={stat.label}>{stat.rankImage?<img className="rank-image" src={`${import.meta.env.BASE_URL}${stat.rankImage}`} alt={ordinal(stat.rank)}/>:<span className="rank-unavailable">N/A</span>}<div className="ranking-copy"><dt>{stat.label}</dt><dd><strong>{stat.value}</strong></dd></div><div className="relative-track" role="img" aria-label={`${stat.label}: rank position ${stat.relativePercent ?? 0}%`}><span style={{width:`${stat.relativePercent ?? 0}%`}}/></div></div>)}</dl></Card></Section></div>}
             {activeTab==='weekly'&&<div id="team-tab-weekly" role="tabpanel"><WeeklyPerformance data={season.weeklyPerformance}/></div>}

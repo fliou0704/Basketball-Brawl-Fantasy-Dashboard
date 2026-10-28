@@ -21,14 +21,20 @@ const assert=require('node:assert/strict');
       });
       await page.goto(base+'#/teams/16');
       await page.getByRole('heading',{name:'Overview',exact:true}).waitFor();
+      assert.match(await page.locator('.team-fp-start small').innerText(),/Partial season/i);
       await page.getByLabel('Season',{exact:true}).selectOption('Summary');
       await page.getByRole('heading',{name:'Franchise Career',exact:true}).waitFor();
       assert.equal(await page.getByRole('tab',{name:'Performance',exact:true}).getAttribute('aria-selected'),'true');
       assert.equal(await page.locator('.franchise-history tbody tr').count(),payload.franchise.history.length);
       assert.equal(await page.locator('.franchise-trend').count(),3);
+      const career=page.locator('.franchise-career > div').filter({has:page.getByText('FP/Start',{exact:true})});
+      assert.equal(await career.locator('dd').innerText(),payload.franchise.totals.fpPerStart==null?'Unavailable':Number(payload.franchise.totals.fpPerStart).toLocaleString(undefined,{maximumFractionDigits:2}));
+      const efficiency=page.locator('.franchise-trend').filter({has:page.getByRole('heading',{name:'Fantasy Points per Start',exact:true})});
+      assert.equal(await efficiency.locator('circle').count(),payload.franchise.history.filter(row=>row.fpPerStart!=null).length);
       for(const row of payload.franchise.history) {
         const rendered=page.locator('.franchise-history tbody tr').filter({has:page.getByRole('button',{name:String(row.year),exact:true})});
         assert.ok((await rendered.innerText()).includes(row.team.teamName));
+        assert.ok((await rendered.innerText()).includes(row.fpPerStart==null?'Unavailable':Number(row.fpPerStart).toLocaleString(undefined,{maximumFractionDigits:2})));
         assert.equal(await rendered.locator('img').getAttribute('src'),base.startsWith('http')?'/Basketball-Brawl-Fantasy-Dashboard/'+row.team.logo:row.team.logo);
       }
       const checkWidth=async()=>assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth)<=width,'no page overflow');
@@ -50,6 +56,11 @@ const assert=require('node:assert/strict');
       await page.getByRole('heading',{name:'Overview',exact:true}).waitFor();
       assert.equal(await page.getByLabel('Season',{exact:true}).inputValue(),String(historical.year));
       for(const name of ['Category Rankings','Weekly Performance','Physicals','Roster'])await page.getByRole('tab',{name,exact:true}).click();
+      for(const year of [2023,2025,2026]) {
+        await page.getByLabel('Season',{exact:true}).selectOption(String(year));
+        const metric=payload.seasons[String(year)].performance.season.fpPerStart;
+        assert.equal(await page.locator('.team-fp-start strong').innerText(),metric==null?'Unavailable':Number(metric).toFixed(2));
+      }
       assert.deepEqual(errors,[]);
       console.log('PASS',width,'Summary tabs, history/assets, chart interaction, season selection, existing season tabs, overflow');
       await page.close();

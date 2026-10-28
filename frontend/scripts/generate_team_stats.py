@@ -15,7 +15,7 @@ if str(ROOT) not in sys.path:
 
 from playerDailyAggregation import (aggregate_daily_to_weekly, load_scoring_period_map,
                                     load_season_metadata)
-from teamPerformance import team_performance, combine_performance
+from teamPerformance import team_performance, combine_performance, performance_audit
 
 STAT_LABELS = ('FG%', 'FT%', '3PM', 'REB', 'AST/TO', 'STL', 'BLK', 'PTS', 'FPTS', 'PPM')
 RANK_NAMES = ('first', 'second', 'third', 'fourth', 'fifth', 'sixth', 'seventh', 'eighth', 'ninth', 'tenth')
@@ -299,7 +299,8 @@ def build(source, output):
         ('basketballBrawlLeagueData.csv', 'playerMatchupData.csv', 'playerDailyData.csv', 'activityData.csv')]
     players = prepare_players(weekly)
     season_metadata = load_season_metadata()
-    performance = team_performance(daily, load_scoring_period_map(), season_metadata, league)
+    performance = team_performance(daily, load_scoring_period_map(), season_metadata, league, weekly)
+    write_json(output / 'team-performance-audit.json', performance_audit(performance))
     daily_weekly = aggregate_daily_to_weekly(
         daily, load_scoring_period_map(), season_metadata, active_only=True
     )
