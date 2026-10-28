@@ -29,6 +29,8 @@ def build_all(source: Path, output: Path) -> None:
     build_players(source, output)
     from generate_current import build as build_current
     build_current(source, output)
+    from generate_franchise_profiles import build as build_franchise_profiles
+    build_franchise_profiles(source, output)
     from generate_home_current import build as build_home_current
     build_home_current(source, output)
     from generate_scoreboard import build as build_scoreboard

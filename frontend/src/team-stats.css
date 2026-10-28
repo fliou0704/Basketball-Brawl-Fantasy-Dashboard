@@ -2,6 +2,34 @@
 .season-view .section-title { border-bottom-color: var(--team-color, var(--color-brand)); }
 .team-identity > img { width: 72px; height: 72px; object-fit: contain; }
 .team-identity-copy { min-width: 0; }
+.franchise-profile .section-title { border-bottom-color: var(--team-color, var(--color-brand)); }
+.franchise-career { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); margin: 0; }
+.franchise-career > div { min-width: 0; padding: 16px 12px; border-bottom: 1px solid var(--color-border); }
+.franchise-career dt { color: var(--color-ink-muted); font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; }
+.franchise-career dd { margin: 6px 0 0; font-size: clamp(1.25rem,4vw,1.9rem); font-weight: 900; font-variant-numeric: tabular-nums; }
+.franchise-title-stat dd, .franchise-champion { color: var(--color-gold); }
+.franchise-history-scroll, .franchise-chart-scroll { overflow-x: auto; overscroll-behavior-inline: contain; }
+.franchise-history { min-width: 900px; table-layout: auto; }
+.franchise-history th:nth-child(2), .franchise-history td:nth-child(2) { min-width: 265px; }
+.franchise-history th, .franchise-history td { white-space: nowrap; }
+.franchise-history tbody tr { cursor: pointer; }
+.franchise-history tbody tr:hover { background: var(--color-surface-muted); }
+.franchise-season-link { border: 0; padding: 5px 0; background: transparent; color: var(--color-brand-strong); font: inherit; font-weight: 850; cursor: pointer; text-decoration: underline; }
+.franchise-historical-team { display: flex; align-items: center; gap: 10px; padding-left: 8px; border-left: 3px solid var(--historical-color); }
+.franchise-historical-team img { flex: none; }
+.franchise-historical-team small { text-transform: none; letter-spacing: 0; }
+.franchise-trends { display: grid; gap: 20px; }
+.franchise-chart { min-width: 650px; }
+.franchise-chart line.franchise-trend-line { stroke: var(--team-color, var(--color-brand)); stroke-width: 3; }
+.franchise-chart circle.franchise-partial { fill: var(--color-surface); stroke: var(--team-color, var(--color-brand)); }
+.franchise-hover { display: block; min-height: 20px; margin-bottom: 4px; font-weight: 750; }
+.franchise-achievements { list-style: none; padding: 0; margin: 0; }
+.franchise-achievements li { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; padding: 18px 0; border-bottom: 1px solid var(--color-border); }
+.franchise-achievements li:last-child { border-bottom: 0; }
+.franchise-achievements h3 { margin: 0; }
+.franchise-achievements p { margin: 5px 0 0; font-size: .78rem; color: var(--color-ink-muted); }
+.franchise-achievements li > strong { margin-left: auto; font-variant-numeric: tabular-nums; }
+@media(min-width:720px) { .franchise-career { grid-template-columns: repeat(4,minmax(0,1fr)); } }
 .team-fp-start { margin: -22px 0 32px; padding: 14px 18px; border: 1px solid var(--color-border); border-left: 3px solid var(--team-color, var(--color-brand)); border-radius: var(--radius-small); background: var(--color-surface); }
 .team-fp-start > span { font-size: .75rem; font-weight: 800; }
 .team-fp-start > strong { margin-left: 16px; font-size: 1.2rem; font-variant-numeric: tabular-nums; }

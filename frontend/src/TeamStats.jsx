@@ -3,6 +3,7 @@ import { Header, getData } from './App';
 import { TeamLogo } from './components/Standings';
 import { Card, PageShell, Section, TableCard } from './components/Layout';
 import PlayerIdentity from './components/PlayerIdentity';
+import FranchiseProfile from './components/FranchiseProfile';
 import { latestTeamSeason } from './site-data';
 import { defaultTeamTab, TEAM_TABS, selectTeamTab } from './team-tabs';
 import './team-stats.css';
@@ -90,8 +91,7 @@ export default function TeamStats({ teamId }) {
           <TeamLogo team={data.team} size={84}/><div className="team-identity-copy"><p className="page-eyebrow">Franchise</p><h1>{data.team.teamName}</h1>{data.team.owner&&<p className="team-owner">Owner · {data.team.owner}</p>}</div>
           <label className="season-selector">Season<select aria-label="Season" value={year} onChange={event=>setYear(event.target.value)}><option value="Summary">Summary</option>{Object.keys(data.seasons).filter(y=>data.seasons[y]).sort((a,b)=>b-a).map(y=><option key={y} value={y}>{y}</option>)}</select></label>
         </header>
-        {isSummary?<><Section title="All-Time Record"><Card><dl className="team-records">{data.summary.records.map(r=><div key={r.label}><dt>{r.label}</dt><dd>{r.value}</dd></div>)}</dl></Card></Section>
-          <PerformanceSummary metric={data.summary.performance}/><Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>
+        {isSummary?<FranchiseProfile key={teamId} profile={data.franchise} records={data.summary.records} onSeason={setYear} roster={<><PerformanceSummary metric={data.summary.performance}/><Section title="All-Time Roster"><TableCard><Roster rows={data.summary.roster} summary/></TableCard></Section></>}/>
           :!season?<p>No data for {data.team.teamName} in {year}</p>:<>
             <Section title="Overview" meta={year}><Card><dl className="season-snapshot"><div><dt>Record</dt><dd>{season.snapshot.record}</dd></div><div><dt>Standing</dt><dd>{ordinal(season.snapshot.rank)}</dd></div><div><dt>Points For</dt><dd>{season.snapshot.pointsForDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsForRankCaption}</dd></div><div><dt>Points Against</dt><dd>{season.snapshot.pointsAgainstDisplay}</dd><dd className="snapshot-rank">{season.snapshot.pointsAgainstRankCaption}</dd></div></dl></Card></Section>
             <PerformanceSummary metric={season.performance?.season}/><TeamTabs active={activeTab} onChange={setActiveTab}/>
