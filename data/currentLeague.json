@@ -807,7 +807,7 @@
     "4592492": "2026-10-27T15:23:26.588393-04:00",
     "4592686": "2026-10-27T15:23:26.588393-04:00",
     "4592691": "2026-10-27T15:23:26.588393-04:00",
-    "4592699": "2026-10-27T15:23:26.588393-04:00",
+    "4592699": "2026-10-28T01:42:45.941314-04:00",
     "4592712": "2026-10-27T15:23:26.588393-04:00",
     "4592714": "2026-10-27T15:23:26.588393-04:00",
     "4592829": "2026-10-27T15:23:26.588393-04:00",
@@ -1908,7 +1908,7 @@
     "4592492": 16,
     "4592686": 0,
     "4592691": 13,
-    "4592699": 0,
+    "4592699": 16,
     "4592712": 0,
     "4592714": 21,
     "4592829": 11,
@@ -2212,10 +2212,10 @@
   "nbaSchedule": {
     "season": 2027,
     "source": "seasonMetadata.nbaSchedules",
-    "statusAt": "2026-10-27T22:14:50.591096+00:00",
+    "statusAt": "2026-10-28T05:42:45.941314+00:00",
     "verifiedAt": "2026-10-27T19:23:26.990953+00:00"
   },
-  "rosterVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+  "rosterVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
   "schemaVersion": 1,
   "scoringPeriod": 8,
   "season": 2027,
@@ -2230,7 +2230,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2249,7 +2249,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2268,7 +2268,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2287,7 +2287,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2309,7 +2309,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2328,7 +2328,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2351,7 +2351,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2374,7 +2374,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2397,7 +2397,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2416,7 +2416,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2437,7 +2437,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2460,7 +2460,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2482,7 +2482,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2503,7 +2503,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2526,7 +2526,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2561,7 +2561,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2580,7 +2580,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2601,7 +2601,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2620,7 +2620,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2639,7 +2639,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2658,7 +2658,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2679,7 +2679,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -2700,7 +2700,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2719,7 +2719,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2742,7 +2742,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2761,7 +2761,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2783,7 +2783,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2805,7 +2805,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2824,7 +2824,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2847,7 +2847,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2866,7 +2866,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2885,7 +2885,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2917,7 +2917,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2938,7 +2938,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2961,7 +2961,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2984,7 +2984,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3005,7 +3005,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3028,7 +3028,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3047,7 +3047,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3070,7 +3070,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3093,7 +3093,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -3114,7 +3114,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3125,7 +3125,7 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "DAY_TO_DAY",
+          "injuryStatus": "ACTIVE",
           "name": "Derrick White",
           "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
           "playerId": 3078576,
@@ -3135,7 +3135,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3158,7 +3158,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3177,7 +3177,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3198,7 +3198,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3219,7 +3219,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3255,7 +3255,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3276,7 +3276,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -3295,7 +3295,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -3317,7 +3317,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3338,7 +3338,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3359,7 +3359,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3382,7 +3382,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3395,7 +3395,7 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "DAY_TO_DAY",
+          "injuryStatus": "OUT",
           "name": "Anthony Edwards",
           "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
           "playerId": 4594268,
@@ -3405,7 +3405,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "G",
@@ -3425,7 +3425,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3446,7 +3446,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3469,7 +3469,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3490,7 +3490,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3511,7 +3511,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3531,7 +3531,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3554,7 +3554,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3575,7 +3575,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3611,7 +3611,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3630,7 +3630,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -3649,7 +3649,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3672,7 +3672,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3691,7 +3691,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -3713,7 +3713,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3736,7 +3736,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -3755,7 +3755,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -3776,7 +3776,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3797,7 +3797,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3818,7 +3818,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3839,7 +3839,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -3861,7 +3861,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "F",
@@ -3882,7 +3882,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3905,7 +3905,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3926,7 +3926,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3962,7 +3962,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3981,7 +3981,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4004,7 +4004,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4023,7 +4023,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4046,7 +4046,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4067,7 +4067,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4089,7 +4089,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4110,7 +4110,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4121,7 +4121,7 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "DAY_TO_DAY",
+          "injuryStatus": "ACTIVE",
           "name": "Scoot Henderson",
           "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
           "playerId": 4683678,
@@ -4131,7 +4131,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4154,7 +4154,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4177,7 +4177,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4200,7 +4200,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4223,7 +4223,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4244,7 +4244,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4265,7 +4265,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4288,7 +4288,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4324,7 +4324,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4345,7 +4345,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4364,7 +4364,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -4383,7 +4383,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4406,7 +4406,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4425,7 +4425,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4444,7 +4444,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4467,7 +4467,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -4486,7 +4486,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4509,7 +4509,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4531,7 +4531,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4554,7 +4554,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4575,7 +4575,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4597,7 +4597,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4620,7 +4620,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4641,7 +4641,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4664,7 +4664,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4700,7 +4700,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4723,7 +4723,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4744,7 +4744,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4766,7 +4766,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4787,7 +4787,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4808,7 +4808,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4831,7 +4831,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4852,7 +4852,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4873,7 +4873,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4894,7 +4894,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4916,7 +4916,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4939,7 +4939,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4958,7 +4958,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "F",
@@ -4979,7 +4979,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5002,7 +5002,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5034,7 +5034,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5055,7 +5055,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5076,7 +5076,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5097,7 +5097,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5118,7 +5118,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5137,7 +5137,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5158,7 +5158,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -5179,7 +5179,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5202,7 +5202,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5225,7 +5225,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -5247,7 +5247,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5266,7 +5266,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5289,7 +5289,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5300,7 +5300,7 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "ACTIVE",
+          "injuryStatus": "DAY_TO_DAY",
           "name": "Egor Demin",
           "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
           "playerId": 5175643,
@@ -5310,7 +5310,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -5331,7 +5331,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5363,7 +5363,7 @@
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5382,7 +5382,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5395,7 +5395,7 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "DAY_TO_DAY",
+          "injuryStatus": "ACTIVE",
           "name": "Ausar Thompson",
           "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
           "playerId": 4684742,
@@ -5405,7 +5405,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5428,7 +5428,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5449,7 +5449,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5472,7 +5472,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5491,7 +5491,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5510,7 +5510,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SG",
             "G",
@@ -5530,7 +5530,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5553,7 +5553,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -5575,7 +5575,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5598,7 +5598,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5621,7 +5621,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -5642,7 +5642,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5665,7 +5665,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5684,7 +5684,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5703,7 +5703,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-27T18:14:50.591096-04:00",
+          "affiliationVerifiedAt": "2026-10-28T01:42:45.941314-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5726,6 +5726,6 @@
       "wins": 0
     }
   ],
-  "updatedAt": "2026-10-27T22:15:22.813463+00:00",
+  "updatedAt": "2026-10-28T05:42:55.352160+00:00",
   "week": 2
 }
