@@ -4,11 +4,44 @@ import tempfile
 from pathlib import Path
 from unittest.mock import patch
 import pandas as pd
-from generate_franchise_profiles import build, franchise_profile
+from generate_franchise_profiles import build, franchise_profile, granular_trends
 from generate_record_book import completed_season_years
 
 
 class FranchiseProfileTests(unittest.TestCase):
+    def test_granular_official_scores_verified_weekly_ratios_and_rank_order(self):
+        payload=json.loads(json.dumps(self.payload))
+        for year,season in payload['seasons'].items():
+            season['performance']['weeks']={'1':{'fpPerStart':5,'available':True,'fpts':100,'starts':20,'coverage':'verified','recordedFpts':101,'scoreDelta':-1},
+                                           '2':{'fpPerStart':None,'available':False}}
+        profile=franchise_profile(payload,self.league,{2025},self.metadata,self.config)
+        granular_trends(payload,profile,self.league,pd.DataFrame(),pd.DataFrame(),self.metadata)
+        views=profile['trendViews']
+        self.assertEqual([p['value'] for p in views['fpts']['week']['points']],[100,110,100,110])
+        self.assertEqual([p['value'] for p in views['fpPerStart']['week']['points']],[5,None,5,None])
+        self.assertEqual(len(views['regularRank']['week']['points']),2)
+        self.assertLess(views['regularRank']['week']['ticks'][0]['y'],views['regularRank']['week']['ticks'][-1]['y'])
+        self.assertEqual(len(profile['scoreDifferences']),2)
+        self.assertEqual(views['fpts']['day']['points'],[])
+
+    def test_daily_trend_uses_verified_eligible_actuals_excluding_bench_ir_and_dnp(self):
+        payload=json.loads(json.dumps(self.payload))
+        for season in payload['seasons'].values():
+            season['performance']['weeks']={'1':{'available':True,'fpts':100,'fpPerStart':50},'2':{'available':False}}
+        profile=franchise_profile(payload,self.league,{2025},self.metadata,self.config)
+        rows=[{'Year':2025,'Scoring Period':period,'Date':f'2024-10-{period+20}',
+               'Team ID':7,'Player Slot':slot,'MIN':minutes,'FPTS':points} for period,slot,minutes,points in
+              [(1,'PG',20,-10),(2,'PG',20,110),(1,'BE',30,500),(1,'IR',30,300),(1,'PG',0,100)]]
+        mapping=pd.DataFrame([{'Year':2025,'Scoring Period':p,'Week':1} for p in (1,2)])
+        metadata={'seasons':[dict(s,lineupSlots=['PG']) for s in self.metadata['seasons']]}
+        granular_trends(payload,profile,self.league,pd.DataFrame(rows),mapping,metadata)
+        chart=profile['trendViews']['fpts']['day']
+        self.assertEqual([p['value'] for p in chart['points']],[-10,110])
+        self.assertIn('2024-10-21',chart['points'][0]['label'])
+        payload['seasons']['2025']['performance']['weeks']['1']['available']=False
+        granular_trends(payload,profile,self.league,pd.DataFrame(rows),mapping,metadata)
+        self.assertEqual(profile['trendViews']['fpts']['day']['points'],[])
+
     def setUp(self):
         self.config={'team_logo_paths':{'Old name':'assets/logos/old.png','New name':'assets/logos/new.png'},
                      'default_logo_path':'assets/logos/Default.png','team_colors':{7:'#123456',8:'#654321'}}

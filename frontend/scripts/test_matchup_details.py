@@ -47,6 +47,15 @@ class DetailTests(unittest.TestCase):
         self.assertIsNone(self.detail()['insights'])
         self.assertEqual(self.detail()['days'][-1]['cumulative'],[15,15])
 
+    def test_discrepancy_context_requires_independent_verification_and_matching_snapshots(self):
+        self.match['actualScores']=[16,15]
+        metrics={(2027,1,1):{'available':True,'coverage':'verified','recordedFpts':16,'fpts':15,'scoreDelta':-1}}
+        def detail():
+            return matchup_detail(self.match,self.week,self.calendar,self.current,{p:1 for p in (1,2,3)},self.rows,verified_performance=metrics)
+        self.assertEqual(detail()['scoreDifferences'],[{'teamId':1,'official':16,'eligible':15,'delta':-1}])
+        metrics[(2027,1,1)]['available']=False;self.assertEqual(detail()['scoreDifferences'],[])
+        metrics[(2027,1,1)].update(available=True,recordedFpts=17);self.assertEqual(detail()['scoreDifferences'],[])
+
     def test_future_no_fake_scores_and_completed_zero_remaining(self):
         self.week['state']='future';self.match['actualScores']=None
         d=self.detail()

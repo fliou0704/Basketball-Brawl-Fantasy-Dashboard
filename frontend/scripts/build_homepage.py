@@ -9,7 +9,7 @@ from pathlib import Path
 import shutil
 import sys
 
-from generate_standings import build_standings
+from generate_standings import build_standings, all_play
 from homepage_state import select_state, normalize_calendar
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -192,14 +192,18 @@ def bracket_view(league, calendar, teams, active_week=None):
     return {'rounds': rounds, 'champion': champion}
 
 
-def standings_charts(by_week, teams, regular_weeks):
+def standings_charts(by_week, teams, regular_weeks, scheduled_weeks=None):
     """Precompute completed regular-season chart geometry for the Standings page."""
+    scheduled_weeks = scheduled_weeks or regular_weeks
     team_ids = set(teams)
     weeks = [week for week in regular_weeks if {
         int(row['Team ID']) for row in by_week[week] if row['Type'] == 'Regular'
     } == team_ids]
     if not weeks:
-        return {'ranks': [], 'weeks': [], 'highWeeks': [], 'rankTicks': [], 'viewBox': [0, 0, 800, 260]}
+        band = 716 / max(1, len(scheduled_weeks))
+        return {'ranks': [], 'weeks': [], 'highWeeks': [], 'rankTicks': [],
+                'scoringWeekTicks': [{'week': w, 'x': round(54+(i+.5)*band,2)} for i,w in enumerate(scheduled_weeks)],
+                'viewBox': [0, 0, 800, 260]}
     left, right, top, bottom = 54, 770, 24, 215
     series = []
     for team_id, team in teams.items():
@@ -212,15 +216,16 @@ def standings_charts(by_week, teams, regular_weeks):
         series.append(dict(team, points=points, path=' '.join(f"{point['x']},{point['y']}" for point in points)))
     leaders = []
     maximum = max(number(row['Points For']) for week in weeks for row in by_week[week] if row['Type'] == 'Regular')
-    band = (right - left) / len(weeks)
+    band = (right - left) / max(1, len(scheduled_weeks))
     for index, week in enumerate(weeks):
         winner = max((row for row in by_week[week] if row['Type'] == 'Regular'), key=lambda row: number(row['Points For']))
         points = number(winner['Points For'])
         height = points / maximum * (bottom - top) if maximum else 0
         leaders.append(dict(teams[int(winner['Team ID'])], week=week, points=round(points, 2),
-                            pointsDisplay=display(points), x=round(left + index * band + band * .15, 2),
+                            pointsDisplay=display(points), x=round(left + scheduled_weeks.index(week) * band + band * .15, 2),
                             width=round(band * .7, 2), y=round(bottom - height, 2), height=round(height, 2)))
     return {'ranks': series, 'weeks': weeks, 'highWeeks': leaders,
+            'scoringWeekTicks': [{'week': w, 'x': round(left+(i+.5)*band,2)} for i,w in enumerate(scheduled_weeks)],
             'rankTicks': [{'rank': rank, 'y': round(top + (rank - 1) * (bottom - top) / max(1, len(teams) - 1), 2)}
                           for rank in range(1, len(teams) + 1)],
             'viewBox': [0, 0, 800, 260]}
@@ -258,7 +263,8 @@ def build_season(year, league, daily, weekly, calendar, config, output, mapping)
             for period, points in side['pointsByPeriod'].items():
                 authoritative[int(period)][side['teamId']] = points
     daily_recaps = {}
-    audit = {'comparedTeamDays': 0, 'activeRosterMismatches': 0,
+    audit = {'comparedTeamDays': 0, 'activeRosterMismatches': 0, 'mismatches': [],
+             'mismatchDefinition': 'Saved ESPN daily aggregate versus active player FPTS; a score disagreement is not proof of missing roster history.',
              'missing3PA': any(r.get('3PA') in (None, '') for r in daily)}
     for day, rows in sorted(by_day.items()):
         period = int(rows[0]['Scoring Period'])
@@ -272,6 +278,10 @@ def build_season(year, league, daily, weekly, calendar, config, output, mapping)
             if team in totals:
                 audit['comparedTeamDays'] += 1
                 audit['activeRosterMismatches'] += abs(total - totals[team]) > .01
+                if abs(total - totals[team]) > .01:
+                    audit['mismatches'].append({'teamId': team, 'teamName': teams[team]['teamName'],
+                        'date': day, 'period': period, 'week': week['week'],
+                        'eligibleFpts': total, 'espnDailyFpts': totals[team], 'delta': round(total-totals[team], 4)})
         # Require all league teams to avoid crowning a winner from a partial slate.
         leaders = []
         if set(totals) == set(teams):
@@ -363,7 +373,9 @@ def build_season(year, league, daily, weekly, calendar, config, output, mapping)
                                width=f'{number(top["Points For"])/max_score*100:.2f}%'))
     charts = {'ranks': rank_series, 'weeks': regular_weeks, 'highWeeks': high_weeks,
               'rankTicks': [{'rank': i, 'y': 20+(i-1)*180/max(1,len(teams)-1)} for i in range(1,len(teams)+1)],
-              'standingsCharts': standings_charts(by_week, teams, regular_weeks)}
+              'allPlay': all_play(league, teams, regular_weeks),
+              'standingsCharts': standings_charts(by_week, teams, regular_weeks,
+                  list(range(1, int(calendar['regularWeeks']) + 1)))}
     for name, content in [('standings',standings), ('daily-recap',daily_recaps), ('weekly-recap',weekly_recaps),
                           ('playoffs',playoffs), ('season-leaders',leaders), ('history',charts)]:
         write_json(output / str(year) / f'{name}.json', {'schemaVersion': VERSION, 'season': year, 'data': content})

@@ -137,3 +137,10 @@
   .ranking-item:nth-child(-n+5) { border-bottom: 1px solid var(--color-border); }
   .rank-image { height: 34px; max-width: 64px; }
 }
+.franchise-chart-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:12px; }
+.franchise-chart-heading h3 { margin:0; }
+.franchise-chart .season-boundary { stroke:var(--color-border-strong); stroke-dasharray:3 4; }
+@media(max-width:719px) {
+  /* Keep the next chart's controls still when a long date readout loses focus. */
+  .franchise-trend .franchise-hover { height:6.2em; overflow-y:auto; }
+}

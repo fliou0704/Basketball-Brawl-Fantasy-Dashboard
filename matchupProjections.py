@@ -11,6 +11,28 @@ from nbaSchedule import instant, NY
 IR_SLOTS = ('IR', 'IR+', 'IL')
 
 
+def participation(member, game, snapshot):
+    """Current ESPN OUT applies only on the observed NY date, never a return forecast."""
+    status = member.get('injuryStatus')
+    stamp = member.get('injuryVerifiedAt')
+    result = {'availabilityStatus': status or 'UNKNOWN', 'excluded': False,
+              'availabilityReason': 'Availability unverified; participation assumed.'}
+    try:
+        verified = instant(stamp)
+        now = instant(snapshot)
+        fresh = timedelta(0) <= now-verified <= timedelta(hours=6)
+        source = member.get('injurySource') == 'ESPN current roster'
+        if fresh and source:
+            result['availabilityReason'] = 'Current ESPN status; future participation uncertain.'
+            if game['date'] == now.astimezone(NY).date().isoformat() == verified.astimezone(NY).date().isoformat() and status in ('OUT', 'SSPD', 'SUSPENDED'):
+                result.update(excluded=True, availabilityReason=f'ESPN {status} on this date; excluded from projected starts.')
+        elif stamp:
+            result['availabilityReason'] = 'Availability status is stale or unverified; participation assumed.'
+    except (ValueError, TypeError, KeyError):
+        pass
+    return result
+
+
 def optimal_lineup(players, slots, value='points', limit=10):
     """Slot-mask DP; optional empty slots, one appearance per player, deterministic ties."""
     if len(slots)>16 or any(not isinstance(s,str) for s in slots):
@@ -183,7 +205,8 @@ def project_team(current, calendar, week, team, opportunities, fixtures):
             average=trailing_average(entry.get('games',[]),game['date'],current['updatedAt'])
             if entry.get('error'):
                 average={'points':None,'sampleSize':0}
-            daily[game['date']].append({'playerId':p['playerId'],'gameId':gid,**average,'assignedSlot':None,'selected':None})
+            daily[game['date']].append({'playerId':p['playerId'],'gameId':gid,**average,
+                **participation(roster[p['playerId']],game,current['updatedAt']), 'assignedSlot':None,'selected':None})
     for day in opportunities['days']:
         players=daily[day['date']]
         slots=day.get('availableSlots')
@@ -192,7 +215,7 @@ def project_team(current, calendar, week, team, opportunities, fixtures):
             reason='Lineup locks, eligibility or league limits are not fully supported.'
         for p in players:
             member=roster[p['playerId']]
-            if member.get('slot') in IR_SLOTS or p['playerId'] in day.get('lockedPlayerIds',[]):
+            if p['excluded'] or member.get('slot') in IR_SLOTS or p['playerId'] in day.get('lockedPlayerIds',[]):
                 p['selected']=False;continue
             if p['points'] is None:
                 reason='A scheduled player has no reliable completed-game sample.'
@@ -213,7 +236,7 @@ def project_team(current, calendar, week, team, opportunities, fixtures):
         result['confirmedRemaining']=sum(d['confirmedPoints'] for d in result['days'])
         if not opportunities.get('uncertain') and not opportunities.get('inProgress') and not opportunities.get('startedUnconfirmed') and opportunities.get('games') is not None:
             result['remaining']=result['confirmedRemaining']
-    result['reason']='Optimal-lineup estimate for confirmed games using the current roster and last 10 completed NBA games. Health, DNPs and future roster changes are unknown.'
+    result['reason']='Optimal-lineup estimate using the current roster and last 10 completed NBA games. Fresh ESPN OUT/suspension statuses exclude starts only on the observed date. Later availability, DNPs and future roster changes are unknown.'
     if opportunities.get('uncertain'):
         result['reason']+=' Additional NBA Cup dates or game statuses are unresolved; a complete projected final score is unavailable.'
     if opportunities.get('inProgress') or opportunities.get('startedUnconfirmed'):

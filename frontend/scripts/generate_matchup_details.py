@@ -23,7 +23,7 @@ def remaining_opportunities(current, calendar, week, team_id):
     return calculate_remaining(current, calendar, week, team_id, current.get('nbaSchedule'))
 
 
-def matchup_detail(match, week, calendar, current, mapping, rows, player_metadata=None):
+def matchup_detail(match, week, calendar, current, mapping, rows, player_metadata=None, verified_performance=None):
     ids = [t['teamId'] for t in match['teams']]
     periods = sorted(p for p, w in mapping.items() if w == week['week'] and (calendar['season'] != current['season'] or p <= current['scoringPeriod'])) if week['state'] != 'future' else []
     source_match = next((m for m in calendar['matchups'] if str(m['id']) == str(match['id'])), {})
@@ -149,7 +149,17 @@ def matchup_detail(match, week, calendar, current, mapping, rows, player_metadat
     away = match.get('awayTeamId')
     if home is None and len(source_match.get('sides', []))==2:
         home, away = [s['teamId'] for s in source_match['sides']]
+    differences = []
+    for i, tid in enumerate(ids):
+        metric = (verified_performance or {}).get((calendar['season'], week['week'], tid), {})
+        if (week['state']=='final' and metric.get('available') and metric.get('coverage')=='verified'
+                and metric.get('scoreDelta') and scores is not None and scores[i] is not None
+                and abs(metric['recordedFpts']-scores[i])<.01 and valid[i]
+                and abs(metric['fpts']-totals[i])<.01):
+            differences.append({'teamId':tid,'official':metric['recordedFpts'],
+                                'eligible':metric['fpts'],'delta':metric['scoreDelta']})
     return {'homeTeamId': home, 'awayTeamId': away, 'calendarDays': dates,
+            'scoreDifferences': differences,
             'potential':potential, 'lineupSlots': calendar['lineupSlots'], 'summaryLineup': list(summary.values()),
             'key': stable_key(match['teams']), 'days': days, 'players': sorted(players.values(), key=lambda p: -p['points']),
             'completedStarts': starts, 'reconciled': reconciled, 'insights': insight,
@@ -159,6 +169,13 @@ def matchup_detail(match, week, calendar, current, mapping, rows, player_metadat
 
 def build_details(payload, calendars, current, mapping, daily, output, metadata=None):
     player_metadata = {int(r['ESPN Player ID']): r for r in metadata or []}
+    verified_performance = {}
+    for path in (output / 'team-stats').glob('*.json'):
+        profile = json.loads(path.read_text())
+        tid = profile['team']['teamId']
+        for year, season_data in profile.get('seasons', {}).items():
+            for w, metric in (season_data or {}).get('performance', {}).get('weeks', {}).items():
+                verified_performance[(int(year),int(w),tid)] = metric
     by_season = defaultdict(list)
     for row in daily:
         by_season[int(row['Year'])].append(row)
@@ -172,7 +189,7 @@ def build_details(payload, calendars, current, mapping, daily, output, metadata=
         for week in season['weeks']:
             path = f"matchups/{year}/{week['week']}.json"
             week['detailPath'] = path
-            matches = [matchup_detail(m, week, calendar, current, period_map, by_week[week['week']], player_metadata) for m in week['matchups']]
+            matches = [matchup_detail(m, week, calendar, current, period_map, by_week[week['week']], player_metadata, verified_performance) for m in week['matchups']]
             result = {'schemaVersion': 1, 'season': year, 'week': week['week'], 'updatedAt': payload['updatedAt'], 'matchups': matches}
             if week['state']=='final':
                 # Finished data has its own content identity. A new roster/NBA

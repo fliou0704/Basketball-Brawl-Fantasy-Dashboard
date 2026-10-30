@@ -86,6 +86,20 @@ class OptimizationTests(unittest.TestCase):
         self.assertIsNone(historical_potential([record],['PG'],0,complete=True,locks_verified=True)['points'])
 
 class ProjectionTests(unittest.TestCase):
+    def test_fresh_same_day_out_exclusion_reoptimizes_bench_without_erasing_average(self):
+        self.fixtures[10]['date']='2026-10-30';self.opps['days'][0]['date']='2026-10-30'
+        p=self.team['roster'][0];p.update(injuryStatus='OUT',injuryVerifiedAt=STAMP,injurySource='ESPN current roster')
+        result=self.result();self.assertEqual(result['remaining'],10)
+        first=result['days'][0]['players'][0]
+        self.assertEqual(first['points'],20);self.assertTrue(first['excluded']);self.assertFalse(first['selected'])
+        for status in ['QUESTIONABLE','DOUBTFUL','DAY_TO_DAY','ACTIVE',None]:
+            p['injuryStatus']=status;self.assertEqual(self.result()['remaining'],20)
+        p['injuryStatus']='SSPD';self.assertEqual(self.result()['remaining'],10)
+        p['injuryStatus']='OUT';p['injuryVerifiedAt']='2026-10-29T01:00:00Z'
+        self.assertEqual(self.result()['remaining'],20)
+        p['injuryVerifiedAt']=STAMP;self.fixtures[10]['date']='2026-10-31'
+        self.opps['days'][0]['date']='2026-10-31';self.assertEqual(self.result()['remaining'],20)
+
     def setUp(self):
         self.team={'teamId':1,'roster':[player(1,0,['PG']),player(2,0,['PG']),player(3,0,['PG'],'IR')]}
         self.current={'updatedAt':STAMP,'projectionHistory':{'verifiedAt':STAMP,'players':{str(i):{'games':[history(n,gid=i)],'error':None}for i,n in [(1,20),(2,10),(3,100)]}}}

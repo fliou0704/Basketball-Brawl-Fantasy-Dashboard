@@ -3,6 +3,7 @@ import { Card, Section, TableCard } from './components/Layout';
 import { Team, TeamLogo } from './components/Standings';
 import { PlayerSides } from './components/H2HBreakdown';
 import PlayerIdentity from './components/PlayerIdentity';
+import ScoreDifference from './components/ScoreDifference';
 import {ProjectionSummary,PotentialPoints,ProjectedLineups} from './components/MatchupEstimates';
 import { formatPublicationTime } from './home-data';
 import { loadMatchupWeek, matchupKey, scoreboardLink } from './scoreboard-data';
@@ -21,7 +22,7 @@ export function Scorecard({match,week,season,updatedAt,rolesVerified,detail}) {
     <div className="facing-scoreboard">{match.teams.map((team,i)=><React.Fragment key={team.teamId}>{i===1&&<span className="score-separator" aria-hidden="true">:</span>}<div className={`facing-team ${i===0?'away':'home'}`} style={{'--side-color':team.color}} data-team-id={team.teamId}>
       <div className="facing-identity"><TeamLogo team={team} size={64}/><div><span className="box-role">{rolesVerified?(i===0?'Away':'Home'):match.bye?'Bye':'Team'}</span><h2>{team.teamName}</h2></div></div><strong className="facing-points" aria-label={`${team.teamName} fantasy points`}>{fmt(match.actualScores?.[i])}<small>FPTS</small></strong>
     </div></React.Fragment>)}</div>
-    <ProjectionSummary detail={detail} match={match}/>
+    <ProjectionSummary detail={detail} match={match}/>{detail?.scoreDifferences?.map(d=><ScoreDifference key={d.teamId} {...d} label={match.teams.find(t=>t.teamId===d.teamId)?.teamName}/> )}
     {match.status==='current'&&updatedAt&&<p className="source-note">Snapshot: <time dateTime={updatedAt}>{formatPublicationTime(updatedAt)} ET</time></p>}
   </Card></Section>;
 }

@@ -46,7 +46,8 @@ def enrich_roster_snapshot(league, snapshot, raw, now, schedule=None, previous=N
         for rostered in team['roster']:
             player = players[rostered['playerId']]
             rostered.update(proTeamId=affiliations.get(rostered['playerId'], pro_ids.get(player.proTeam)), slot=player.lineupSlot,
-                            injuryStatus=player.injuryStatus, affiliationVerifiedAt=now.isoformat(),
+                            injuryStatus=player.injuryStatus, injuryVerifiedAt=now.isoformat(),
+                            injurySource='ESPN current roster', affiliationVerifiedAt=now.isoformat(),
                             affiliationSource='ESPN current roster')
             old = old_rosters.get((team['teamId'],rostered['playerId']), {})
             rostered['rosterSince'] = old.get('rosterSince',previous.get('rosterVerifiedAt',previous.get('updatedAt',now.isoformat()))) if old else now.isoformat()

@@ -323,6 +323,18 @@ def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False, force
         metadata['seasons'] = [s for s in metadata['seasons'] if int(s['season']) != year] + [calendar]
         metadata['seasons'].sort(key=lambda s: int(s['season']))
         atomic_json(metadata, stage / 'seasonMetadata.json')
+        # One bounded bulk read per historical season, once only. This fills
+        # raw attempts, never scoring contributions, memberships or results.
+        from historicalThreePointAttempts import refresh_missing_attempts
+        from espn_api.requests.espn_requests import EspnFantasyRequests
+        def historical_cards(season, ids):
+            return EspnFantasyRequests('nba',season,active.league_id,
+                cookies=active.espn_request.cookies).get_player_card(ids,220)
+        enriched_daily = refresh_missing_attempts(pd.read_csv(stage / 'playerDailyData.csv'),
+            metadata, year, historical_cards, datetime.now(timezone.utc))
+        validate_player_daily_data(enriched_daily)
+        atomic_write_csv(enriched_daily, stage / 'playerDailyData.csv')
+        atomic_json(metadata, stage / 'seasonMetadata.json')
         mapping = build_scoring_period_map(metadata)
         validate_scoring_period_map(mapping, candidate)
         atomic_write_csv(mapping, stage / 'scoringPeriodMatchupMap.csv')
@@ -336,7 +348,9 @@ def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False, force
             print(name, changes(before[name], after, key))
             details = change_details(before[name], after, key)
             if details['corrected'] or details['removedKeys']:
-                print('Correction details:', details)
+                print('Correction details:', {'correctedCount':len(details['corrected']),
+                    'removedCount':len(details['removedKeys']),
+                    'correctedSample':details['corrected'][:20], 'removedSample':details['removedKeys'][:20]})
         # Only a fully validated candidate can acquire a data-update timestamp.
         old_snapshot_path = data_dir / 'currentLeague.json'
         old_snapshot = json.loads(old_snapshot_path.read_text()) if old_snapshot_path.exists() else None

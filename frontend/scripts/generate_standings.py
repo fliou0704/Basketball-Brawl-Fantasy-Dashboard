@@ -3,11 +3,46 @@ import ast
 import argparse
 import csv
 import json
+import math
+from collections import defaultdict
 from pathlib import Path
 import shutil
 
 ROOT = Path(__file__).resolve().parents[2]
 PUBLIC = ROOT / 'frontend/public'
+
+
+def all_play(rows, teams, completed_weeks):
+    """Official full-field regular weeks only; ties contribute half a win."""
+    ids = set(teams)
+    grouped = defaultdict(list)
+    for row in rows:
+        grouped[int(row['Week'])].append(row)
+    totals = {tid: dict(teams[tid], wins=0, losses=0, ties=0, points=0.0) for tid in ids}
+    included = []
+    for week in sorted(set(completed_weeks)):
+        field = grouped[week]
+        if len(field) != len(ids) or {int(r['Team ID']) for r in field} != ids or any(r['Type'] != 'Regular' for r in field):
+            continue
+        try:
+            scores = {int(r['Team ID']): float(r['Points For']) for r in field}
+            if not all(math.isfinite(v) for v in scores.values()):
+                continue
+        except (ValueError, TypeError, KeyError):
+            continue
+        included.append(week)
+        for tid, score in scores.items():
+            team = totals[tid]
+            team['points'] += score
+            for other, value in scores.items():
+                if other != tid:
+                    team['wins' if score > value else 'losses' if score < value else 'ties'] += 1
+    for team in totals.values():
+        games = team['wins'] + team['losses'] + team['ties']
+        team['winPct'] = (team['wins'] + team['ties'] / 2) / games if games else None
+        team['record'] = f"{team['wins']}–{team['losses']}–{team['ties']}"
+    ordered = sorted(totals.values(), key=lambda t: (-(t['winPct'] or 0), -t['wins'], -t['points'], t['teamId']))
+    return {'weeks': included, 'teams': [dict(t, rank=i+1) for i, t in enumerate(ordered)] if included else []}
 
 
 def build_standings(rows, season=2026):
