@@ -77,6 +77,25 @@ def matchup_detail(match, week, calendar, current, mapping, rows, player_metadat
                      'lineup': lineup_records[period], 'lineupCoverage': 'recorded-games-only', 'partial': week['state'] == 'current' and period == current['scoringPeriod'], 'points': points, 'cumulative': [round(totals[i], 4) if valid[i] else None for i in range(len(ids))], 'contributors': contributors})
     scores = match['actualScores']
     reconciled = bool(days and daily_consistent and periods == list(range(periods[0], periods[-1]+1)) and scores is not None and all(valid) and all(abs(a-b) < .01 for a,b in zip(totals,scores)))
+    from matchupProjections import historical_potential
+    potential=[]
+    completed=[d for d in days if not d['partial']]
+    for i,team in enumerate(ids):
+        daily_potential=[]
+        for d in completed:
+            records=[dict(p,points=p['gamePoints']) for p in d['lineup'] if p['teamId']==team]
+            value=historical_potential(records,calendar['lineupSlots'],d['points'][i],
+                complete=d['lineupCoverage']=='complete',locks_verified=d.get('historicalLocksVerified') is True)
+            daily_potential.append(dict(date=d['date'],**value))
+        covered=sum(d['points'] is not None for d in daily_potential)
+        full=bool(completed) and covered==len(completed) and (week['state']!='final' or reconciled)
+        total=sum(d['points'] for d in daily_potential) if full else None
+        actual=sum(d['points'][i] for d in completed) if full else None
+        potential.append({'points':total,'leftOnBench':total-actual if full else None,
+            'efficiency':actual/total if full and total>0 and actual>=0 else None,
+            'coveredDays':covered,'completedDays':len(completed),
+            'reason':None if full else 'Complete historical roster, game and eligibility evidence is unavailable; exact potential points cannot be claimed.',
+            'days':daily_potential})
     insight = None
     # Today's live snapshot is not a scoring-period-end lead observation.
     completed_days = [d for d in days if not (week['state'] == 'current' and calendar['season'] == current['season'] and d['period'] == current['scoringPeriod'])]
@@ -131,7 +150,7 @@ def matchup_detail(match, week, calendar, current, mapping, rows, player_metadat
     if home is None and len(source_match.get('sides', []))==2:
         home, away = [s['teamId'] for s in source_match['sides']]
     return {'homeTeamId': home, 'awayTeamId': away, 'calendarDays': dates,
-            'lineupSlots': calendar['lineupSlots'], 'summaryLineup': list(summary.values()),
+            'potential':potential, 'lineupSlots': calendar['lineupSlots'], 'summaryLineup': list(summary.values()),
             'key': stable_key(match['teams']), 'days': days, 'players': sorted(players.values(), key=lambda p: -p['points']),
             'completedStarts': starts, 'reconciled': reconciled, 'insights': insight,
             'coverage': 'Daily totals reconcile to the scoreboard snapshot.' if reconciled else 'Daily history is incomplete or differs from the scoreboard snapshot. Cumulative totals may be partial; insights are withheld.',

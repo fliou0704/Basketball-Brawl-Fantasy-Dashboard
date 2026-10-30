@@ -310,6 +310,15 @@ def run(data_dir=ROOT / 'data', write=False, force_calendar_refresh=False, force
         except RuntimeError:
             # Optional schedule availability must not prevent canonical scoring updates.
             snapshot['nbaSchedule'] = {'complete': False, 'games': [], 'reason': 'ESPN NBA schedule unavailable'}
+        # Canonical fantasy logs omit unrostered NBA appearances. Supplement only
+        # the projection sample through bulk roster requests; never alter actuals.
+        from matchupProjections import refresh_history
+        try:
+            snapshot['projectionHistory'] = retry(lambda: refresh_history(active,
+                metadata['seasons'], schedules, datetime.now(timezone.utc),
+                previous=(previous_rosters or {}).get('projectionHistory')))
+        except (RuntimeError, ValueError, KeyError, TypeError):
+            snapshot['projectionHistory'] = {'lastError': 'NBA projection samples unavailable', 'players': {}}
         atomic_json(snapshot, stage / 'currentLeague.json')
         metadata['seasons'] = [s for s in metadata['seasons'] if int(s['season']) != year] + [calendar]
         metadata['seasons'].sort(key=lambda s: int(s['season']))

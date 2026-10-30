@@ -116,3 +116,19 @@
 .box-player-copy .player-link-copy { overflow:visible; }
 .box-player-copy .player-link-name { white-space:normal; overflow:visible; text-overflow:clip; }
 .box-player-copy > small { text-transform:none; letter-spacing:0; }
+.matchup-estimates { margin-top:24px; padding-top:16px; border-top:1px solid var(--color-border); }
+.estimate-label { text-align:center; font-size:.8125rem; font-weight:800; color:var(--color-brand-strong); margin:0 0 16px; }
+.estimate-team { min-width:0; }
+.estimate-team:nth-child(2) { text-align:right; }
+.matchup-estimates dl, .potential-points dl { margin:12px 0; font-size:.8125rem; }
+.matchup-estimates dl>div,.potential-points dl>div { margin:8px 0; }
+.matchup-estimates dt,.potential-points dt { color:var(--color-ink-muted); }
+.matchup-estimates dd,.potential-points dd { margin:2px 0 0; font-weight:800; font-variant-numeric:tabular-nums; }
+.daily-projection { text-transform:none; letter-spacing:0; font-size:.7rem; font-weight:600; white-space:normal; }
+.daily-projection.projected-leader { color:var(--daily-color); text-decoration:underline dotted; text-underline-offset:3px; }
+.potential-points { padding:16px; border-top:1px solid var(--color-border); }
+.potential-points summary { font-size:.875rem; font-weight:700; cursor:pointer; }
+.potential-points .player-sides { margin-top:16px; }
+.projected-lineups>h3 { margin:24px 0 12px; font-size:1rem; }
+.projected-lineups .player-sides>p { overflow-wrap:anywhere; font-size:.875rem; }
+@media(max-width:719px) { .estimate-team { font-size:.75rem; }.matchup-estimates .source-note { font-size:.75rem; } }

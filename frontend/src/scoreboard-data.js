@@ -58,7 +58,7 @@ export async function loadMatchupWeek(base, path, updatedAt, fetcher=fetch, deta
       // Optional schedule failures must not hide canonical actual scores.
       for(const match of data.matchups) {
         match.scheduleError='Remaining schedule unavailable. Reload to try the latest schedule.';
-        match.remaining=match.remaining.map(r=>({...r,games:null,potentialStarts:null,days:[],players:[],reason:match.scheduleError}));
+        match.remaining=match.remaining.map(r=>({...r,projection:null,games:null,potentialStarts:null,days:[],players:[],reason:match.scheduleError}));
       }
     }
   }

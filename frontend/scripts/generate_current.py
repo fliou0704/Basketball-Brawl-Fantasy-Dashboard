@@ -103,4 +103,5 @@ def build(source, output):
     playoff_path = output / year / 'playoffs.json'
     if not playoff_path.exists():
         write_json(playoff_path, {'schemaVersion': 1, 'season': int(year), 'data': {}})
-    write_json(output / 'current-league.json', current)
+    # Raw projection game samples stay backend-only; browser estimates are shared separately.
+    write_json(output / 'current-league.json', {k:v for k,v in current.items() if k!='projectionHistory'})

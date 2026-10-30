@@ -30,7 +30,7 @@ const assert=require('node:assert/strict');
     return fail?route.fulfill({status:503,body:'Temporarily unavailable'}):route.fulfill({json:detailBase});
    }
    const file=path.resolve(root,relative);if(!file.startsWith(root+'/'))return route.abort();
-   try{await route.fulfill({body:await fs.readFile(file),contentType:'application/json'});}catch{await route.continue();}
+   try{const body=await fs.readFile(file);if(['matchup-opportunities.json','nba-schedule.json'].includes(relative)){const value=JSON.parse(body);value.updatedAt=scoreboard.updatedAt;await route.fulfill({json:value});}else await route.fulfill({body,contentType:'application/json'});}catch{await route.continue();}
   });
   await page.goto(base+`#/scoreboard?season=${year}&week=${week}&match=${key}`);
   const dropdown=page.getByLabel('Lineup view',{exact:true});await dropdown.waitFor();

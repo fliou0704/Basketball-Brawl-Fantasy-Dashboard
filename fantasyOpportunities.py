@@ -161,6 +161,7 @@ def remaining(current, calendar, week, team_id, schedule, index=None, locked=())
         daily.append({'period':d['period'], 'date':d['date'], 'games':len(candidates[d['date']]),
                       'potentialStarts':potential_starts(pool,slots) if supported else None,
                       'inProgress':len(underway[d['date']]), 'lockedSlots':len(active_locks[d['date']]),
+                      'availableSlots':slots if supported else None, 'lockedPlayerIds':sorted(active_locks[d['date']]),
                       'additionalTBD':d['date'] in uncertain_dates})
     result.update(days=daily, players=players, inProgress=sum(len(v)for v in underway.values()),
                   startedUnconfirmed=sum(len(v)for v in unconfirmed.values()),
@@ -183,5 +184,8 @@ def remaining(current, calendar, week, team_id, schedule, index=None, locked=())
         reason += ' Some game times or statuses are unconfirmed.'
     if not supported:
         reason += ' Player eligibility or lineup/game-limit rules are incomplete or unsupported; potential starts are unavailable.'
+    if not supported:
+        for d in daily:
+            d['availableSlots'] = None
     result['reason'] = reason
     return result

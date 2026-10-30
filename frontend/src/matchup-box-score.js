@@ -6,7 +6,7 @@ export function orientMatchup(match, detail) {
   const order=ids.map(id=>match.teams.findIndex(t=>t.teamId===id));
   const reorder=values=>values==null?values:order.map(i=>values[i]);
   return {match:{...match,teams:reorder(match.teams),actualScores:reorder(match.actualScores),scoreDisplay:reorder(match.scoreDisplay)},
-    detail:detail?{...detail,completedStarts:reorder(detail.completedStarts),remaining:reorder(detail.remaining),
+    detail:detail?{...detail,completedStarts:reorder(detail.completedStarts),remaining:reorder(detail.remaining),potential:reorder(detail.potential),
       days:detail.days.map(d=>({...d,points:reorder(d.points),cumulative:reorder(d.cumulative)}))}:null,
     rolesVerified:away!=null&&home!=null};
 }
@@ -35,5 +35,29 @@ export function lineupPairs(players, teams, slots, reserves=false) {
 export function summaryPairs(players, teams, reserves=false) {
   const sides=teams.map(t=>players.filter(p=>p.teamId===t.teamId && Boolean(p.eligible)!==reserves)
     .sort((a,b)=>b.points-a.points || a.playerId-b.playerId));
+  return Array.from({length:Math.max(0,...sides.map(s=>s.length))},(_,i)=>({label:String(i),players:sides.map(s=>s[i] || null)}));
+}
+
+export function projectedFinal(match,detail,index) {
+  const actual=match.status==='future'?0:match.actualScores?.[index];
+  const remaining=detail?.remaining?.[index]?.projection?.remaining;
+  return match.status==='final'||actual==null||remaining==null?null:actual+remaining;
+}
+export function projectionDay(detail,date,index) {
+  return detail?.remaining?.[index]?.projection?.days?.find(d=>d.date===date) ?? null;
+}
+export function projectedAdvantage(detail,date) {
+  const days=[projectionDay(detail,date,0),projectionDay(detail,date,1)];
+  if(days.some(d=>d?.points==null))return null;
+  const difference=days[0].points-days[1].points;
+  return {winner:difference===0?null:difference>0?0:1,margin:Math.abs(difference)};
+}
+export function projectedPlayers(detail,date,teams,selected=true) {
+  const sides=teams.map((team,i)=>{
+    const members=new Map((detail.remaining[i]?.players || []).map(p=>[p.playerId,p]));
+    return (projectionDay(detail,date,i)?.players || []).filter(p=>(p.selected===true)===selected)
+      .map(p=>({...members.get(p.playerId),...p,teamId:team.teamId,projected:true}))
+      .sort((a,b)=>(b.points ?? -Infinity)-(a.points ?? -Infinity)||a.playerId-b.playerId);
+  });
   return Array.from({length:Math.max(0,...sides.map(s=>s.length))},(_,i)=>({label:String(i),players:sides.map(s=>s[i] || null)}));
 }

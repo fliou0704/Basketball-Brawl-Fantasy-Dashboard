@@ -46,7 +46,7 @@ const assert=require('node:assert/strict');
    if(kind==='extended')assert.equal(await options.count(),15);
    if(await options.count()>1){
     await page.getByLabel('Lineup view',{exact:true}).selectOption(await options.nth(1).getAttribute('value'));
-    await page.getByText(kind==='future'?'Future lineup unavailable.':'Complete daily lineup unavailable.',{exact:false}).waitFor();
+    await page.getByText(kind==='future'?'Manager-selected future lineup unavailable.':'Complete daily lineup unavailable.',{exact:false}).waitFor();
     await noOverflow(width);
     await page.getByLabel('Lineup view',{exact:true}).selectOption('summary');
    }

@@ -41,6 +41,14 @@ def build(metadata, current, calendars, scoreboard, daily, output):
             occupied[int(r['Team ID'])].append({'playerId':int(r['Player ID']), 'date':r['Date'], 'slot':r['Player Slot']})
     values = {str(w['week']): {str(t['teamId']):remaining(current,calendar,w,t['teamId'],schedule,index,occupied[t['teamId']])
                              for t in current['teams']} for w in weeks if w['state']!='final'}
+    from matchupProjections import project_team
+    fixtures={g['id']:g for g in (schedule or {}).get('fixtures',[])}
+    for week in weeks:
+        if week['state']=='final':
+            continue
+        for team in current['teams']:
+            opportunity=values[str(week['week'])][str(team['teamId'])]
+            opportunity['projection']=project_team(current,calendar,week,team,opportunity,fixtures)
     write_json(output/'matchup-opportunities.json', {'schemaVersion':1,'season':season,
         'updatedAt':current.get('updatedAt'),'verifiedAt':(schedule or {}).get('verifiedAt'),
         'statusAt':(schedule or {}).get('statusAt'),'weeks':values})

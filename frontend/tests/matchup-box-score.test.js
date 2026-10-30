@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {orientMatchup,comparisonDays,dailyAdvantage,lineupPairs,summaryPairs} from '../src/matchup-box-score.js';
+import {orientMatchup,comparisonDays,dailyAdvantage,lineupPairs,summaryPairs,projectionDay,projectedAdvantage,projectedFinal} from '../src/matchup-box-score.js';
 
 test('away stays left even when home wins; all positional data follows team IDs',()=>{
  const match={homeTeamId:1,awayTeamId:2,teams:[{teamId:1},{teamId:2}],actualScores:[300,200],scoreDisplay:['300','200']};
@@ -48,7 +48,7 @@ async function views(selected='summary') {
  const Box=({children,title})=>React.createElement('div',null,title&&React.createElement('h2',null,title),children);
  const bindings={React,useState:()=>[selected,()=>{}],useEffect:()=>{},Section:Box,Card:Box,TableCard:Box,
   TeamLogo:({team})=>React.createElement('img',{'data-team':team.teamId}),PlayerIdentity:({name})=>React.createElement('span',null,name),PlayerSides:Box,
-  formatCalendarDate,formatCalendarRange,formatPublicationTime:()=>'',comparisonDays,dailyAdvantage,lineupPairs,summaryPairs};
+  formatCalendarDate,formatCalendarRange,formatPublicationTime:()=>'',comparisonDays,dailyAdvantage,lineupPairs,summaryPairs,projectionDay,projectedAdvantage,projectedFinal,ProjectionSummary:()=>null,PotentialPoints:()=>null,ProjectedLineups:()=>null};
  return new Function(...Object.keys(bindings),`${body};return {Scorecard,DailyComparison,ScoringBreakdown};`)(...Object.values(bindings));
 }
 const teams=[{teamId:2,teamName:'Away',color:'#111111'},{teamId:1,teamName:'Home',color:'#222222'}];
@@ -89,4 +89,19 @@ test('Summary markup ranks total contributions instead of lineup positions',asyn
  const html=renderToStaticMarkup(React.createElement(ScoringBreakdown,{detail,teams}));
  assert.ok(html.indexOf('High UT')<html.indexOf('Low PG'));
  assert.match(html,/101 recorded FPTS/);
+});
+
+test('projected finals use away/home-indexed actual plus remaining; future actual stays unscored',()=>{
+ const detail={remaining:[{projection:{remaining:30}},{projection:{remaining:null}}]};
+ assert.equal(projectedFinal({status:'current',actualScores:[100,200]},detail,0),130);
+ assert.equal(projectedFinal({status:'future',actualScores:null},detail,0),30);
+ assert.equal(projectedFinal({status:'final',actualScores:[100,200]},detail,0),null);
+ assert.equal(projectedFinal({status:'current',actualScores:[100,200]},detail,1),null);
+});
+test('future projected advantages are separate from actual daily margins',()=>{
+ const detail={remaining:[{projection:{days:[{date:'2026-11-01',points:30}]}},{projection:{days:[{date:'2026-11-01',points:20}]}}]};
+ assert.deepEqual(projectedAdvantage(detail,'2026-11-01'),{winner:0,margin:10});
+ assert.equal(dailyAdvantage({future:true}),null);
+ detail.remaining[1].projection.days[0].points=null;
+ assert.equal(projectedAdvantage(detail,'2026-11-01'),null);
 });

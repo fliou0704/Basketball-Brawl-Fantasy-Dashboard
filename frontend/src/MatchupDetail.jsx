@@ -3,23 +3,25 @@ import { Card, Section, TableCard } from './components/Layout';
 import { Team, TeamLogo } from './components/Standings';
 import { PlayerSides } from './components/H2HBreakdown';
 import PlayerIdentity from './components/PlayerIdentity';
+import {ProjectionSummary,PotentialPoints,ProjectedLineups} from './components/MatchupEstimates';
 import { formatPublicationTime } from './home-data';
 import { loadMatchupWeek, matchupKey, scoreboardLink } from './scoreboard-data';
 import { formatCalendarDate, formatCalendarRange } from './fantasy-calendar';
 import { gameTime } from './nba-schedule';
-import { orientMatchup, comparisonDays, dailyAdvantage, lineupPairs, summaryPairs } from './matchup-box-score';
+import { orientMatchup, comparisonDays, dailyAdvantage, lineupPairs, summaryPairs, projectionDay, projectedAdvantage } from './matchup-box-score';
 
 const base=import.meta.env.BASE_URL;
 const fmt=n=>n==null?'—':n.toLocaleString('en-US',{maximumFractionDigits:1});
 const availability=n=>n==null?'Unavailable':fmt(n);
 
-export function Scorecard({match,week,season,updatedAt,rolesVerified}) {
+export function Scorecard({match,week,season,updatedAt,rolesVerified,detail}) {
   const status={current:'Live',final:'Final',future:'Upcoming',bye:'Bye','opponent-unavailable':'Opponent unavailable',unavailable:'Score unavailable'}[match.status];
   return <Section title={`${season} Week ${week.week}`} meta={status} className="matchup-scorecard-section"><Card className="matchup-scorecard">
     <p className="box-score-dates">{week.start&&week.end?`${week.dateRangeKind==='observed'?'Observed dates: ':''}${formatCalendarRange(week.start,week.end)}`:'Verified matchup dates unavailable'}</p>
     <div className="facing-scoreboard">{match.teams.map((team,i)=><React.Fragment key={team.teamId}>{i===1&&<span className="score-separator" aria-hidden="true">:</span>}<div className={`facing-team ${i===0?'away':'home'}`} style={{'--side-color':team.color}} data-team-id={team.teamId}>
       <div className="facing-identity"><TeamLogo team={team} size={64}/><div><span className="box-role">{rolesVerified?(i===0?'Away':'Home'):match.bye?'Bye':'Team'}</span><h2>{team.teamName}</h2></div></div><strong className="facing-points" aria-label={`${team.teamName} fantasy points`}>{fmt(match.actualScores?.[i])}<small>FPTS</small></strong>
     </div></React.Fragment>)}</div>
+    <ProjectionSummary detail={detail} match={match}/>
     {match.status==='current'&&updatedAt&&<p className="source-note">Snapshot: <time dateTime={updatedAt}>{formatPublicationTime(updatedAt)} ET</time></p>}
   </Card></Section>;
 }
@@ -27,8 +29,8 @@ export function DailyComparison({detail,match}) {
   const days=comparisonDays(detail);
   return <Section title="Daily scoring comparison"><TableCard className="daily-box-card"><div className="daily-box-scroll" role="region" aria-label="Daily fantasy points" tabIndex="0">
     <table className="daily-box-table"><caption className="sr-only">Daily fantasy points by team, with official matchup totals</caption><thead><tr><th scope="col">Team</th>{days.map(d=><th key={d.period} scope="col" className={d.future?'future-day':''}><time dateTime={d.date}>{formatCalendarDate(d.date)}</time><small>{d.future?'Upcoming':d.partial?'Live':d.points?'Recorded':'Unavailable'}</small></th>)}<th scope="col" className="box-total">Total</th></tr></thead>
-      <tbody>{match.teams.map((team,i)=><tr key={team.teamId}><th scope="row"><span className="daily-team-name"><TeamLogo team={team} size={24}/>{team.teamName}</span></th>{days.map(d=>{const advantage=dailyAdvantage(d);const winner=advantage?.winner===i;return <td key={d.period} className={`${winner?'daily-winner':''} ${d.future?'future-day':''}`} style={{'--daily-color':team.color}}>{d.future?'—':fmt(d.points?.[i])}{winner&&<small className="daily-margin">+{fmt(advantage.margin)}</small>}</td>;})}<td className="box-total">{fmt(match.actualScores?.[i])}</td></tr>)}</tbody>
-    </table></div>{!days.length&&<p className="source-note">Verified daily dates are unavailable.</p>}<p className="source-note">{detail.reconciled?'Daily totals reconcile to the scoreboard snapshot.':match.status==='future'?'Scores will appear after play begins.':'Recorded daily scores are incomplete or differ from the official total. Official totals are shown without adjusting daily contributions.'} Dashes indicate unavailable or upcoming scores; a recorded zero is shown as 0.</p>
+      <tbody>{match.teams.map((team,i)=><tr key={team.teamId}><th scope="row"><span className="daily-team-name"><TeamLogo team={team} size={24}/>{team.teamName}</span></th>{days.map(d=>{const advantage=dailyAdvantage(d);const winner=advantage?.winner===i;const projected=projectionDay(detail,d.date,i);const projectedLead=projectedAdvantage(detail,d.date);return <td key={d.period} className={`${winner?'daily-winner':''} ${d.future?'future-day':''}`} style={{'--daily-color':team.color}}>{d.future?'—':fmt(d.points?.[i])}{winner&&<small className="daily-margin">+{fmt(advantage.margin)}</small>}{projected&&<small className={`daily-projection ${projectedLead?.winner===i?'projected-leader':''}`}>Est.{d.partial?' remaining':''} {fmt(projected.points)}{projected.additionalTBD?' · TBD':''}{projectedLead?.winner===i?` (+${fmt(projectedLead.margin)})`:''}</small>}</td>;})}<td className="box-total">{fmt(match.actualScores?.[i])}</td></tr>)}</tbody>
+    </table></div>{!days.length&&<p className="source-note">Verified daily dates are unavailable.</p>}<p className="source-note">{detail.reconciled?'Daily totals reconcile to the scoreboard snapshot.':match.status==='future'?'Scores will appear after play begins.':'Recorded daily scores are incomplete or differ from the official total. Official totals are shown without adjusting daily contributions.'} Dashes indicate unavailable or upcoming scores; a recorded zero is shown as 0. Est. values describe optimal confirmed future games, separately from actual results.</p><PotentialPoints detail={detail} teams={match.teams}/>
   </TableCard></Section>;
 }
 function LineupPlayer({player,home,summary}) {
@@ -47,8 +49,11 @@ export function ScoringBreakdown({detail,teams}) {
   return <Section title="Head-to-head scoring breakdown"><Card className="box-breakdown">
     <label className="box-lineup-select">Lineup view<select aria-label="Lineup view" value={selected} onChange={e=>setSelected(e.target.value)}><option value="summary">Summary</option>{dates.map(d=><option key={d.date} value={d.date}>{formatCalendarDate(d.date,'long')}{d.future?' · Upcoming':''}</option>)}</select></label>
     <PlayerSides className="box-lineup-headings">{teams.map((team,i)=><div className={`player-side ${i===1?'home':''}`} style={{'--side-color':team.color}} key={team.teamId}><header><TeamLogo team={team} size={36}/><div><span>{team.teamName}</span><strong>{players.some(p=>p.teamId===team.teamId)?`${fmt(players.filter(p=>p.teamId===team.teamId).reduce((n,p)=>n+p.points,0))} recorded FPTS`:'Recorded points unavailable'}</strong></div></header></div>)}</PlayerSides>
-    <p className="source-note">{summary?'Summary ranks each team independently by contributed FPTS. Slots list the positions actually used; this is not a single historical lineup.':day?.future?'Future lineup unavailable. No planned lineup is assumed.':'Complete daily lineup unavailable. These are verified slot assignments for players with recorded stats; players without stat records may be missing.'} NBA affiliations are from the current player profile; historical NBA teams are unavailable.</p>
+    <p className="source-note">{summary?'Summary ranks each team independently by contributed FPTS. Slots list the positions actually used; this is not a single historical lineup.':day?.future?'Manager-selected future lineup unavailable. The estimates below optimize the current roster; they are not manager selections.':'Complete daily lineup unavailable. These are verified slot assignments for players with recorded stats; players without stat records may be missing.'} NBA affiliations are from the current player profile; historical NBA teams are unavailable.</p>
+    {!summary&&day?.future?<ProjectedLineups detail={detail} teams={teams} date={selected}/>:<>
     {[['Scoring starters',starters],['Bench / IR · excluded from fantasy totals',reserves]].map(([label,pairs])=><div className="box-lineup-group" key={label}><h3>{label}</h3>{pairs.length?pairs.map((pair,index)=><PlayerSides className="box-lineup-row" key={`${pair.label}-${index}`}>{pair.players.map((p,i)=><LineupPlayer key={teams[i].teamId} player={p} home={i===1} summary={summary}/>)}</PlayerSides>):<p className="source-note">{day?.future?'Lineup not available yet.':'No recorded players available.'}</p>}</div>)}
+    {!summary&&day?.partial&&<ProjectedLineups detail={detail} teams={teams} date={selected}/>}
+    </>}
   </Card></Section>;
 }
 function Opportunities({detail,teams}) {
@@ -82,7 +87,7 @@ export default function MatchupDetail({season,week,match,updatedAt,refreshCount=
   const oriented=match?orientMatchup(snapshot?.match || match,detail):null;
   return <div className="matchup-box-score"><h1 className="sr-only">{season} Week {week.week} matchup</h1><a className="matchup-back" href={scoreboardLink(season,week.week)}>← {season} Week {week.week} Matchups</a>
     {!match?<Card><p role="status">This matchup is unavailable. Return to the scoreboard to choose a matchup.</p></Card>:<>
-      <Scorecard match={oriented.match} rolesVerified={oriented.rolesVerified} season={season} week={week} updatedAt={snapshot?.updatedAt ?? updatedAt}/>
+      <Scorecard match={oriented.match} rolesVerified={oriented.rolesVerified} detail={oriented.detail} season={season} week={week} updatedAt={snapshot?.updatedAt ?? updatedAt}/>
       {!detail?<Card><p role={error?'alert':'status'}>{error?'Matchup details unavailable. Reload to retrieve the latest snapshot.':'Loading matchup details…'}</p></Card>:<>
         <DailyComparison detail={oriented.detail} match={oriented.match}/>
         <ScoringBreakdown detail={oriented.detail} teams={oriented.match.teams}/>
