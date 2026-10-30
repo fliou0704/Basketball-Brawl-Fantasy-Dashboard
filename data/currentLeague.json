@@ -853,7 +853,7 @@
     "4683834": "2026-10-27T15:23:26.588393-04:00",
     "4683933": "2026-10-27T15:23:26.588393-04:00",
     "4683934": "2026-10-27T15:23:26.588393-04:00",
-    "4683935": "2026-10-27T15:23:26.588393-04:00",
+    "4683935": "2026-10-30T06:01:37.407671-04:00",
     "4684208": "2026-10-27T15:23:26.588393-04:00",
     "4684272": "2026-10-27T15:23:26.588393-04:00",
     "4684275": "2026-10-27T15:23:26.588393-04:00",
@@ -1954,7 +1954,7 @@
     "4683834": 0,
     "4683933": 0,
     "4683934": 29,
-    "4683935": 0,
+    "4683935": 12,
     "4684208": 25,
     "4684272": 28,
     "4684275": 0,
@@ -2212,25 +2212,25 @@
   "nbaSchedule": {
     "season": 2027,
     "source": "seasonMetadata.nbaSchedules",
-    "statusAt": "2026-10-30T01:00:05.751908+00:00",
+    "statusAt": "2026-10-30T10:01:37.407671+00:00",
     "verifiedAt": "2026-10-30T01:00:06.170028+00:00"
   },
-  "rosterVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+  "rosterVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
   "schemaVersion": 1,
-  "scoringPeriod": 10,
+  "scoringPeriod": 11,
   "season": 2027,
   "teams": [
     {
       "abbreviation": "OOPS",
       "losses": 0,
       "owner": "Frank",
-      "pointsAgainst": 1284.0,
-      "pointsFor": 2377.0,
+      "pointsAgainst": 1372.0,
+      "pointsFor": 2446.0,
       "rank": 1,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2245,11 +2245,11 @@
           "playerId": 5104157,
           "proTeamId": 24,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2268,7 +2268,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2283,11 +2283,11 @@
           "playerId": 4433136,
           "proTeamId": 13,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2305,11 +2305,11 @@
           "playerId": 3155942,
           "proTeamId": 23,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PF"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2324,11 +2324,11 @@
           "playerId": 3936299,
           "proTeamId": 7,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PG"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2351,7 +2351,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2370,11 +2370,11 @@
           "playerId": 4711294,
           "proTeamId": 4,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "F"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2393,11 +2393,11 @@
           "playerId": 2595516,
           "proTeamId": 4,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "F"
+          "slot": "G"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2412,11 +2412,11 @@
           "playerId": 3136195,
           "proTeamId": 18,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "C"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2433,11 +2433,11 @@
           "playerId": 4066259,
           "proTeamId": 24,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "G"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2460,7 +2460,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2478,11 +2478,11 @@
           "playerId": 4432158,
           "proTeamId": 5,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "C"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2499,11 +2499,11 @@
           "playerId": 4395724,
           "proTeamId": 28,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "PG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2526,7 +2526,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2544,7 +2544,7 @@
           "playerId": 4433249,
           "proTeamId": 30,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "PF"
         }
       ],
       "teamId": 1,
@@ -2555,13 +2555,13 @@
       "abbreviation": "TURK",
       "losses": 0,
       "owner": "Eren",
-      "pointsAgainst": 1464.0,
-      "pointsFor": 2138.0,
+      "pointsAgainst": 1526.0,
+      "pointsFor": 2202.0,
       "rank": 3,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2580,7 +2580,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2601,7 +2601,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2616,11 +2616,11 @@
           "playerId": 3975,
           "proTeamId": 9,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "PG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2639,7 +2639,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2658,7 +2658,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2675,11 +2675,11 @@
           "playerId": 4433627,
           "proTeamId": 26,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SG"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -2700,7 +2700,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2715,11 +2715,11 @@
           "playerId": 3934672,
           "proTeamId": 18,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "G"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -2738,11 +2738,11 @@
           "playerId": 4066320,
           "proTeamId": 19,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SF"
+          "slot": "SG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2757,11 +2757,11 @@
           "playerId": 6606,
           "proTeamId": 22,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "G"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2783,7 +2783,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -2805,7 +2805,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2820,11 +2820,11 @@
           "playerId": 5142620,
           "proTeamId": 23,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PG"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2843,11 +2843,11 @@
           "playerId": 5175737,
           "proTeamId": 9,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "SF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2866,7 +2866,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -2885,7 +2885,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -2900,7 +2900,7 @@
           "playerId": 4278053,
           "proTeamId": 14,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         }
       ],
       "teamId": 2,
@@ -2911,13 +2911,13 @@
       "abbreviation": "WONG",
       "losses": 1,
       "owner": "Johnson",
-      "pointsAgainst": 1518.0,
-      "pointsFor": 1644.0,
+      "pointsAgainst": 1537.0,
+      "pointsFor": 1724.0,
       "rank": 7,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -2934,11 +2934,11 @@
           "playerId": 4396993,
           "proTeamId": 11,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "G"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2957,11 +2957,11 @@
           "playerId": 3934719,
           "proTeamId": 18,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "F"
+          "slot": "PF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -2980,11 +2980,11 @@
           "playerId": 4431671,
           "proTeamId": 16,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "F"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3001,11 +3001,11 @@
           "playerId": 4278039,
           "proTeamId": 1,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PG"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3024,11 +3024,11 @@
           "playerId": 3059319,
           "proTeamId": 14,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3043,11 +3043,11 @@
           "playerId": 5105623,
           "proTeamId": 15,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "C"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3066,11 +3066,11 @@
           "playerId": 4397688,
           "proTeamId": 3,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SG"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3089,11 +3089,11 @@
           "playerId": 4251,
           "proTeamId": 2,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -3110,11 +3110,11 @@
           "playerId": 3064290,
           "proTeamId": 7,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3131,11 +3131,11 @@
           "playerId": 3078576,
           "proTeamId": 2,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "PG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3154,11 +3154,11 @@
           "playerId": 4065648,
           "proTeamId": 2,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PF"
+          "slot": "SF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3173,11 +3173,11 @@
           "playerId": 6478,
           "proTeamId": 19,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "C"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3194,11 +3194,11 @@
           "playerId": 4709138,
           "proTeamId": 9,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "G"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3215,11 +3215,11 @@
           "playerId": 4397002,
           "proTeamId": 16,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "SG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3238,7 +3238,7 @@
           "playerId": 4576087,
           "proTeamId": 5,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SF"
+          "slot": "BE"
         }
       ],
       "teamId": 5,
@@ -3249,13 +3249,13 @@
       "abbreviation": "JS",
       "losses": 0,
       "owner": "Jooahn",
-      "pointsAgainst": 1315.0,
-      "pointsFor": 1714.0,
-      "rank": 4,
+      "pointsAgainst": 1379.0,
+      "pointsFor": 1776.0,
+      "rank": 5,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3272,11 +3272,11 @@
           "playerId": 4871145,
           "proTeamId": 4,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "SG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -3291,11 +3291,11 @@
           "playerId": 4432816,
           "proTeamId": 16,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "G"
+          "slot": "PG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -3317,7 +3317,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3334,11 +3334,11 @@
           "playerId": 4869342,
           "proTeamId": 1,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PG"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3359,7 +3359,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3378,11 +3378,11 @@
           "playerId": 4566434,
           "proTeamId": 19,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PF"
+          "slot": "SF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3405,7 +3405,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "G",
@@ -3421,11 +3421,11 @@
           "playerId": 5124612,
           "proTeamId": 20,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "G"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3446,7 +3446,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3469,7 +3469,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3490,7 +3490,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3507,11 +3507,11 @@
           "playerId": 4711272,
           "proTeamId": 10,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3531,7 +3531,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3550,11 +3550,11 @@
           "playerId": 4903027,
           "proTeamId": 29,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SG"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3575,7 +3575,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3594,11 +3594,11 @@
           "playerId": 4278594,
           "proTeamId": 6,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "F"
+          "slot": "PF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3626,13 +3626,13 @@
       "abbreviation": "JMH",
       "losses": 1,
       "owner": "Jonathan",
-      "pointsAgainst": 1871.0,
-      "pointsFor": 1968.0,
+      "pointsAgainst": 1979.0,
+      "pointsFor": 2124.0,
       "rank": 6,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3647,11 +3647,11 @@
           "playerId": 5105565,
           "proTeamId": 22,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -3660,17 +3660,17 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "ACTIVE",
+          "injuryStatus": "DAY_TO_DAY",
           "name": "Ja Morant",
           "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
           "playerId": 4279888,
           "proTeamId": 22,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3689,11 +3689,11 @@
           "playerId": 4684740,
           "proTeamId": 10,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "F"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -3712,7 +3712,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -3730,11 +3730,11 @@
           "playerId": 4396971,
           "proTeamId": 30,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "C"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3753,11 +3753,11 @@
           "playerId": 4395625,
           "proTeamId": 28,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "F"
+          "slot": "SG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -3772,11 +3772,11 @@
           "playerId": 6442,
           "proTeamId": 6,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -3797,7 +3797,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3818,7 +3818,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3835,11 +3835,11 @@
           "playerId": 3136193,
           "proTeamId": 21,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SG"
+          "slot": "G"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3856,11 +3856,11 @@
           "playerId": 4395725,
           "proTeamId": 15,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "G"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -3878,11 +3878,11 @@
           "playerId": 4395628,
           "proTeamId": 3,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "C"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "F",
@@ -3899,11 +3899,11 @@
           "playerId": 5142718,
           "proTeamId": 27,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "SF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -3922,11 +3922,11 @@
           "playerId": 3064440,
           "proTeamId": 23,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SF"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -3943,11 +3943,11 @@
           "playerId": 5254165,
           "proTeamId": 12,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -3966,7 +3966,7 @@
           "playerId": 4433247,
           "proTeamId": 16,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "UT"
         }
       ],
       "teamId": 8,
@@ -3977,13 +3977,13 @@
       "abbreviation": "FAD",
       "losses": 1,
       "owner": "Shayan",
-      "pointsAgainst": 2064.0,
-      "pointsFor": 1215.0,
+      "pointsAgainst": 2150.0,
+      "pointsFor": 1319.0,
       "rank": 9,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4002,7 +4002,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4025,7 +4025,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4044,7 +4044,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4067,7 +4067,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4088,7 +4088,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4110,7 +4110,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4131,7 +4131,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4152,7 +4152,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4175,7 +4175,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4198,7 +4198,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4221,7 +4221,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4244,7 +4244,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4265,7 +4265,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4286,7 +4286,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4309,7 +4309,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4339,13 +4339,13 @@
       "abbreviation": "SMN",
       "losses": 0,
       "owner": "Semanto",
-      "pointsAgainst": 1676.0,
-      "pointsFor": 1684.0,
-      "rank": 5,
+      "pointsAgainst": 1832.0,
+      "pointsFor": 1792.0,
+      "rank": 4,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4362,30 +4362,11 @@
           "playerId": 4395651,
           "proTeamId": 30,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SG"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
-          "eligibility": [
-            "C",
-            "PF/C",
-            "F/C",
-            "UT",
-            "BE",
-            "IR"
-          ],
-          "injuryStatus": "ACTIVE",
-          "name": "Deandre Ayton",
-          "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
-          "playerId": 4278129,
-          "proTeamId": 27,
-          "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
-        },
-        {
-          "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -4400,11 +4381,11 @@
           "playerId": 4277905,
           "proTeamId": 27,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "PG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4423,11 +4404,11 @@
           "playerId": 3202,
           "proTeamId": 10,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "F"
+          "slot": "PF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4446,7 +4427,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4461,11 +4442,11 @@
           "playerId": 4431680,
           "proTeamId": 1,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "C"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4484,11 +4465,11 @@
           "playerId": 4397014,
           "proTeamId": 13,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "SF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -4503,11 +4484,11 @@
           "playerId": 4278073,
           "proTeamId": 25,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "G"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4526,11 +4507,11 @@
           "playerId": 6440,
           "proTeamId": 24,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4552,7 +4533,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4571,11 +4552,11 @@
           "playerId": 3062679,
           "proTeamId": 18,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "SG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4592,11 +4573,11 @@
           "playerId": 4065733,
           "proTeamId": 29,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PG"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4614,11 +4595,11 @@
           "playerId": 4869780,
           "proTeamId": 3,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PF"
+          "slot": "F"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -4641,7 +4622,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4658,11 +4639,11 @@
           "playerId": 4712849,
           "proTeamId": 19,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "G"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4681,11 +4662,11 @@
           "playerId": 4397136,
           "proTeamId": 3,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SF"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4705,6 +4686,25 @@
           "proTeamId": 24,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
           "slot": "BE"
+        },
+        {
+          "affiliationSource": "ESPN current roster",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
+          "eligibility": [
+            "C",
+            "PF/C",
+            "F/C",
+            "UT",
+            "BE",
+            "IR"
+          ],
+          "injuryStatus": "ACTIVE",
+          "name": "Myles Turner",
+          "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
+          "playerId": 3133628,
+          "proTeamId": 15,
+          "rosterSince": "2026-10-30T06:01:37.407671-04:00",
+          "slot": "C"
         }
       ],
       "teamId": 12,
@@ -4715,13 +4715,13 @@
       "abbreviation": "13",
       "losses": 1,
       "owner": "Arian",
-      "pointsAgainst": 1815.0,
-      "pointsFor": 782.0,
+      "pointsAgainst": 1895.0,
+      "pointsFor": 801.0,
       "rank": 10,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4744,7 +4744,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4765,7 +4765,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4787,7 +4787,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4808,7 +4808,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4829,7 +4829,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4852,7 +4852,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4873,7 +4873,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4894,7 +4894,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -4915,7 +4915,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -4937,7 +4937,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -4960,7 +4960,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -4979,7 +4979,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "F",
@@ -5000,7 +5000,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5023,7 +5023,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5049,13 +5049,13 @@
       "abbreviation": "JJJ",
       "losses": 0,
       "owner": "Allen",
-      "pointsAgainst": 1733.0,
-      "pointsFor": 2008.0,
+      "pointsAgainst": 1837.0,
+      "pointsFor": 2094.0,
       "rank": 2,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5072,11 +5072,11 @@
           "playerId": 2490149,
           "proTeamId": 1,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "G"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5087,17 +5087,17 @@
             "BE",
             "IR"
           ],
-          "injuryStatus": "OUT",
+          "injuryStatus": "DAY_TO_DAY",
           "name": "Dejounte Murray",
           "nbaTeamSince": "2026-10-27T15:23:26.588393-04:00",
           "playerId": 3907497,
           "proTeamId": 3,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "SG"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5114,11 +5114,11 @@
           "playerId": 3908809,
           "proTeamId": 5,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PG"
+          "slot": "BE"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5135,11 +5135,11 @@
           "playerId": 4395712,
           "proTeamId": 11,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "SG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5154,11 +5154,11 @@
           "playerId": 4432166,
           "proTeamId": 8,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "PG"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5179,7 +5179,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -5196,11 +5196,11 @@
           "playerId": 4701230,
           "proTeamId": 1,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "PF"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5223,7 +5223,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5242,11 +5242,11 @@
           "playerId": 3917376,
           "proTeamId": 20,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "F"
+          "slot": "SF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -5264,11 +5264,11 @@
           "playerId": 4066261,
           "proTeamId": 14,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "C"
+          "slot": "PF"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5287,7 +5287,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5310,7 +5310,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5327,11 +5327,11 @@
           "playerId": 5175643,
           "proTeamId": 17,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "UT"
+          "slot": "G"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -5348,11 +5348,11 @@
           "playerId": 4601023,
           "proTeamId": 21,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "F"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5367,11 +5367,11 @@
           "playerId": 4278049,
           "proTeamId": 6,
           "rosterSince": "2026-10-27T17:34:22.196633+00:00",
-          "slot": "BE"
+          "slot": "C"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5388,11 +5388,11 @@
           "playerId": 2991139,
           "proTeamId": 12,
           "rosterSince": "2026-10-28T08:55:05.659591-04:00",
-          "slot": "BE"
+          "slot": "UT"
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5411,7 +5411,7 @@
           "playerId": 5112087,
           "proTeamId": 29,
           "rosterSince": "2026-10-28T08:55:05.659591-04:00",
-          "slot": "SF"
+          "slot": "BE"
         }
       ],
       "teamId": 16,
@@ -5422,13 +5422,13 @@
       "abbreviation": "SEE",
       "losses": 1,
       "owner": "Luke",
-      "pointsAgainst": 2221.0,
-      "pointsFor": 1431.0,
+      "pointsAgainst": 2290.0,
+      "pointsFor": 1519.0,
       "rank": 8,
       "roster": [
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5447,7 +5447,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5470,7 +5470,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5493,7 +5493,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "SG",
@@ -5514,7 +5514,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "SF",
@@ -5537,7 +5537,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5556,7 +5556,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5575,7 +5575,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SG",
             "G",
@@ -5595,7 +5595,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5618,7 +5618,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "C",
@@ -5640,7 +5640,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5663,7 +5663,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5686,7 +5686,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PF",
             "F",
@@ -5707,7 +5707,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "SF",
             "PF",
@@ -5730,7 +5730,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "PG",
             "G",
@@ -5749,7 +5749,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5768,7 +5768,7 @@
         },
         {
           "affiliationSource": "ESPN current roster",
-          "affiliationVerifiedAt": "2026-10-29T21:00:05.751908-04:00",
+          "affiliationVerifiedAt": "2026-10-30T06:01:37.407671-04:00",
           "eligibility": [
             "C",
             "PF/C",
@@ -5791,6 +5791,6 @@
       "wins": 0
     }
   ],
-  "updatedAt": "2026-10-30T01:00:12.441860+00:00",
+  "updatedAt": "2026-10-30T10:01:45.250022+00:00",
   "week": 2
 }
