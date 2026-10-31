@@ -32,7 +32,7 @@ def project(current, calendars, mapping, league, config, scheduled=None):
     week = mapped.get(period, int(current['week']))
     if period in mapped and week != int(current['week']):
         raise ValueError('ESPN status and scoring-period mapping disagree')
-    payload = {'schemaVersion': 1, 'current': {'season': year, 'week': week, 'scoringPeriod': period}, 'updatedAt': current.get('updatedAt'), 'seasons': []}
+    payload = {'schemaVersion': 1, 'current': {'leagueId': current.get('leagueId',609694684), 'season': year, 'week': week, 'scoringPeriod': period}, 'updatedAt': current.get('updatedAt'), 'seasons': []}
     for calendar in sorted(calendars, key=lambda c: c['season']):
         season = int(calendar['season'])
         rows = [r for r in league if int(r['Year']) == season]

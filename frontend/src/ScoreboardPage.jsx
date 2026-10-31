@@ -5,6 +5,8 @@ import { Match, Weekly } from './components/Recaps';
 import { adjacentWeek, loadScoreboard, retainSnapshot, matchupStatus, scoreboardLink, selectScoreboard } from './scoreboard-data';
 import { formatPublicationTime, HOME_REFRESH_MS, leagueDate } from './home-data';
 import MatchupDetail from './MatchupDetail';
+import {useLiveScoring,LiveFreshness} from './LiveScoring';
+import {canonicalContext,overlayMatch} from './live-data';
 import { matchupKey, matchupLink } from './scoreboard-data';
 import './scoreboard.css';
 import { formatCalendarDate, formatCalendarRange } from './fantasy-calendar';
@@ -47,6 +49,7 @@ export default function ScoreboardPage({requested}) {
   const previous=view && adjacentWeek(data,view.season.season,view.selected.week,-1);
   const next=view && adjacentWeek(data,view.season.season,view.selected.week,1);
   const selected=view?.selected;
+  const live=useLiveScoring(canonicalContext(data?.current,data?.updatedAt,Boolean(selected?.state==='current'&&view?.season.season===data?.current.season)));
   return <><a className="skip" href="#scoreboard" onClick={event=>{event.preventDefault();const main=document.getElementById('scoreboard');main.setAttribute('tabindex','-1');main.focus();}}>Skip to content</a><Header active="scoreboard"/><PageShell id="scoreboard" className="scoreboard-page">
     {!requested.match && <PageHeader title="Scoreboard" meta={view && `${view.season.season} · Week ${selected.week}`}/>}
     {!data ? <p role={failed?'alert':'status'}>{failed?'Scoreboard unavailable. Please reload to try again.':'Loading scoreboard…'}</p> : <>
@@ -57,9 +60,9 @@ export default function ScoreboardPage({requested}) {
         <button onClick={()=>go(data.current.season,data.current.week)}>Current week</button>
       </div>}
       {failed && !requested.match && <p role="status">Refresh failed. Showing the last loaded snapshot.</p>}
-      {!view ? <Card><p role="status">This season or week is unavailable. Choose a season or return to the current week.</p></Card> : <>{requested.match ? <MatchupDetail key={`${view.season.season}-${selected.week}-${requested.match}`} season={view.season.season} week={selected} match={selected.matchups.find(m=>matchupKey(m)===requested.match)} updatedAt={data.updatedAt} refreshCount={refreshCount}/> : <><Section title={`Week ${selected.week}${selected.phase==='playoffs'?' · Playoffs':''}`} meta={`${view.season.season} · ${matchupStatus[selected.state]}`}>
+      {!view ? <Card><p role="status">This season or week is unavailable. Choose a season or return to the current week.</p></Card> : <>{requested.match ? <MatchupDetail key={`${view.season.season}-${selected.week}-${requested.match}`} live={live} season={view.season.season} week={selected} match={selected.matchups.find(m=>matchupKey(m)===requested.match)} updatedAt={data.updatedAt} refreshCount={refreshCount}/> : <><Section title={`Week ${selected.week}${selected.phase==='playoffs'?' · Playoffs':''}`} meta={`${view.season.season} · ${matchupStatus[selected.state]}`}>
         <ScoreboardContext selected={selected} current={data.current} updatedAt={data.updatedAt}/>
-        <Card><div className="scoreboard-list" aria-live="polite">{selected.matchups.map(match=><a key={match.id} className="scoreboard-match matchup-link" href={matchupLink(view.season.season,selected.week,match)} aria-label={`Open matchup: ${match.teams.map(t=>t.teamName).join(' versus ')}`}><p className={`match-status ${match.status}`}>{matchupStatus[match.status]}</p><Match match={match} completed={match.status==='final'}/></a>)}</div>
+        <LiveFreshness live={live}/><Card><div className="scoreboard-list" aria-live="polite">{selected.matchups.map(canonicalMatch=>{const match=overlayMatch(canonicalMatch,live.row,live.context,live.config,live.now);return <a key={match.id} className="scoreboard-match matchup-link" href={matchupLink(view.season.season,selected.week,match)} aria-label={`Open matchup: ${match.teams.map(t=>t.teamName).join(' versus ')}`}><p className={`match-status ${match.status}`}>{matchupStatus[match.status]}</p><Match match={match} completed={match.status==='final'}/></a>;})}</div>
           {!selected.matchups.length && <p role="status">Matchup assignments are unavailable or have not been published for this week.</p>}
         </Card>
         {view.season.unpublishedPlayoffs && <p className="source-note">Playoff assignments have not been published. They will appear when verified ESPN matchups become available.</p>}

@@ -2,12 +2,13 @@ import React from 'react';
 import {PlayerSides} from './H2HBreakdown';
 import PlayerIdentity from './PlayerIdentity';
 import {formatCalendarDate} from '../fantasy-calendar';
+import {formatPublicationTime} from '../home-data';
 import {projectedFinal,projectionDay,projectedPlayers} from '../matchup-box-score';
 const fmt=n=>n==null?'Unavailable':n.toLocaleString('en-US',{maximumFractionDigits:1});
 
 export function ProjectionSummary({detail,match}) {
   if(!detail || ['final','bye','unavailable','opponent-unavailable'].includes(match.status))return null;
-  return <div className="matchup-estimates"><p className="estimate-label">Optimal-lineup estimates</p><PlayerSides>{match.teams.map((team,i)=>{
+  return <div className="matchup-estimates"><p className="estimate-label">Optimal-lineup estimates</p>{detail.liveOverlay&&<p className="source-note">Estimates remain at the canonical snapshot ({formatPublicationTime(detail.liveOverlay.canonicalUpdatedAt)} ET). Projected final uses those baseline actuals; live actuals are shown separately.</p>}<PlayerSides>{match.teams.map((team,i)=>{
     const projection=detail.remaining[i]?.projection;
     return <div key={team.teamId} className="estimate-team"><strong>{team.teamName}</strong><dl><div><dt>Projected remaining</dt><dd>{fmt(projection?.remaining)}</dd></div><div><dt>Projected final</dt><dd>{fmt(projectedFinal(match,detail,i))}</dd></div></dl>{projection?.remaining==null&&projection?.confirmedRemaining!=null&&<p className="source-note">Confirmed-game subtotal: {fmt(projection.confirmedRemaining)} FPTS</p>}{projection?.remaining==null&&<p className="source-note">{projection?.reason || 'Completed NBA samples and verified schedules are required.'}</p>}</div>;
   })}</PlayerSides><p className="source-note">Last 10 completed NBA regular-season games, with smaller samples labeled per player. Maximum 10 eligible starters per day. Fresh ESPN OUT/suspension statuses exclude starts on the observed date only. Later dates assume participation; these are not manager-selected lineups or guaranteed outcomes.</p></div>;

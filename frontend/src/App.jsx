@@ -7,6 +7,8 @@ import { SeasonLeaders, SeasonHistory } from './components/SeasonHistory';
 import { PageHeader, PageShell } from './components/Layout';
 import { createHomeClient, HOME_REFRESH_MS, leagueDate, showHomeRecap } from './home-data';
 import './homepage.css';
+import {useLiveScoring} from './LiveScoring';
+import {canonicalContext,overlayHome} from './live-data';
 
 const base = import.meta.env.BASE_URL;
 const cache = new Map();
@@ -64,6 +66,8 @@ export default function App() {
     window.addEventListener('focus',resume);document.addEventListener('visibilitychange',resume);
     return()=>{cancelled=true;clearInterval(timer);window.removeEventListener('focus',resume);document.removeEventListener('visibilitychange',resume);};
   },[requested,override]);
+  const live=useLiveScoring(canonicalContext(page?.current,page?.current?.updatedAt,Boolean(page?.current?.active&&!override)));
+  const current=overlayHome(page?.current,live.row,live.context,live.config,live.now);
   const state=page?.state;
   const offseason=state?.phase==='offseason';
   const daily=page?.['daily-recap']?.[state?.dailyDate];
@@ -75,7 +79,7 @@ export default function App() {
     {error?<section className="message" role="alert"><h2>Homepage unavailable</h2><p>{override?'Check the date (YYYY-MM-DD) and try again.':'Please try again.'}</p><button onClick={()=>window.location.reload()}>Try again</button></section>:!page?<p role="status">Loading…</p>:!state.season?<p className="archive-note">No completed season is available for this date.</p>:offseason?<>
       <Playoffs bracket={bracket}/><Standings data={standings} final/>
       <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
-    </>:page.current?<HomeSections snapshot={page.current} publishedAt={page.publishedAt} daily={daily} weekly={weekly} bracket={bracket} standings={standings}/>:state.phase==='playoffs'?<>
+    </>:page.current?<HomeSections snapshot={current} live={live} publishedAt={page.publishedAt} daily={daily} weekly={weekly} bracket={bracket} standings={standings}/>:state.phase==='playoffs'?<>
       <Playoffs bracket={bracket}/><Weekly recap={weekly}/><Daily recap={daily}/>
       {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings} final/>
     </>:<>

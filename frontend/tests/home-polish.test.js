@@ -18,7 +18,7 @@ const Section=({title,meta,children})=>React.createElement('section',{},React.cr
 const Card=({title,children})=>React.createElement('div',{},title,children);
 const PlayerIdentity=({name})=>React.createElement('span',{},name);
 const Team=({team})=>React.createElement('span',{},team.teamName);
-const {Daily,Weekly,WeeklyPlayerStats,CurrentWeek,CurrentWeekPerformances}=await jsx('../src/components/Recaps.jsx','Daily,Weekly,WeeklyPlayerStats,CurrentWeek,CurrentWeekPerformances',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime});
+const {Daily,Weekly,WeeklyPlayerStats,CurrentWeek,CurrentWeekPerformances}=await jsx('../src/components/Recaps.jsx','Daily,Weekly,WeeklyPlayerStats,CurrentWeek,CurrentWeekPerformances',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime,LiveFreshness:()=>null});
 const {HomeSections}=await jsx('../src/components/HomeSections.jsx','HomeSections',{React,Daily,Weekly,CurrentWeek,CurrentWeekPerformances,
   Standings:()=>React.createElement('h2',{},'Standings'),Playoffs:()=>React.createElement('h2',{},'Playoffs')});
 const player={playerId:1,name:'Fixture player',team:{teamId:1,teamName:'One'},pointsDisplay:'70',date:'2026-10-23',scoringPeriod:4,
@@ -77,7 +77,7 @@ test('empty current-week performances hide the entire section and first game rev
 });
 
 test('shared recap renders its own week and preserves lineup',async()=>{
-  const {Weekly}=await jsx('../src/components/Recaps.jsx','Weekly',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime});
+  const {Weekly}=await jsx('../src/components/Recaps.jsx','Weekly',{React,Section,Card,PlayerIdentity,Team,PlayerStatLine,formatPublicationTime,LiveFreshness:()=>null});
   const recap={week:12,end:'2026-12-27',leaders:[],closest:[],lineup:[{...player,slot:'PG'}]};
   const html=renderToStaticMarkup(React.createElement(Weekly,{recap}));
   assert.ok(html.includes('Week 12 Recap'));

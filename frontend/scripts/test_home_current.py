@@ -34,6 +34,12 @@ class CurrentHomeTests(unittest.TestCase):
                 'Team ID': '1', 'Player ID': str(pid), 'Player Name': f'Player {pid}',
                 'FPTS': str(points), 'MIN': str(minutes)}
 
+    def test_live_overlay_provenance_keeps_canonical_timestamp(self):
+        self.current.update(leagueId=609694684,updatedAt='2026-10-31T18:00:00Z')
+        view=self.render()
+        self.assertEqual(view['leagueId'],609694684)
+        self.assertEqual(view['updatedAt'],self.current['updatedAt'])
+
     def test_opening_day_without_completed_games_has_all_zero_score_matchups(self):
         view = self.render()
         self.assertTrue(view['active'])

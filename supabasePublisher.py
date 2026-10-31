@@ -29,6 +29,17 @@ class PublisherError(ValueError):
     """Only fixed, non-sensitive messages are reported by the CLI."""
 
 
+class EnvelopeConflict(PublisherError):
+    pass
+
+
+def database_instant(value):
+    # PostgreSQL omits trailing fractional zeros. Python 3.9 accepts only 3/6
+    # digits, unlike newer Python; normalize precision without losing timezone.
+    value=re.sub(r'\.(\d{1,6})(?=Z$|[+-]\d{2}:\d{2}$)',lambda m:'.'+m.group(1).ljust(6,'0'),str(value))
+    return instant(value)
+
+
 def shape(value, fields):
     if not isinstance(value,dict) or set(value)!=fields:
         raise PublisherError('Snapshot contains missing or unapproved fields')
@@ -179,6 +190,7 @@ class Publisher:
                 if not 200<=r.status_code<300:
                     try:code=r.json().get('code')
                     except (ValueError,AttributeError):code=None
+                    if code=='22023' and r.json().get('message')=='Snapshot revision conflict':raise EnvelopeConflict('Snapshot envelope differs; checking stored content')
                     if code in ('PGRST202','PGRST205','42P01'):raise PublisherError('Apply '+MIGRATION+' in the Supabase SQL Editor first')
                     raise PublisherError('Supabase API request failed (HTTP '+str(r.status_code)+'); no response details logged')
                 if len(r.content)>3_000_000:raise PublisherError('Oversized Supabase response')
@@ -210,7 +222,19 @@ class Publisher:
         if not self._ready:self.ready()
         args={'p_sport':sport,'p_espn_league_id':league_id,'p_display_name':name,'p_is_public':public,
               'p_snapshot':snapshot,'p_verified_at':summary['verifiedAt']}
-        result=self.request('POST','rpc/publish_live_snapshot',args)
+        expected=snapshot;reused=False
+        try:
+            result=self.request('POST','rpc/publish_live_snapshot',args)
+        except EnvelopeConflict:
+            # A cold adapter has no earlier updatedAt/change hints. Reuse the stored
+            # envelope only for exactly the same hashed content; SQL still guards order.
+            leagues=self.request('GET','leagues',params={'sport':'eq.'+sport,'espn_league_id':'eq.'+str(league_id),'select':'id','limit':'2'})
+            if not isinstance(leagues,list) or len(leagues)!=1:raise PublisherError('Cannot resolve stored snapshot envelope')
+            stored=self.read(leagues[0]['id'],snapshot['season'])
+            content=lambda s:{k:v for k,v in s.items() if k not in ('revision','updatedAt','changes')}
+            if stored.get('revision')!=snapshot['revision'] or content(stored['snapshot'])!=content(snapshot):raise PublisherError('Stored content changed concurrently; newer data retained')
+            expected=stored['snapshot'];args['p_snapshot']=expected;reused=True
+            result=self.request('POST','rpc/publish_live_snapshot',args)
         if not isinstance(result,dict) or result.get('action') not in ('inserted','updated','refreshed','unchanged','stale'):
             raise PublisherError('Invalid publication acknowledgement')
         if result['action']=='stale':raise PublisherError('Older or conflicting snapshot rejected; newer remote data retained')
@@ -219,16 +243,17 @@ class Publisher:
             raise PublisherError('Publication identity mismatch')
         row=self.read(uuid,summary['season'])
         try:
-            if row.get('snapshot')!=snapshot or row.get('revision')!=snapshot['revision'] or instant(row['verified_at'])<instant(verified_at):
+            if row.get('snapshot')!=expected or row.get('revision')!=snapshot['revision'] or database_instant(row['verified_at'])<instant(verified_at):
                 raise PublisherError('Read-back content or freshness mismatch')
         except (ValueError,TypeError,KeyError):
             raise PublisherError('Read-back content or freshness mismatch') from None
-        return {**summary,'action':result['action'],'leagueId':uuid,'roundTripVerified':True}
+        return {**summary,'action':result['action'],'leagueId':uuid,'roundTripVerified':True,'envelopeReused':reused}
 
     def verify_anonymous(self,result,snapshot,sport,league_id,name,public):
         if not public:raise PublisherError('Anonymous round-trip test requires an explicitly public league')
         row=self.read(result['leagueId'],snapshot['season'],anonymous=True)
-        if row.get('snapshot')!=snapshot:raise PublisherError('Anonymous read-back mismatch')
+        content=lambda s:{k:v for k,v in s.items() if k not in ('revision','updatedAt','changes')}
+        if content(row.get('snapshot',{}))!=content(snapshot) or row.get('revision')!=snapshot['revision']:raise PublisherError('Anonymous read-back mismatch')
         leagues=self.request('GET','leagues',params={'id':'eq.'+result['leagueId'],'select':'id,sport,espn_league_id,is_public'},anonymous=True)
         if not isinstance(leagues,list) or len(leagues)!=1 or not isinstance(leagues[0],dict) or leagues[0].get('is_public') is not True:raise PublisherError('Public league metadata is not readable')
         # Invalid insert can never add a row even if grants are misconfigured.

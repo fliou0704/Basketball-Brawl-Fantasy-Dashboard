@@ -15,6 +15,10 @@ class ScoreboardTests(unittest.TestCase):
     def build(self):
         return project(self.current,[self.calendar],self.mapping,self.rows,logo_config())
 
+    def test_current_scope_exposes_league_identity_for_live_guard(self):
+        self.current['leagueId']=609694684
+        self.assertEqual(self.build()['current']['leagueId'],609694684)
+
     def test_legacy_singleton_schedule_is_not_used(self):
         self.calendar['scheduledWeeks'] = [
             {'week':2,'firstPeriod':2,'lastPeriod':2,'start':'2026-10-21','end':'2026-10-21'}]

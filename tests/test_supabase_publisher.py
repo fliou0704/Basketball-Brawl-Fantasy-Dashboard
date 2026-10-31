@@ -102,6 +102,16 @@ class APITests(unittest.TestCase):
             self.assertEqual(call.kwargs['timeout'],(10,30));self.assertFalse(call.kwargs['allow_redirects'])
             self.assertNotIn('Authorization',call.kwargs['headers'])
 
+    def test_cold_adapter_reuses_only_same_hashed_content_envelope(self):
+        original=deepcopy(self.s);self.s['updatedAt']=(NOW+timedelta(seconds=1)).isoformat()
+        self.s['changes']['baseRevision']=original['revision']
+        self.row.update(snapshot=original,verified_at=(NOW+timedelta(seconds=1)).isoformat())
+        self.session.request.side_effect=[response(STATUS),response({'code':'22023','message':'Snapshot revision conflict'},400),
+            response([{'id':UUID}]),response([self.row]),response({'action':'refreshed','league_id':UUID,'revision':original['revision']}),response([self.row])]
+        result=self.publisher.publish(self.s,(NOW+timedelta(seconds=1)).isoformat(),'nba',123,'Test league',True,NOW+timedelta(seconds=1))
+        self.assertTrue(result['envelopeReused']);self.assertTrue(result['roundTripVerified'])
+        self.assertEqual(self.session.request.call_args_list[-2].kwargs['json']['p_snapshot'],original)
+
     def test_stale_remote_rejected_without_read_or_overwrite_retry(self):
         self.publisher._ready=True;self.session.request.return_value=response({'action':'stale'})
         with self.assertRaisesRegex(pub.PublisherError,'newer remote'):self.publish()
@@ -111,6 +121,10 @@ class APITests(unittest.TestCase):
         self.answers();self.publish();call=self.session.request.call_args
         self.assertEqual(call.kwargs['params']['league_id'],'eq.'+UUID)
         self.assertEqual(call.kwargs['params']['season'],'eq.2027')
+
+    def test_postgres_fractional_timestamp_precision_on_python39(self):
+        self.answers();self.row['verified_at']='2026-10-31T18:00:00.12345+00:00'
+        self.assertTrue(self.publish()['roundTripVerified'])
 
     def test_wrong_readback_does_not_claim_success(self):
         self.answers();self.row['snapshot']={'wrong':True}

@@ -4,6 +4,7 @@ import { Card, Section } from './Layout';
 import PlayerIdentity from './PlayerIdentity';
 import PlayerStatLine from './PlayerStatLine';
 import { formatPublicationTime } from '../home-data';
+import {LiveFreshness} from '../LiveScoring';
 export const dateLabel = value => new Intl.DateTimeFormat('en-US', {month:'short',day:'numeric',timeZone:'UTC'}).format(new Date(`${value}T12:00:00Z`));
 export function Match({ match, completed = true }) {
   return <div className="match">{match.teams.map((team,i) => <div key={team.teamId} className={`match-team ${completed && match.winnerId === team.teamId ? 'winner' : ''} ${completed && match.winnerId && match.winnerId !== team.teamId ? 'eliminated' : ''}`}><Team team={team} /><strong>{match.scoreDisplay?.[i] ?? '—'}</strong></div>)}</div>;
@@ -49,12 +50,12 @@ export function Scoreboard({ recap, week }) {
   if (!recap?.scoreboard?.length || recap.week !== week) return null;
   return <Section title="Current Matchups" meta={`Week ${week} · through ${dateLabel(recap.date)}`}><Card><div className="scoreboard">{recap.scoreboard.map((m,i)=><Match key={i} match={m} completed={false}/>)}</div></Card></Section>;
 }
-export function CurrentWeek({ snapshot, publishedAt, showPerformances = true }) {
+export function CurrentWeek({ snapshot, live, publishedAt, showPerformances = true }) {
   const timestamp = formatPublicationTime(publishedAt);
   return <>
     <Section title={`${snapshot.season} Week ${snapshot.week} Scoreboard`}>
-      <Card>{timestamp && <p className="current-week-context">Last updated: <time dateTime={new Date(publishedAt).toISOString()}>{timestamp}</time></p>}
-        <div className="scoreboard">{snapshot.matchups.map((match,index)=><Match key={index} match={match} completed={false}/>)}</div>
+      <Card>{timestamp && <p className="current-week-context">{snapshot.liveVerifiedAt?'Canonical publication:':'Last updated:'} <time dateTime={new Date(publishedAt).toISOString()}>{timestamp}</time></p>}
+        <LiveFreshness live={live}/><div className="scoreboard">{snapshot.matchups.map((match,index)=><Match key={index} match={match} completed={false}/>)}</div>
         {!snapshot.matchups.length && <p className="source-note">Matchup assignments are not available in the latest snapshot.</p>}
       </Card>
     </Section>
@@ -63,7 +64,7 @@ export function CurrentWeek({ snapshot, publishedAt, showPerformances = true }) 
 }
 export function CurrentWeekPerformances({ snapshot }) {
   if (!snapshot.players.length) return null;
-  return <Section title={`Best Week ${snapshot.week} Performances`} meta="Individual games">
+  return <Section title={`Best Week ${snapshot.week} Performances`} meta="Individual games">{snapshot.liveVerifiedAt&&<p className="source-note">Weekly individual-game rankings remain from the canonical snapshot.</p>}
       <Card><div className="performances">{snapshot.players.map((player,index)=><article className="performance" key={`${player.playerId}-${player.scoringPeriod}`}>
         <span className="performance-rank">{index+1}</span><div className="performance-body"><div className="performance-heading"><div><h4><PlayerIdentity playerId={player.playerId} name={player.name} showHeadshot/></h4><p>{player.team.teamName} · <time dateTime={player.date}>{dateLabel(player.date)}</time></p></div><strong>{player.pointsDisplay}<small>FPTS</small></strong></div><PlayerStatLine stats={player.stats}/></div>
       </article>)}</div>

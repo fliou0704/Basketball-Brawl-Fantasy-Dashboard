@@ -18,7 +18,7 @@ def project(current, calendar, mapping, daily, manifest, seasonal, league, confi
     as_of = (anchor + timedelta(days=period)).isoformat()
     active = (calendar['firstPeriod'] <= period <= calendar['finalPeriod']
               and periods.get(period) == week and week > 0)
-    result = {'schemaVersion': 1, 'active': active, 'season': year, 'week': week,
+    result = {'schemaVersion': 1, 'active': active, 'leagueId': current.get('leagueId',609694684), 'updatedAt': current.get('updatedAt'), 'season': year, 'week': week,
               'scoringPeriod': period, 'asOfDate': as_of,
               'seasonStart': (anchor + timedelta(days=calendar['firstPeriod'])).isoformat(),
               'seasonEnd': (anchor + timedelta(days=calendar['finalPeriod'])).isoformat(),

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import './styles.css';
 import App from './App';
+import {LiveProvider} from './LiveScoring';
 import ScoreboardPage from './ScoreboardPage';
 import { scoreboardRoute } from './scoreboard-data';
 import TeamStats from './TeamStats';
@@ -27,4 +28,4 @@ function Site() {
   return <App/>;
 }
 
-createRoot(document.getElementById('root')).render(<Site />);
+createRoot(document.getElementById('root')).render(<LiveProvider><Site /></LiveProvider>);

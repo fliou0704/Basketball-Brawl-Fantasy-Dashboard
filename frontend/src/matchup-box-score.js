@@ -6,7 +6,7 @@ export function orientMatchup(match, detail) {
   const order=ids.map(id=>match.teams.findIndex(t=>t.teamId===id));
   const reorder=values=>values==null?values:order.map(i=>values[i]);
   return {match:{...match,teams:reorder(match.teams),actualScores:reorder(match.actualScores),scoreDisplay:reorder(match.scoreDisplay)},
-    detail:detail?{...detail,completedStarts:reorder(detail.completedStarts),remaining:reorder(detail.remaining),potential:reorder(detail.potential),
+    detail:detail?{...detail,liveOverlay:detail.liveOverlay?{...detail.liveOverlay,baselineScores:reorder(detail.liveOverlay.baselineScores)}:detail.liveOverlay,completedStarts:reorder(detail.completedStarts),remaining:reorder(detail.remaining),potential:reorder(detail.potential),
       days:detail.days.map(d=>({...d,points:reorder(d.points),cumulative:reorder(d.cumulative)}))}:null,
     rolesVerified:away!=null&&home!=null};
 }
@@ -39,7 +39,7 @@ export function summaryPairs(players, teams, reserves=false) {
 }
 
 export function projectedFinal(match,detail,index) {
-  const actual=match.status==='future'?0:match.actualScores?.[index];
+  const actual=match.status==='future'?0:(detail?.liveOverlay?detail.liveOverlay.baselineScores?.[index]:match.actualScores?.[index]);
   const remaining=detail?.remaining?.[index]?.projection?.remaining;
   return match.status==='final'||actual==null||remaining==null?null:actual+remaining;
 }

@@ -30,7 +30,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/codex'
+    if: github.ref == 'refs/heads/codex' && !contains(github.event.head_commit.message, '[skip pages]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -88,6 +88,12 @@ jobs:
       - name: Mark deployed export fingerprint
         run: python frontend/scripts/export_fingerprint.py --data-dir frontend/public/data --deployed-url https://fliou0704.github.io/Basketball-Brawl-Fantasy-Dashboard/data/pipeline.json
       - run: npm run build
+        env:
+          VITE_ENABLE_LIVE_SCORING: ${{ vars.VITE_ENABLE_LIVE_SCORING || 'false' }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_LIVE_LEAGUE_ID: ${{ vars.VITE_LIVE_LEAGUE_ID }}
+          VITE_LIVE_ESPN_LEAGUE_ID: ${{ vars.VITE_LIVE_ESPN_LEAGUE_ID || '609694684' }}
         working-directory: frontend
       - uses: actions/upload-pages-artifact@v3
         with:
