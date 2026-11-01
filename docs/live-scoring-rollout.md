@@ -1,4 +1,4 @@
-> Stage 2 preparation record. See [production activation](live-scoring-production.md)
+> Historical Stage 2 preparation record. See [public frontend rollout](live-scoring-frontend-production.md) and [production activation](live-scoring-production.md)
 > for the subsequent Stage 3 workflow, configuration, verification and rollback status.
 
 # End-to-end live scoring — prepared, not activated

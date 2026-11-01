@@ -1,4 +1,4 @@
-> Current backend status: [Cloudflare scheduler](external-live-scheduler.md) is enabled and verified through real automatic publications and independent Supabase readback. PR #6 removed native live cron only; manual dispatch and canonical reconciliation remain unchanged. React remains disabled and PR #3 unmerged. The Stage 3B native-scheduler observations below are historical.
+> Current production status: [public frontend rollout](live-scoring-frontend-production.md). Cloudflare publishing and the React live overlay are enabled and verified. PRs #3, #7 and #8 are merged; canonical reconciliation and Dash remain intact. The Stage 3B native-scheduler observations below are historical.
 
 > Follow-up: see [scheduler investigation](live-scoring-scheduler-investigation.md) for the active-state API check, non-forced manual publication and current scheduled-run evidence.
 
