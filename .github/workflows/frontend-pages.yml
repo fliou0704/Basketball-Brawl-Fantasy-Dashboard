@@ -1,0 +1,115 @@
+name: Frontend prototype Pages
+
+on:
+  # Redeploy frontend configuration without running ESPN or changing canonical CSVs.
+  workflow_dispatch:
+  push:
+    branches: [codex]
+    paths:
+      - 'frontend/**'
+      - 'data/basketballBrawlLeagueData.csv'
+      - 'data/playerDailyData.csv'
+      - 'data/playerMatchupData.csv'
+      - 'data/activityData.csv'
+      - 'data/playerMetadata.csv'
+      - 'data/seasonMetadata.json'
+      - 'data/scoringPeriodMatchupMap.csv'
+      - 'data/currentLeague.json'
+      - 'dataStore.py'
+      - 'teamPerformance.py'
+      - 'nbaSchedule.py'
+      - 'fantasyOpportunities.py'
+      - 'assets/logos/**'
+      - 'assets/placements/**'
+      - '.github/workflows/frontend-pages.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: basketball-brawl-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.ref == 'refs/heads/codex' && !contains(github.event.head_commit.message, '[skip pages]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The scheduled updater owns production CSVs on main. Build the codex
+      # frontend against that freshly committed source snapshot.
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: frontend/.league-source
+          sparse-checkout: |
+            data/basketballBrawlLeagueData.csv
+            data/playerDailyData.csv
+            data/playerMatchupData.csv
+            data/activityData.csv
+            data/playerMetadata.csv
+            data/seasonMetadata.json
+            data/scoringPeriodMatchupMap.csv
+            data/currentLeague.json
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - name: Use validated codex snapshots until the updater is activated on main
+        run: |
+          if [ ! -f frontend/.league-source/data/seasonMetadata.json ] && [ -f data/seasonMetadata.json ]; then
+            for file in basketballBrawlLeagueData.csv playerMatchupData.csv playerDailyData.csv activityData.csv playerMetadata.csv scoringPeriodMatchupMap.csv seasonMetadata.json currentLeague.json; do
+              cp "data/$file" "frontend/.league-source/data/$file"
+            done
+          fi
+          for file in playerMetadata.csv seasonMetadata.json currentLeague.json; do
+            if [ ! -f "frontend/.league-source/data/$file" ] && [ -f "data/$file" ]; then
+              cp "data/$file" "frontend/.league-source/data/$file"
+            fi
+          done
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r frontend/requirements-build.txt
+      - run: npm ci
+        working-directory: frontend
+      - run: python frontend/scripts/generate_all.py --source-dir frontend/.league-source/data
+      - run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
+        env:
+          BRAWL_REFERENCE_DIR: ${{ github.workspace }}/frontend/.league-source/data
+          H2H_TEST_SOURCE: frontend/.league-source/data
+          RECORD_BOOK_TEST_SOURCE: frontend/.league-source/data
+          TEAM_STATS_TEST_SOURCE: frontend/.league-source/data
+          HOMEPAGE_TEST_SOURCE: frontend/.league-source/data
+          STANDINGS_TEST_SOURCE: frontend/.league-source/data/basketballBrawlLeagueData.csv
+      - run: npm test
+        working-directory: frontend
+      - name: Mark deployed export fingerprint
+        run: python frontend/scripts/export_fingerprint.py --data-dir frontend/public/data --deployed-url https://fliou0704.github.io/Basketball-Brawl-Fantasy-Dashboard/data/pipeline.json
+      - run: npm run build
+        env:
+          VITE_ENABLE_LIVE_SCORING: ${{ vars.VITE_ENABLE_LIVE_SCORING || 'false' }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_LIVE_LEAGUE_ID: ${{ vars.VITE_LIVE_LEAGUE_ID }}
+          VITE_LIVE_ESPN_LEAGUE_ID: ${{ vars.VITE_LIVE_ESPN_LEAGUE_ID || '609694684' }}
+        working-directory: frontend
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - uses: actions/deploy-pages@v4
+        id: deployment
