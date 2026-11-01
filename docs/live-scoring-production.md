@@ -1,3 +1,5 @@
+> Follow-up: see [scheduler investigation](live-scoring-scheduler-investigation.md) for the active-state API check, non-forced manual publication and current scheduled-run evidence.
+
 # Live scoring production activation
 
 Stage 3B starts from codex `473b669` and main `af25cd9`. The completed React integration already exists on codex; activation requires public build configuration and a normal Pages build, not a merge of React into main. Unrelated working-tree changes are excluded.
