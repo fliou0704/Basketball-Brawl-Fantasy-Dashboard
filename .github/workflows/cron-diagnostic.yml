@@ -1,0 +1,18 @@
+name: Cron diagnostic
+
+on:
+  schedule:
+    - cron: '4,14,24,34,44,54 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print trigger information
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Time: $(date -u)"
