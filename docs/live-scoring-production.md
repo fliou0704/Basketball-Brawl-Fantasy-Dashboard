@@ -1,3 +1,5 @@
+> External workaround preparation and account-owned setup: [Cloudflare scheduler](external-live-scheduler.md). It is not deployed or verified; native cron and React activation status remain unchanged.
+
 > Follow-up: see [scheduler investigation](live-scoring-scheduler-investigation.md) for the active-state API check, non-forced manual publication and current scheduled-run evidence.
 
 # Live scoring production activation
