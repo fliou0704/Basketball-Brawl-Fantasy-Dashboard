@@ -1,6 +1,8 @@
 name: Frontend prototype Pages
 
 on:
+  # Redeploy frontend configuration without running ESPN or changing canonical CSVs.
+  workflow_dispatch:
   push:
     branches: [codex]
     paths:
