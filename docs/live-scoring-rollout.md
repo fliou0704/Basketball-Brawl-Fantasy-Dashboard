@@ -1,3 +1,6 @@
+> Stage 2 preparation record. See [production activation](live-scoring-production.md)
+> for the subsequent Stage 3 workflow, configuration, verification and rollback status.
+
 # End-to-end live scoring — prepared, not activated
 
 Starting codex commit `1fbdda5`. The three-hour canonical updater and historical
