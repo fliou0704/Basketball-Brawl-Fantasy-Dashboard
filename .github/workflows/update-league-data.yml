@@ -79,6 +79,12 @@ jobs:
       - name: Build changed Pages payload
         if: steps.exports.outputs.changed == 'true'
         run: npm run build --prefix site/frontend
+        env:
+          VITE_ENABLE_LIVE_SCORING: ${{ vars.VITE_ENABLE_LIVE_SCORING || 'false' }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_LIVE_LEAGUE_ID: ${{ vars.VITE_LIVE_LEAGUE_ID }}
+          VITE_LIVE_ESPN_LEAGUE_ID: ${{ vars.VITE_LIVE_ESPN_LEAGUE_ID || '609694684' }}
       - name: Commit validated canonical inputs
         run: |
           for file in basketballBrawlLeagueData.csv playerMatchupData.csv playerDailyData.csv activityData.csv playerMetadata.csv scoringPeriodMatchupMap.csv seasonMetadata.json currentLeague.json; do
