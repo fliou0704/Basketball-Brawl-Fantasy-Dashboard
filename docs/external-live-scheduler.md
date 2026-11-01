@@ -2,7 +2,7 @@
 
 ## Status and scope
 
-Prepared on codex; **not deployed or activated**. Wrangler is not authenticated in the current workspace. No Cloudflare account, GitHub token, real Cron Trigger, or Cloudflare-originated publication has been configured/verified. The GitHub native cron remains unchanged until a real external publication passes. [Draft cutover PR #6](https://github.com/fliou0704/Basketball-Brawl-Fantasy-Dashboard/pull/6), commit `9b9bd18`, removes only its three-line schedule block and must remain unmerged until that proof exists. React remains disabled; PR #3 stays unmerged.
+Cloudflare backend enabled on October 31, 2026 (New York), Worker version `a8cc254d-c110-41c3-a522-1a75079994e7`. A real Cloudflare Cron Trigger dispatched and published successfully; independent anonymous Supabase readback matched. Automatic runs recurred at five-minute intervals, each publishing successfully. PR #6 removed only native live cron from main (`be488e8e9c3703e1700399cf40e00c50b885c4c2`); workflow_dispatch remains available. React remains disabled; PR #3 stays unmerged. The committed Worker flag remains false by design; production was explicitly deployed with SCHEDULER_ENABLED:true.
 
 The Worker dispatches only `fliou0704/Basketball-Brawl-Fantasy-Dashboard`, `live-scoring.yml`, with `ref=main`, `publish=true`, `force=false`. Existing pinned backend, NBA window checks, updater cache, publisher, Supabase safety, canonical reconciliation and Pages are reused unchanged. External runs appear as **workflow_dispatch**, not schedule, in GitHub; Cloudflare's real Cron Trigger logs establish their origin.
 
@@ -30,7 +30,7 @@ The free plan's five-trigger allowance is shared across the account. Check exist
 
 ## Manual account/token setup
 
-These are the remaining account-owned steps. Never paste either provider's credentials into chat or source files.
+These setup steps have been completed for the production Worker. Use them for recovery or token renewal. Never paste either provider's credentials into chat or source files.
 
 1. Create/sign into a Cloudflare account and confirm **Workers Free**, SQLite Durable Objects availability, and a free cron slot. No domain is required.
 2. On GitHub, open **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**. Resource owner: `fliou0704`. Repository access: **Only select repositories → Basketball-Brawl-Fantasy-Dashboard**. Repository permission: **Actions: Read and write**; leave everything else unselected (Metadata read is automatic). Choose a short expiry (for example 30 days), name it for this scheduler, and record a renewal reminder. Do not reuse the broad CLI token. See [GitHub dispatch permissions](https://docs.github.com/en/rest/actions/workflows#create-a-workflow-dispatch-event).
@@ -46,7 +46,7 @@ These are the remaining account-owned steps. Never paste either provider's crede
 
    Complete Cloudflare login yourself. The first deployment is **disabled** and creates the named Worker and SQLite binding. Paste the fine-grained GitHub token only into Wrangler's secret prompt; it is stored as a Cloudflare encrypted secret, not a local environment file. If your login has multiple accounts, set `CLOUDFLARE_ACCOUNT_ID` to the intended non-secret account ID for these commands. Do not select a different/paid account to bypass an error. [Secret documentation](https://developers.cloudflare.com/workers/configuration/secrets/).
 
-4. Confirm the named Worker has the `GITHUB_TOKEN` secret (name only) and `SCHEDULER_ENABLED=false`. Then activate explicitly:
+4. Verify only expected-binding presence and unexpected-binding **counts**, never raw secret names: names can themselves contain accidentally pasted credentials. The expected inventory is exactly one GITHUB_TOKEN binding. If extra bindings exist, stop; inspect/remove them in the Cloudflare dashboard without copying their names into commands or logs. If any name was a token, revoke/replace that token before continuing. Do not read or print secret values. Confirm SCHEDULER_ENABLED=false. Then activate explicitly:
 
    ```sh
    npm run deploy -- --var SCHEDULER_ENABLED:true
@@ -128,4 +128,21 @@ npm run check
 
 Tests cover exact payload, default off, scoped token format, timestamps, durable concurrent/replayed ticks, restart persistence, cooldown, active/recent runs, disabled workflow, malformed responses, bounded GET retries, ambiguous non-replayed POSTs, sanitized failures and redirects. Miniflare runs the actual scheduled handler and SQLite-backed Durable Object against **mocked GitHub with external network disabled**, including runtime recreation. These tests do not prove Cloudflare production scheduling, production CPU use, ESPN publication, or Supabase freshness. The account/token and real acceptance gate above remain required.
 
-Validation record: **20 tests passed**, including the actual local Workers runtime/SQLite restart test. Wrangler dry-run bundled **8.32 KiB (2.92 KiB gzip)** with the expected SQLite binding and disabled flag. CLI authentication check reported unauthenticated. No production Cloudflare event, GitHub dispatch or Supabase write was performed for these tests.
+Validation record: **20 tests passed**, including the actual local Workers runtime/SQLite restart test. Wrangler dry-run bundled **8.32 KiB (2.92 KiB gzip)** with the expected SQLite binding and disabled flag. At preparation time the CLI was unauthenticated. No production event or publication was performed by these local tests; production verification is recorded separately below.
+
+## Production trial record — October 31, 2026 (New York)
+
+Configuration checks emitted only authenticated/expected-present booleans and an unexpected-binding count of zero. The enabled production version was inspected to verify its flag, token binding, Durable Object binding and scheduled handler without printing arbitrary provider names or credential values.
+
+| Cloudflare cron event (EDT) | GitHub run | Result | Publication/readback |
+|---|---|---|---|
+| 11:00:13.079 p.m. | [41267400197](https://github.com/fliou0704/Basketball-Brawl-Fantasy-Dashboard/actions/runs/41267400197) | Created 11:00:16, completed 11:00:42; 26 seconds | updated; roundTripVerified; anonymous revision/timestamp match |
+| Following automatic tick | [41267736030](https://github.com/fliou0704/Basketball-Brawl-Fantasy-Dashboard/actions/runs/41267736030) | Created 11:05:15 p.m.; success | refreshed; roundTripVerified; verified 11:05:42.463447 p.m. |
+| Following automatic tick | [41268075610](https://github.com/fliou0704/Basketball-Brawl-Fantasy-Dashboard/actions/runs/41268075610) | Created 11:10:16 p.m.; success | refreshed; roundTripVerified; independent anonymous revision/timestamp match at 11:10:43.902195 p.m. |
+| Post-cutover automatic tick | [41268423699](https://github.com/fliou0704/Basketball-Brawl-Fantasy-Dashboard/actions/runs/41268423699) | Created 11:15:16 p.m., completed 11:15:47; main `be488e8` | refreshed; roundTripVerified; independent anonymous revision/timestamp match at 11:15:43.545688 p.m. |
+
+First row: verified at 11:00:38.663066 p.m. EDT; revision `6cbf5e52a1e9dd9b5a99cd15216d5d87c22ddf7dd0eb1be55c49efcdb040157a`; 93,840 bytes; season 2027, matchup week 2, scoring period 12, scoring date October 31, 10 teams, 162 players, 5 matchups. The seven NBA games were final; the existing postgame window permitted publication without force. Official matchup scores and starter/bench/IR credit rules passed. Anonymous readback was 58 seconds old when independently validated.
+
+Real tail evidence marked cloudflareCronEvent=true, outcome=ok, dispatch_accepted, HTTP 200 and the exact returned GitHub run ID. These are actual remote scheduled events, not the local runtime fixtures or manually triggered GitHub trials. Native cron removal was merged only after all three publications passed. Main changed by one file/three deleted lines; parsed YAML comparison confirms everything except on.schedule is identical. Canonical workflow and Dash application blobs are unchanged. Observed dispatch creation intervals were 299, 301 and 300 seconds. The fourth run used the post-cutover main commit and passed schema/hash/freshness, league/season/period, official-score consistency and player lineup-credit validation on independent anonymous readback. Scores stayed unchanged after final games; verified_at advanced, rather than inventing score changes. No Pages deployment or React activation was performed.
+
+Activation validation: all 20 scheduler tests passed again. The first restricted-environment runtime attempt aborted inside Node; rerunning with the required local runtime permissions passed the actual SQLite/Workers test. No scheduler source changes were needed. Workflow comparison, git diff checks, enabled deployed flag, expected credential-binding presence/zero unexpected bindings, PR #3 draft state and disabled frontend flag were verified. No arbitrary secret names or values were printed.

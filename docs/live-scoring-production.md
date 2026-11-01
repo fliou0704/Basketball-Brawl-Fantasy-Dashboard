@@ -1,4 +1,4 @@
-> External workaround preparation and account-owned setup: [Cloudflare scheduler](external-live-scheduler.md). It is not deployed or verified; native cron and React activation status remain unchanged.
+> Current backend status: [Cloudflare scheduler](external-live-scheduler.md) is enabled and verified through real automatic publications and independent Supabase readback. PR #6 removed native live cron only; manual dispatch and canonical reconciliation remain unchanged. React remains disabled and PR #3 unmerged. The Stage 3B native-scheduler observations below are historical.
 
 > Follow-up: see [scheduler investigation](live-scoring-scheduler-investigation.md) for the active-state API check, non-forced manual publication and current scheduled-run evidence.
 
