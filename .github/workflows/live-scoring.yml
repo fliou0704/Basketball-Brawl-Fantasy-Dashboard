@@ -1,8 +1,5 @@
 name: Lightweight live scoring (activation gated)
 on:
-  schedule:
-    # UTC, offset from the busy start of the hour; game-window gate stays authoritative.
-    - cron: '3,13,23,33,43,53 * * * *'
   workflow_dispatch:
     inputs:
       publish:
