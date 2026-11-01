@@ -1,0 +1,84 @@
+name: Lightweight live scoring (activation gated)
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publish once to Supabase (false = dry run)'
+        type: boolean
+        default: false
+      force:
+        description: 'Bypass game window for this one manual test'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency:
+  group: basketball-brawl-live-scoring
+  cancel-in-progress: false
+jobs:
+  live:
+    # Manual-only production trial. Recurring activation requires a separate approval.
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Reviewed backend and complete import closure; no moving branch dependency.
+          ref: 473b669a806fdec6a589d95e7f0bd0d642a8a377
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .canonical
+          sparse-checkout: data/seasonMetadata.json
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - uses: actions/cache/restore@v4
+        with:
+          path: /tmp/brawl-live-cache
+          key: live-scoring-v1-${{ github.run_id }}
+          restore-keys: live-scoring-v1-
+      - name: Cheap schedule gate
+        id: gate
+        env:
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
+        run: |
+          extra=()
+          if [ "$FORCE" = true ]; then extra+=(--force); fi
+          python liveWindow.py --metadata .canonical/data/seasonMetadata.json --state /tmp/brawl-live-cache/window.json --precheck "${extra[@]}" >> "$GITHUB_OUTPUT"
+      - name: Install existing adapter dependencies only in candidate windows
+        if: steps.gate.outputs.due == 'true'
+        run: pip install -r requirements.txt
+      - name: Verify game window and postgame state
+        id: window
+        if: steps.gate.outputs.due == 'true'
+        env:
+          FORCE: ${{ github.event_name == 'workflow_dispatch' && inputs.force }}
+        run: |
+          extra=()
+          if [ "$FORCE" = true ]; then extra+=(--force); fi
+          python liveWindow.py --metadata .canonical/data/seasonMetadata.json --state /tmp/brawl-live-cache/window.json "${extra[@]}" >> "$GITHUB_OUTPUT"
+      - name: One-shot adapter and publication (manual defaults to dry run)
+        if: steps.window.outputs.due == 'true'
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+          PUBLISH: ${{ inputs.publish }}
+          SEASON: ${{ steps.window.outputs.season }}
+        run: |
+          extra=()
+          if [ "$PUBLISH" != true ]; then extra+=(--dry-run); fi
+          python supabasePublisher.py --generate --season "$SEASON" --metadata .canonical/data/seasonMetadata.json --output /tmp/brawl-live-cache/snapshot.json --sport nba --league-id 609694684 --display-name 'Basketball Brawl' --visibility public "${extra[@]}"
+      - uses: actions/cache/save@v4
+        if: always() && steps.gate.outputs.due == 'true'
+        with:
+          path: /tmp/brawl-live-cache
+          key: live-scoring-v1-${{ github.run_id }}
