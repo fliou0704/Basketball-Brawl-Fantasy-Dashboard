@@ -19902,7 +19902,7 @@
           "start": "2026-10-31T19:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -19918,7 +19918,7 @@
           "start": "2026-10-31T22:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -19934,7 +19934,7 @@
           "start": "2026-10-31T23:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -19950,7 +19950,7 @@
           "start": "2026-11-01T00:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -19966,7 +19966,7 @@
           "start": "2026-11-01T00:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -19982,7 +19982,7 @@
           "start": "2026-11-01T00:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -19998,14 +19998,14 @@
           "start": "2026-11-01T00:30:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
         {
           "away": 2,
           "date": "2026-11-01",
-          "hasStarted": false,
+          "hasStarted": true,
           "home": 19,
           "id": 401909903,
           "period": 13,
@@ -20013,15 +20013,15 @@
           "season": 2027,
           "start": "2026-11-01T20:30:00+00:00",
           "statsOfficial": false,
-          "status": "scheduled",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "status": "completed",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
         {
           "away": 17,
           "date": "2026-11-01",
-          "hasStarted": false,
+          "hasStarted": true,
           "home": 11,
           "id": 401909904,
           "period": 13,
@@ -20029,8 +20029,8 @@
           "season": 2027,
           "start": "2026-11-01T22:00:00+00:00",
           "statsOfficial": false,
-          "status": "scheduled",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "status": "in-progress",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20046,7 +20046,7 @@
           "start": "2026-11-02T01:30:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20062,7 +20062,7 @@
           "start": "2026-11-02T02:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
-          "statusVerifiedAt": "2026-11-01T19:41:02.202345+00:00",
+          "statusVerifiedAt": "2026-11-02T00:45:16.039587+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -36704,7 +36704,7 @@
       "schemaVersion": 2,
       "season": 2027,
       "source": "ESPN proTeamSchedules_wl + NBA scoreboards",
-      "statusAt": "2026-11-01T19:41:02.202345+00:00",
+      "statusAt": "2026-11-02T00:45:16.039587+00:00",
       "teams": [
         {
           "abbrev": "ATL",
@@ -52806,7 +52806,7 @@
                 "10": 19.0,
                 "11": 205.0,
                 "12": 87.0,
-                "13": 0.0,
+                "13": 53.0,
                 "7": 129.0,
                 "8": 122.0,
                 "9": 108.0
@@ -52818,7 +52818,7 @@
                 "10": 80.0,
                 "11": 321.0,
                 "12": 191.0,
-                "13": 0.0,
+                "13": 132.0,
                 "7": 217.0,
                 "8": 120.0,
                 "9": 256.0
@@ -52866,7 +52866,7 @@
                 "10": 90.0,
                 "11": 219.0,
                 "12": 125.0,
-                "13": 0.0,
+                "13": 34.0,
                 "7": 238.0,
                 "8": 96.0,
                 "9": 324.0
@@ -52896,7 +52896,7 @@
                 "10": 68.0,
                 "11": 342.0,
                 "12": 182.0,
-                "13": 0.0,
+                "13": 78.0,
                 "7": 368.0,
                 "8": 120.0,
                 "9": 400.0
@@ -52908,7 +52908,7 @@
                 "10": 63.0,
                 "11": 142.0,
                 "12": 185.0,
-                "13": 0.0,
+                "13": 28.0,
                 "7": 275.0,
                 "8": 28.0,
                 "9": 188.0
@@ -52926,7 +52926,7 @@
                 "10": 156.0,
                 "11": 278.0,
                 "12": 200.0,
-                "13": 0.0,
+                "13": 36.0,
                 "7": 169.0,
                 "8": 126.0,
                 "9": 330.0
@@ -52938,7 +52938,7 @@
                 "10": 108.0,
                 "11": 147.0,
                 "12": 202.0,
-                "13": 0.0,
+                "13": 37.0,
                 "7": 221.0,
                 "8": 83.0,
                 "9": 221.0
