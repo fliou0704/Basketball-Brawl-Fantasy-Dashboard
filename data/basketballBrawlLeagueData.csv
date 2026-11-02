@@ -939,3 +939,13 @@ Year,Week,Type,Team Name,Team Abbreviation,Team ID,Team Owner,Home/Away,Points F
 2027,1,Regular,I Watch Basketbal,SEE,17,Luke,Away,972.0,1246.0,0,1,New Jersey Eren,2.0,Eren,972.0,1246.0,0,1,8,8
 2027,1,Regular,For All the bullDawgs,FAD,10,Shayan,Away,825.0,1402.0,0,1,Wembarrassingggg,1.0,Frank,825.0,1402.0,0,1,9,9
 2027,1,Regular,The Bronx Orthodox Church,13,13,Arian,Away,423.0,1222.0,0,1,Who Invited This Kid?,7.0,Jooahn,423.0,1222.0,0,1,10,10
+2027,2,Regular,Wembarrassingggg,OOPS,1,Frank,Away,1849.0,859.0,1,0,I Watch Basketbal,17.0,Luke,3251.0,1684.0,2,0,1,1
+2027,2,Regular,New Jersey Eren,TURK,2,Eren,Home,1643.0,910.0,1,0,Who Invited This Kid?,7.0,Jooahn,2889.0,1882.0,2,0,2,2
+2027,2,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Home,1195.0,722.0,1,0,For All the bullDawgs,10.0,Shayan,2541.0,2065.0,2,0,5,3
+2027,2,Regular,Paulie Gee's,JMH,8,Jonathan,Home,1338.0,1022.0,1,0,Pooh Shaisty,12.0,Semanto,2681.0,2368.0,1,1,4,4
+2027,2,Regular,Big Wong,WONG,5,Johnson,Away,1356.0,751.0,1,0,The Bronx Orthodox Church,13.0,Arian,2407.0,1910.0,1,1,3,5
+2027,2,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1022.0,1338.0,0,1,Paulie Gee's,8.0,Jonathan,2181.0,2389.0,1,1,6,6
+2027,2,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,910.0,1643.0,0,1,New Jersey Eren,2.0,Eren,2132.0,2066.0,1,1,7,7
+2027,2,Regular,I Watch Basketbal,SEE,17,Luke,Home,859.0,1849.0,0,1,Wembarrassingggg,1.0,Frank,1831.0,3095.0,0,2,8,8
+2027,2,Regular,For All the bullDawgs,FAD,10,Shayan,Away,722.0,1195.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,1547.0,2597.0,0,2,10,9
+2027,2,Regular,The Bronx Orthodox Church,13,13,Arian,Home,751.0,1356.0,0,1,Big Wong,5.0,Johnson,1174.0,2578.0,0,2,9,10
