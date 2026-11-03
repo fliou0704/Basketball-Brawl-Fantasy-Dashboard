@@ -1,4 +1,7 @@
 .homepage { padding-top: 28px; }
+.all-play-sort { border: 0; padding: 6px 0; background: transparent; color: inherit; font: inherit; font-weight: 800; cursor: pointer; }
+.all-play-sort:hover { color: var(--color-brand-strong); }
+.combined-standings .mobile-stats > div:first-child { grid-column: 1 / -1; }
 .current-week-context { margin: 0 0 16px; color: var(--color-ink-muted); font-size: .8rem; line-height: 1.6; }
 .current-week-empty { margin: 0; font-size: .9rem; }
 .home-section { margin: 0 0 42px; }
