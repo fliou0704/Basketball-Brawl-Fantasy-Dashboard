@@ -20307,6 +20307,7 @@
           "start": "2026-11-05T00:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20322,6 +20323,7 @@
           "start": "2026-11-05T00:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20337,6 +20339,7 @@
           "start": "2026-11-05T00:30:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20352,6 +20355,7 @@
           "start": "2026-11-05T00:30:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20367,6 +20371,7 @@
           "start": "2026-11-05T00:30:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20382,6 +20387,7 @@
           "start": "2026-11-05T01:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20397,6 +20403,7 @@
           "start": "2026-11-05T01:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20412,6 +20419,7 @@
           "start": "2026-11-05T01:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20427,6 +20435,7 @@
           "start": "2026-11-05T01:30:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20442,6 +20451,7 @@
           "start": "2026-11-05T02:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20457,6 +20467,7 @@
           "start": "2026-11-05T02:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20472,6 +20483,7 @@
           "start": "2026-11-05T02:30:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20487,6 +20499,7 @@
           "start": "2026-11-05T03:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -20502,6 +20515,7 @@
           "start": "2026-11-05T03:30:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
+          "statusVerifiedAt": "2026-11-04T06:22:45.494157+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -36708,7 +36722,7 @@
       "schemaVersion": 2,
       "season": 2027,
       "source": "ESPN proTeamSchedules_wl + NBA scoreboards",
-      "statusAt": "2026-11-03T23:24:04.445616+00:00",
+      "statusAt": "2026-11-04T06:22:45.494157+00:00",
       "teams": [
         {
           "abbrev": "ATL",
