@@ -87,8 +87,8 @@ test('shared recap renders its own week and preserves lineup',async()=>{
 
 test('Home regular and playoff branches end with standings and omit removed sections',async()=>{
   const app=await readFile(new URL('../src/App.jsx',import.meta.url),'utf8');
-  assert.match(app,/<Standings data=\{standings\} final\/>\s*<\/>:<>/);
-  assert.match(app,/<Standings data=\{standings\}\/>\s*<\/>\}/);
+  assert.match(app,/<Standings data=\{standings\} allPlay=\{allPlay\} linkTeams final\/>\s*<\/>:<>/);
+  assert.match(app,/<Standings data=\{standings\} allPlay=\{allPlay\} linkTeams\/>\s*<\/>\}/);
   assert.ok(!app.includes('Around'));
   const recaps=await readFile(new URL('../src/components/Recaps.jsx',import.meta.url),'utf8');
   assert.ok(!recaps.includes('Around the League'));

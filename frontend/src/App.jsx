@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Standings from './components/Standings';
+import { standingsAllPlay } from './standings-visualization-data';
 import Playoffs from './components/Playoffs';
 import { Daily, Weekly, Scoreboard } from './components/Recaps';
 import HomeSections from './components/HomeSections';
@@ -73,18 +74,19 @@ export default function App() {
   const daily=page?.['daily-recap']?.[state?.dailyDate];
   const weekly=showHomeRecap(state) ? page?.['weekly-recap']?.[state?.weeklyWeek] : null;
   const standings=page?.standings?.[state?.standingsWeek];
+  const allPlay=standingsAllPlay(page?.history,standings?.statsThroughWeek);
   const bracket=page?.playoffs?.[state?.playoffKey];
   return <><a className="skip" href="#home">Skip to content</a><Header/><PageShell id="home" className="homepage">
     <PageHeader title={state?.season ? `${state.season} ${offseason?'Season':state.phase==='playoffs'?'Playoffs':'Season'}`:'Basketball Brawl'} meta={state?.season && (offseason?'Season complete':`Week ${state.week}`)}/>
     {error?<section className="message" role="alert"><h2>Homepage unavailable</h2><p>{override?'Check the date (YYYY-MM-DD) and try again.':'Please try again.'}</p><button onClick={()=>window.location.reload()}>Try again</button></section>:!page?<p role="status">Loading…</p>:!state.season?<p className="archive-note">No completed season is available for this date.</p>:offseason?<>
-      <Playoffs bracket={bracket}/><Standings data={standings} final/>
+      <Playoffs bracket={bracket}/><Standings data={standings} allPlay={allPlay} linkTeams final/>
       <SeasonLeaders players={page['season-leaders']}/><SeasonHistory data={page.history}/>
-    </>:page.current?<HomeSections snapshot={current} live={live} publishedAt={page.publishedAt} daily={daily} weekly={weekly} bracket={bracket} standings={standings}/>:state.phase==='playoffs'?<>
+    </>:page.current?<HomeSections snapshot={current} live={live} publishedAt={page.publishedAt} daily={daily} weekly={weekly} bracket={bracket} standings={standings} allPlay={allPlay}/>:state.phase==='playoffs'?<>
       <Playoffs bracket={bracket}/><Weekly recap={weekly}/><Daily recap={daily}/>
-      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings} final/>
+      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings} allPlay={allPlay} linkTeams final/>
     </>:<>
       {state.weeklyFirst?<><Weekly recap={weekly}/><Daily recap={daily}/></>:<><Daily recap={daily}/><Weekly recap={weekly}/></>}
-      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings}/>
+      {!page.current && <Scoreboard recap={daily} week={state.week}/>}<Standings data={standings} allPlay={allPlay} linkTeams/>
     </>}
   </PageShell></>;
 }

@@ -4,19 +4,28 @@ import { Card, PageHeader, PageShell, Section } from './components/Layout';
 import { TeamLogo } from './components/Standings';
 import PlayerLinkIdentity from './components/PlayerIdentity';
 import './record-book.css';
+import { highlightsUrl } from './record-data';
 
 const columns = {
   transactions: [['Asset','Player Name'],['Transaction Count','Transaction Count']],
+  performances: [['Date','Date'],['Player Name','Player'],['Team Name','Fantasy Team'],['Watch','Highlights'],['FPTS','FPTS'],...['PTS','REB','AST','STL','BLK','FGM/FGA','3PM/3PA','TO'].map(key=>[key,key])],
   days: [['Date','Date'],['Player Name','Player Name'],['Team Name','Team Name'],['FPTS','FPTS']],
 };
 
+function recordCell(row,key) {
+  if(key==='Player Name'||key==='Asset') return <PlayerLinkIdentity playerId={row['Player ID']} name={row[key]} showHeadshot size={30}/>;
+  if(key==='Watch') return <a className="highlights-play" href={highlightsUrl(row)} target="_blank" rel="noopener noreferrer" aria-label={`Find ${row['Player Name']} highlights on YouTube`}>▶</a>;
+  if(key==='Team Name'&&row.team) return <span className="table-team"><TeamLogo team={row.team} size={26}/>{row[key]}</span>;
+  if(key.includes('/')) return key.split('/').map(stat=>row.stats?.[stat]??'—').join('/');
+  return row.stats?.[key]??row[key]??'—';
+}
 function ResponsiveTable({ rows, fields, label }) {
-  return <table className="record-table"><caption className="sr-only">{label}</caption>
+  return <div className="table-scroll" role="region" aria-label={label} tabIndex="0"><table className="record-table data-table"><caption className="sr-only">{label}</caption>
     <thead><tr>{fields.map(([key,name])=><th key={key} scope="col">{name}</th>)}</tr></thead>
-    <tbody>{rows.map((row,index)=><tr key={index}>{fields.map(([key,name],cell)=>cell===0
-      ? <th key={key} scope="row" data-label={name}>{(key==='Player Name'||key==='Asset')?<PlayerLinkIdentity playerId={row['Player ID']} name={row[key]}/>:row[key]}</th>
-      : <td key={key} data-label={name}>{(key==='Player Name'||key==='Asset')?<PlayerLinkIdentity playerId={row['Player ID']} name={row[key]}/>:key==='Team Name'&&row.team?<span className="table-team"><TeamLogo team={row.team} size={26}/>{row[key]}</span>:row[key]}</td>)}</tr>)}</tbody>
-  </table>;
+    <tbody>{rows.map((row,index)=><tr key={index}>{fields.map(([key],cell)=>cell===0
+      ? <th key={key} scope="row">{recordCell(row,key)}</th>
+      : <td key={key}>{recordCell(row,key)}</td>)}</tr>)}</tbody>
+  </table></div>;
 }
 
 function Record({ record }) {
@@ -29,7 +38,7 @@ function AllTime({ data }) {
     <p>{data.scopeNote}</p>
     <Section title="Championship History"><Card className="championship-timeline"><ol>{data.champions.map(champion=><li key={champion.year}><span className="timeline-year">{champion.year}</span><span className="timeline-crown" aria-hidden="true">♛</span><TeamLogo team={champion.team} size={48}/><strong>{champion.team.teamName}</strong></li>)}</ol></Card></Section>
     <Section title="Most Points"><div className="all-time-records">{data.records.map(record=><Record key={record.label} record={record}/>)}</div></Section>
-    <ExpandableTable title="Players with 100+ Point Days" rows={data.hundredPointDays} fields={columns.days}><p className="record-counts">{data.hundredPointCounts.map((row,index)=><React.Fragment key={row['Player ID']??row['Player Name']}>{index>0?', ':''}<PlayerLinkIdentity playerId={row['Player ID']} name={row['Player Name']}/>: {row.Count}</React.Fragment>)}</p></ExpandableTable>
+    <ExpandableTable title="Players with 100+ Point Days" rows={data.hundredPointDays} fields={columns.performances}><p className="record-data-note">— indicates unavailable game statistics. NBA opponents are omitted from highlight searches when not saved.</p><p className="record-counts">{data.hundredPointCounts.map((row,index)=><React.Fragment key={row['Player ID']??row['Player Name']}>{index>0?', ':''}<PlayerLinkIdentity playerId={row['Player ID']} name={row['Player Name']}/>: {row.Count}</React.Fragment>)}</p></ExpandableTable>
     <ExpandableTable title="Players with Negative Point Days" rows={data.negativePointDays} fields={columns.days}><div className="negative-team-counts">{data.negativeTeamCounts.map((row,index)=><span key={`${row.logo}-${index}`}><img src={`${import.meta.env.BASE_URL}${row.logo}`} alt=""/>: {row.count}</span>)}</div></ExpandableTable>
     <ExpandableTable title="Top 10 Most Active Players (Total Transactions)" rows={data.transactionLeaders} fields={columns.transactions}/>
   </div>;

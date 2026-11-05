@@ -20,7 +20,7 @@ def frame_records(frame, columns):
             for row in frame[columns].to_dict('records')]
 
 
-def all_time(league, weekly, daily, activity, config):
+def all_time(league, weekly, daily, activity, config, metadata=None):
     """Intentionally retain the existing Summary / All-Time definitions."""
     top_team = league.sort_values('Points For', ascending=False).iloc[0]
     top_player = weekly.sort_values('FPTS', ascending=False).iloc[0]
@@ -29,7 +29,10 @@ def all_time(league, weekly, daily, activity, config):
                        for year in set(league['Year']) | set(daily['Year'])}
     team_for = lambda row: teams_by_season.get(int(row['Year']), {}).get(int(row['Team ID']))
     hundred = daily[daily['FPTS'] >= 100].copy().sort_values('Date', ascending=False)
-    hundred = hundred[['Year', 'Date', 'Player ID', 'Player Name', 'Team Name', 'Team ID', 'FPTS']]
+    from build_homepage import raw_stats
+    from playerDailyAggregation import load_season_metadata
+    weights = {int(s['season']): s['scoringWeights'] for s in (metadata or load_season_metadata())['seasons']}
+    hundred['stats'] = hundred.apply(lambda row: raw_stats(row.where(pd.notna(row), None).to_dict(), weights.get(int(row['Year']), {})), axis=1)
     hundred['team'] = hundred.apply(team_for, axis=1)
     hundred['Date'] = pd.to_datetime(hundred['Date']).dt.strftime('%m/%d/%Y')
     hundred_counts = hundred['Player Name'].value_counts().rename('Count').reset_index()
@@ -60,7 +63,7 @@ def all_time(league, weekly, daily, activity, config):
             {'label': 'Most Points in a Single Day (Player)', 'value': f"{top_daily['Player Name']} scored {top_daily['FPTS']} points on {top_daily['Date']} for {top_daily['Team Name']}", 'playerId': int(top_daily['Player ID']), 'playerName': top_daily['Player Name'], 'team': team_for(top_daily)},
         ],
         'transactionLeaders': frame_records(transactions, ['Player ID', 'Asset', 'Transaction Count']),
-        'hundredPointDays': frame_records(hundred, ['Date', 'Player ID', 'Player Name', 'Team Name', 'FPTS', 'team']),
+        'hundredPointDays': frame_records(hundred, ['Date', 'Player ID', 'Player Name', 'Team Name', 'FPTS', 'team', 'stats']),
         'hundredPointCounts': frame_records(hundred_counts, ['Player ID', 'Player Name', 'Count']),
         'negativePointDays': frame_records(negative, ['Date', 'Player ID', 'Player Name', 'Team Name', 'FPTS', 'team']),
         'negativeTeamCounts': [{'logo': 'logos/' + Path(row['Logo Path']).name, 'count': int(row['Count'])}
@@ -222,7 +225,7 @@ def build(source, output):
     metadata, config = load_season_metadata(), logo_config()
     years = completed_season_years(league, daily, metadata)
     payload = {'schemaVersion': 1, 'defaultYear': years[0] if years else 'All-Time', 'years': years,
-               'allTime': all_time(league, weekly, daily, activity, config),
+               'allTime': all_time(league, weekly, daily, activity, config, metadata),
                'seasons': {str(year): season_awards(league, weekly, daily, activity, metadata, config, year)
                            for year in years}}
     payload['allTime']['champions'] = [champion for champion in payload['allTime']['champions']

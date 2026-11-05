@@ -68,7 +68,7 @@ Body copy is 1rem/1.55. Labels and metadata are 0.75–0.8125rem with deliberate
 
 ## Tables
 
-Tables live inside `TableCard`. Headers use the muted surface, uppercase compact labels, and a strong bottom divider. Rows use comfortable but dense padding and light dividers. Team identity stays left aligned; records, scores, and stats use right-aligned tabular numerals. At small widths, purpose-built stacked rows may replace a table without removing information. No page-level horizontal scrolling is allowed.
+Tables live inside `TableCard`. Headers use the muted surface, uppercase compact labels, and a strong bottom divider. Rows use comfortable but dense padding and light dividers. Team identity stays left aligned; records, scores, and stats use right-aligned tabular numerals. Standings, All-Time Record Book, and Top 150 tables preserve semantic rows and columns at all widths inside the shared `.table-scroll` container. Use horizontal scrolling, compact cells, and nowrap numerical values; do not replace these tables with stacked rows. Other existing pages may retain their purpose-built mobile rows. No page-level horizontal scrolling is allowed.
 
 ## Navigation
 

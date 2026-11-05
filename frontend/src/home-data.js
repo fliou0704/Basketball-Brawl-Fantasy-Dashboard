@@ -60,6 +60,7 @@ export function createHomeClient(base, fetcher = (...args) => fetch(...args)) {
           : state.phase === 'playoffs' ? ['standings','daily-recap','weekly-recap','playoffs']
           : ['standings','daily-recap','weekly-recap'];
       }
+      if (!names.includes('history')) names.push('history');
       const entries = await Promise.all(names.map(async name => [name, (await json(`${state.season}/${name}.json`, revision)).data]));
       const page = {...selected, ...Object.fromEntries(entries)};
       if (selected.current?.bracket) page.playoffs = {[state.playoffKey]: selected.current.bracket};

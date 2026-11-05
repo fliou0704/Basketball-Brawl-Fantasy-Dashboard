@@ -5,6 +5,7 @@ import PlayerSearch from './components/PlayerSearch';
 import { TeamLogo } from './components/Standings';
 import { ageOnDate, defaultPlayerTab, formatHeight, formatPlayerGameDate, latestPlayerGameSeason, PLAYER_GAME_STATS, recentPlayerGames, selectPlayerTab } from './player-data';
 import './players.css';
+import Top150 from './components/Top150';
 
 const base=import.meta.env.BASE_URL;
 const stats=['starts','FPTS','fpPerStart','mpg','fppm','PTS','REB','AST','STL','BLK','3PM','TO','FGM','FGA','FTM','FTA'];
@@ -23,7 +24,7 @@ function usePlayers() {
 export function PlayersLanding() {
   const {players,error}=usePlayers();
   return <><a className="skip" href="#players">Skip to content</a><Header active="players"/><PageShell id="players" className="players-page"><header className="page-header"><div><p className="page-eyebrow">Basketball Brawl</p><h1>Players</h1></div></header>
-    {error?<div className="message" role="alert">Player search is unavailable.</div>:players?<PlayerSearch players={players}/>:<p role="status">Loading players…</p>}
+    {error?<div className="message" role="alert">Player search is unavailable.</div>:players?<PlayerSearch players={players}/>:<p role="status">Loading players…</p>}<Top150/>
   </PageShell></>;
 }
 

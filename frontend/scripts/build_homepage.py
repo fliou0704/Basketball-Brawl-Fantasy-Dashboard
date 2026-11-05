@@ -193,11 +193,11 @@ def bracket_view(league, calendar, teams, active_week=None):
 
 
 def standings_charts(by_week, teams, regular_weeks, scheduled_weeks=None):
-    """Precompute completed regular-season chart geometry for the Standings page."""
+    """Precompute ranks for completed weeks, including playoff/byes/consolation."""
     scheduled_weeks = scheduled_weeks or regular_weeks
     team_ids = set(teams)
     weeks = [week for week in regular_weeks if {
-        int(row['Team ID']) for row in by_week[week] if row['Type'] == 'Regular'
+        int(row['Team ID']) for row in by_week[week]
     } == team_ids]
     if not weeks:
         band = 716 / max(1, len(scheduled_weeks))
@@ -209,16 +209,16 @@ def standings_charts(by_week, teams, regular_weeks, scheduled_weeks=None):
     for team_id, team in teams.items():
         points = []
         for index, week in enumerate(weeks):
-            row = next(row for row in by_week[week] if row['Type'] == 'Regular' and int(row['Team ID']) == team_id)
+            row = next(row for row in by_week[week] if int(row['Team ID']) == team_id)
             x = left if len(weeks) == 1 else left + index * (right - left) / (len(weeks) - 1)
             y = top + (int(row['Rank']) - 1) * (bottom - top) / max(1, len(teams) - 1)
             points.append({'week': week, 'rank': int(row['Rank']), 'x': round(x, 2), 'y': round(y, 2)})
         series.append(dict(team, points=points, path=' '.join(f"{point['x']},{point['y']}" for point in points)))
     leaders = []
-    maximum = max(number(row['Points For']) for week in weeks for row in by_week[week] if row['Type'] == 'Regular')
+    maximum = max(number(row['Points For']) for week in weeks for row in by_week[week])
     band = (right - left) / max(1, len(scheduled_weeks))
     for index, week in enumerate(weeks):
-        winner = max((row for row in by_week[week] if row['Type'] == 'Regular'), key=lambda row: number(row['Points For']))
+        winner = max((row for row in by_week[week] if row['Type'] != 'Bye'), key=lambda row: number(row['Points For']))
         points = number(winner['Points For'])
         height = points / maximum * (bottom - top) if maximum else 0
         leaders.append(dict(teams[int(winner['Team ID'])], week=week, points=round(points, 2),
@@ -374,8 +374,9 @@ def build_season(year, league, daily, weekly, calendar, config, output, mapping)
     charts = {'ranks': rank_series, 'weeks': regular_weeks, 'highWeeks': high_weeks,
               'rankTicks': [{'rank': i, 'y': 20+(i-1)*180/max(1,len(teams)-1)} for i in range(1,len(teams)+1)],
               'allPlay': all_play(league, teams, regular_weeks),
-              'standingsCharts': standings_charts(by_week, teams, regular_weeks,
-                  list(range(1, int(calendar['regularWeeks']) + 1)))}
+              'allPlayByWeek': {str(w): all_play(league, teams, [n for n in regular_weeks if n <= w]) for w in [0, *regular_weeks]},
+              'standingsCharts': standings_charts(by_week, teams, sorted(completed_weeks),
+                  sorted(set(range(1, int(calendar['regularWeeks']) + 1)) | set(completed_weeks)))}
     for name, content in [('standings',standings), ('daily-recap',daily_recaps), ('weekly-recap',weekly_recaps),
                           ('playoffs',playoffs), ('season-leaders',leaders), ('history',charts)]:
         write_json(output / str(year) / f'{name}.json', {'schemaVersion': VERSION, 'season': year, 'data': content})

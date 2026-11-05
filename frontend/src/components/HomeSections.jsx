@@ -4,7 +4,7 @@ import Playoffs from './Playoffs';
 import Standings from './Standings';
 
 // Keep unknown score coverage distinct from a verified zero-point new week.
-export default function HomeSections({ snapshot, live, publishedAt, daily, weekly, bracket, standings }) {
+export default function HomeSections({ snapshot, live, publishedAt, daily, weekly, bracket, standings, allPlay }) {
   const zero = snapshot.scoringStatus === 'zero';
   const scoreboard = <CurrentWeek snapshot={snapshot} live={live} publishedAt={publishedAt} showPerformances={false}/>;
   return <>
@@ -12,6 +12,6 @@ export default function HomeSections({ snapshot, live, publishedAt, daily, weekl
       {scoreboard}<CurrentWeekPerformances snapshot={snapshot}/><Daily recap={daily}/><Weekly recap={weekly}/>
     </>}
     {snapshot.state.phase === 'playoffs' && <Playoffs bracket={bracket}/>}
-    <Standings data={standings} final={snapshot.state.phase === 'playoffs'}/>
+    <Standings data={standings} allPlay={allPlay} linkTeams final={snapshot.state.phase === 'playoffs'}/>
   </>;
 }

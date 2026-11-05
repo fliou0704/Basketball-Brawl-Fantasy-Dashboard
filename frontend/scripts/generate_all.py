@@ -27,6 +27,8 @@ def build_all(source: Path, output: Path) -> None:
     build_record_book(source, output)
     build_player_metadata(source, output)
     build_players(source, output)
+    from generate_top150 import build as build_top150
+    build_top150(source, output)
     from generate_current import build as build_current
     build_current(source, output)
     from generate_franchise_profiles import build as build_franchise_profiles

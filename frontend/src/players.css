@@ -88,3 +88,12 @@
   .transaction-trade { gap: 7px; }
   .transaction-team { font-size: .76rem; }
 }
+.top150-controls { display:flex; align-items:center; flex-wrap:wrap; gap:16px; margin:16px 0; }
+.top150-controls .player-tabs { margin:0; }
+.top150-controls button[aria-pressed="true"] { color:var(--color-brand-strong); border-color:var(--color-brand); background:var(--color-brand-soft); }
+.top150-table { min-width:850px; }
+.top150-free-agent { background:var(--color-brand-soft); }
+.free-agent-label { font-size:.75rem; font-weight:800; color:var(--color-brand-strong); }
+.top150-divider { background:var(--color-surface-muted); }
+.top150-table small { text-transform:none; letter-spacing:normal; }
+.players-page > .home-section { margin-top:40px; }

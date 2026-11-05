@@ -22,17 +22,10 @@ export default function Standings({ data, allPlay, final = false, linkTeams = fa
   const toggle=()=>setSort(sort==='desc'?'asc':'desc');
   const sortButton=<button type="button" className="all-play-sort" onClick={toggle}>All-Play W-L{sort==='desc'?' ↓':sort==='asc'?' ↑':''}</button>;
   return <Section className={allPlay?'combined-standings':''} title={final ? 'Final Standings' : 'Standings'} meta={`Regular season · through Week ${data.statsThroughWeek}`}>
-    {allPlay&&<div className="mobile-standings">{sortButton}</div>}
-    <TableCard>
-    <ol className="mobile-standings" aria-label="Standings">
-      {rows.map(team => <li key={team.teamId}>
-        <div className="mobile-team-heading"><span className="mobile-rank">{team.rank}</span><Team team={team} link={linkTeams}/><div className="mobile-record"><span className="stat-label">W–L</span><strong>{team.record}</strong></div></div>
-        <dl className="mobile-stats">{allPlay&&<div><dt>All-Play W-L</dt><dd>{allPlayRecord(lookup.get(Number(team.teamId)))}</dd></div>}<div><dt>PF</dt><dd>{team.pointsForDisplay}</dd></div><div><dt>PA</dt><dd>{team.pointsAgainstDisplay}</dd></div></dl>
-      </li>)}
-    </ol>
-    <table className="desktop-standings"><caption className="sr-only">Regular-season standings through Week {data.statsThroughWeek}</caption>
+    <TableCard><div className="table-scroll" role="region" aria-label="Standings table" tabIndex="0">
+    <table className="standings-table data-table"><caption className="sr-only">Regular-season standings through Week {data.statsThroughWeek}</caption>
       <thead><tr><th className="rank" scope="col">#</th><th scope="col">Team</th><th scope="col" className="record">W–L</th>{allPlay&&<th scope="col" className="numeric" aria-sort={sort==='desc'?'descending':sort==='asc'?'ascending':'none'}>{sortButton}</th>}<th scope="col" className="numeric">Points For</th><th scope="col" className="numeric">Points Against</th></tr></thead>
       <tbody>{rows.map(team => <tr key={team.teamId}><td className="rank">{team.rank}</td><th scope="row"><Team team={team} link={linkTeams}/></th><td className="record">{team.record}</td>{allPlay&&<td className="numeric">{allPlayRecord(lookup.get(Number(team.teamId)))}</td>}<td className="numeric">{team.pointsForDisplay}</td><td className="numeric">{team.pointsAgainstDisplay}</td></tr>)}</tbody>
-    </table></TableCard>
+    </table></div></TableCard>
   </Section>;
 }

@@ -135,3 +135,14 @@ button:hover { background: var(--color-brand-strong); border-color: var(--color-
   .header-inner { flex-wrap:wrap; gap:16px; padding-block:16px; }
   .site-menu, .site-menu.open { width:100%; flex-wrap:wrap; gap:16px; }
 }
+/* Shared semantic tables: horizontal scrolling stays inside each card. */
+.table-scroll { width:100%; max-width:100%; min-width:0; overflow-x:auto; overscroll-behavior-inline:contain; }
+.page-shell > *, .home-section, .content-card { min-width:0; }
+.data-table { table-layout:auto; width:100%; white-space:nowrap; font-size:.8125rem; }
+.data-table th, .data-table td { padding:12px 10px; overflow-wrap:normal; }
+.standings-table { min-width:720px; }
+.standings-table .team-name { min-width:160px; max-width:240px; white-space:normal; overflow-wrap:normal; }
+.standings-table .all-play-sort { white-space:nowrap; position:static; min-height:36px; }
+.headshot-fallback { display:grid; place-items:center; width:100%; height:100%; color:var(--color-ink-muted); background:var(--color-surface-muted); }
+.highlights-play { display:inline-grid; place-items:center; width:36px; height:36px; border:1px solid var(--color-border); border-radius:50%; color:var(--color-brand-strong); text-decoration:none; }
+.highlights-play:hover { background:var(--color-brand-soft); }

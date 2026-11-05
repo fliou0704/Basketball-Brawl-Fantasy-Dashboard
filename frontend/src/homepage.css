@@ -1,6 +1,6 @@
 .homepage { padding-top: 28px; }
 .all-play-sort { border: 0; padding: 6px 0; background: transparent; color: inherit; font: inherit; font-weight: 800; cursor: pointer; }
-.all-play-sort:hover { color: var(--color-brand-strong); }
+.all-play-sort:hover { color: var(--color-brand-strong); background:transparent; border-color:transparent; }
 .combined-standings .mobile-stats > div:first-child { grid-column: 1 / -1; }
 .current-week-context { margin: 0 0 16px; color: var(--color-ink-muted); font-size: .8rem; line-height: 1.6; }
 .current-week-empty { margin: 0; font-size: .9rem; }
@@ -146,3 +146,6 @@ figure { margin: 0; min-width: 0; }
   .content-card { padding: 22px 24px; }
   .table-card { padding: 0; }
 }
+.rank-chart-controls img { flex:none; object-fit:contain; }
+.standings-graphs > figure { min-width:0; }
+.scoring-leaders-chart { pointer-events:none; }
