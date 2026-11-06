@@ -1,0 +1,71 @@
+name: Comprehensive NBA player logs (manual only)
+on:
+  workflow_dispatch:
+    inputs:
+      seasons:
+        description: 'Fantasy season years, space separated'
+        default: '2027'
+        required: true
+      persist:
+        description: 'Commit validated new dataset to codex'
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: basketball-brawl-player-game-logs
+  cancel-in-progress: false
+jobs:
+  collect:
+    if: github.ref == 'refs/heads/codex'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: .canonical
+          sparse-checkout: data/playerDailyData.csv
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - uses: actions/cache/restore@v4
+        with:
+          path: .player-game-log-cache
+          key: player-game-logs-v1-${{ github.run_id }}
+          restore-keys: player-game-logs-v1-
+      - run: python -m unittest discover -s tests -p 'test_player_game_logs.py' -v
+      - name: Refresh verified appearances
+        env:
+          ESPN_S2: ${{ secrets.ESPN_S2 }}
+          SWID: ${{ secrets.SWID }}
+          SEASONS: ${{ inputs.seasons }}
+        run: |
+          if [[ ! "$SEASONS" =~ ^[0-9[:space:]]+$ ]]; then echo "Invalid season list"; exit 1; fi
+          read -r -a years <<< "$SEASONS"
+          python playerGameLogs.py --seasons "${years[@]}" --refresh --canonical .canonical/data/playerDailyData.csv --max-requests 200
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .player-game-log-cache
+          key: player-game-logs-v1-${{ github.run_id }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: player-game-logs
+          path: |
+            data/playerGameLogs.csv
+            data/playerGameLogs.report.json
+      - name: Persist only approved game-log outputs
+        if: inputs.persist
+        run: |
+          git add data/playerGameLogs.csv data/playerGameLogs.report.json
+          if ! git diff --cached --quiet; then
+            git config user.name github-actions
+            git config user.email actions@github.com
+            git commit -m 'Refresh comprehensive NBA appearances [skip pages]'
+            git push origin HEAD:codex
+          fi

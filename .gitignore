@@ -7,3 +7,7 @@ __pycache__/
 .env
 .env.*
 !.env.example
+
+# Resumable all-player diagnostic cache; never commit API responses.
+.player-game-log-cache/
+/data/playerGameLogs.csv.lock
