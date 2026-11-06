@@ -35,4 +35,4 @@ class AllPlayTests(unittest.TestCase):
         output=Path(os.environ.get('FRONTEND_TEST_OUTPUT',Path(__file__).resolve().parents[1]/'public/data'))
         for season in load_season_metadata()['seasons']:
             chart=json.loads((output/str(season['season'])/'history.json').read_text())['data']['standingsCharts']
-            self.assertEqual([t['week'] for t in chart['scoringWeekTicks']],sorted(set(range(1,season['regularWeeks']+1)) | set(chart['weeks'])))
+            self.assertEqual([t['week'] for t in chart['scoringWeekTicks']],[t['week'] for t in chart['rankWeekTicks']])

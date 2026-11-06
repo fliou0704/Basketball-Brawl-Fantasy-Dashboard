@@ -20,7 +20,7 @@ const base=process.env.BRAWL_URL||'http://127.0.0.1:4176/Basketball-Brawl-Fantas
     await genuine('.standings-table');await fits();
     const history=await page.evaluate(async url=>(await(await fetch(url)).json()).data,base+`data/${year}/history.json`);
     if(history.standingsCharts?.ranks.length) {
-     await page.waitForFunction(n=>document.querySelectorAll('.rank-progression-chart > text').length===n+1,history.standingsCharts.weeks.length);
+     await page.waitForFunction(n=>document.querySelectorAll('.rank-progression-chart > text').length===n+1,(history.standingsCharts.rankWeekTicks||history.standingsCharts.weeks).length);
      assert.equal(await page.locator('.scoring-leaders-chart title').count(),0);
      assert.equal(await page.locator('.scoring-leaders-chart image').count(),history.standingsCharts.highWeeks.length);
      const buttons=page.locator('.rank-chart-controls button');await buttons.nth(1).click();assert.equal(await buttons.nth(1).getAttribute('aria-pressed'),'true');

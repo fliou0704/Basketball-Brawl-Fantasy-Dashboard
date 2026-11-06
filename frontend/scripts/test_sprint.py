@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
-from build_homepage import standings_charts, ROOT
+from build_homepage import standings_charts, rank_axis_weeks, ROOT
 from generate_top150 import build, validate_pool
 from generate_record_book import build as record_book
 
@@ -16,6 +16,18 @@ class SprintTests(unittest.TestCase):
         self.assertEqual(chart['ranks'][0]['points'][-1]['x'],770)
         self.assertTrue(all(b['logo']==f"logos/{b['teamId']}.png" for b in chart['highWeeks']))
         self.assertEqual(chart['ranks'][0]['points'][-1]['rank'],2)
+
+    def test_rank_axis_keeps_future_and_unfinished_playoff_weeks(self):
+        self.assertEqual(rank_axis_weeks({'regularWeeks':20,'playoffTeamCount':6,'weeks':[{'week':1}]}),list(range(1,24)))
+        teams={1:{'teamId':1},2:{'teamId':2}}
+        rows=[{'Team ID':i,'Type':'Regular','Rank':i,'Points For':100} for i in teams]
+        chart=standings_charts({1:rows},teams,[1],[1,2,3,4])
+        self.assertEqual([t['week'] for t in chart['rankWeekTicks']],[1,2,3,4])
+        self.assertEqual(chart['rankWeekTicks'][-1]['x'],770)
+        self.assertEqual(chart['ranks'][0]['points'][0]['x'],54)
+        self.assertEqual(len(chart['ranks'][0]['points']),1)
+        empty=standings_charts({},teams,[],[1,2,3,4])
+        self.assertEqual(len(empty['rankWeekTicks']),4)
 
     def test_pool_validation_rejects_incomplete_wrong_scoring_and_duplicates(self):
         pool={'complete':True,'source':'fixture','scope':'NBA regular season','scoringWeights':{'PTS':1},
