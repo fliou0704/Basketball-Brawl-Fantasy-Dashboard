@@ -9,7 +9,7 @@ function loadMetadata() {
   return metadataPromise;
 }
 
-export default function PlayerIdentity({playerId,name,headshotUrl=null,showHeadshot=false,size=30,subtitle=null,className='',onClick}) {
+export default function PlayerIdentity({playerId,name,headshotUrl=null,showHeadshot=false,size=30,subtitle=null,className='',onClick,loading='eager'}) {
   const href=playerHref(playerId,base);
   const [headshot,setHeadshot]=useState(headshotUrl);
   useEffect(()=>{
@@ -19,6 +19,6 @@ export default function PlayerIdentity({playerId,name,headshotUrl=null,showHeads
     loadMetadata().then(data=>{if(active)setHeadshot(data.players?.[String(playerId)]?.['Headshot URL']||null);}).catch(()=>{});
     return()=>{active=false;};
   },[headshotUrl,href,playerId,showHeadshot]);
-  const content=<>{showHeadshot&&<span className="compact-player-headshot" style={{width:size,height:size}}>{headshot?<img src={headshot} alt="" onError={()=>setHeadshot(null)}/>:<span className="headshot-fallback" aria-hidden="true">●</span>}</span>}<span className="player-link-copy"><span className="player-link-name">{name}</span>{subtitle&&<small>{subtitle}</small>}</span></>;
+  const content=<>{showHeadshot&&<span className="compact-player-headshot" style={{width:size,height:size}}>{headshot?<img src={headshot} loading={loading} alt="" onError={()=>setHeadshot(null)}/>:<span className="headshot-fallback" aria-hidden="true">●</span>}</span>}<span className="player-link-copy"><span className="player-link-name">{name}</span>{subtitle&&<small>{subtitle}</small>}</span></>;
   return href?<a className={`player-link ${showHeadshot?'player-link-identity':''} ${className}`.trim()} href={href} onClick={onClick}>{content}</a>:<span className={`player-link-fallback ${className}`.trim()}>{content}</span>;
 }
