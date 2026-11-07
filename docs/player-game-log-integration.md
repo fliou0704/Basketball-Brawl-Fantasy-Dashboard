@@ -1,3 +1,5 @@
+> Current maintenance/export preparation: [player ranking data](player-ranking-data.md). The original manual-only implementation below is historical; the newer schedule is prepared on codex behind an inactive gate and is not registered/active on main.
+
 # Comprehensive NBA player game logs
 
 Implemented on codex, beginning from research commit ca6c614. No frontend, live-scoring, Supabase, Cloudflare or existing canonical updater was changed. The new manual-only workflow is a separate daily-capable process; no production schedule is activated.

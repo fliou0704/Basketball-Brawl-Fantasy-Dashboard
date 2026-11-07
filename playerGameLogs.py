@@ -184,7 +184,7 @@ class Client:
         if period is not None:params['scoringPeriodId']=period
         return self.get(BASE+str(year)+'/segments/0/leagues/609694684',params,filters,refresh)
 
-def collect(year,client,output,refresh=False,canonical="data/playerDailyData.csv"):
+def collect(year,client,output,refresh=False,canonical="data/playerDailyData.csv",correction_days=3):
     protected={'playerDailyData.csv','basketballBrawlLeagueData.csv','playerMatchupData.csv','activityData.csv','playerMetadata.csv','scoringPeriodMatchupMap.csv'}
     if Path(output).suffix!='.csv' or Path(output).name in protected:raise CollectionError('Output must be a separate game-log CSV')
     start=time.monotonic();now=datetime.now(timezone.utc)
@@ -201,7 +201,7 @@ def collect(year,client,output,refresh=False,canonical="data/playerDailyData.csv
     cursor=date(year-1,10,1);end=min(now.date(),date(year,6,30));public_ids=set();public_games={}
     while cursor<=end:
         last=cursor
-        board=client.get(PUBLIC+'scoreboard',{'dates':cursor.strftime('%Y%m%d'),'limit':1000},refresh=refresh and last>=now.date()-timedelta(days=3))
+        board=client.get(PUBLIC+'scoreboard',{'dates':cursor.strftime('%Y%m%d'),'limit':1000},refresh=refresh and last>=now.date()-timedelta(days=correction_days))
         events=board.get('events')
         if not isinstance(events,list)or len(events)>=1000:raise CollectionError('Incomplete NBA event discovery')
         for event in events:
@@ -217,7 +217,7 @@ def collect(year,client,output,refresh=False,canonical="data/playerDailyData.csv
         completed.append({'id':gid,'date':instant(event['date']).astimezone(NY).date().isoformat(),'period':None,**sides})
     allrows=[];included=[]
     for fixture in completed:
-        recent=fixture['date']>=(now-timedelta(days=3)).date().isoformat()
+        recent=fixture['date']>=(now-timedelta(days=correction_days)).date().isoformat()
         box=client.get(PUBLIC+'summary',{'event':fixture['id']},refresh=refresh and recent)
         rows=appearances(box,fixture,year)
         if rows:included.append(fixture['id']);allrows+=rows
@@ -237,7 +237,7 @@ def collect(year,client,output,refresh=False,canonical="data/playerDailyData.csv
         g,e=fantasy_games(raw,year);games.update(g);eligibility.update(e)
     write_json(checkpoint,{'attemptedIds':sorted(attempted|set(ids)),'eligibility':eligibility,'games':[[gid,pid,value]for (gid,pid),value in sorted(games.items())]})
     if refresh:
-        periods=sorted({r['Scoring Period']for r in allrows if r['Date']>=(now-timedelta(days=3)).date().isoformat()})
+        periods=sorted({r['Scoring Period']for r in allrows if r['Date']>=(now-timedelta(days=correction_days)).date().isoformat()})
         for period in periods:
             offset=0
             while True:
@@ -264,6 +264,8 @@ def collect(year,client,output,refresh=False,canonical="data/playerDailyData.csv
     destination=Path(output);prior=[]
     if destination.exists():prior=list(csv.DictReader(destination.open()))
     old_by_key={(int(r['Year']),int(r['Game ID']),int(r['Player ID'])):r for r in prior}
+    previous_keys={(int(r['Game ID']),int(r['Player ID']))for r in prior if int(r['Year'])==year}
+    if previous_keys-row_keys:raise CollectionError('Previously verified appearances disappeared; retain archive and investigate')
     corrections=[]
     for r in rows:
         old=old_by_key.get((year,r['Game ID'],r['Player ID']))
@@ -295,12 +297,21 @@ def collect(year,client,output,refresh=False,canonical="data/playerDailyData.csv
     return report
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--seasons',type=int,nargs='+',required=True);p.add_argument('--output',default='data/playerGameLogs.csv');p.add_argument('--cache',default='.player-game-log-cache');p.add_argument('--canonical',default='data/playerDailyData.csv');p.add_argument('--max-requests',type=int,default=200);p.add_argument('--refresh',action='store_true');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--seasons',type=int,nargs='+',required=True);p.add_argument('--output',default='data/playerGameLogs.csv');p.add_argument('--cache',default='.player-game-log-cache');p.add_argument('--canonical',default='data/playerDailyData.csv');p.add_argument('--max-requests',type=int,default=200);p.add_argument('--refresh',action='store_true');p.add_argument('--correction-days',type=int,default=3);p.add_argument('--maintenance',action='store_true');p.add_argument('--full-reconcile',action='store_true');p.add_argument('--reconciliation-id',default=datetime.now(timezone.utc).date().isoformat());a=p.parse_args()
+    if not 1<=a.correction_days<=366:p.error('correction-days must be between 1 and 366')
+    if not all(c.isalnum() or c in '-_' for c in a.reconciliation_id):p.error('Invalid reconciliation ID')
     try:
         with locked(Path(a.output)):
-            client=Client(a.cache,a.max_requests)
+            cache=Path(a.cache)/('full-'+a.reconciliation_id) if a.full_reconcile else Path(a.cache)
+            client=Client(cache,a.max_requests)
             for year in a.seasons:
-                result=collect(year,client,a.output,a.refresh,a.canonical)
+                if a.maintenance and not a.full_reconcile:
+                    check=normalize(client.get(BASE+str(year),{'view':'proTeamSchedules_wl'},refresh=True),year,parser_only=True)
+                    today=datetime.now(timezone.utc).astimezone(NY).date();cutoff=today-timedelta(days=a.correction_days)
+                    recent=[g for g in check['fixtures']if cutoff.isoformat()<=g['date']<=today.isoformat()]
+                    if not recent or not any(g['statsOfficial']for g in recent):
+                        print(json.dumps({'season':year,'status':'no_recent_games'if not recent else 'scheduled_not_final','metrics':client.metrics}));continue
+                result=collect(year,client,a.output,a.refresh and not a.full_reconcile,a.canonical,a.correction_days)
                 print(json.dumps({k:result[k]for k in ('season','players','games','rows','metrics','elapsedSeconds')}))
     except (CollectionError,KeyError,ValueError,TypeError)as error:
         print(json.dumps({'error':'Collection failed safely; inspect validated source/checkpoints and retry','type':type(error).__name__,'reason':str(error) if isinstance(error,CollectionError) else 'Invalid source data'}));raise SystemExit(1)from None

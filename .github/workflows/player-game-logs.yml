@@ -1,11 +1,20 @@
-name: Comprehensive NBA player logs (manual only)
+name: Comprehensive NBA player logs (activation gated)
 on:
+  schedule:
+    - cron: '43 11 * * *'
   workflow_dispatch:
     inputs:
       seasons:
         description: 'Fantasy season years, space separated'
         default: '2027'
         required: true
+      full_reconcile:
+        description: 'Use a separate resumable full-season reconciliation cache'
+        type: boolean
+        default: false
+      reconciliation_id:
+        description: 'Full reconciliation checkpoint label; reuse to resume'
+        default: ''
       persist:
         description: 'Commit validated new dataset to codex'
         type: boolean
@@ -17,11 +26,13 @@ concurrency:
   cancel-in-progress: false
 jobs:
   collect:
-    if: github.ref == 'refs/heads/codex'
+    if: (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/codex') || (github.event_name == 'schedule' && github.ref == 'refs/heads/main' && vars.PLAYER_GAME_LOGS_ENABLED == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: codex
       - uses: actions/checkout@v4
         with:
           ref: main
@@ -38,16 +49,29 @@ jobs:
           path: .player-game-log-cache
           key: player-game-logs-v1-${{ github.run_id }}
           restore-keys: player-game-logs-v1-
-      - run: python -m unittest discover -s tests -p 'test_player_game_logs.py' -v
+      - run: python -m unittest discover -s tests -v
       - name: Refresh verified appearances
         env:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           SWID: ${{ secrets.SWID }}
           SEASONS: ${{ inputs.seasons }}
+          FULL: ${{ inputs.full_reconcile }}
+          RECONCILIATION_ID: ${{ inputs.reconciliation_id }}
         run: |
+          if [ -z "$SEASONS" ]; then SEASONS=$(python -c 'import datetime; d=datetime.date.today(); print(d.year+int(d.month>=10))'); fi
+          days=3
+          budget=200
+          if [ "$(date -u +%u)" = 7 ]; then days=14; budget=400; fi
+          extra=(--refresh --maintenance --correction-days "$days")
+          if [ "$FULL" = true ]; then
+            if [ -z "$RECONCILIATION_ID" ]; then RECONCILIATION_ID=$(date -u +%F); fi
+            extra=(--full-reconcile --reconciliation-id "$RECONCILIATION_ID")
+          fi
           if [[ ! "$SEASONS" =~ ^[0-9[:space:]]+$ ]]; then echo "Invalid season list"; exit 1; fi
           read -r -a years <<< "$SEASONS"
-          python playerGameLogs.py --seasons "${years[@]}" --refresh --canonical .canonical/data/playerDailyData.csv --max-requests 200
+          python playerGameLogs.py --seasons "${years[@]}" "${extra[@]}" --canonical .canonical/data/playerDailyData.csv --max-requests "$budget"
+      - name: Generate validated season summaries and static shards
+        run: python frontend/scripts/generate_player_rankings.py
       - uses: actions/cache/save@v4
         if: always()
         with:
@@ -59,10 +83,12 @@ jobs:
           path: |
             data/playerGameLogs.csv
             data/playerGameLogs.report.json
+            data/playerSeasonStats.csv
+            data/player-static/
       - name: Persist only approved game-log outputs
-        if: inputs.persist
+        if: inputs.persist || (github.event_name == 'schedule' && vars.PLAYER_GAME_LOGS_ENABLED == 'true')
         run: |
-          git add data/playerGameLogs.csv data/playerGameLogs.report.json
+          git add data/playerGameLogs.csv data/playerGameLogs.report.json data/playerSeasonStats.csv data/player-static/
           if ! git diff --cached --quiet; then
             git config user.name github-actions
             git config user.email actions@github.com
