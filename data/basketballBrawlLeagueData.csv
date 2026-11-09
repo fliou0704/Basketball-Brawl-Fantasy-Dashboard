@@ -949,3 +949,13 @@ Year,Week,Type,Team Name,Team Abbreviation,Team ID,Team Owner,Home/Away,Points F
 2027,2,Regular,I Watch Basketbal,SEE,17,Luke,Home,859.0,1849.0,0,1,Wembarrassingggg,1.0,Frank,1831.0,3095.0,0,2,8,8
 2027,2,Regular,For All the bullDawgs,FAD,10,Shayan,Away,722.0,1195.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,1547.0,2597.0,0,2,10,9
 2027,2,Regular,The Bronx Orthodox Church,13,13,Arian,Home,751.0,1356.0,0,1,Big Wong,5.0,Johnson,1174.0,2578.0,0,2,9,10
+2027,3,Regular,Wembarrassingggg,OOPS,1,Frank,Home,1418.0,1396.0,1,0,Who Invited This Kid?,7.0,Jooahn,4669.0,3080.0,3,0,2,1
+2027,3,Regular,New Jersey Eren,TURK,2,Eren,Away,1760.0,798.0,1,0,The Bronx Orthodox Church,13.0,Arian,4649.0,2680.0,3,0,1,2
+2027,3,Regular,Jalen Jalen and Jaylen,JJJ,16,Allen,Away,1415.0,870.0,1,0,I Watch Basketbal,17.0,Luke,3956.0,2935.0,3,0,3,3
+2027,3,Regular,Paulie Gee's,JMH,8,Jonathan,Away,1404.0,1273.0,1,0,Big Wong,5.0,Johnson,4085.0,3641.0,2,1,4,4
+2027,3,Regular,Pooh Shaisty,SMN,12,Semanto,Away,1281.0,793.0,1,0,For All the bullDawgs,10.0,Shayan,3462.0,3182.0,2,1,6,5
+2027,3,Regular,Big Wong,WONG,5,Johnson,Home,1273.0,1404.0,0,1,Paulie Gee's,8.0,Jonathan,3680.0,3314.0,1,2,7,6
+2027,3,Regular,Who Invited This Kid?,JS,7,Jooahn,Away,1396.0,1418.0,0,1,Wembarrassingggg,1.0,Frank,3528.0,3484.0,1,2,5,7
+2027,3,Regular,I Watch Basketbal,SEE,17,Luke,Home,870.0,1415.0,0,1,Jalen Jalen and Jaylen,16.0,Allen,2701.0,4510.0,0,3,8,8
+2027,3,Regular,For All the bullDawgs,FAD,10,Shayan,Home,793.0,1281.0,0,1,Pooh Shaisty,12.0,Semanto,2340.0,3878.0,0,3,10,9
+2027,3,Regular,The Bronx Orthodox Church,13,13,Arian,Home,798.0,1760.0,0,1,New Jersey Eren,2.0,Eren,1972.0,4338.0,0,3,9,10
