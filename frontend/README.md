@@ -1,5 +1,7 @@
 # Basketball Brawl frontend
 
+For the separate read-only developer site, see [Cloudflare Pages preview setup](../docs/cloudflare-pages-preview.md). Normal builds retain the GitHub Pages base path.
+
 Team Stats, Historical H2H, and Record Book are migrated in Stage 3. See
 [STAGE3-TEAM-STATS.md](STAGE3-TEAM-STATS.md) and
 [STAGE3-HISTORICAL-H2H.md](STAGE3-HISTORICAL-H2H.md), plus
