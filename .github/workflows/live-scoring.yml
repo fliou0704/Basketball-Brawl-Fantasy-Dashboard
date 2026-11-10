@@ -18,7 +18,7 @@ concurrency:
 jobs:
   live:
     # Repository flag provides an immediate backend-only rollback.
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && github.ref == 'refs/heads/main' && vars.LIVE_SCORING_AUTOPUBLISH == 'true')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && vars.LIVE_SCORING_AUTOPUBLISH == 'true'))
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:

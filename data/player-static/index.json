@@ -1,0 +1,1 @@
+{"appearances":108051,"archiveSHA256":"29564c295cbf902bfc1e23102622210f34449b53b3b3d10cd3dda3b068f8dad8","gamePath":"games/{year}/{shard}.json","players":2714,"schemaVersion":1,"seasonPath":"seasons/{year}.json","seasons":[2023,2024,2025,2026,2027],"shardRule":"ESPN player ID modulo 32; zero-padded two digits","shards":32,"updatedAt":"2026-11-07T03:11:34.429448+00:00"}

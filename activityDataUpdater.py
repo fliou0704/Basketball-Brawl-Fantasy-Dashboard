@@ -56,11 +56,11 @@ def _instant(transaction, trade=False):
     raise DataValidationError(f"ESPN transaction {transaction.get('id')} has no usable timestamp")
 
 
-def fetch_transactions(league, requester=requests.get):
-    """Fetch every ESPN partition, including offseason and post-playoff activity."""
+def fetch_transactions(league, requester=requests.get, periods=None):
+    """Fetch explicit partitions, or all including offseason when unspecified."""
     transactions = {}
     trade_accepts = []
-    for period in range(0, int(league.scoringPeriodId) + 1):
+    for period in (range(0, int(league.scoringPeriodId) + 1) if periods is None else periods):
         response = requester(
             league.espn_request.LEAGUE_ENDPOINT,
             params={"view": "mTransactions2", "scoringPeriodId": period},
@@ -225,13 +225,19 @@ def draft_is_complete(league):
     return detail.get("drafted") is True, len(detail.get("picks", []))
 
 
-def build_activity_candidate(existing, league, year, manual_source):
+def build_activity_candidate(existing, league, year, manual_source, recent_start=None, date_anchor=None):
     complete, raw_pick_count = draft_is_complete(league)
     if not complete:
         raise DataValidationError(f"ESPN draft for {year} is not complete")
-    transactions, trade_accepts = fetch_transactions(league)
+    periods = None if recent_start is None else sorted({0, 1, *range(recent_start, int(league.scoringPeriodId) + 1)})
+    transactions, trade_accepts = fetch_transactions(league, periods=periods)
     team_names, player_names = _team_maps(league)
     automated = build_automated_rows(year, transactions, team_names, player_names)
+    if recent_start is not None:
+        cutoff = (pd.Timestamp(date_anchor) + pd.Timedelta(days=recent_start)).strftime('%Y-%m-%d')
+        retained = existing[(existing['Year'] == year) & existing['Action'].isin(AUTOMATED_ACTIONS)
+                            & (existing['Date'] < cutoff)].drop(columns=['Unnamed: 0'])
+        automated = pd.concat([retained, automated], ignore_index=True).drop_duplicates(ACTIVITY_KEY)
     draft = build_draft_rows(year, league, transactions, team_names, player_names)
     if raw_pick_count != len(draft):
         raise DataValidationError("ESPN draft endpoint changed between reads")
@@ -243,12 +249,19 @@ def build_activity_candidate(existing, league, year, manual_source):
     manual_ids = set(manual_source.loc[
         pd.to_numeric(manual_source["Year"], errors="coerce") == year, "ESPN Trade ID"
     ].dropna().astype(str)) - {""}
+    checked_manual_ids = manual_ids
+    if recent_start is not None:
+        # A bounded transaction response cannot disprove an older trade.
+        checked_manual_ids = set(manual_source.loc[
+            (pd.to_numeric(manual_source['Year'], errors='coerce') == year)
+            & (manual_source['Date'].astype(str) >= cutoff), 'ESPN Trade ID'
+        ].dropna().astype(str)) - {''}
     report = {
         "counts": current["Action"].value_counts().to_dict(),
         "finalized_espn_trade_accepts": len(executed_ids),
         "manual_player_movements": len(manual) // 2,
         "unreconciled_espn_trade_accepts": sorted(executed_ids - manual_ids),
-        "supplement_ids_not_finalized": sorted(manual_ids - executed_ids),
+        "supplement_ids_not_finalized": sorted(checked_manual_ids - executed_ids),
     }
     return candidate, current, report
 

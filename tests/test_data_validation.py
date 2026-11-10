@@ -6,6 +6,7 @@ CI or on a new machine without ESPN credentials or a network connection.
 
 import csv
 import datetime as dt
+import json
 import unittest
 from collections import Counter
 from pathlib import Path
@@ -115,6 +116,13 @@ class DataValidationTests(unittest.TestCase):
         league_team_seasons = {
             (row["Year"], canonical_id(row["Team ID"])) for row in self.rows["league"]
         }
+        # A season has rosters/daily stats before its first official matchup
+        # result. Accept its explicit ESPN team snapshot, never invented Week 0
+        # league CSV records.
+        current = DATA_DIR / 'currentLeague.json'
+        if current.exists():
+            snapshot = json.loads(current.read_text())
+            league_team_seasons.update((str(snapshot['season']), str(t['teamId'])) for t in snapshot['teams'])
         for name in ("player_matchup", "player_daily", "activity"):
             for row in self.rows[name]:
                 key = (row["Year"], canonical_id(row["Team ID"]))

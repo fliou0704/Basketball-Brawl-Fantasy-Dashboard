@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -60,11 +61,17 @@ def build_scoring_period_map(metadata: dict) -> pd.DataFrame:
 
 
 def load_season_metadata(path: Path = SEASON_METADATA_PATH) -> dict:
+    if path == SEASON_METADATA_PATH and os.environ.get('BRAWL_REFERENCE_DIR'):
+        path = Path(os.environ['BRAWL_REFERENCE_DIR']) / 'seasonMetadata.json'
+    elif path == SEASON_METADATA_PATH and (ROOT / 'data/seasonMetadata.json').exists():
+        path = ROOT / 'data/seasonMetadata.json'
     with path.open() as handle:
         return json.load(handle)
 
 
 def load_scoring_period_map(path: Path = SCORING_PERIOD_MAP_PATH) -> pd.DataFrame:
+    if path == SCORING_PERIOD_MAP_PATH and os.environ.get('BRAWL_REFERENCE_DIR'):
+        path = Path(os.environ['BRAWL_REFERENCE_DIR']) / 'scoringPeriodMatchupMap.csv'
     mapping = pd.read_csv(path)
     validate_scoring_period_map(mapping)
     return mapping
@@ -98,6 +105,18 @@ def attach_matchup_weeks(daily: pd.DataFrame, mapping: pd.DataFrame) -> pd.DataF
     if len(result) != len(daily):
         raise DataValidationError("attaching matchup weeks changed the daily row count")
     return result
+
+
+def credited_daily_rows(daily: pd.DataFrame, season_metadata: dict) -> pd.DataFrame:
+    """Return played games credited to an active fantasy lineup slot."""
+    rows = daily.copy()
+    active_by_year = active_slots_by_year(season_metadata)
+    active = [
+        slot in active_by_year.get(int(year), set())
+        for year, slot in zip(rows["Year"], rows["Player Slot"])
+    ]
+    minutes = pd.to_numeric(rows["MIN"], errors="coerce").fillna(0)
+    return rows[pd.Series(active, index=rows.index) & (minutes > 0)].copy()
 
 
 def aggregate_daily_to_weekly(

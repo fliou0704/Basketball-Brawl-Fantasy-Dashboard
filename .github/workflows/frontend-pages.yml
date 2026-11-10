@@ -1,10 +1,10 @@
-name: Frontend prototype Pages
+name: Production dashboard Pages
 
 on:
   # Redeploy frontend configuration without running ESPN or changing canonical CSVs.
   workflow_dispatch:
   push:
-    branches: [codex]
+    branches: [main]
     paths:
       - 'frontend/**'
       - 'data/basketballBrawlLeagueData.csv'
@@ -15,6 +15,10 @@ on:
       - 'data/seasonMetadata.json'
       - 'data/scoringPeriodMatchupMap.csv'
       - 'data/currentLeague.json'
+      - 'data/playerGameLogs.csv'
+      - 'data/playerGameLogs.report.json'
+      - 'data/playerSeasonStats.csv'
+      - 'data/player-static/**'
       - 'dataStore.py'
       - 'teamPerformance.py'
       - 'nbaSchedule.py'
@@ -32,39 +36,13 @@ concurrency:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/codex' && !contains(github.event.head_commit.message, '[skip pages]')
+    if: github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, '[skip pages]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      # The scheduled updater owns production CSVs on main. Build the codex
-      # frontend against that freshly committed source snapshot.
-      - uses: actions/checkout@v4
         with:
-          ref: main
-          path: frontend/.league-source
-          sparse-checkout: |
-            data/basketballBrawlLeagueData.csv
-            data/playerDailyData.csv
-            data/playerMatchupData.csv
-            data/activityData.csv
-            data/playerMetadata.csv
-            data/seasonMetadata.json
-            data/scoringPeriodMatchupMap.csv
-            data/currentLeague.json
-          sparse-checkout-cone-mode: false
+          ref: ${{ github.sha }}
           persist-credentials: false
-      - name: Use validated codex snapshots until the updater is activated on main
-        run: |
-          if [ ! -f frontend/.league-source/data/seasonMetadata.json ] && [ -f data/seasonMetadata.json ]; then
-            for file in basketballBrawlLeagueData.csv playerMatchupData.csv playerDailyData.csv activityData.csv playerMetadata.csv scoringPeriodMatchupMap.csv seasonMetadata.json currentLeague.json; do
-              cp "data/$file" "frontend/.league-source/data/$file"
-            done
-          fi
-          for file in playerMetadata.csv seasonMetadata.json currentLeague.json; do
-            if [ ! -f "frontend/.league-source/data/$file" ] && [ -f "data/$file" ]; then
-              cp "data/$file" "frontend/.league-source/data/$file"
-            fi
-          done
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -76,15 +54,15 @@ jobs:
       - run: pip install -r frontend/requirements-build.txt
       - run: npm ci
         working-directory: frontend
-      - run: python frontend/scripts/generate_all.py --source-dir frontend/.league-source/data
+      - run: python frontend/scripts/generate_all.py --source-dir data
       - run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
         env:
-          BRAWL_REFERENCE_DIR: ${{ github.workspace }}/frontend/.league-source/data
-          H2H_TEST_SOURCE: frontend/.league-source/data
-          RECORD_BOOK_TEST_SOURCE: frontend/.league-source/data
-          TEAM_STATS_TEST_SOURCE: frontend/.league-source/data
-          HOMEPAGE_TEST_SOURCE: frontend/.league-source/data
-          STANDINGS_TEST_SOURCE: frontend/.league-source/data/basketballBrawlLeagueData.csv
+          BRAWL_REFERENCE_DIR: ${{ github.workspace }}/data
+          H2H_TEST_SOURCE: data
+          RECORD_BOOK_TEST_SOURCE: data
+          TEAM_STATS_TEST_SOURCE: data
+          HOMEPAGE_TEST_SOURCE: data
+          STANDINGS_TEST_SOURCE: data/basketballBrawlLeagueData.csv
       - run: npm test
         working-directory: frontend
       - name: Mark deployed export fingerprint
@@ -102,6 +80,7 @@ jobs:
           path: frontend/dist
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -113,3 +92,5 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/deploy-pages@v4
         id: deployment
+        with:
+          timeout: 1200000
