@@ -43,7 +43,8 @@ class SprintTests(unittest.TestCase):
             target=Path(d)
             payload=build(ROOT/'data',target)
             self.assertTrue(all(s['completePool'] for s in payload['seasons'].values()))
-            self.assertFalse(payload['seasons']['2023']['ownershipAvailable'])
+            self.assertTrue(payload['seasons']['2023']['ownershipAvailable'])
+            self.assertEqual(payload['seasons']['2023']['ownershipKind'], 'seasonEnd')
             self.assertEqual(payload['seasons']['2023']['maxTeamGames'],82)
             records=record_book(ROOT/'data',target)
             import pandas as pd

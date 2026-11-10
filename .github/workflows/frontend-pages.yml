@@ -15,6 +15,7 @@ on:
       - 'data/seasonMetadata.json'
       - 'data/scoringPeriodMatchupMap.csv'
       - 'data/currentLeague.json'
+      - 'data/seasonEndRosters.json'
       - 'data/playerGameLogs.csv'
       - 'data/playerGameLogs.report.json'
       - 'data/playerSeasonStats.csv'
