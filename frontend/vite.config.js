@@ -7,5 +7,5 @@ export function checkPublicLiveEnv(env) {
 }
 export default defineConfig(({mode})=>{
   checkPublicLiveEnv({...loadEnv(mode,process.cwd(),'VITE_'),...process.env});
-  return {base:'/Basketball-Brawl-Fantasy-Dashboard/'};
+  return {base:mode==='cloudflare-preview'?'/':'/Basketball-Brawl-Fantasy-Dashboard/'};
 });
