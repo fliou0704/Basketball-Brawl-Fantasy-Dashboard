@@ -25,44 +25,32 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - uses: actions/checkout@v4
-        with:
-          ref: codex
-          path: site
-          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
           cache: pip
           cache-dependency-path: |
-            site/requirements.txt
-            site/frontend/requirements-build.txt
+            requirements.txt
+            frontend/requirements-build.txt
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
           cache: npm
-          cache-dependency-path: site/frontend/package-lock.json
+          cache-dependency-path: frontend/package-lock.json
       - name: Install dependencies
         run: |
-          pip install -r site/requirements.txt -r site/frontend/requirements-build.txt
-          npm ci --prefix site/frontend
+          pip install -r requirements.txt -r frontend/requirements-build.txt
+          npm ci --prefix frontend
       - name: Offline safety tests
-        working-directory: site
         run: python -m unittest discover -s tests -v
-      - name: Seed existing metadata until it is canonical on main
-        run: |
-          if [ ! -f data/playerMetadata.csv ]; then
-            cp site/data/playerMetadata.csv data/playerMetadata.csv
-          fi
       - name: Stage and validate bounded ESPN updates
         env:
           ESPN_S2: ${{ secrets.ESPN_S2 }}
           SWID: ${{ secrets.SWID }}
-        run: python site/nearLiveUpdater.py --data-dir data --write
+        run: python nearLiveUpdater.py --data-dir data --write
       - name: Regenerate frontend payloads
-        run: python site/frontend/scripts/generate_all.py --source-dir data --output-dir site/frontend/public/data
+        run: python frontend/scripts/generate_all.py --source-dir data --output-dir frontend/public/data
       - name: Test generated data
-        working-directory: site
         env:
           BRAWL_REFERENCE_DIR: ${{ github.workspace }}/data
           H2H_TEST_SOURCE: ${{ github.workspace }}/data
@@ -75,10 +63,10 @@ jobs:
           npm test --prefix frontend
       - name: Compare exports with deployed Pages
         id: exports
-        run: python site/frontend/scripts/export_fingerprint.py --data-dir site/frontend/public/data --deployed-url https://fliou0704.github.io/Basketball-Brawl-Fantasy-Dashboard/data/pipeline.json >> "$GITHUB_OUTPUT"
+        run: python frontend/scripts/export_fingerprint.py --data-dir frontend/public/data --deployed-url https://fliou0704.github.io/Basketball-Brawl-Fantasy-Dashboard/data/pipeline.json >> "$GITHUB_OUTPUT"
       - name: Build changed Pages payload
         if: steps.exports.outputs.changed == 'true'
-        run: npm run build --prefix site/frontend
+        run: npm run build --prefix frontend
         env:
           VITE_ENABLE_LIVE_SCORING: ${{ vars.VITE_ENABLE_LIVE_SCORING || 'false' }}
           VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
@@ -99,7 +87,7 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         if: steps.exports.outputs.changed == 'true'
         with:
-          path: site/frontend/dist
+          path: frontend/dist
       - name: Run summary
         if: always()
         env:

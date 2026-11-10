@@ -1,6 +1,7 @@
 """Incremental, validated updates for the dashboard's daily-player dataset."""
 
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 from espn_api.basketball import League
@@ -11,12 +12,21 @@ from dataUpdateSafety import (
     merge_refreshable_daily_rows,
     require_espn_credentials,
     validate_player_daily_data,
+    DataValidationError,
 )
 from playerDailyAggregation import eligible_position_fields
 
 
 PLAYER_DAILY_DATA_PATH = "data/playerDailyData.csv"
 DAILY_STAT_COLUMNS = ["FPTS", "MIN", "FTA", "PTS", "3PM", "BLK", "STL", "AST", "REB", "TO", "FGM", "FGA", "FTM"]
+
+
+def with_raw_three_point_attempts(frame):
+    """Add nullable raw attempts without changing any historical scored fields."""
+    result = frame.copy()
+    if '3PA' not in result:
+        result['3PA'] = float('nan')
+    return result
 
 
 def available_scoring_period(league):
@@ -65,7 +75,11 @@ def _record_for_player(year, scoring_period, team, player):
     if not day_stats or "total" not in day_stats:
         return None
     date_played = day_stats.get("date")
-    date_played = date_played.date().isoformat() if date_played else None
+    # espn-api 0.41 creates this datetime with fromtimestamp(): a naive value
+    # in the host timezone, not a UTC date or a canonical scoring-period date.
+    # Convert the instant before truncating so UTC runners match league-local
+    # Game Log dates, including games starting after midnight UTC.
+    date_played = date_played.astimezone(ZoneInfo('America/New_York')).date().isoformat() if date_played else None
     record = {
         "Year": year,
         "Scoring Period": scoring_period,
@@ -80,6 +94,9 @@ def _record_for_player(year, scoring_period, team, player):
     }
     record.update(eligible_position_fields(player.eligibleSlots))
     record.update(player.points_breakdown)
+    # Attempts have no fantasy scoring weight. Read the raw ESPN stat (ID 18),
+    # never appliedStats or a value inferred from three-pointers made.
+    record['3PA'] = day_stats['total'].get('3PA')
     return record
 
 
@@ -87,7 +104,14 @@ def fetch_daily_rows(league, year, start_period, end_period, columns):
     """Fetch only an inclusive missing scoring-period range from a supplied league."""
     records = []
     for scoring_period in range(start_period, end_period + 1):
-        for box_score in league.box_scores(scoring_period=scoring_period, matchup_total=False):
+        boxes = league.box_scores(scoring_period=scoring_period, matchup_total=False)
+        if hasattr(league, 'teams'):
+            expected = {int(t.team_id) for t in league.teams}
+            returned = {int(team.team_id) for box in boxes for team in (box.home_team, box.away_team)
+                        if team and hasattr(team, 'team_id')}
+            if returned != expected:
+                raise DataValidationError(f'incomplete ESPN lineup response for {year} scoring period {scoring_period}')
+        for box_score in boxes:
             for player in box_score.home_lineup:
                 record = _record_for_player(year, scoring_period, box_score.home_team, player)
                 if record:
@@ -104,6 +128,8 @@ def fetch_daily_rows(league, year, start_period, end_period, columns):
     rows["Date"] = rows["Date"].fillna(rows["Scoring Period"].map(period_dates))
     for column in DAILY_STAT_COLUMNS:
         rows[column] = pd.to_numeric(rows[column], errors="coerce")
+    if '3PA' in rows:
+        rows['3PA'] = pd.to_numeric(rows['3PA'], errors='coerce')
     return rows
 
 
@@ -120,7 +146,7 @@ def update_player_daily_data():
         swid, espn_s2 = require_espn_credentials()
         active_league = League(league_id=league_id, year=active_year, espn_s2=espn_s2, swid=swid)
 
-    existing_data = pd.read_csv(PLAYER_DAILY_DATA_PATH)
+    existing_data = with_raw_three_point_attempts(pd.read_csv(PLAYER_DAILY_DATA_PATH))
     max_year = int(existing_data["Year"].max())
     max_period = int(existing_data.loc[existing_data["Year"] == max_year, "Scoring Period"].max())
     terminal_period_by_year = {}

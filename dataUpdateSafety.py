@@ -7,6 +7,7 @@ already-fetched rows, validates the proposed dataset, and writes it atomically.
 from __future__ import annotations
 
 import math
+import json
 import os
 import tempfile
 from collections.abc import Callable, Iterable
@@ -145,11 +146,31 @@ def validate_player_matchup_data(frame: pd.DataFrame) -> None:
         raise DataValidationError("player matchup data contains an invalid week")
 
 
-def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dict[int, int] | None = None) -> None:
+def daily_date_conflicts(frame: pd.DataFrame, source: str = 'candidate') -> list[dict]:
+    """Return only safe identifiers/counts for inconsistent daily partitions."""
+    conflicts = []
+    for (year, period), rows in frame.groupby(['Year', 'Scoring Period'], sort=True):
+        if rows['Date'].nunique() > 1:
+            conflicts.append({'source': source, 'year': int(year), 'period': int(period), 'records': len(rows),
+                'dates': [{'date': str(day), 'records': len(group),
+                           'playerIds': group['Player ID'].astype(int).drop_duplicates().head(3).tolist()}
+                          for day, group in rows.groupby('Date', sort=True)]})
+    return conflicts
+
+
+def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dict[int, int] | None = None,
+                               source: str = 'candidate') -> None:
     """Validate daily-player data without altering its dashboard-compatible schema."""
     _require_columns(frame, PLAYER_DAILY_REQUIRED_COLUMNS, "player daily data")
     _require_unique_keys(frame, PLAYER_DAILY_KEY, "player daily data")
     _numeric(frame, PLAYER_DAILY_NUMERIC_COLUMNS, "player daily data")
+    if '3PA' in frame:
+        # Older archived rows legitimately have no attempts. Known raw attempts
+        # must be nonnegative integer counts; missing is never treated as zero.
+        known = frame.loc[frame['3PA'].notna() & frame['3PA'].ne(''), '3PA']
+        attempts = pd.to_numeric(known, errors='coerce')
+        if attempts.isna().any() or (attempts < 0).any() or not attempts.map(lambda n: float(n).is_integer()).all():
+            raise DataValidationError('player daily data contains invalid raw 3PA')
 
     data = frame.copy()
     data["Year"] = pd.to_numeric(data["Year"])
@@ -166,7 +187,8 @@ def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dic
     # ESPN scoring periods represent individual dates in this export.
     dates_per_period = data.groupby(["Year", "Scoring Period"])["Date"].nunique()
     if (dates_per_period > 1).any():
-        raise DataValidationError("player daily data maps a scoring period to multiple dates")
+        raise DataValidationError("player daily data maps a scoring period to multiple dates: "
+                                  + json.dumps(daily_date_conflicts(data, source), separators=(',', ':')))
 
     if terminal_period_by_year:
         years = sorted(int(year) for year in data["Year"].unique())
@@ -175,6 +197,35 @@ def validate_player_daily_data(frame: pd.DataFrame, terminal_period_by_year: dic
                 observed_final_period = data.loc[data["Year"] == year, "Scoring Period"].max()
                 if observed_final_period != terminal_period_by_year[year]:
                     raise DataValidationError(f"season {year} is incomplete before a later season begins")
+
+
+def require_csv_schema(existing, incoming, source="incoming rows"):
+    """Reject missing, unexpected, duplicate, or reordered CSV fields explicitly."""
+    persisted, received = list(existing.columns), list(incoming.columns)
+    if persisted == received and incoming.columns.is_unique:
+        return
+    missing = [c for c in persisted if c not in received]
+    unexpected = [c for c in received if c not in persisted]
+    order = [(i, a, b) for i, (a, b) in enumerate(zip(persisted, received)) if a != b]
+    raise DataValidationError(
+        f"{source}: new rows do not match the persisted CSV schema; "
+        f"persisted columns={persisted}; incoming columns={received}; "
+        f"missing columns={missing}; unexpected columns={unexpected}; "
+        f"order differences={order}; duplicate columns={incoming.columns[incoming.columns.duplicated()].tolist()}"
+    )
+
+
+def order_generated_csv_columns(existing, incoming, source):
+    """Give locally constructed rows canonical order only after checking every field.
+
+    First-week builders assemble fields in assignment order, without an existing
+    season prefix to supply column order. This is a producer concern: persistence
+    continues to reject reordered input, and unknown/missing fields always fail.
+    """
+    if (set(existing.columns) != set(incoming.columns)
+            or not incoming.columns.is_unique):
+        require_csv_schema(existing, incoming, source)
+    return incoming.loc[:, existing.columns].copy()
 
 
 def merge_refreshable_daily_rows(
@@ -191,8 +242,7 @@ def merge_refreshable_daily_rows(
     """
     original = existing.copy(deep=True)
     validate_player_daily_data(existing)
-    if list(existing.columns) != list(fetched_rows.columns):
-        raise DataValidationError("new rows do not match the persisted CSV schema")
+    require_csv_schema(existing, fetched_rows, "daily refresh")
 
     existing_years = pd.to_numeric(existing["Year"])
     existing_periods = pd.to_numeric(existing["Scoring Period"])
@@ -233,8 +283,7 @@ def merge_incremental_rows(
     validator(existing, *validator_args)
     if new_rows.empty:
         return existing.copy(deep=True)
-    if list(existing.columns) != list(new_rows.columns):
-        raise DataValidationError("new rows do not match the persisted CSV schema")
+    require_csv_schema(existing, new_rows, validator.__name__)
     overlap = existing.merge(new_rows[key], on=key, how="inner")
     if not overlap.empty:
         raise DataValidationError("new rows overlap existing logical records")
@@ -256,3 +305,16 @@ def atomic_write_csv(frame: pd.DataFrame, destination: str | Path) -> None:
     except Exception:
         temporary_path.unlink(missing_ok=True)
         raise
+
+
+def player_metadata_by_id(frame: pd.DataFrame) -> dict[int, dict]:
+    """Return player metadata keyed by the canonical integer ESPN player ID."""
+    if "ESPN Player ID" not in frame.columns:
+        raise DataValidationError("player metadata is missing ESPN Player ID")
+    ids = pd.to_numeric(frame["ESPN Player ID"], errors="coerce")
+    if ids.isna().any() or not ids.map(lambda value: float(value).is_integer() and value > 0).all():
+        raise DataValidationError("player metadata contains an invalid ESPN Player ID")
+    if ids.duplicated().any():
+        raise DataValidationError("player metadata contains duplicate ESPN Player IDs")
+    records = frame.where(pd.notna(frame), None).to_dict("records")
+    return {int(record["ESPN Player ID"]): record for record in records}

@@ -16,30 +16,23 @@ on:
         description: 'Full reconciliation checkpoint label; reuse to resume'
         default: ''
       persist:
-        description: 'Commit validated new dataset to codex'
+        description: 'Commit validated new dataset to main'
         type: boolean
         default: false
 permissions:
   contents: write
 concurrency:
-  group: basketball-brawl-player-game-logs
+  group: basketball-brawl-pages
   cancel-in-progress: false
 jobs:
   collect:
-    if: (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/codex') || (github.event_name == 'schedule' && github.ref == 'refs/heads/main' && vars.PLAYER_GAME_LOGS_ENABLED == 'true')
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'workflow_dispatch' || (github.event_name == 'schedule' && vars.PLAYER_GAME_LOGS_ENABLED == 'true'))
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: codex
-      - uses: actions/checkout@v4
-        with:
           ref: main
-          path: .canonical
-          sparse-checkout: data/playerDailyData.csv
-          sparse-checkout-cone-mode: false
-          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -69,7 +62,7 @@ jobs:
           fi
           if [[ ! "$SEASONS" =~ ^[0-9[:space:]]+$ ]]; then echo "Invalid season list"; exit 1; fi
           read -r -a years <<< "$SEASONS"
-          python playerGameLogs.py --seasons "${years[@]}" "${extra[@]}" --canonical .canonical/data/playerDailyData.csv --max-requests "$budget"
+          python playerGameLogs.py --seasons "${years[@]}" "${extra[@]}" --canonical data/playerDailyData.csv --max-requests "$budget"
       - name: Generate validated season summaries and static shards
         run: python frontend/scripts/generate_player_rankings.py
       - uses: actions/cache/save@v4
@@ -85,7 +78,7 @@ jobs:
             data/playerGameLogs.report.json
             data/playerSeasonStats.csv
             data/player-static/
-      - name: Persist only approved game-log outputs
+      - name: Persist only approved game-log outputs on main
         if: inputs.persist || (github.event_name == 'schedule' && vars.PLAYER_GAME_LOGS_ENABLED == 'true')
         run: |
           git add data/playerGameLogs.csv data/playerGameLogs.report.json data/playerSeasonStats.csv data/player-static/
@@ -93,5 +86,5 @@ jobs:
             git config user.name github-actions
             git config user.email actions@github.com
             git commit -m 'Refresh comprehensive NBA appearances [skip pages]'
-            git push origin HEAD:codex
+            bash .github/scripts/push-validated-data.sh main
           fi

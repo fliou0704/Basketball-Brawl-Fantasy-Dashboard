@@ -1,0 +1,63 @@
+{
+  "productionBase": "c056c8be7e3479a6c247db8303e9c066df3b0018",
+  "modernBase": "bd430b4184ba8c4520ae890af2104543c194b7dc",
+  "mergeBase": "c042396a64a5a0b2f52255450bc9337edf66642f",
+  "canonical": {
+    "data/activityData.csv": {
+      "sha256": "e273f2e888eb02dfe20743eb877cff5648fbf80fa34161ca4fc64d3a9cffc29e",
+      "bytes": 190101,
+      "rows": 2417
+    },
+    "data/basketballBrawlLeagueData.csv": {
+      "sha256": "ccd91db4d1f36fbda8d5c39fcff41ce0e14225da617baa377924cfe29835bb98",
+      "bytes": 115913,
+      "rows": 960
+    },
+    "data/currentLeague.json": {
+      "sha256": "65e9ae31a26fd702b9811694c1eb3de8951109e956d02776dc55e3cda70c04d1",
+      "bytes": 974036
+    },
+    "data/playerDailyData.csv": {
+      "sha256": "a44b1b6c5e9d70115d66169abcdabc5076ecf7f210feebeb50511142d05d21ed",
+      "bytes": 5472944,
+      "rows": 41207
+    },
+    "data/playerMatchupData.csv": {
+      "sha256": "bc8e4229289c0eda286a84fb5a5ea4ce9496755a7fae5ee6286bc7537875249e",
+      "bytes": 1434883,
+      "rows": 12646
+    },
+    "data/playerMetadata.csv": {
+      "sha256": "defc1a7a1b28f77bb95b4edbd945f9dff54b378cbe149863100f31a2ddfcf942",
+      "bytes": 94040,
+      "rows": 367
+    },
+    "data/scoringPeriodMatchupMap.csv": {
+      "sha256": "eb7ccc2fb092b23c823a04b9708de5a3e89283e962d20c386fef29f81b2a51b4",
+      "bytes": 7606,
+      "rows": 692
+    },
+    "data/seasonMetadata.json": {
+      "sha256": "0cfeed9b6d4183b9b9bb1d15fe031b74ba582080a807d2a30d4ca6ec9b121036",
+      "bytes": 1423260
+    }
+  },
+  "playerArchive": {
+    "data/playerGameLogs.csv": {
+      "sha256": "29564c295cbf902bfc1e23102622210f34449b53b3b3d10cd3dda3b068f8dad8",
+      "bytes": 19529694
+    },
+    "data/playerGameLogs.report.json": {
+      "sha256": "2f41f8130b26bf49f08db70705f9c7d75873b5eae50e5523eb713d2990507bdb",
+      "bytes": 44391
+    },
+    "data/playerSeasonStats.csv": {
+      "sha256": "041a7a084e092726020f6ddcb8a4b95dff2de5fb0eac9b7bb5770ca6686e9907",
+      "bytes": 401044
+    },
+    "data/player-static/index.json": {
+      "sha256": "8044e91be9f391c2d1367fcdd3b471cb6c07c5730fd2817efd84e87993465dca",
+      "bytes": 372
+    }
+  }
+}

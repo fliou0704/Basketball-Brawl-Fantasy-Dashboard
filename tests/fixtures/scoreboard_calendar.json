@@ -1,0 +1,267 @@
+{
+  "source": "Allowlisted authenticated ESPN response shapes, 2026-10-25; no identities or credentials",
+  "scheduleSettings": {
+    "matchupPeriods": {
+      "1": [
+        1
+      ],
+      "2": [
+        2
+      ],
+      "3": [
+        3
+      ],
+      "4": [
+        4
+      ],
+      "5": [
+        5
+      ],
+      "6": [
+        6
+      ],
+      "7": [
+        7
+      ],
+      "8": [
+        8
+      ],
+      "9": [
+        9
+      ],
+      "10": [
+        10
+      ],
+      "11": [
+        11
+      ],
+      "12": [
+        12
+      ],
+      "13": [
+        13
+      ],
+      "14": [
+        14
+      ],
+      "15": [
+        15
+      ],
+      "16": [
+        16
+      ],
+      "17": [
+        17
+      ],
+      "18": [
+        18
+      ],
+      "19": [
+        19
+      ],
+      "20": [
+        20
+      ],
+      "21": [
+        21
+      ],
+      "22": [
+        22
+      ],
+      "23": [
+        23
+      ]
+    },
+    "periodTypeId": 2,
+    "matchupPeriodLength": 1,
+    "playoffMatchupPeriodLength": 1,
+    "matchupPeriodCount": 20
+  },
+  "status": {
+    "firstScoringPeriod": 1,
+    "finalScoringPeriod": 167,
+    "currentMatchupPeriod": 1,
+    "latestScoringPeriod": 6
+  },
+  "scoringPeriodId": 6,
+  "observedWeek1Periods": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "historical": [
+    {
+      "season": 2026,
+      "dateAnchor": "2025-10-20",
+      "firstPeriod": 1,
+      "finalPeriod": 167,
+      "regularWeeks": 20,
+      "weeks": [
+        {
+          "end": "2025-10-26",
+          "firstPeriod": 1,
+          "lastPeriod": 6,
+          "start": "2025-10-21",
+          "week": 1
+        },
+        {
+          "end": "2025-11-02",
+          "firstPeriod": 7,
+          "lastPeriod": 13,
+          "start": "2025-10-27",
+          "week": 2
+        },
+        {
+          "end": "2025-11-09",
+          "firstPeriod": 14,
+          "lastPeriod": 20,
+          "start": "2025-11-03",
+          "week": 3
+        },
+        {
+          "end": "2025-11-16",
+          "firstPeriod": 21,
+          "lastPeriod": 27,
+          "start": "2025-11-10",
+          "week": 4
+        },
+        {
+          "end": "2025-11-23",
+          "firstPeriod": 28,
+          "lastPeriod": 34,
+          "start": "2025-11-17",
+          "week": 5
+        },
+        {
+          "end": "2025-11-30",
+          "firstPeriod": 35,
+          "lastPeriod": 41,
+          "start": "2025-11-24",
+          "week": 6
+        },
+        {
+          "end": "2025-12-07",
+          "firstPeriod": 42,
+          "lastPeriod": 48,
+          "start": "2025-12-01",
+          "week": 7
+        },
+        {
+          "end": "2025-12-14",
+          "firstPeriod": 49,
+          "lastPeriod": 55,
+          "start": "2025-12-08",
+          "week": 8
+        },
+        {
+          "end": "2025-12-21",
+          "firstPeriod": 56,
+          "lastPeriod": 62,
+          "start": "2025-12-15",
+          "week": 9
+        },
+        {
+          "end": "2025-12-28",
+          "firstPeriod": 63,
+          "lastPeriod": 69,
+          "start": "2025-12-22",
+          "week": 10
+        },
+        {
+          "end": "2026-01-04",
+          "firstPeriod": 70,
+          "lastPeriod": 76,
+          "start": "2025-12-29",
+          "week": 11
+        },
+        {
+          "end": "2026-01-11",
+          "firstPeriod": 77,
+          "lastPeriod": 83,
+          "start": "2026-01-05",
+          "week": 12
+        },
+        {
+          "end": "2026-01-18",
+          "firstPeriod": 84,
+          "lastPeriod": 90,
+          "start": "2026-01-12",
+          "week": 13
+        },
+        {
+          "end": "2026-01-25",
+          "firstPeriod": 91,
+          "lastPeriod": 97,
+          "start": "2026-01-19",
+          "week": 14
+        },
+        {
+          "end": "2026-02-01",
+          "firstPeriod": 98,
+          "lastPeriod": 104,
+          "start": "2026-01-26",
+          "week": 15
+        },
+        {
+          "end": "2026-02-08",
+          "firstPeriod": 105,
+          "lastPeriod": 111,
+          "start": "2026-02-02",
+          "week": 16
+        },
+        {
+          "end": "2026-02-22",
+          "firstPeriod": 112,
+          "lastPeriod": 125,
+          "start": "2026-02-09",
+          "week": 17
+        },
+        {
+          "end": "2026-03-01",
+          "firstPeriod": 126,
+          "lastPeriod": 132,
+          "start": "2026-02-23",
+          "week": 18
+        },
+        {
+          "end": "2026-03-08",
+          "firstPeriod": 133,
+          "lastPeriod": 139,
+          "start": "2026-03-02",
+          "week": 19
+        },
+        {
+          "end": "2026-03-15",
+          "firstPeriod": 140,
+          "lastPeriod": 146,
+          "start": "2026-03-09",
+          "week": 20
+        },
+        {
+          "end": "2026-03-22",
+          "firstPeriod": 147,
+          "lastPeriod": 153,
+          "start": "2026-03-16",
+          "week": 21
+        },
+        {
+          "end": "2026-03-29",
+          "firstPeriod": 154,
+          "lastPeriod": 160,
+          "start": "2026-03-23",
+          "week": 22
+        },
+        {
+          "end": "2026-04-05",
+          "firstPeriod": 161,
+          "lastPeriod": 167,
+          "start": "2026-03-30",
+          "week": 23
+        }
+      ]
+    }
+  ]
+}

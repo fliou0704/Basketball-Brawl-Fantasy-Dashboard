@@ -1,0 +1,83 @@
+# DOCUMENTATION ONLY: not an installed workflow. Requires separate approval.
+# Install on main through a reviewed PR only if modern Pages recovery is needed.
+name: Recover last known-good modern Pages
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: basketball-brawl-pages
+  cancel-in-progress: false
+jobs:
+  build:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: current
+          persist-credentials: false
+      - name: Check out exact last known-good modern code
+        uses: actions/checkout@v4
+        with:
+          ref: bd430b4184ba8c4520ae890af2104543c194b7dc
+          path: recovery
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install frontend build dependencies
+        run: |
+          pip install -r recovery/frontend/requirements-build.txt
+          npm ci --prefix recovery/frontend
+      - name: Record current production source, then export without altering it
+        run: |
+          git -C current rev-parse HEAD >> "$GITHUB_STEP_SUMMARY"
+          python recovery/frontend/scripts/generate_all.py --source-dir current/data --output-dir recovery/frontend/public/data
+          git -C current diff --quiet -- data
+      - name: Validate rebuilt exports
+        working-directory: recovery
+        env:
+          BRAWL_REFERENCE_DIR: ${{ github.workspace }}/current/data
+          H2H_TEST_SOURCE: ${{ github.workspace }}/current/data
+          RECORD_BOOK_TEST_SOURCE: ${{ github.workspace }}/current/data
+          TEAM_STATS_TEST_SOURCE: ${{ github.workspace }}/current/data
+          HOMEPAGE_TEST_SOURCE: ${{ github.workspace }}/current/data
+          STANDINGS_TEST_SOURCE: ${{ github.workspace }}/current/data/basketballBrawlLeagueData.csv
+        run: |
+          python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
+          npm test --prefix frontend
+      - name: Mark current export fingerprint
+        run: python recovery/frontend/scripts/export_fingerprint.py --data-dir recovery/frontend/public/data --deployed-url https://fliou0704.github.io/Basketball-Brawl-Fantasy-Dashboard/data/pipeline.json
+      - name: Build known-good modern frontend against newest data
+        run: npm run build --prefix recovery/frontend
+        env:
+          VITE_ENABLE_LIVE_SCORING: ${{ vars.VITE_ENABLE_LIVE_SCORING || 'false' }}
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_LIVE_LEAGUE_ID: ${{ vars.VITE_LIVE_LEAGUE_ID }}
+          VITE_LIVE_ESPN_LEAGUE_ID: ${{ vars.VITE_LIVE_ESPN_LEAGUE_ID || '609694684' }}
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: recovery/frontend/dist
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/configure-pages@v5
+      - uses: actions/deploy-pages@v4
+        id: deployment
+        with:
+          timeout: 1200000

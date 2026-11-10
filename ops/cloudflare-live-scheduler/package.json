@@ -1,0 +1,16 @@
+{
+  "name": "basketball-brawl-live-scheduler",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "check": "wrangler deploy --dry-run --outdir /tmp/brawl-scheduler-build",
+    "deploy": "wrangler deploy",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "4.156.0",
+    "miniflare": "4.20260730.0"
+  },
+  "engines": {"node": ">=22"}
+}
