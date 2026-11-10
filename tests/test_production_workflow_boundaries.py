@@ -53,6 +53,18 @@ class ProductionWorkflowBoundaries(unittest.TestCase):
         self.assertNotIn('deploy-pages@', source)
         self.assertNotRegex(source, re.compile(r'^  schedule:', re.MULTILINE))
 
+    def test_migration_ci_is_read_only_and_tests_the_exact_push(self):
+        source = self.workflow('migration-ci.yml')
+        self.assertIn('contents: read', source)
+        self.assertIn('ref: ${{ github.sha }}', source)
+        self.assertIn('persist-credentials: false', source)
+        self.assertIn('git rev-parse HEAD', source)
+        self.assertIn('git diff --quiet -- data', source)
+        for forbidden in ['contents: write', 'pages: write', 'id-token: write',
+                          'environment:', 'secrets.', 'git push', 'git commit',
+                          'deploy-pages@', 'supabasePublisher.py', '--write']:
+            self.assertNotIn(forbidden, source)
+
 
 if __name__ == '__main__':
     unittest.main()

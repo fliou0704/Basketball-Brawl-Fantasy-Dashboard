@@ -1,0 +1,73 @@
+name: Read-only migration verification
+
+on:
+  push:
+    branches: [modern-main-migration]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: migration-verification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify exact pushed commit
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install existing project dependencies
+        run: |
+          pip install -r requirements.txt -r frontend/requirements-build.txt
+          npm ci --prefix frontend
+      - name: Validate workflow configuration with pinned actionlint
+        run: |
+          archive="$RUNNER_TEMP/actionlint.tar.gz"
+          curl --fail --silent --show-error --location https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz --output "$archive"
+          printf '%s  %s\n' '8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8' "$archive" | sha256sum --check --status
+          tar -xzf "$archive" -C "$RUNNER_TEMP" actionlint
+          "$RUNNER_TEMP/actionlint" -shellcheck='' -pyflakes=''
+          "$RUNNER_TEMP/actionlint" -shellcheck='' -pyflakes='' docs/modern-pages-recovery.yml.example
+      - name: Backend and production-boundary tests
+        run: python -m unittest discover -s tests -v
+      - name: Push recovery tests without network writes
+        run: python .github/scripts/test_push_validated_data.py
+      - name: Cloudflare scheduler unit tests without deployment
+        run: node --test ops/cloudflare-live-scheduler/test/scheduler.test.mjs
+      - name: Regenerate exports in disposable runner workspace
+        run: python frontend/scripts/generate_all.py
+      - name: Exporter tests
+        run: python -m unittest discover -s frontend/scripts -p 'test_*.py' -v
+      - name: Frontend tests
+        run: npm test --prefix frontend
+      - name: Production build with live scoring disabled
+        run: npm run build --prefix frontend
+        env:
+          VITE_ENABLE_LIVE_SCORING: 'false'
+      - name: Production build with existing public live configuration
+        run: npm run build --prefix frontend
+        env:
+          VITE_ENABLE_LIVE_SCORING: 'true'
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_LIVE_LEAGUE_ID: ${{ vars.VITE_LIVE_LEAGUE_ID }}
+          VITE_LIVE_ESPN_LEAGUE_ID: ${{ vars.VITE_LIVE_ESPN_LEAGUE_ID || '609694684' }}
+      - name: Verify canonical inputs were never changed
+        if: always()
+        run: |
+          if ! git diff --quiet -- data; then
+            echo 'Verification changed canonical input files; refusing a successful result.'
+            exit 1
+          fi

@@ -77,7 +77,7 @@ The obsolete cron diagnostic is removed from the proposed tree; real canonical/p
 
 - Canonical production files: eight exact byte/hash comparisons, unchanged after exports.
 - Player archive: exact comparisons to the audited modern commit; no collection/write attempt.
-- 253 backend tests plus five new production-boundary tests.
+- 253 backend tests plus six production/CI-boundary tests.
 - 171 exporter tests, 105 frontend tests, five push-recovery tests and 19 Cloudflare scheduler tests.
 - All workflow YAML parses; every workflow Bash step passes syntax validation. Boundary tests reject codex checkouts/pushes and non-main production guards, preserve the player activation gate and immutable live pin, and enforce writer/deployment serialization.
 - Production Vite builds with live scoring disabled and with actual public production configuration enabled.
@@ -87,6 +87,8 @@ The obsolete cron diagnostic is removed from the proposed tree; real canonical/p
 These are local migration validation results. New workflow paths cannot be proven by a production run before merge, and no workflow was dispatched from this branch. Review and verify actual main deployments after approval.
 
 ## Approval checklist and remaining risks
+
+See [the final switch checklist and modern recovery runbook](modern-main-switch-checklist.md) for exact-commit remote CI, environment policy verification, Render owner actions, and recovery to deployed modern commit `bd430b4184ba8c4520ae890af2104543c194b7dc` with current data.
 
 1. **Before merging:** disable Render auto-deploy or pin the legacy service to `archive/pre-modern-dashboard` in the Render account. Removing its root entry point otherwise risks a failing legacy Render auto-deploy. This preparation has not changed that account or retired the live service externally.
 2. Fetch main again immediately before approval. If canonical updates advanced, merge latest main into this migration branch, retain the newest main canonical inputs, regenerate exports and re-run affected checks. The provenance file describes the audited snapshot, not a freeze on production updates.
