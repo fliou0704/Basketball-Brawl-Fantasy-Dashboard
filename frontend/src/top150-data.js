@@ -5,16 +5,25 @@ export function rankTop150(season,mode='total',cutoff=150) {
   const minimumGP=Math.max(1,Math.ceil(.25*season.maxTeamGames));
   const metric=mode==='perGame'?'fptsPerGame':'fpts';
   const other=mode==='perGame'?'fpts':'fptsPerGame';
+  const order=(a,b)=>(b[metric]??0)-(a[metric]??0)||(b[other]??0)-(a[other]??0)||a.playerId-b.playerId;
   const rows=season.players.map(p=>({...p,fptsPerGame:p.gp>0&&p.fpts!=null?p.fpts/p.gp:null}));
-  const eligible=rows.filter(p=>p.fpts!=null&&(mode!=='perGame'||p.gp>=minimumGP));
-  eligible.sort((a,b)=>(b[metric]??0)-(a[metric]??0)||(b[other]??0)-(a[other]??0)||Number(a.playerId)-Number(b.playerId));
-  const ranked=eligible.map((p,i)=>({...p,rank:i+1}));
-  const rankedIds=new Set(ranked.map(p=>p.playerId));
-  const ownership=season.ownershipAvailable;
-  return {available:true,minimumGP,all:[...ranked,...rows.filter(p=>!rankedIds.has(p.playerId)).map(p=>({...p,rank:null}))],top:ranked.slice(0,cutoff),below:ownership?[
-    ...ranked.slice(cutoff).filter(p=>p.fantasyTeam),
-    ...rows.filter(p=>p.fantasyTeam&&!rankedIds.has(p.playerId)).sort((a,b)=>a.playerId-b.playerId).map(p=>({...p,rank:null})),
-  ]:[]};
+  const valid=rows.filter(p=>p.fpts!=null).sort(order);
+  const eligible=valid.filter(p=>mode!=='perGame'||p.gp>=minimumGP);
+  const ranks=new Map(eligible.map((p,i)=>[p.playerId,i+1]));
+  const ranked=valid.map(p=>({...p,rank:ranks.get(p.playerId)??null}));
+  const noGames=rows.filter(p=>p.fpts==null).sort((a,b)=>a.playerId-b.playerId).map(p=>({...p,rank:null}));
+  const all=[...ranked,...noGames];
+  const eligibleTop=new Set(eligible.slice(0,cutoff).map(p=>p.playerId));
+  // With fewer than cutoff qualifiers, bound low-sample entries to the top
+  // cutoff valid averages, while keeping every qualifier. No-game rows stay out.
+  const shortField=new Set(ranked.slice(0,cutoff).map(p=>p.playerId));
+  const boundary=eligible[cutoff-1];
+  const top=ranked.filter(p=>eligibleTop.has(p.playerId)||(mode==='perGame'&&p.rank==null&&
+    (boundary?order(p,boundary)<=0:shortField.has(p.playerId))));
+  const shown=new Set(top.map(p=>p.playerId));
+  const below=season.ownershipAvailable?all.filter(p=>p.fantasyTeam&&!shown.has(p.playerId)):[];
+  return {available:true,minimumGP,all,top,below,eligibleShown:top.filter(p=>p.rank!=null).length,
+    ineligibleShown:top.filter(p=>p.rank==null).length};
 }
 
-export function filterRankings(rows,{search='',team='',position=''}={}){const q=search.toLocaleLowerCase();return rows.filter(p=>p.name.toLocaleLowerCase().includes(q)&&(!team||(team==='FA'?!p.fantasyTeam:String(p.fantasyTeam?.teamId)===team))&&(!position||p.positions?.includes(Number(position))));}
+export function filterRankings(rows,{search='',team='',position=''}={}){const q=search.toLocaleLowerCase();return rows.filter(p=>p.name.toLocaleLowerCase().includes(q)&&(!team||(team==='FA'?!p.fantasyTeam&&p.ownershipStatus!=='unknown':String(p.fantasyTeam?.teamId)===team))&&(!position||p.positions?.includes(Number(position))));}

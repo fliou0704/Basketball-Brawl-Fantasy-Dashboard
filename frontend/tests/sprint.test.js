@@ -22,8 +22,8 @@ test('total ranking keeps true ranks and only rostered players below cutoff',()=
 test('per-game ranking enforces adjusted GP, updates cutoff and labels NQ',()=>{
   const data=pool([p(1,100,1,owner),p(2,90,30),p(3,80,40,owner),p(4,70,21)]);
   const ranking=rankTop150(data,'perGame',2);
-  assert.equal(ranking.minimumGP,21);assert.deepEqual(ranking.top.map(p=>p.playerId),[4,2]);
-  assert.deepEqual(ranking.below.map(p=>[p.playerId,p.rank]),[[3,3],[1,null]]);
+  assert.equal(ranking.minimumGP,21);assert.deepEqual(ranking.top.map(p=>p.playerId),[1,4,2]);assert.equal(ranking.top[0].rank,null);
+  assert.deepEqual(ranking.below.map(p=>[p.playerId,p.rank]),[[3,3]]);assert.equal(ranking.top.find(p=>p.playerId===1).rank,null);
   for(const [maxTeamGames,minimum] of [[0,1],[20,5],[40,10],[82,21]])assert.equal(rankTop150({...data,maxTeamGames}).minimumGP,minimum);
 });
 test('ranking ties use secondary metric then numeric ESPN ID',()=>{

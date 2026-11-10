@@ -79,8 +79,22 @@ def build(source: Path, output: Path):
     return payload
 
 
+def newer_roster_games(source, year, through_date):
+    """Coverage diagnostics only: never turn roster-only rows into NBA rankings."""
+    import csv
+    path = source / 'playerDailyData.csv'
+    if not path.exists():
+        return {}
+    dates = {}
+    with path.open() as handle:
+        for row in csv.DictReader(handle):
+            if int(row['Year']) == int(year) and row['Date'] > through_date and float(row['MIN'] or 0) > 0:
+                dates.setdefault(int(row['Player ID']), set()).add(row['Date'])
+    return {pid: {'count': len(days), 'throughDate': max(days)} for pid, days in dates.items()}
+
+
 def build_archive(source,output):
-    import csv,shutil
+    import csv,shutil,hashlib
     root=Path(__file__).resolve().parents[2]/'data'
     data=source if (source/'playerSeasonStats.csv').exists() else root
     if not (data/'playerSeasonStats.csv').exists():return None
@@ -94,20 +108,35 @@ def build_archive(source,output):
             if p['playerId']in owners:raise ValueError('Conflicting roster ownership')
             owners[p['playerId']]=identity;names[p['playerId']]=p['name'];slots[p['playerId']]=p.get('slot')
     seasons={}
+    from top150_ownership import load_historical_ownership
+    contexts={}
+    if current.get('season'):
+        contexts[str(current['season'])]={'owners':owners,'names':names,'slots':slots,'verifiedAt':current.get('updatedAt'),'kind':'current','scoringPeriod':None}
     with (data/'playerSeasonStats.csv').open()as handle:summary_rows=list(csv.DictReader(handle))
+    for y in {r['Year'] for r in summary_rows}:
+        if y not in contexts:
+            historical=load_historical_ownership(source,y,config)
+            if historical:contexts[y]={**historical,'kind':'seasonEnd'}
     for r in summary_rows:
-        y=r['Year'];pid=int(r['Player ID']);owned=int(y)==current.get('season')
-        seasons.setdefault(y,{'players':[]})['players'].append({'playerId':pid,'name':r['Player Name'],'gp':int(r['Games Played']),'fpts':float(r['Total FPTS']),'nbaTeamId':int(r['Latest Observed NBA Team ID']),'positions':[x for x in json.loads(r['Eligible Slot IDs'])if x in range(5)],'fantasyTeam':owners.get(pid)if owned else None,'teamId':owners[pid]['teamId']if owned and pid in owners else 0 if owned else None,'playerSlot':slots.get(pid,'FA')if owned else None})
+        y=r['Year'];pid=int(r['Player ID']);context=contexts.get(y)
+        season_owners=context['owners'] if context else {}
+        seasons.setdefault(y,{'players':[]})['players'].append({'playerId':pid,'name':r['Player Name'],'gp':int(r['Games Played']),'fpts':float(r['Total FPTS']),'nbaTeamId':int(r['Latest Observed NBA Team ID']),'positions':[x for x in json.loads(r['Eligible Slot IDs'])if x in range(5)],'fantasyTeam':season_owners.get(pid),'teamId':season_owners[pid]['teamId']if pid in season_owners else 0 if context else None,'playerSlot':context['slots'].get(pid,'FA')if context else None,'ownershipStatus':'owned'if pid in season_owners else 'freeAgent'if context else 'unknown'})
     for y,season in seasons.items():
         players=season['players'];coverage=meta['seasonReports'][y]
         if len({p['playerId']for p in players})!=len(players) or len(players)!=coverage['players'] or sum(p['gp']for p in players)!=coverage['rows']:raise ValueError('Ranking summary coverage mismatch')
         if any(p['gp']<=0 or not math.isfinite(p['fpts'])for p in players):raise ValueError('Invalid season summary')
-        owned=int(y)==current.get('season');coverage=meta['seasonReports'][y]
-        if owned:
-            ids={p['playerId']for p in season['players']}
-            season['players'] += [{'playerId':pid,'name':names[pid],'gp':0,'fpts':None,'positions':[],'nbaTeamId':None,'fantasyTeam':team,'teamId':team['teamId'],'playerSlot':slots[pid]}for pid,team in owners.items()if pid not in ids]
-        season.update(completePool=True,maxTeamGames=max(coverage['teamGames'].values()),ownershipAvailable=owned,ownershipUpdatedAt=current.get('updatedAt')if owned else None,throughDate=coverage['throughDate'])
+        context=contexts.get(y)
+        if context:
+            ids={p['playerId']for p in players}
+            players += [{'playerId':pid,'name':context['names'][pid],'gp':0,'fpts':None,'positions':[],'nbaTeamId':None,'fantasyTeam':team,'teamId':team['teamId'],'playerSlot':context['slots'][pid],'ownershipStatus':'owned'}for pid,team in context['owners'].items()if pid not in ids]
+        newer=newer_roster_games(source,y,coverage['throughDate'])
+        for player in players:
+            if player['playerId'] in newer:player['newerRosterGames']=newer[player['playerId']]
+        season['newerRosterThroughDate']=max((v['throughDate']for v in newer.values()),default=None)
+        season.update(completePool=True,maxTeamGames=max(coverage['teamGames'].values()),ownershipAvailable=bool(context),ownershipUpdatedAt=context['verifiedAt']if context else None,ownershipKind=context['kind']if context else 'unknown',ownershipScoringPeriod=context['scoringPeriod']if context else None,throughDate=coverage['throughDate'])
     output.mkdir(parents=True,exist_ok=True);shutil.copytree(static,output/'player-static',dirs_exist_ok=True)
-    for y,value in seasons.items():write_json(output/'top150'/(y+'.json'),{'schemaVersion':1,**value})
+    for y,value in seasons.items():
+        value['dataVersion']=hashlib.sha256(json.dumps(value,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+        write_json(output/'top150'/(y+'.json'),{'schemaVersion':1,**value})
     payload={'schemaVersion':1,'years':sorted(map(int,seasons),reverse=True),'currentSeason':max(map(int,seasons)),'updatedAt':manifest['updatedAt'],'seasons':{y:{k:v for k,v in value.items()if k!='players'}for y,value in seasons.items()}}
     write_json(output/'top-150.json',payload);return payload
