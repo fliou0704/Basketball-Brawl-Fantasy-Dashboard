@@ -94,7 +94,7 @@ jobs:
             git config user.name github-actions
             git config user.email actions@github.com
             git commit -m "Refresh league data and recent ESPN corrections"
-            git push origin HEAD:main
+            bash .github/scripts/push-validated-data.sh main
           fi
       - uses: actions/upload-pages-artifact@v3
         if: steps.exports.outputs.changed == 'true'
@@ -122,3 +122,6 @@ jobs:
       - uses: actions/configure-pages@v5
       - uses: actions/deploy-pages@v4
         id: deployment
+        with:
+          # Allow the existing deployment to finish; do not create duplicate retries.
+          timeout: 1200000
