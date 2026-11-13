@@ -20997,7 +20997,6 @@
           "start": "2026-11-11T00:30:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T00:44:15.771188+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21013,7 +21012,6 @@
           "start": "2026-11-11T01:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T00:44:15.771188+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21029,7 +21027,6 @@
           "start": "2026-11-11T02:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T00:44:15.771188+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21045,7 +21042,6 @@
           "start": "2026-11-11T02:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T00:44:15.771188+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21061,7 +21057,6 @@
           "start": "2026-11-11T03:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T00:44:15.771188+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21077,7 +21072,6 @@
           "start": "2026-11-11T04:00:00+00:00",
           "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T00:44:15.771188+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21091,9 +21085,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T00:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21107,9 +21101,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T00:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21123,9 +21117,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T00:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21139,9 +21133,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T01:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21155,9 +21149,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T01:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21171,9 +21165,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T01:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21187,9 +21181,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T01:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21203,9 +21197,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T02:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21219,9 +21213,9 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T02:30:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21235,16 +21229,16 @@
           "regularSeason": true,
           "season": 2027,
           "start": "2026-11-12T03:00:00+00:00",
-          "statsOfficial": false,
+          "statsOfficial": true,
           "status": "completed",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
         {
           "away": 28,
           "date": "2026-11-12",
-          "hasStarted": false,
+          "hasStarted": true,
           "home": 20,
           "id": 401909976,
           "period": 24,
@@ -21252,15 +21246,15 @@
           "season": 2027,
           "start": "2026-11-13T00:00:00+00:00",
           "statsOfficial": false,
-          "status": "scheduled",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "status": "in-progress",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
         {
           "away": 8,
           "date": "2026-11-12",
-          "hasStarted": false,
+          "hasStarted": true,
           "home": 27,
           "id": 401909977,
           "period": 24,
@@ -21268,15 +21262,15 @@
           "season": 2027,
           "start": "2026-11-13T00:00:00+00:00",
           "statsOfficial": false,
-          "status": "scheduled",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "status": "in-progress",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
         {
           "away": 6,
           "date": "2026-11-12",
-          "hasStarted": false,
+          "hasStarted": true,
           "home": 16,
           "id": 401909978,
           "period": 24,
@@ -21284,8 +21278,8 @@
           "season": 2027,
           "start": "2026-11-13T01:00:00+00:00",
           "statsOfficial": false,
-          "status": "scheduled",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "status": "in-progress",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -21301,7 +21295,7 @@
           "start": "2026-11-13T02:00:00+00:00",
           "statsOfficial": false,
           "status": "scheduled",
-          "statusVerifiedAt": "2026-11-12T19:54:42.729345+00:00",
+          "statusVerifiedAt": "2026-11-13T01:50:04.307716+00:00",
           "timeTBD": false,
           "validForLocking": true
         },
@@ -36696,7 +36690,7 @@
           "validForLocking": true
         }
       ],
-      "lastAttemptAt": "2026-11-12T00:44:16.215181+00:00",
+      "lastAttemptAt": "2026-11-13T01:50:04.799173+00:00",
       "parserOnly": false,
       "publishedComplete": true,
       "rules": {
@@ -36713,7 +36707,7 @@
       "schemaVersion": 2,
       "season": 2027,
       "source": "ESPN proTeamSchedules_wl + NBA scoreboards",
-      "statusAt": "2026-11-12T19:54:42.729345+00:00",
+      "statusAt": "2026-11-13T01:50:04.307716+00:00",
       "teams": [
         {
           "abbrev": "ATL",
@@ -36836,7 +36830,7 @@
           "id": 30
         }
       ],
-      "verifiedAt": "2026-11-12T00:44:16.215181+00:00"
+      "verifiedAt": "2026-11-13T01:50:04.799173+00:00"
     }
   },
   "schemaVersion": 1,
@@ -52567,11 +52561,11 @@
             "week": 23
           }
         ],
-        "lastAttemptAt": "2026-11-12T00:44:15.771188+00:00",
+        "lastAttemptAt": "2026-11-13T01:50:04.307716+00:00",
         "schemaVersion": 1,
         "source": "ESPN public fantasy constants + league matchupPeriods",
         "sourceUrl": "https://fantasy.espn.com/basketball/league/scoreboard",
-        "verifiedAt": "2026-11-12T00:44:15.771188+00:00"
+        "verifiedAt": "2026-11-13T01:50:04.307716+00:00"
       },
       "fantasyCalendarContext": {
         "finalPeriod": 167,
@@ -53115,7 +53109,7 @@
                 "21": 252.0,
                 "22": 252.0,
                 "23": 343.0,
-                "24": 0.0
+                "24": 65.0
               },
               "teamId": 2
             },
@@ -53124,7 +53118,7 @@
                 "21": 240.0,
                 "22": 136.0,
                 "23": 266.0,
-                "24": 0.0
+                "24": 142.0
               },
               "teamId": 8
             }
@@ -53139,7 +53133,7 @@
                 "21": 149.0,
                 "22": 197.0,
                 "23": 102.0,
-                "24": 0.0
+                "24": 81.0
               },
               "teamId": 7
             },
@@ -53148,7 +53142,7 @@
                 "21": 216.0,
                 "22": 41.0,
                 "23": 254.0,
-                "24": 0.0
+                "24": 65.0
               },
               "teamId": 17
             }
@@ -53163,7 +53157,7 @@
                 "21": 150.0,
                 "22": 119.0,
                 "23": 285.0,
-                "24": 0.0
+                "24": 32.0
               },
               "teamId": 12
             },
@@ -53172,7 +53166,7 @@
                 "21": 229.0,
                 "22": 116.0,
                 "23": 249.0,
-                "24": 0.0
+                "24": 71.0
               },
               "teamId": 16
             }
@@ -53187,7 +53181,7 @@
                 "21": 313.0,
                 "22": 113.0,
                 "23": 416.0,
-                "24": 0.0
+                "24": 35.0
               },
               "teamId": 1
             },
@@ -53196,7 +53190,7 @@
                 "21": 121.0,
                 "22": 94.0,
                 "23": 138.0,
-                "24": 0.0
+                "24": 66.0
               },
               "teamId": 13
             }
@@ -53211,7 +53205,7 @@
                 "21": 237.0,
                 "22": 80.0,
                 "23": 192.0,
-                "24": 0.0
+                "24": 40.0
               },
               "teamId": 10
             },
@@ -53220,7 +53214,7 @@
                 "21": 49.0,
                 "22": 134.0,
                 "23": 165.0,
-                "24": 0.0
+                "24": 19.0
               },
               "teamId": 5
             }
